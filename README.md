@@ -2,7 +2,7 @@
 
 This program aims at porting c# code to nim.
 
-A separate csharp program, called `CsDisplay`, is run. It uses roslyn with the visitor pattern (not the queries way)
+A separate csharp program, called [`CsDisplay`](https://github.com/kobi2187/CsDisplay), is run. It uses roslyn with the visitor pattern (not the queries way)
 and creates a ".csast" file for every c# file, in the same folder as the original file. (can also accept directories)
 
 The files are actually json. Every construct seen in the csharp code is output as either a declaration line, or an endblock line.
