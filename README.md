@@ -11,7 +11,7 @@ the classes in turn contain fields, methods, etc.
 There is also a blocks stack that should keep track of these, in order to know where we are in the code. this is on the nim side.
 After we build this tree, we generate the code text from it, each object knows how to generate itself.
 
-status: 
+# status: 
 the structure is done, but the many constructs need to be built. at the same time, the C# side, will need to get the needed info 
 so we can build the objects properly. for example a class can inherit or implement, and this information needs to pass to the csast file.
 
