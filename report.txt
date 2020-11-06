@@ -1,3 +1,14 @@
+NamespaceDeclaration
+UsingDirective
+QualifiedName
+ClassDeclaration
+MethodDeclaration
+PredefinedType
+BlockStarts
+InvocationExpression
+ArgumentList
+LiteralExpression
+
 5952135 :: Argument
 2727813 :: ExpressionStatement
 1535178 :: BinaryExpression
