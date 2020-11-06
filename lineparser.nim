@@ -44,6 +44,7 @@ proc updateState(line: JsonNode)=#, root: var CsRoot) =
     let src = line["Source"].getStr
 
     let info = Info(declName:decl,essentials:main,extras:extras)
+    modifyPosition(decl,info)
     addToRoot(src,info)
 
   of EndBlock:
