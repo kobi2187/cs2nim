@@ -1,15 +1,15 @@
 # state_utils.nim
 # just to prevent circular dependency
-import stacks,tables
+import stacks, tables
 import sequtils
-import state,extract,types
+import state, extract, types
 
-proc nsPath:string = 
+proc nsPath: string =
   var started = false
 # we assume blocks starts with namespaces.
   for b in blocks.toSeq:
     if b.info.declName == "NamespaceDeclaration":
-      started=true
+      started = true
       result &= "." & extractCsNamespace(b.info).name
     else:
       if not started: continue
@@ -17,7 +17,7 @@ proc nsPath:string =
 
 
 
-proc addToRoot*( src:string; info:Info) = 
+proc addToRoot*(src: string; info: Info) =
   ## here, we take the path from `blocks`, if there are consecutive namespaces, we combine them. (ns decl will already create new ns in root if they are nested)
   ## (update block types if we find more)
 
@@ -34,13 +34,13 @@ proc addToRoot*( src:string; info:Info) =
     addNamespace(newns)
   of "UsingDirective": discard #TODO
   of "QualifiedName": discard #TODO
-  of "ClassDeclaration": #TODO
-    let className = info.essentials[0]
+  of "ClassDeclaration":
+    let c = extractClass(info)
     let p = nsPath()
     echo p
     if root.nsTables.hasKey(p):
       let ns = root.nsTables[p]
-      ns.addClass(className)
+      ns.addClass(c)
   of "MethodDeclaration": discard #TODO
   of "PredefinedType": discard #TODO
   of "BlockStarts": discard #TODO
@@ -54,4 +54,5 @@ proc addToRoot*( src:string; info:Info) =
   else:
     echo "so far:"
     echo root #TODO: make a $ proc for CsRoot
-    raise newException(Exception,"unsupported or not implemented: `" & info.declName & "`")
+    raise newException(Exception, "unsupported or not implemented: `" &
+        info.declName & "`")
