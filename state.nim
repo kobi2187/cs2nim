@@ -18,7 +18,7 @@ proc endBlock*() =
   assert blocks.len > 0
   discard blocks.pop
 
-var root* = CsRoot()
+var root* = newCsRoot()
 
 
 var currentConstruct* = newSeq[Block]()
