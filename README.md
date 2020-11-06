@@ -32,5 +32,12 @@ For example, how to handle interfaces? My current thinking is for interface, we'
 
 Thus, some code generation beyond the literal translation may exist, but perhaps it'll get factored out to its own library in time.
 
-## percent done:
-...
+### percent done: (0%)
+... TODO: list here all constructs, and their status WRT
+1) has extraction
+2) has its own object type, and a new proc
+3) has an add proc to add to the tree at the correct spot.
+4) knows how to generate own nim code.
+5) has at least one sample and unit testing.
+
+### constructs that are only partially implemented:
