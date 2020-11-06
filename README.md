@@ -38,6 +38,6 @@ Thus, some code generation beyond the literal translation may exist, but perhaps
 2) has its own object type, and a new proc
 3) has an add proc to add to the tree at the correct spot.
 4) knows how to generate own nim code.
-5) has at least one sample and unit testing.
+5) has at least one sample and unittest the generated code from that sample. (important to prevent regressions)
 
 ### constructs that are only partially implemented:
