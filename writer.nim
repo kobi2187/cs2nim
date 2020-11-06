@@ -9,7 +9,7 @@ const dir = "nim_code"
 proc writeModule*(module: Modu) =
   let cwd = getCurrentDir()
   let target = (cwd / dir)
-  if not target.existsDir:
+  if not target.dirExists:
     createDir(target)
 
   # todo: check what happens when we convert `.` in a namespace to `/`
