@@ -1,4 +1,5 @@
 # cs2nim
+
 This program aims at porting c# code to nim.
 
 A separate csharp program, called `CsDisplay`, is run. It uses roslyn with the visitor pattern (not the queries way)
@@ -11,16 +12,17 @@ Now, this repository aims to take these files, read the json lines, extract the 
 
 It is a tree structure, a root has a default namespace and a seq of other namespaces, they in turn contain classes and all that a namespace can hold.
 
-the classes in turn contain fields, methods, etc. 
+the classes in turn contain fields, methods, etc.
 
 There is also a stack for "blocks" that should keep track of these, in order to know where we are in the code. It exists on the nim side.
 
 After we build this tree, we generate the nim code from it, each object knows how to generate itself. (currently I assume it's easier to output code directly, instead of Nim AST (NimNodes))
 
-## status: 
-The structure is done, but the many constructs need to be built. 
+## status
 
-At the same time, on the C# side (CsDisplay program), will need to get and pass the needed info so we can build the objects properly. 
+The structure is done, but the many constructs need to be built.
+
+At the same time, on the C# side (CsDisplay program), will need to get and pass the needed info so we can build the objects properly.
 
 For example right now we only pass a class's name, but it can also inherit or implement, and this information is needed as well.
 
@@ -33,11 +35,13 @@ For example, how to handle interfaces? My current thinking is for interface, we'
 Thus, some code generation beyond the literal translation may exist, but perhaps it'll get factored out to its own library in time.
 
 ### percent done: (0%)
-... TODO: list here all constructs, and their status WRT
-1) has extraction
-2) has its own object type, and a new proc
-3) has an add proc to add to the tree at the correct spot.
-4) knows how to generate own nim code.
-5) has at least one sample and unittest the generated code from that sample. (important to prevent regressions)
 
-### constructs that are only partially implemented:
+... TODO: list here all constructs, and their status WRT
+
+1. has extraction
+2. has its own object type, and a new proc
+3. has an add proc to add to the tree at the correct spot.
+4. knows how to generate own nim code.
+5. has at least one sample and unittest the generated code from that sample. (important to prevent regressions)
+
+### constructs that are only partially implemented
