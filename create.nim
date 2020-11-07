@@ -3,7 +3,7 @@
 import types
 
 import json
-proc jsonWithoutSource(n: JsonNode): JsonNode =
+proc jsonWithoutSource*(n: JsonNode): JsonNode =
   var p = n.deepCopy
   p.delete("Source")
   result = p
