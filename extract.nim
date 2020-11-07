@@ -1,15 +1,7 @@
 # extract.nim
 
-import types, state
+import types, state, create
 import tables
-
-import create, addinroot
-
-proc newCsNamespace*(name: string): CsNamespace =
-  new result
-  result.name = name
-  # result.classes = @[]
-  result.classTable = newTable[string, CsClass]()
 
 func extractCsNamespace*(info: Info): CsNamespace =
   newCsNamespace(info.essentials[0])
@@ -18,6 +10,8 @@ func extractCsNamespace*(info: Info): CsNamespace =
 proc addNamespace*(csn: CsNamespace) =
   root.ns.add(csn)
   root.nsTables[csn.name] = csn
+
+
 
 proc addNamespace*(ns: string) =
   let csn = newCsNamespace(ns)
@@ -489,3 +483,164 @@ proc add[T](a:T) =
 # proc extractCsRefTypeExpression(info:Info) : CsRefTypeExpression
 # proc newCsRefTypeExpression(XXX): CsRefTypeExpression
 # proc add(a:XXX; b:CsRefTypeExpression)
+
+proc extractCsAccessor(info: Info): CsAccessor
+proc extractCsAccessorList(info: Info): CsAccessorList
+proc extractCsAliasQualifiedName(info: Info): CsAliasQualifiedName
+proc extractCsAnonymousMethodExpression(info: Info): CsAnonymousMethodExpression
+proc extractCsAnonymousObjectCreationExpression(
+  info: Info): CsAnonymousObjectCreationExpression
+proc extractCsAnonymousObjectMemberDeclarator(
+  info: Info): CsAnonymousObjectMemberDeclarator
+proc extractCsArgument(info: Info): CsArgument
+proc extractCsArrayCreationExpression(info: Info): CsArrayCreationExpression
+proc extractCsArrayRankSpecifier(info: Info): CsArrayRankSpecifier
+proc extractCsArrayType(info: Info): CsArrayType
+proc extractCsArrowExpressionClause(info: Info): CsArrowExpressionClause
+proc extractCsAssignmentExpression(info: Info): CsAssignmentExpression
+proc extractCsAttribute(info: Info): CsAttribute
+proc extractCsAttributeArgument(info: Info): CsAttributeArgument
+proc extractCsAttributeArgumentList(info: Info): CsAttributeArgumentList
+proc extractCsAttributeList(info: Info): CsAttributeList
+proc extractCsAttributeTargetSpecifier(info: Info): CsAttributeTargetSpecifier
+proc extractCsAwaitExpression(info: Info): CsAwaitExpression
+proc extractCsBaseExpression(info: Info): CsBaseExpression
+proc extractCsBaseList(info: Info): CsBaseList
+proc extractCsBinaryExpression(info: Info): CsBinaryExpression
+proc extractCsBracketedArgumentList(info: Info): CsBracketedArgumentList
+proc extractCsBracketedParameterList(info: Info): CsBracketedParameterList
+proc extractCsBreakStatement(info: Info): CsBreakStatement
+proc extractCsCasePatternSwitchLabel(info: Info): CsCasePatternSwitchLabel
+proc extractCsCaseSwitchLabel(info: Info): CsCaseSwitchLabel
+proc extractCsCastExpression(info: Info): CsCastExpression
+proc extractCsCatch(info: Info): CsCatch
+proc extractCsCatchClause(info: Info): CsCatchClause
+proc extractCsCatchFilterClause(info: Info): CsCatchFilterClause
+proc extractCsCheckedExpression(info: Info): CsCheckedExpression
+proc extractCsCheckedStatement(info: Info): CsCheckedStatement
+proc extractCsClassOrStructConstraint(info: Info): CsClassOrStructConstraint
+proc extractCsConditionalAccessExpression(
+  info: Info): CsConditionalAccessExpression
+proc extractCsConditionalExpression(info: Info): CsConditionalExpression
+proc extractCsConstantPattern(info: Info): CsConstantPattern
+proc extractCsConstructor(info: Info): CsConstructor
+proc extractCsConstructorConstraint(info: Info): CsConstructorConstraint
+proc extractCsConstructorInitializer(info: Info): CsConstructorInitializer
+proc extractCsContinueStatement(info: Info): CsContinueStatement
+proc extractCsConversionOperator(info: Info): CsConversionOperator
+proc extractCsDeclarationExpression(info: Info): CsDeclarationExpression
+proc extractCsDeclarationPattern(info: Info): CsDeclarationPattern
+proc extractCsDefaultExpression(info: Info): CsDefaultExpression
+proc extractCsDefaultSwitchLabel(info: Info): CsDefaultSwitchLabel
+proc extractCsDelegate(info: Info): CsDelegate
+proc extractCsDestructor(info: Info): CsDestructor
+proc extractCsDiscardDesignation(info: Info): CsDiscardDesignation
+proc extractCsDoStatement(info: Info): CsDoStatement
+proc extractCsElementAccessExpression(info: Info): CsElementAccessExpression
+proc extractCsElementBindingExpression(info: Info): CsElementBindingExpression
+proc extractCsElseClause(info: Info): CsElseClause
+proc extractCsEmptyStatement(info: Info): CsEmptyStatement
+proc extractCsEnum(info: Info): CsEnum
+proc extractCsEnumMember(info: Info): CsEnumMember
+proc extractCsEqualsValueClause(info: Info): CsEqualsValueClause
+proc extractCsEvent(info: Info): CsEvent
+proc extractCsEventField(info: Info): CsEventField
+proc extractCsExplicitInterfaceSpecifier(
+  info: Info): CsExplicitInterfaceSpecifier
+proc extractCsExpressionStatement(info: Info): CsExpressionStatement
+proc extractCsExternAliasDirective(info: Info): CsExternAliasDirective
+proc extractCsField(info: Info): CsField
+proc extractCsFinallyClause(info: Info): CsFinallyClause
+proc extractCsFixedStatement(info: Info): CsFixedStatement
+proc extractCsForEachStatement(info: Info): CsForEachStatement
+proc extractCsForEachVariableStatement(info: Info): CsForEachVariableStatement
+proc extractCsForStatement(info: Info): CsForStatement
+proc extractCsFromClause(info: Info): CsFromClause
+proc extractCsGenericName(info: Info): CsGenericName
+proc extractCsGlobalStatement(info: Info): CsGlobalStatement
+proc extractCsGotoStatement(info: Info): CsGotoStatement
+proc extractCsGroupClause(info: Info): CsGroupClause
+proc extractCsIfStatement(info: Info): CsIfStatement
+proc extractCsImplicitArrayCreationExpression(
+  info: Info): CsImplicitArrayCreationExpression
+proc extractCsImplicitElementAccess(info: Info): CsImplicitElementAccess
+proc extractCsIncompleteMember(info: Info): CsIncompleteMember
+proc extractCsIndexer(info: Info): CsIndexer
+proc extractCsInitializerExpression(info: Info): CsInitializerExpression
+proc extractCsInterface(info: Info): CsInterface
+proc extractCsInterpolatedStringExpression(
+  info: Info): CsInterpolatedStringExpression
+proc extractCsInterpolatedStringText(info: Info): CsInterpolatedStringText
+proc extractCsInterpolation(info: Info): CsInterpolation
+proc extractCsInterpolationAlignmentClause(
+  info: Info): CsInterpolationAlignmentClause
+proc extractCsInterpolationFormatClause(info: Info): CsInterpolationFormatClause
+proc extractCsIsPatternExpression(info: Info): CsIsPatternExpression
+proc extractCsJoinClause(info: Info): CsJoinClause
+proc extractCsJoinIntoClause(info: Info): CsJoinIntoClause
+proc extractCsLabeledStatement(info: Info): CsLabeledStatement
+proc extractCsLetClause(info: Info): CsLetClause
+proc extractCsLocalDeclarationStatement(info: Info): CsLocalDeclarationStatement
+proc extractCsLocalFunctionStatement(info: Info): CsLocalFunctionStatement
+proc extractCsLockStatement(info: Info): CsLockStatement
+proc extractCsMakeRefExpression(info: Info): CsMakeRefExpression
+proc extractCsMemberBindingExpression(info: Info): CsMemberBindingExpression
+proc extractCsNameColon(info: Info): CsNameColon
+proc extractCsNameEquals(info: Info): CsNameEquals
+proc extractCsNullableType(info: Info): CsNullableType
+proc extractCsObjectCreationExpression(info: Info): CsObjectCreationExpression
+proc extractCsOmittedArraySizeExpression(
+  info: Info): CsOmittedArraySizeExpression
+proc extractCsOmittedTypeArgument(info: Info): CsOmittedTypeArgument
+proc extractCsOperator(info: Info): CsOperator
+proc extractCsOrderByClause(info: Info): CsOrderByClause
+proc extractCsOrdering(info: Info): CsOrdering
+proc extractCsParameter(info: Info): CsParameter
+proc extractCsParameterList(info: Info): CsParameterList
+proc extractCsParenthesizedExpression(info: Info): CsParenthesizedExpression
+proc extractCsParenthesizedLambdaExpression(
+  info: Info): CsParenthesizedLambdaExpression
+proc extractCsParenthesizedVariableDesignation(
+  info: Info): CsParenthesizedVariableDesignation
+proc extractCsPointerType(info: Info): CsPointerType
+proc extractCsPostfixUnaryExpression(info: Info): CsPostfixUnaryExpression
+proc extractCsPrefixUnaryExpression(info: Info): CsPrefixUnaryExpression
+proc extractCsProperty(info: Info): CsProperty
+proc extractCsQueryBody(info: Info): CsQueryBody
+proc extractCsQueryContinuation(info: Info): CsQueryContinuation
+proc extractCsQueryExpression(info: Info): CsQueryExpression
+proc extractCsRefExpression(info: Info): CsRefExpression
+proc extractCsRefType(info: Info): CsRefType
+proc extractCsRefTypeExpression(info: Info): CsRefTypeExpression
+proc extractCsRefValueExpression(info: Info): CsRefValueExpression
+proc extractCsReturnStatement(info: Info): CsReturnStatement
+proc extractCsSelectClause(info: Info): CsSelectClause
+proc extractCsSimpleBaseType(info: Info): CsSimpleBaseType
+proc extractCsSimpleLambdaExpression(info: Info): CsSimpleLambdaExpression
+proc extractCsSingleVariableDesignation(info: Info): CsSingleVariableDesignation
+proc extractCsSizeOfExpression(info: Info): CsSizeOfExpression
+proc extractCsStackAllocArrayCreationExpression(
+  info: Info): CsStackAllocArrayCreationExpression
+proc extractCsStruct(info: Info): CsStruct
+proc extractCsSwitchSection(info: Info): CsSwitchSection
+proc extractCsSwitchStatement(info: Info): CsSwitchStatement
+proc extractCsThisExpression(info: Info): CsThisExpression
+proc extractCsThrowExpression(info: Info): CsThrowExpression
+proc extractCsThrowStatement(info: Info): CsThrowStatement
+proc extractCsTryStatement(info: Info): CsTryStatement
+proc extractCsTupleElement(info: Info): CsTupleElement
+proc extractCsTupleExpression(info: Info): CsTupleExpression
+proc extractCsTupleType(info: Info): CsTupleType
+proc extractCsTypeArgumentList(info: Info): CsTypeArgumentList
+proc extractCsTypeConstraint(info: Info): CsTypeConstraint
+proc extractCsTypeOfExpression(info: Info): CsTypeOfExpression
+proc extractCsTypeParameter(info: Info): CsTypeParameter
+proc extractCsTypeParameterConstraintClause(
+  info: Info): CsTypeParameterConstraintClause
+proc extractCsTypeParameterList(info: Info): CsTypeParameterList
+proc extractCsUnsafeStatement(info: Info): CsUnsafeStatement
+proc extractCsUsingStatement(info: Info): CsUsingStatement
+proc extractCsWhenClause(info: Info): CsWhenClause
+proc extractCsWhereClause(info: Info): CsWhereClause
+proc extractCsWhileStatement(info: Info): CsWhileStatement
+proc extractCsYieldStatement(info: Info): CsYieldStatement

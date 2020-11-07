@@ -1,6 +1,6 @@
 # state_utils.nim
 # just to prevent circular dependency
-import stacks, tables
+import stacks, tables, json
 # import sequtils
 import state, extract, types
 
@@ -17,6 +17,7 @@ proc nsPath: string =
       else: return
 
 
+import addinroot, extract, create
 
 proc addToRoot*(src: string; info: Info) =
   ## here, we take the path from `blocks`, if there are consecutive namespaces, we combine them. (ns decl will already create new ns in root if they are nested)
