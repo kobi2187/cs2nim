@@ -15,6 +15,23 @@ proc jsonWithoutSource(n: JsonNode): JsonNode =
 
 # put here all the newCsType procs
 
+import tables
+proc newCsNamespace*(name: string): CsNamespace =
+  new result
+  result.name = name
+  # result.classes = @[]
+  result.classTable = newTable[string, CsClass]()
+
+proc newCsRoot*(): CsRoot =
+  result.ns = @[]
+  result.nsTables = newTable[string, CsNamespace]()
+
+  let defaultNs = newCsNamespace("default")
+  result.global = defaultNs
+  result.nsTables["default"] = defaultNs
+
+
+
 # proc newCsAccessor(XXX): CsAccessor
 # proc newCsAccessorList(XXX): CsAccessorList
 # proc newCsAliasQualifiedName(XXX): CsAliasQualifiedName
