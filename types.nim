@@ -2,6 +2,7 @@
 
 import tables
 import json
+import extract
 
 type CsObject = object of RootRef
   line: JsonNode
@@ -46,12 +47,6 @@ type CsNamespace* = ref object of CsObject
   name*: string
   classes*: seq[CsClass]
   classTable*: TableRef[string, CsClass]
-
-proc newCsNamespace*(name: string): CsNamespace =
-  new result
-  result.name = name
-  # result.classes = @[]
-  result.classTable = newTable[string, CsClass]()
 
 type CsRoot* = object
   global*: CsNamespace
