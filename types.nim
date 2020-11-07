@@ -59,6 +59,9 @@ type CsRoot* = object
   nsTables*: TableRef[string, CsNamespace]
 
 proc newCsRoot*(): CsRoot =
-  result.global = newCsNamespace("default")
   result.ns = @[]
   result.nsTables = newTable[string, CsNamespace]()
+
+  let defaultNs = newCsNamespace("default")
+  result.global = defaultNs
+  result.nsTables["default"] = defaultNs

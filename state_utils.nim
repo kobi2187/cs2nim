@@ -7,6 +7,7 @@ import state, extract, types
 proc nsPath: string =
   var started = false
 # we assume blocks starts with namespaces.
+  echo blocks.toSeq
   for b in blocks.toSeq:
     if b.info.declName == "NamespaceDeclaration":
       started = true
@@ -35,12 +36,15 @@ proc addToRoot*(src: string; info: Info) =
 
   of "ClassDeclaration":
     let c = extractClass(info)
-    let p = nsPath()
-    echo p
-    if root.nsTables.hasKey(p):
-      let ns = root.nsTables[p]
-      ns.addClass(c)
+    var p = nsPath()
+    if p == "": p = "default"
+    echo "nsPath is: " & p
+    assert root.nsTables.hasKey(p)
+    let ns = root.nsTables[p]
+    ns.addClass(c)
 
+
+  of "ReturnStatement": discard #TODO
   of "UsingDirective": discard #TODO
   of "QualifiedName": discard #TODO
   of "MethodDeclaration": discard #TODO
@@ -58,7 +62,6 @@ proc addToRoot*(src: string; info: Info) =
   of "ParameterList": discard #TODO
   of "LocalDeclarationStatement": discard #TODO
   of "ObjectCreationExpression": discard #TODO
-  of "ReturnStatement": discard #TODO
   of "IfStatement": discard #TODO
   of "Attribute": discard #TODO
   of "AttributeList": discard #TODO

@@ -5,8 +5,8 @@ import types
 # probably strings are easier if we can figure out correct indentation etc.
 
 type Modu* = object
-  name*:string
-  output* :string
+  name*: string
+  output*: string
 
 # proc gen*(r:CsRoot) : string = discard
 # proc gen*(r:CsRoot) : string = discard
@@ -18,12 +18,12 @@ type Modu* = object
 
 # proc gen*(r:MethodArgument) : string = discard
 
-proc gen*(r:CsMethodBody) : string = discard
-proc gen*(r:CsMethodSignature, isStatic:bool) : string = discard
+proc gen*(r: CsMethodBody): string = discard
+proc gen*(r: CsMethodSignature, isStatic: bool): string = discard
 
 
 
-proc gen*(m:CsMethod):string = 
+proc gen*(m: CsMethod): string =
   # "proc method_name*(args..)
   # if m.isStatic is false - we add a self:enclosingClassName as the first argument
   let sig = m.signature.gen(m.isStatic)
@@ -33,39 +33,38 @@ proc gen*(m:CsMethod):string =
   for line in bodyLines:
     result &= "\t" & line
 
-proc gen*(f:CsField):string =
+proc gen*(f: CsField): string =
   result = f.name
   if f.ispublic: result &= "*"
   result &= ": " & f.ttype
 
-proc gen*(c:CsClass) : string = 
-  if c.isNil: result =""
+proc gen*(c: CsClass): string =
+  if c.isNil: result = ""
   else:
-    result &= 
-    """type " & c.name & "* = ref object\n"""
+    result &= "type " & c.name & "* = ref object"
     for f in c.fields:
       result &= "\t" & f.gen() & "\r\n"
-    result &= "\r\n"
-    
+    # result &= "\r\n"
+
     for m in c.methods:
       result &= m.gen()
       result &= "\r\n"
 
 
-  
 
-proc gen*(r:CsNamespace) : string =
-  var s : seq[string] = @[]
+
+proc gen*(r: CsNamespace): string =
+  var s: seq[string] = @[]
   for c in r.classes:
     s.add(c.gen())
   result = s.join("\r\n")
 
-proc makeModule*(ns:CsNamespace):Modu =
+proc makeModule*(ns: CsNamespace): Modu =
   let name = ns.name
   let output = ns.gen()
-  result = Modu(name:name, output:output)
+  result = Modu(name: name, output: output)
 
-proc gen*(r:CsRoot) : seq[Modu] =
+proc gen*(r: CsRoot): seq[Modu] =
   if not r.global.isNil:
     result.add makeModule(r.global)
   for n in r.ns:

@@ -16,6 +16,7 @@ proc addNamespace*(ns: string) =
   addNamespace(csn)
 
 proc extractClass*(info: Info): CsClass =
+  # new result
   let name = info.essentials[0]
   result = CsClass(name: name)
 
