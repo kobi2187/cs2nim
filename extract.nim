@@ -3,6 +3,7 @@
 import types, state
 import tables
 
+import create, addinroot
 
 proc newCsNamespace*(name: string): CsNamespace =
   new result
