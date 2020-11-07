@@ -6,7 +6,7 @@ import os, system
 import strutils, os
 
 const dir = "nim_code"
-proc writeModule*(module: Modu) =
+proc writeModule*(module: Module) =
   let cwd = getCurrentDir()
   let target = (cwd / dir)
   if not target.dirExists:

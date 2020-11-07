@@ -4,7 +4,7 @@ import types
 # should we output strings or nim AST?
 # probably strings are easier if we can figure out correct indentation etc.
 
-type Modu* = object
+type Module* = object
   name*: string
   output*: string
 
@@ -59,12 +59,12 @@ proc gen*(r: CsNamespace): string =
     s.add(c.gen())
   result = s.join("\r\n")
 
-proc makeModule*(ns: CsNamespace): Modu =
+proc makeModule*(ns: CsNamespace): Module =
   let name = ns.name
   let output = ns.gen()
-  result = Modu(name: name, output: output)
+  result = Module(name: name, output: output)
 
-proc gen*(r: CsRoot): seq[Modu] =
+proc gen*(r: CsRoot): seq[Module] =
   if not r.global.isNil:
     result.add makeModule(r.global)
   for n in r.ns:
