@@ -15,11 +15,11 @@ proc jsonWithoutSource*(n: JsonNode): JsonNode =
 
 # put here all the newCsType procs
 
-import tables
+import tables, strutils
 proc newCsNamespace*(name: string): CsNamespace =
   new result
-  result.name = name
-  # result.classes = @[]
+  result.name = name.toLowerAscii
+  result.classes = @[]
   result.classTable = newTable[string, CsClass]()
 
 proc newCsRoot*(): CsRoot =

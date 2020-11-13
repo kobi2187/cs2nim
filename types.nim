@@ -35,6 +35,7 @@ type CsField* = ref object of CsObject
 
 type CsClass* = ref object of CsObject
   name*: string
+  nsParent*: string
   fields*: seq[CsField]
   methods*: seq[CsMethod]
   isStatic*: bool

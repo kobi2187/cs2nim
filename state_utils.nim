@@ -11,7 +11,10 @@ proc nsPath: string =
   for b in blocks.toSeq:
     if b.info.declName == "NamespaceDeclaration":
       started = true
-      result &= "." & extractCsNamespace(b.info).name
+      if result != "":
+        result &= "."
+      result &= extractCsNamespace(b.info).name
+
     else:
       if not started: continue
       else: return
@@ -41,6 +44,7 @@ proc addToRoot*(src: string; info: Info) =
     var p = nsPath()
     if p == "": p = "default"
     echo "nsPath is: " & p
+    c.nsParent = p
     assert root.nsTables.hasKey(p)
     let ns = root.nsTables[p]
     ns.addClass(c)

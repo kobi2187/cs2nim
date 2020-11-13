@@ -29,6 +29,8 @@ let blockTypesTxt* = [
   "NamespaceDeclaration",
   "MethodDeclaration",
   "EnumDeclaration",
+  "BlockStarts",
+
 
   # todo: ... add more
     # note: if endblock raises an assert, it means a previous construct was not recorded here.
