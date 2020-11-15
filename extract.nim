@@ -6,6 +6,9 @@ import tables
 func extractCsNamespace*(info: Info): CsNamespace =
   newCsNamespace(info.essentials[0])
 
+func extractCsNamespace*(b: Block): CsNamespace =
+  newCsNamespace(b.instanceName)
+
 proc addNamespace*(csn: CsNamespace) =
   root.ns.add(csn)
   root.nsTables[csn.name] = csn

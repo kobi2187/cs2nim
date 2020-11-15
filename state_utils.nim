@@ -9,11 +9,11 @@ proc nsPath: string =
  # we assume blocks starts with namespaces.
  # echo blocks.toSeq
   for b in blocks.toSeq:
-    if b.info.declName == "NamespaceDeclaration":
+    if b.typeName == "NamespaceDeclaration":
       started = true
       if result != "":
         result &= "."
-      result &= extractCsNamespace(b.info).name
+      result &= extractCsNamespace(b).name
 
     else:
       if not started: continue

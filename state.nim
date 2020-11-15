@@ -2,13 +2,16 @@
 import stacks, sets
 # import json
 
-import types
+# import types
 type Info* = object
   essentials*: seq[string]
   extras*: seq[string]
   declName*: string
 
 type Block* = object
+  instanceName*, typeName*: string
+
+type Block2* = object # TODO: trim this to save on memory: just a type name and the instance name. (instead of Info)
   name*: string
   info*: Info
 
@@ -17,6 +20,7 @@ var blocks* = newStack[Block]()
 proc endBlock*() =
   assert blocks.len > 0
   discard blocks.pop
+
 import create
 var root* = newCsRoot()
 
