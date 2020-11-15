@@ -6,8 +6,8 @@ import state, extract, types
 
 proc nsPath: string =
   var started = false
-# we assume blocks starts with namespaces.
-  echo blocks.toSeq
+ # we assume blocks starts with namespaces.
+ # echo blocks.toSeq
   for b in blocks.toSeq:
     if b.info.declName == "NamespaceDeclaration":
       started = true
@@ -43,7 +43,7 @@ proc addToRoot*(src: string; info: Info) =
     let c = extractClass(info)
     var p = nsPath()
     if p == "": p = "default"
-    echo "nsPath is: " & p
+    # echo "nsPath is: " & p
     c.nsParent = p
     assert root.nsTables.hasKey(p)
     let ns = root.nsTables[p]

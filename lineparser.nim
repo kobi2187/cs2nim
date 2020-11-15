@@ -27,7 +27,7 @@ proc updateState(line: JsonNode) = #, root: var CsRoot) =
 
   case kind
   of Decl:
-    echo line
+    # echo line
     assert kindstr == "Decl"
     let decl = line["Declaration"].getStr
 

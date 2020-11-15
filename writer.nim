@@ -30,7 +30,7 @@ proc writeAll(dir: var string; root: CsRoot) =
     writeModule(dir, module)
 
 
-import json
+import json, algorithm
 proc main() =
   echo "Hello world!"
   let params = commandLineParams()
@@ -48,7 +48,8 @@ proc main() =
     else: quit("could not find matching or existing file or directory")
 
     echo files.len
-    for f in files:
+    for f in files.sorted:
+      echo f
       let linesJson = parseFile(f)
       parseExecFile(linesJson)
 
