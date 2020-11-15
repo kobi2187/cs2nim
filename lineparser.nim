@@ -13,7 +13,7 @@ import json
 # and all their results added to that root. a "global" namespace contains all the valid top level constructs (not within a namespace)
 # so the resulting Nim modules (as files), may need to "import global" to have access to these parts.
 proc modifyPosition(thetype: string; info: Info) =
-  let c = Block(instanceName: thetype, typeName: info.declName)
+  let c = Block(name: thetype, info: info)
   currentConstruct.add(c)
 
   if thetype in blockTypesTxt:

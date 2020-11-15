@@ -3,15 +3,15 @@ import stacks, sets
 # import json
 
 # import types
-type Info* = object
+type Info* = ref object
   essentials*: seq[string]
   extras*: seq[string]
   declName*: string
 
-type Block* = object
-  instanceName*, typeName*: string
+# type Block* = object
+#   instanceName*, typeName*: string
 
-type Block2* = object # TODO: trim this to save on memory: just a type name and the instance name. (instead of Info)
+type Block* = object # TODO: trim this to save on memory: just a type name and the instance name. (instead of Info)
   name*: string
   info*: Info
 
