@@ -1,150 +1,151 @@
+type Dummy = object
 import types
 
-# proc add(a: XXX; b: CsAccessor)
-# proc add(a: XXX; b: CsAccessorList)
-# proc add(a: XXX; b: CsAliasQualifiedName)
-# proc add(a: XXX; b: CsAnonymousMethodExpression)
-# proc add(a: XXX; b: CsAnonymousObjectCreationExpression)
-# proc add(a: XXX; b: CsAnonymousObjectMemberDeclarator)
-# proc add(a: XXX; b: CsArgument)
-# proc add(a: XXX; b: CsArrayCreationExpression)
-# proc add(a: XXX; b: CsArrayRankSpecifier)
-# proc add(a: XXX; b: CsArrayType)
-# proc add(a: XXX; b: CsArrowExpressionClause)
-# proc add(a: XXX; b: CsAssignmentExpression)
-# proc add(a: XXX; b: CsAttribute)
-# proc add(a: XXX; b: CsAttributeArgument)
-# proc add(a: XXX; b: CsAttributeArgumentList)
-# proc add(a: XXX; b: CsAttributeList)
-# proc add(a: XXX; b: CsAttributeTargetSpecifier)
-# proc add(a: XXX; b: CsAwaitExpression)
-# proc add(a: XXX; b: CsBaseExpression)
-# proc add(a: XXX; b: CsBaseList)
-# proc add(a: XXX; b: CsBinaryExpression)
-# proc add(a: XXX; b: CsBracketedArgumentList)
-# proc add(a: XXX; b: CsBracketedParameterList)
-# proc add(a: XXX; b: CsBreakStatement)
-# proc add(a: XXX; b: CsCasePatternSwitchLabel)
-# proc add(a: XXX; b: CsCaseSwitchLabel)
-# proc add(a: XXX; b: CsCastExpression)
-# proc add(a: XXX; b: CsCatch)
-# proc add(a: XXX; b: CsCatchClause)
-# proc add(a: XXX; b: CsCatchFilterClause)
-# proc add(a: XXX; b: CsCheckedExpression)
-# proc add(a: XXX; b: CsCheckedStatement)
-# proc add(a: XXX; b: CsClassOrStructConstraint)
-# proc add(a: XXX; b: CsConditionalAccessExpression)
-# proc add(a: XXX; b: CsConditionalExpression)
-# proc add(a: XXX; b: CsConstantPattern)
-# proc add(a: XXX; b: CsConstructor)
-# proc add(a: XXX; b: CsConstructorConstraint)
-# proc add(a: XXX; b: CsConstructorInitializer)
-# proc add(a: XXX; b: CsContinueStatement)
-# proc add(a: XXX; b: CsConversionOperator)
-# proc add(a: XXX; b: CsDeclarationExpression)
-# proc add(a: XXX; b: CsDeclarationPattern)
-# proc add(a: XXX; b: CsDefaultExpression)
-# proc add(a: XXX; b: CsDefaultSwitchLabel)
-# proc add(a: XXX; b: CsDelegate)
-# proc add(a: XXX; b: CsDestructor)
-# proc add(a: XXX; b: CsDiscardDesignation)
-# proc add(a: XXX; b: CsDoStatement)
-# proc add(a: XXX; b: CsElementAccessExpression)
-# proc add(a: XXX; b: CsElementBindingExpression)
-# proc add(a: XXX; b: CsElseClause)
-# proc add(a: XXX; b: CsEmptyStatement)
-# proc add(a: XXX; b: CsEnum)
-# proc add(a: XXX; b: CsEnumMember)
-# proc add(a: XXX; b: CsEqualsValueClause)
-# proc add(a: XXX; b: CsEvent)
-# proc add(a: XXX; b: CsEventField)
-# proc add(a: XXX; b: CsExplicitInterfaceSpecifier)
-# proc add(a: XXX; b: CsExpressionStatement)
-# proc add(a: XXX; b: CsExternAliasDirective)
-# proc add(a: XXX; b: CsField)
-# proc add(a: XXX; b: CsFinallyClause)
-# proc add(a: XXX; b: CsFixedStatement)
-# proc add(a: XXX; b: CsForEachStatement)
-# proc add(a: XXX; b: CsForEachVariableStatement)
-# proc add(a: XXX; b: CsForStatement)
-# proc add(a: XXX; b: CsFromClause)
-# proc add(a: XXX; b: CsGenericName)
-# proc add(a: XXX; b: CsGlobalStatement)
-# proc add(a: XXX; b: CsGotoStatement)
-# proc add(a: XXX; b: CsGroupClause)
-# proc add(a: XXX; b: CsIfStatement)
-# proc add(a: XXX; b: CsImplicitArrayCreationExpression)
-# proc add(a: XXX; b: CsImplicitElementAccess)
-# proc add(a: XXX; b: CsIncompleteMember)
-# proc add(a: XXX; b: CsIndexer)
-# proc add(a: XXX; b: CsInitializerExpression)
-# proc add(a: XXX; b: CsInterface)
-# proc add(a: XXX; b: CsInterpolatedStringExpression)
-# proc add(a: XXX; b: CsInterpolatedStringText)
-# proc add(a: XXX; b: CsInterpolation)
-# proc add(a: XXX; b: CsInterpolationAlignmentClause)
-# proc add(a: XXX; b: CsInterpolationFormatClause)
-# proc add(a: XXX; b: CsIsPatternExpression)
-# proc add(a: XXX; b: CsJoinClause)
-# proc add(a: XXX; b: CsJoinIntoClause)
-# proc add(a: XXX; b: CsLabeledStatement)
-# proc add(a: XXX; b: CsLetClause)
-# proc add(a: XXX; b: CsLocalDeclarationStatement)
-# proc add(a: XXX; b: CsLocalFunctionStatement)
-# proc add(a: XXX; b: CsLockStatement)
-# proc add(a: XXX; b: CsMakeRefExpression)
-# proc add(a: XXX; b: CsMemberBindingExpression)
-# proc add(a: XXX; b: CsNameColon)
-# proc add(a: XXX; b: CsNameEquals)
-# proc add(a: XXX; b: CsNullableType)
-# proc add(a: XXX; b: CsObjectCreationExpression)
-# proc add(a: XXX; b: CsOmittedArraySizeExpression)
-# proc add(a: XXX; b: CsOmittedTypeArgument)
-# proc add(a: XXX; b: CsOperator)
-# proc add(a: XXX; b: CsOrderByClause)
-# proc add(a: XXX; b: CsOrdering)
-# proc add(a: XXX; b: CsParameter)
-# proc add(a: XXX; b: CsParameterList)
-# proc add(a: XXX; b: CsParenthesizedExpression)
-# proc add(a: XXX; b: CsParenthesizedLambdaExpression)
-# proc add(a: XXX; b: CsParenthesizedVariableDesignation)
-# proc add(a: XXX; b: CsPointerType)
-# proc add(a: XXX; b: CsPostfixUnaryExpression)
-# proc add(a: XXX; b: CsPrefixUnaryExpression)
-# proc add(a: XXX; b: CsProperty)
-# proc add(a: XXX; b: CsQueryBody)
-# proc add(a: XXX; b: CsQueryContinuation)
-# proc add(a: XXX; b: CsQueryExpression)
-# proc add(a: XXX; b: CsRefExpression)
-# proc add(a: XXX; b: CsRefType)
-# proc add(a: XXX; b: CsRefValueExpression)
-# proc add(a: XXX; b: CsReturnStatement)
-# proc add(a: XXX; b: CsSelectClause)
-# proc add(a: XXX; b: CsSimpleBaseType)
-# proc add(a: XXX; b: CsSimpleLambdaExpression)
-# proc add(a: XXX; b: CsSingleVariableDesignation)
-# proc add(a: XXX; b: CsSizeOfExpression)
-# proc add(a: XXX; b: CsStackAllocArrayCreationExpression)
-# proc add(a: XXX; b: CsStruct)
-# proc add(a: XXX; b: CsSwitchSection)
-# proc add(a: XXX; b: CsSwitchStatement)
-# proc add(a: XXX; b: CsThisExpression)
-# proc add(a: XXX; b: CsThrowExpression)
-# proc add(a: XXX; b: CsThrowStatement)
-# proc add(a: XXX; b: CsTryStatement)
-# proc add(a: XXX; b: CsTupleElement)
-# proc add(a: XXX; b: CsTupleExpression)
-# proc add(a: XXX; b: CsTupleType)
-# proc add(a: XXX; b: CsTypeArgumentList)
-# proc add(a: XXX; b: CsTypeConstraint)
-# proc add(a: XXX; b: CsTypeOfExpression)
-# proc add(a: XXX; b: CsTypeParameter)
-# proc add(a: XXX; b: CsTypeParameterConstraintClause)
-# proc add(a: XXX; b: CsTypeParameterList)
-# proc add(a: XXX; b: CsUnsafeStatement)
-# proc add(a: XXX; b: CsUsingStatement)
-# proc add(a: XXX; b: CsWhenClause)
-# proc add(a: XXX; b: CsWhereClause)
-# proc add(a: XXX; b: CsWhileStatement)
-# proc add(a: XXX; b: CsYieldStatement)
-# proc add(a: XXX; b: CsRefTypeExpression)
+proc add*(parent: Dummy; item: CsAccessor) = discard # TODO
+proc add*(parent: Dummy; item: CsAccessorList) = discard # TODO
+proc add*(parent: Dummy; item: CsAliasQualifiedName) = discard # TODO
+proc add*(parent: Dummy; item: CsAnonymousMethodExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsAnonymousObjectCreationExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsAnonymousObjectMemberDeclarator) = discard # TODO
+proc add*(parent: Dummy; item: CsArgument) = discard # TODO
+proc add*(parent: Dummy; item: CsArrayCreationExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsArrayRankSpecifier) = discard # TODO
+proc add*(parent: Dummy; item: CsArrayType) = discard # TODO
+proc add*(parent: Dummy; item: CsArrowExpressionClause) = discard # TODO
+proc add*(parent: Dummy; item: CsAssignmentExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsAttribute) = discard # TODO
+proc add*(parent: Dummy; item: CsAttributeArgument) = discard # TODO
+proc add*(parent: Dummy; item: CsAttributeArgumentList) = discard # TODO
+proc add*(parent: Dummy; item: CsAttributeList) = discard # TODO
+proc add*(parent: Dummy; item: CsAttributeTargetSpecifier) = discard # TODO
+proc add*(parent: Dummy; item: CsAwaitExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsBaseExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsBaseList) = discard # TODO
+proc add*(parent: Dummy; item: CsBinaryExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsBracketedArgumentList) = discard # TODO
+proc add*(parent: Dummy; item: CsBracketedParameterList) = discard # TODO
+proc add*(parent: Dummy; item: CsBreakStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsCasePatternSwitchLabel) = discard # TODO
+proc add*(parent: Dummy; item: CsCaseSwitchLabel) = discard # TODO
+proc add*(parent: Dummy; item: CsCastExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsCatch) = discard # TODO
+proc add*(parent: Dummy; item: CsCatchClause) = discard # TODO
+proc add*(parent: Dummy; item: CsCatchFilterClause) = discard # TODO
+proc add*(parent: Dummy; item: CsCheckedExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsCheckedStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsClassOrStructConstraint) = discard # TODO
+proc add*(parent: Dummy; item: CsConditionalAccessExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsConditionalExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsConstantPattern) = discard # TODO
+proc add*(parent: Dummy; item: CsConstructor) = discard # TODO
+proc add*(parent: Dummy; item: CsConstructorConstraint) = discard # TODO
+proc add*(parent: Dummy; item: CsConstructorInitializer) = discard # TODO
+proc add*(parent: Dummy; item: CsContinueStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsConversionOperator) = discard # TODO
+proc add*(parent: Dummy; item: CsDeclarationExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsDeclarationPattern) = discard # TODO
+proc add*(parent: Dummy; item: CsDefaultExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsDefaultSwitchLabel) = discard # TODO
+proc add*(parent: Dummy; item: CsDelegate) = discard # TODO
+proc add*(parent: Dummy; item: CsDestructor) = discard # TODO
+proc add*(parent: Dummy; item: CsDiscardDesignation) = discard # TODO
+proc add*(parent: Dummy; item: CsDoStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsElementAccessExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsElementBindingExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsElseClause) = discard # TODO
+proc add*(parent: Dummy; item: CsEmptyStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsEnum) = discard # TODO
+proc add*(parent: Dummy; item: CsEnumMember) = discard # TODO
+proc add*(parent: Dummy; item: CsEqualsValueClause) = discard # TODO
+proc add*(parent: Dummy; item: CsEvent) = discard # TODO
+proc add*(parent: Dummy; item: CsEventField) = discard # TODO
+proc add*(parent: Dummy; item: CsExplicitInterfaceSpecifier) = discard # TODO
+proc add*(parent: Dummy; item: CsExpressionStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsExternAliasDirective) = discard # TODO
+proc add*(parent: Dummy; item: CsField) = discard # TODO
+proc add*(parent: Dummy; item: CsFinallyClause) = discard # TODO
+proc add*(parent: Dummy; item: CsFixedStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsForEachStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsForEachVariableStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsForStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsFromClause) = discard # TODO
+proc add*(parent: Dummy; item: CsGenericName) = discard # TODO
+proc add*(parent: Dummy; item: CsGlobalStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsGotoStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsGroupClause) = discard # TODO
+proc add*(parent: Dummy; item: CsIfStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsImplicitArrayCreationExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsImplicitElementAccess) = discard # TODO
+proc add*(parent: Dummy; item: CsIncompleteMember) = discard # TODO
+proc add*(parent: Dummy; item: CsIndexer) = discard # TODO
+proc add*(parent: Dummy; item: CsInitializerExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsInterface) = discard # TODO
+proc add*(parent: Dummy; item: CsInterpolatedStringExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsInterpolatedStringText) = discard # TODO
+proc add*(parent: Dummy; item: CsInterpolation) = discard # TODO
+proc add*(parent: Dummy; item: CsInterpolationAlignmentClause) = discard # TODO
+proc add*(parent: Dummy; item: CsInterpolationFormatClause) = discard # TODO
+proc add*(parent: Dummy; item: CsIsPatternExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsJoinClause) = discard # TODO
+proc add*(parent: Dummy; item: CsJoinIntoClause) = discard # TODO
+proc add*(parent: Dummy; item: CsLabeledStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsLetClause) = discard # TODO
+proc add*(parent: Dummy; item: CsLocalDeclarationStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsLocalFunctionStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsLockStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsMakeRefExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsMemberBindingExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsNameColon) = discard # TODO
+proc add*(parent: Dummy; item: CsNameEquals) = discard # TODO
+proc add*(parent: Dummy; item: CsNullableType) = discard # TODO
+proc add*(parent: Dummy; item: CsObjectCreationExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsOmittedArraySizeExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsOmittedTypeArgument) = discard # TODO
+proc add*(parent: Dummy; item: CsOperator) = discard # TODO
+proc add*(parent: Dummy; item: CsOrderByClause) = discard # TODO
+proc add*(parent: Dummy; item: CsOrdering) = discard # TODO
+proc add*(parent: Dummy; item: CsParameter) = discard # TODO
+proc add*(parent: Dummy; item: CsParameterList) = discard # TODO
+proc add*(parent: Dummy; item: CsParenthesizedExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsParenthesizedLambdaExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsParenthesizedVariableDesignation) = discard # TODO
+proc add*(parent: Dummy; item: CsPointerType) = discard # TODO
+proc add*(parent: Dummy; item: CsPostfixUnaryExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsPrefixUnaryExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsProperty) = discard # TODO
+proc add*(parent: Dummy; item: CsQueryBody) = discard # TODO
+proc add*(parent: Dummy; item: CsQueryContinuation) = discard # TODO
+proc add*(parent: Dummy; item: CsQueryExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsRefExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsRefType) = discard # TODO
+proc add*(parent: Dummy; item: CsRefValueExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsReturnStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsSelectClause) = discard # TODO
+proc add*(parent: Dummy; item: CsSimpleBaseType) = discard # TODO
+proc add*(parent: Dummy; item: CsSimpleLambdaExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsSingleVariableDesignation) = discard # TODO
+proc add*(parent: Dummy; item: CsSizeOfExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsStackAllocArrayCreationExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsStruct) = discard # TODO
+proc add*(parent: Dummy; item: CsSwitchSection) = discard # TODO
+proc add*(parent: Dummy; item: CsSwitchStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsThisExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsThrowExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsThrowStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsTryStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsTupleElement) = discard # TODO
+proc add*(parent: Dummy; item: CsTupleExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsTupleType) = discard # TODO
+proc add*(parent: Dummy; item: CsTypeArgumentList) = discard # TODO
+proc add*(parent: Dummy; item: CsTypeConstraint) = discard # TODO
+proc add*(parent: Dummy; item: CsTypeOfExpression) = discard # TODO
+proc add*(parent: Dummy; item: CsTypeParameter) = discard # TODO
+proc add*(parent: Dummy; item: CsTypeParameterConstraintClause) = discard # TODO
+proc add*(parent: Dummy; item: CsTypeParameterList) = discard # TODO
+proc add*(parent: Dummy; item: CsUnsafeStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsUsingStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsWhenClause) = discard # TODO
+proc add*(parent: Dummy; item: CsWhereClause) = discard # TODO
+proc add*(parent: Dummy; item: CsWhileStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsYieldStatement) = discard # TODO
+proc add*(parent: Dummy; item: CsRefTypeExpression) = discard # TODO
