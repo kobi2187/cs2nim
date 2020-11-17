@@ -1,5 +1,5 @@
 # lineparser.nim
-import state, state_utils
+import state, state_utils, types
 
 type LineKind* = enum
   Decl, EndBlock
@@ -19,7 +19,7 @@ proc modifyPosition(thetype: string; info: Info) =
   if thetype in blockTypesTxt:
     blocks.push c
 
-proc updateState(line: JsonNode) = #, root: var CsRoot) =
+proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
   let kindstr = line["KindStr"].getStr
   let kind: LineKind =
     if line["Kind"].getInt() == 1: LineKind.EndBlock
@@ -51,10 +51,12 @@ proc updateState(line: JsonNode) = #, root: var CsRoot) =
     assert kindstr == "EndBlock"
     endBlock()
 
-proc parseExecFile*(file: JsonNode) = # , root: var CsRoot) =
+import system, os
+proc parseExecFile*(root: var CsRoot; file: JsonNode) = # , root: var CsRoot) =
   let filename = file["File"].getStr
-  echo "working on file: " & filename
+  # echo "working on file: " & filename
+  echo "file: " & filename.extractFilename
 
   let lines = file["Lines"]
   for line in lines:
-    updateState(line)
+    updateState(root, line)
