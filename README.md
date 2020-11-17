@@ -1,47 +1,66 @@
 # cs2nim
 
-This program aims at porting c# code to nim.
+## Purpose
 
-A separate csharp program, called [`CsDisplay`](https://github.com/kobi2187/CsDisplay), is run. It uses roslyn with the visitor pattern (not the queries way)
-and creates a ".csast" file for every c# file, in the same folder as the original file. (can also accept directories)
+To ease porting efforts of C# to Nim.
 
-The files are actually json. Every construct seen in the csharp code is output as either a declaration line, or an endblock line.
+## What can it currently do
+
+- Can now create nim modules (files) from C# namespaces.
+- Can now create type names from C# classes.
+
+## Supported C# Constructs, so far
+
+type, new, extract, add, gen, unit test.
+
+- namespace
+
+## How it works
+
+## Part 1
+
+A separate csharp program, called [`CsDisplay`](https://github.com/kobi2187/CsDisplay), is run.
+
+It uses Microsoft's Roslyn (with the visitor pattern) to process each C# file in a folder, to a json file with the extension ".csast" in the same folder. (can also accept directories)
+
+Every construct seen in the csharp code is output as either a declaration line, or an endblock line.
 EndBlock lets us know when we reach the end of a namespace, class, enum, method, etc.
+
+As development progresses, these declaration lines will have all the required info for the output on the Nim side.
+
+This is the end of what CsDisplay does for us.
+
+## Part 2
 
 Now, this repository aims to take these files, read the json lines, extract the info and build correct objects on the nim side.
 
-It is a tree structure, a root has a default namespace and a seq of other namespaces, they in turn contain classes and all that a namespace can hold.
+It is a tree structure ( CsRoot ), a root has a default namespace and a seq of other namespaces, they in turn contain classes and all that a namespace can hold.
 
 the classes in turn contain fields, methods, etc.
 
-There is also a stack for "blocks" that should keep track of these, in order to know where we are in the code. It exists on the nim side.
+Implementation wise, there is also a stack for the encountered code blocks to assist in knowing our current "path" or location in the code. (know where to add new info to)
 
-After we build this tree, we generate the nim code from it, each object knows how to generate itself. (currently I assume it's easier to output code directly, instead of Nim AST (NimNodes))
+After we build this tree, we generate the nim code from it, each object knows how to generate itself.
 
-## status
+## wanna help?
 
-The structure is done, but the many constructs need to be built.
+Add support for an unsupported construct!
 
-At the same time, on the C# side (CsDisplay program), will need to get and pass the needed info so we can build the objects properly.
+write two minimal samples:
 
-For example right now we only pass a class's name, but it can also inherit or implement, and this information is needed as well.
+1. the source C# code
+2. the output Nim code.
 
-We must have unit testing as well.
+That's already great help.
 
-The other part is how to generate well. Nim is mostly a superset of many languages and has the ability to represent their constructs, but some require thought since they don't readily exist.
+run CsDisplay on the C# code, and figure out if all the needed info exists for the Nim side:
 
-For example, how to handle interfaces? My current thinking is for interface, we'll probably create a type that unifies or combines the required interfaces, which are basically a name and a list of empty procs, into one type.
+If yes, great, write code to extract this info: See `extract.nim`
 
-Thus, some code generation beyond the literal translation may exist, but perhaps it'll get factored out to its own library in time.
+If not, open a Github issue, or extract the info from Roslyn. (this is coding in C#)
 
-### percent done: (0%)
+we'll also need a type, a ctor (newType proc), and modify its parent so it can store the new info.
 
-... TODO: list here all constructs, and their status WRT
+Lastly, generate Nim text from your new type.
 
-1. has extraction
-2. has its own object type, and a new proc
-3. has an add proc to add to the tree at the correct spot.
-4. knows how to generate own nim code.
-5. has at least one sample and unittest the generated code from that sample. (important to prevent regressions)
-
-### constructs that are only partially implemented
+That's all, easy peasy. Repeat a 100 times ;-)

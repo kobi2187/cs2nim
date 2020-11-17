@@ -1,0 +1,5 @@
+interfaces:
+we'll create both the compile time concept, 
+CIMyInterface
+and a type IMyInterface, which has discarded procs.
+the `compose` macro will add the interfaces together.
