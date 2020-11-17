@@ -61,7 +61,7 @@ proc gen*(r: CsNamespace): string =
 
 proc makeModule*(ns: CsNamespace): Module =
   let name = ns.name
-  let output = ns.gen()
+  let output = ns.gen() & "\n\n"
   result = Module(name: name, output: output)
 
 proc gen*(r: CsRoot): seq[Module] =
