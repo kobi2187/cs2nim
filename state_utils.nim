@@ -22,7 +22,7 @@ proc nsPath: string =
 
 import extract
 
-proc addToRoot*(src: string; info: Info) =
+proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   ## here, we take the path from `blocks`, if there are consecutive namespaces, we combine them. (ns decl will already create new ns in root if they are nested)
   ## (update block types if we find more)
 
@@ -37,7 +37,7 @@ proc addToRoot*(src: string; info: Info) =
   of "NamespaceDeclaration":
     #handle nested.
     let newns = extractCsNamespace(info)
-    addNamespace(newns)
+    root.addNamespace(newns)
 
   of "ClassDeclaration":
     let c = extractClass(info)

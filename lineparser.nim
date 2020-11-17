@@ -45,7 +45,7 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
 
     let info = Info(declName: decl, essentials: main, extras: extras)
     modifyPosition(decl, info)
-    addToRoot(src, info)
+    addToRoot(root, src, info)
 
   of EndBlock:
     assert kindstr == "EndBlock"

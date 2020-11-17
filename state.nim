@@ -22,7 +22,6 @@ proc endBlock*() =
   discard blocks.pop
 
 import create
-var root* = newCsRoot()
 
 
 var currentConstruct* = newSeq[Block]()
