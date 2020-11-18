@@ -18,8 +18,9 @@ proc concatModulesOutput*(mods: seq[Module]): string =
 
 let safer = true
 const suffixOutputDir = "nim_code/dotnet"
+let dt = now().format("yyyyMMddHHmm")
 
-proc writeModule*(infolder: string; module: Module; dt = "") =
+proc writeModule*(infolder: string; module: Module) =
   # if folder is file, take its parent.
   var folder = infolder
   if fileExists(infolder):
@@ -49,21 +50,21 @@ proc writeModule*(infolder: string; module: Module; dt = "") =
 
 
 
-proc writeAll(dir: string; root: CsRoot; dt = "") =
+proc writeAll(dir: string; root: CsRoot) =
   let list = root.gen()
   for module in list:
-    writeModule(dir, module, dt)
+    writeModule(dir, module)
 
 
 
 import json, algorithm
 
 proc handleJustOne(inputFolder: string; root: var CsRoot;
-    file: string; dt: string) =
+    file: string) =
   echo file
   let linesJson = parseFile(file)
   parseExecFile(root, linesJson)
-  writeAll(inputFolder, root, dt)
+  writeAll(inputFolder, root)
 
 
 proc handleMany(inputFolder: string; root: var CsRoot; files: seq[string]) =
@@ -103,11 +104,9 @@ proc main() =
 
     echo files.len
     if safer:
-      let dt = now().format("yyyyMMddHHmm")
-      echo dt
       for f in files:
         var root = newCsRoot() # new root each time.
-        handleJustOne(fi, root, f, dt)
+        handleJustOne(fi, root, f)
     else:
       var root = newCsRoot() # only one root to collect all the namespaces.
       handleMany(fi, root, files)

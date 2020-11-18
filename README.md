@@ -11,9 +11,11 @@ To ease porting efforts of C# to Nim.
 
 ## Supported C# Constructs, so far
 
-type, new, extract, add, gen, unit test.
+:: type, new, extract, add, gen, unit test.
 
 - namespace
+
+### next: enum
 
 ## How it works
 
