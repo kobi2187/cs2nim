@@ -15,9 +15,11 @@ proc jsonWithoutSource*(n: JsonNode): JsonNode =
 import tables, strutils
 proc newCsNamespace*(name: string): CsNamespace =
   new result
-  result.name = name.toLowerAscii
+  result.name = name
   result.classes = @[]
   result.classTable = newTable[string, CsClass]()
+  result.enums = @[]
+  result.enumTable = newTable[string, CsEnum]()
 
 proc newCsRoot*(): CsRoot =
   result.ns = @[]
@@ -142,10 +144,18 @@ proc newCsElseClause*(a, b, c, d: auto): CsElseClause =
   new result
 proc newCsEmptyStatement*(a, b, c, d: auto): CsEmptyStatement =
   new result
-proc newCsEnum*(a, b, c, d: auto): CsEnum =
+
+proc newCsEnum*(name: auto): CsEnum =
   new result
-proc newCsEnumMember*(a, b, c, d: auto): CsEnumMember =
+  result.name = name
+
+import options
+proc newCsEnumMember*(name, value: auto): CsEnumMember =
   new result
+  result.name = name
+  result.value = value
+
+
 proc newCsEqualsValueClause*(a, b, c, d: auto): CsEqualsValueClause =
   new result
 proc newCsEvent*(a, b, c, d: auto): CsEvent =

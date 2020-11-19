@@ -1,16 +1,9 @@
-import strutils
+import strutils, sequtils
 import types
-
-# should we output strings or nim AST?
-# probably strings are easier if we can figure out correct indentation etc.
 
 type Module* = object
   name*: string
   output*: string
-
-# proc gen*(r:CsRoot) : string = discard
-# proc gen*(r:CsRoot) : string = discard
-# proc gen*(r:CsRoot) : string = discard
 
 # TODO: with interfaces in Nim, the name doesn't matter, it's structural, and there is only one possible parent for a type in Nim, so we can create a baseclass, combining all those interfaces. the interface itself is just a seq of empty procs - signatures (and a name), so this set of interfaces, can be combined to one with a long name. some kind of hashtable for these will be needed in state-- an interface in c# can have many interface parents for example. we can generate its full info with a proc on a need-basis (live). if the type inherits a class as well, we'll first generate the parent type unless already exists, combined with those interfaces.
 
@@ -50,13 +43,28 @@ proc gen*(c: CsClass): string =
       result &= m.gen()
       result &= "\r\n"
 
+import options
+proc gen*(e: CsEnumMember): string =
+  result = e.name
+  if e.value.isSome: result &= " = " & $e.value.get
 
+proc gen*(e: CsEnum): string =
+  echo "members count:" & $e.items.len
+
+  result = "type " & e.name & "* = enum"
+  if e.items.len > 0:
+    result &= "\n  "
+    let strs = e.items.mapIt(it.gen())
+    result &= strs.join(", ")
+  echo result
 
 
 proc gen*(r: CsNamespace): string =
   var s: seq[string] = @[]
   for c in r.classes:
     s.add(c.gen())
+  for e in r.enums:
+    s.add(e.gen())
   result = s.join("\r\n")
 
 proc makeModule*(ns: CsNamespace): Module =

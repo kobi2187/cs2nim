@@ -1,0 +1,65 @@
+{
+  "File": "../cs2nim/tests/samples/enums.cs",
+  "Lines": [
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EnumDeclaration",
+      "Info": {
+        "Essentials": [
+          "Compass"
+        ],
+        "Extras": []
+      },
+      "Source": "public enum Compass { North, South, East, West }"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EnumMemberDeclaration",
+      "Info": {
+        "Essentials": [
+          "North"
+        ],
+        "Extras": []
+      },
+      "Source": "North"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EnumMemberDeclaration",
+      "Info": {
+        "Essentials": [
+          "South"
+        ],
+        "Extras": []
+      },
+      "Source": "South"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EnumMemberDeclaration",
+      "Info": {
+        "Essentials": [
+          "East"
+        ],
+        "Extras": []
+      },
+      "Source": "East"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EnumMemberDeclaration",
+      "Info": {
+        "Essentials": [
+          "West"
+        ],
+        "Extras": []
+      },
+      "Source": "West "
+    }
+  ]
+}

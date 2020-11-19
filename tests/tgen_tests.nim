@@ -1,4 +1,4 @@
-import "./utils"
+import "./utils", "../writer_utils"
 import unittest
 
 
@@ -6,4 +6,3 @@ import unittest
 suite "code generation tests":
   test "enums":
     check genTest("enums1")
-  

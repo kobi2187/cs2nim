@@ -2,12 +2,21 @@
 # just to prevent circular dependency
 import stacks, tables, json
 # import sequtils
-import state, extract, types
+import state, extract, types, sequtils, create, addinroot
+
+proc `$`*(it: Block): string =
+  result = it.name & ": `" & it.info.essentials[0] & "`"
+
+proc `$`*(blocks: Stack[Block]): string =
+  let x = blocks.toSeq #.mapIt($it)
+  result = $x
+
+
 
 proc nsPath: string =
   var started = false
- # we assume blocks starts with namespaces.
- # echo blocks.toSeq
+# we assume blocks starts with namespaces.
+  echo blocks
   for b in blocks.toSeq:
     if b.name == "NamespaceDeclaration":
       started = true
@@ -16,10 +25,27 @@ proc nsPath: string =
       result &= extractCsNamespace(b.info).name
 
     else:
-      if not started: continue
-      else: return
+      if not started:
+        continue
+      else:
+        echo result
+        return
+  echo result
 
+proc last*[T](s: seq[T]): T =
+  result = s[s.len-1]
 
+proc itemName*(b: Block): string =
+  b.info.essentials[0]
+
+proc getCurrentNs(root: var CsRoot): (string, CsNamespace) =
+  var p = nsPath()
+  if p == "": p = "default"
+  assert root.nsTables.hasKey(p)
+  let ns = root.nsTables[p]
+  result = (p, ns)
+
+import tables, sequtils
 import extract
 
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
@@ -41,14 +67,28 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
 
   of "ClassDeclaration":
     let c = extractClass(info)
-    var p = nsPath()
-    if p == "": p = "default"
+    let (p, ns) = getcurrentNs(root)
     # echo "nsPath is: " & p
     c.nsParent = p
-    assert root.nsTables.hasKey(p)
-    let ns = root.nsTables[p]
     ns.addClass(c)
 
+  of "EnumDeclaration":
+    # extract name:
+    let e = extract(typedesc(CsEnum), info)
+    # add enum declaration to namespace.
+    var (_, ns) = getCurrentNs(root)
+    add(ns, e)
+
+
+  of "EnumMemberDeclaration":
+    let em = extract(typedesc(CsEnumMember), info)
+    var (name, ns) = getCurrentNs(root)
+    echo name
+    let p = currentPath().last.itemName
+    echo p
+    var lastEnum = ns.enumTable[p]
+    lastEnum.items.add(em)
+      # enumTable[p
 
   of "ReturnStatement": discard #TODO
   of "UsingDirective": discard #TODO
@@ -98,7 +138,6 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "ConstructorDeclaration": discard #TODO
   of "BaseList": discard #TODO
   of "SwitchSection": discard #TODO
-  of "EnumMemberDeclaration": discard #TODO
   of "SimpleLambdaExpression": discard #TODO
   of "PostfixUnaryExpression": discard #TODO
   of "ArrayCreationExpression": discard #TODO
@@ -139,7 +178,6 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "InterfaceDeclaration": discard #TODO
   of "ContinueStatement": discard #TODO
   of "FinallyClause": discard #TODO
-  of "EnumDeclaration": discard #TODO
   of "DefaultSwitchLabel": discard #TODO
   of "YieldStatement": discard #TODO
   of "AnonymousObjectMemberDeclarator": discard #TODO

@@ -17,26 +17,31 @@ type Block* = object # TODO: trim this to save on memory: just a type name and t
 
 var blocks* = newStack[Block]()
 # proc getBlockCount :int= blocks.len
+proc resetBlocks*() = blocks.clear()
 proc endBlock*() =
-  assert blocks.len > 0
-  discard blocks.pop
+  assert(blocks.len > 0, "blocks is empty! but we got EndBlock")
+  var b = blocks.pop
+  # while b.name == "BlockStarts": b = blocks.pop # until we have an actual construct.
+  echo "-- End of block " & b.name
 
-import create
+# import create
 
 
 var currentConstruct* = newSeq[Block]()
 
 # declaration string as received from cs side.
 let blockTypesTxt* = [
-  "ClassDeclaration",
-  "NamespaceDeclaration",
-  "MethodDeclaration",
-  "EnumDeclaration",
   "BlockStarts",
+  "NamespaceDeclaration",
+  "ClassDeclaration",
+  "EnumDeclaration",
+
+  # not yet supported:
+    # "MethodDeclaration",
 
 
-  # todo: ... add more
-    # note: if endblock raises an assert, it means a previous construct was not recorded here.
+      # todo: ... add more
+        # note: if endblock raises an assert, it means a previous construct was not recorded here.
   ].toHashSet
 
 proc currentPath*(): seq[Block] = blocks.toSeq()
