@@ -15,7 +15,11 @@ To ease porting efforts of C# to Nim.
 
 - namespace
 
-### next: enum
+### next
+
+- instance variables in class.
+
+- enum. done! [19/11]
 
 ## How it works
 

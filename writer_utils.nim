@@ -14,7 +14,7 @@ proc concatModulesOutput*(mods: seq[Module]): string =
   for m in mods:
     result &= m.output & "\n\n"
 
-let safer* = true
+let safer* = false
 const suffixOutputDir = "nim_code/dotnet"
 let dt = now().format("yyyyMMddHHmm")
 

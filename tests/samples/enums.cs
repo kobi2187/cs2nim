@@ -1,0 +1,1 @@
+public enum Compass { North =1 , South, East, West }

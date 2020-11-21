@@ -11,7 +11,7 @@
         ],
         "Extras": []
       },
-      "Source": "public enum Compass { North, South, East, West }"
+      "Source": "public enum Compass { North =1 , South, East, West }"
     },
     {
       "Kind": 0,
@@ -23,7 +23,26 @@
         ],
         "Extras": []
       },
-      "Source": "North"
+      "Source": "North =1 "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EqualsValueClause",
+      "Info": null,
+      "Source": "=1 "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "LiteralExpression",
+      "Info": {
+        "Essentials": [
+          "1"
+        ],
+        "Extras": []
+      },
+      "Source": "1 "
     },
     {
       "Kind": 0,
