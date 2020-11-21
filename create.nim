@@ -1,7 +1,6 @@
 # create.nim
 
 import types
-
 import json
 
 # with the idea of adding the json input or C# code as Nim comments.
@@ -12,8 +11,8 @@ proc jsonWithoutSource*(n: JsonNode): JsonNode =
 
 
 # put here all the newCsType procs
-import tables, strutils
-proc newCsNamespace*(name: string): CsNamespace =
+import tables
+proc newCs*(t: typedesc[CsNamespace]; name, b, c, d: string): CsNamespace =
   new result
   result.name = name
   result.classes = @[]
@@ -21,340 +20,314 @@ proc newCsNamespace*(name: string): CsNamespace =
   result.enums = @[]
   result.enumTable = newTable[string, CsEnum]()
 
-proc newCsRoot*(): CsRoot =
+proc newCs*(t: typedesc[CsRoot]; a, b, c, d: auto): CsRoot =
   result.ns = @[]
   result.nsTables = newTable[string, CsNamespace]()
 
-  let defaultNs = newCsNamespace("default")
+  let defaultNs = newCs(CsNamespace, "default")
   result.global = defaultNs
   result.nsTables["default"] = defaultNs
 
-proc newCsAccessor*(a, b, c, d: auto): CsAccessor =
+proc newCs*(t: typedesc[CsAccessor]; a, b, c, d: auto): CsAccessor =
   new result
-proc newCsAccessorList*(a, b, c, d: auto): CsAccessorList =
+proc newCs*(t: typedesc[CsAccessorList]; a, b, c, d: auto): CsAccessorList =
   new result
-proc newCsAliasQualifiedName*(a, b, c, d: auto): CsAliasQualifiedName =
+proc newCs*(t: typedesc[CsAliasQualifiedName]; a, b, c, d: auto): CsAliasQualifiedName =
   new result
-proc newCsAnonymousMethodExpression*(a, b, c,
-    d: auto): CsAnonymousMethodExpression =
+proc newCs*(t: typedesc[CsAnonymousMethodExpression]; a, b, c, d: auto): CsAnonymousMethodExpression =
   new result
-proc newCsAnonymousObjectCreationExpression*(a, b, c,
-    d: auto): CsAnonymousObjectCreationExpression =
+proc newCs*(t: typedesc[CsAnonymousObjectCreationExpression]; a, b, c, d: auto): CsAnonymousObjectCreationExpression =
   new result
-proc newCsAnonymousObjectMemberDeclarator*(a, b, c,
-    d: auto): CsAnonymousObjectMemberDeclarator =
+proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; a, b, c, d: auto): CsAnonymousObjectMemberDeclarator =
   new result
-proc newCsArgument*(a, b, c, d: auto): CsArgument =
+proc newCs*(t: typedesc[CsArgument]; a, b, c, d: auto): CsArgument =
   new result
-proc newCsArrayCreationExpression*(a, b, c,
-    d: auto): CsArrayCreationExpression =
+proc newCs*(t: typedesc[CsArrayCreationExpression]; a, b, c, d: auto): CsArrayCreationExpression =
   new result
-proc newCsArrayRankSpecifier*(a, b, c, d: auto): CsArrayRankSpecifier =
+proc newCs*(t: typedesc[CsArrayRankSpecifier]; a, b, c, d: auto): CsArrayRankSpecifier =
   new result
-proc newCsArrayType*(a, b, c, d: auto): CsArrayType =
+proc newCs*(t: typedesc[CsArrayType]; a, b, c, d: auto): CsArrayType =
   new result
-proc newCsArrowExpressionClause*(a, b, c, d: auto): CsArrowExpressionClause =
+proc newCs*(t: typedesc[CsArrowExpressionClause]; a, b, c, d: auto): CsArrowExpressionClause =
   new result
-proc newCsAssignmentExpression*(a, b, c, d: auto): CsAssignmentExpression =
+proc newCs*(t: typedesc[CsAssignmentExpression]; a, b, c, d: auto): CsAssignmentExpression =
   new result
-proc newCsAttribute*(a, b, c, d: auto): CsAttribute =
+proc newCs*(t: typedesc[CsAttribute]; a, b, c, d: auto): CsAttribute =
   new result
-proc newCsAttributeArgument*(a, b, c, d: auto): CsAttributeArgument =
+proc newCs*(t: typedesc[CsAttributeArgument]; a, b, c, d: auto): CsAttributeArgument =
   new result
-proc newCsAttributeArgumentList*(a, b, c, d: auto): CsAttributeArgumentList =
+proc newCs*(t: typedesc[CsAttributeArgumentList]; a, b, c, d: auto): CsAttributeArgumentList =
   new result
-proc newCsAttributeList*(a, b, c, d: auto): CsAttributeList =
+proc newCs*(t: typedesc[CsAttributeList]; a, b, c, d: auto): CsAttributeList =
   new result
-proc newCsAttributeTargetSpecifier*(a, b, c,
-    d: auto): CsAttributeTargetSpecifier =
+proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; a, b, c, d: auto): CsAttributeTargetSpecifier =
   new result
-proc newCsAwaitExpression*(a, b, c, d: auto): CsAwaitExpression =
+proc newCs*(t: typedesc[CsAwaitExpression]; a, b, c, d: auto): CsAwaitExpression =
   new result
-proc newCsBaseExpression*(a, b, c, d: auto): CsBaseExpression =
+proc newCs*(t: typedesc[CsBaseExpression]; a, b, c, d: auto): CsBaseExpression =
   new result
-proc newCsBaseList*(a, b, c, d: auto): CsBaseList =
+proc newCs*(t: typedesc[CsBaseList]; a, b, c, d: auto): CsBaseList =
   new result
-proc newCsBinaryExpression*(a, b, c, d: auto): CsBinaryExpression =
+proc newCs*(t: typedesc[CsBinaryExpression]; a, b, c, d: auto): CsBinaryExpression =
   new result
-proc newCsBracketedArgumentList*(a, b, c, d: auto): CsBracketedArgumentList =
+proc newCs*(t: typedesc[CsBracketedArgumentList]; a, b, c, d: auto): CsBracketedArgumentList =
   new result
-proc newCsBracketedParameterList*(a, b, c, d: auto): CsBracketedParameterList =
+proc newCs*(t: typedesc[CsBracketedParameterList]; a, b, c, d: auto): CsBracketedParameterList =
   new result
-proc newCsBreakStatement*(a, b, c, d: auto): CsBreakStatement =
+proc newCs*(t: typedesc[CsBreakStatement]; a, b, c, d: auto): CsBreakStatement =
   new result
-proc newCsCasePatternSwitchLabel*(a, b, c, d: auto): CsCasePatternSwitchLabel =
+proc newCs*(t: typedesc[CsCasePatternSwitchLabel]; a, b, c, d: auto): CsCasePatternSwitchLabel =
   new result
-proc newCsCaseSwitchLabel*(a, b, c, d: auto): CsCaseSwitchLabel =
+proc newCs*(t: typedesc[CsCaseSwitchLabel]; a, b, c, d: auto): CsCaseSwitchLabel =
   new result
-proc newCsCastExpression*(a, b, c, d: auto): CsCastExpression =
+proc newCs*(t: typedesc[CsCastExpression]; a, b, c, d: auto): CsCastExpression =
   new result
-proc newCsCatch*(a, b, c, d: auto): CsCatch =
+proc newCs*(t: typedesc[CsCatch]; a, b, c, d: auto): CsCatch =
   new result
-proc newCsCatchClause*(a, b, c, d: auto): CsCatchClause =
+proc newCs*(t: typedesc[CsCatchClause]; a, b, c, d: auto): CsCatchClause =
   new result
-proc newCsCatchFilterClause*(a, b, c, d: auto): CsCatchFilterClause =
+proc newCs*(t: typedesc[CsCatchFilterClause]; a, b, c, d: auto): CsCatchFilterClause =
   new result
-proc newCsCheckedExpression*(a, b, c, d: auto): CsCheckedExpression =
+proc newCs*(t: typedesc[CsCheckedExpression]; a, b, c, d: auto): CsCheckedExpression =
   new result
-proc newCsCheckedStatement*(a, b, c, d: auto): CsCheckedStatement =
+proc newCs*(t: typedesc[CsCheckedStatement]; a, b, c, d: auto): CsCheckedStatement =
   new result
-proc newCsClassOrStructConstraint*(a, b, c,
-    d: auto): CsClassOrStructConstraint =
+proc newCs*(t: typedesc[CsClassOrStructConstraint]; a, b, c, d: auto): CsClassOrStructConstraint =
   new result
-proc newCsConditionalAccessExpression*(a, b, c,
-    d: auto): CsConditionalAccessExpression =
+proc newCs*(t: typedesc[CsConditionalAccessExpression]; a, b, c, d: auto): CsConditionalAccessExpression =
   new result
-proc newCsConditionalExpression*(a, b, c, d: auto): CsConditionalExpression =
+proc newCs*(t: typedesc[CsConditionalExpression]; a, b, c, d: auto): CsConditionalExpression =
   new result
-proc newCsConstantPattern*(a, b, c, d: auto): CsConstantPattern =
+proc newCs*(t: typedesc[CsConstantPattern]; a, b, c, d: auto): CsConstantPattern =
   new result
-proc newCsConstructor*(a, b, c, d: auto): CsConstructor =
+proc newCs*(t: typedesc[CsConstructor]; a, b, c, d: auto): CsConstructor =
   new result
-proc newCsConstructorConstraint*(a, b, c, d: auto): CsConstructorConstraint =
+proc newCs*(t: typedesc[CsConstructorConstraint]; a, b, c, d: auto): CsConstructorConstraint =
   new result
-proc newCsConstructorInitializer*(a, b, c, d: auto): CsConstructorInitializer =
+proc newCs*(t: typedesc[CsConstructorInitializer]; a, b, c, d: auto): CsConstructorInitializer =
   new result
-proc newCsContinueStatement*(a, b, c, d: auto): CsContinueStatement =
+proc newCs*(t: typedesc[CsContinueStatement]; a, b, c, d: auto): CsContinueStatement =
   new result
-proc newCsConversionOperator*(a, b, c, d: auto): CsConversionOperator =
+proc newCs*(t: typedesc[CsConversionOperator]; a, b, c, d: auto): CsConversionOperator =
   new result
-proc newCsDeclarationExpression*(a, b, c, d: auto): CsDeclarationExpression =
+proc newCs*(t: typedesc[CsDeclarationExpression]; a, b, c, d: auto): CsDeclarationExpression =
   new result
-proc newCsDeclarationPattern*(a, b, c, d: auto): CsDeclarationPattern =
+proc newCs*(t: typedesc[CsDeclarationPattern]; a, b, c, d: auto): CsDeclarationPattern =
   new result
-proc newCsDefaultExpression*(a, b, c, d: auto): CsDefaultExpression =
+proc newCs*(t: typedesc[CsDefaultExpression]; a, b, c, d: auto): CsDefaultExpression =
   new result
-proc newCsDefaultSwitchLabel*(a, b, c, d: auto): CsDefaultSwitchLabel =
+proc newCs*(t: typedesc[CsDefaultSwitchLabel]; a, b, c, d: auto): CsDefaultSwitchLabel =
   new result
-proc newCsDelegate*(a, b, c, d: auto): CsDelegate =
+proc newCs*(t: typedesc[CsDelegate]; a, b, c, d: auto): CsDelegate =
   new result
-proc newCsDestructor*(a, b, c, d: auto): CsDestructor =
+proc newCs*(t: typedesc[CsDestructor]; a, b, c, d: auto): CsDestructor =
   new result
-proc newCsDiscardDesignation*(a, b, c, d: auto): CsDiscardDesignation =
+proc newCs*(t: typedesc[CsDiscardDesignation]; a, b, c, d: auto): CsDiscardDesignation =
   new result
-proc newCsDoStatement*(a, b, c, d: auto): CsDoStatement =
+proc newCs*(t: typedesc[CsDoStatement]; a, b, c, d: auto): CsDoStatement =
   new result
-proc newCsElementAccessExpression*(a, b, c,
-    d: auto): CsElementAccessExpression =
+proc newCs*(t: typedesc[CsElementAccessExpression]; a, b, c, d: auto): CsElementAccessExpression =
   new result
-proc newCsElementBindingExpression*(a, b, c,
-    d: auto): CsElementBindingExpression =
+proc newCs*(t: typedesc[CsElementBindingExpression]; a, b, c, d: auto): CsElementBindingExpression =
   new result
-proc newCsElseClause*(a, b, c, d: auto): CsElseClause =
+proc newCs*(t: typedesc[CsElseClause]; a, b, c, d: auto): CsElseClause =
   new result
-proc newCsEmptyStatement*(a, b, c, d: auto): CsEmptyStatement =
+proc newCs*(t: typedesc[CsEmptyStatement]; a, b, c, d: auto): CsEmptyStatement =
   new result
 
-proc newCsEnum*(name: auto): CsEnum =
+proc newCs*(t: typedesc[CsEnum]; name: auto): CsEnum =
   new result
   result.name = name
 
-import options
-proc newCsEnumMember*(name, value: auto): CsEnumMember =
+proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   new result
   result.name = name
   result.value = value
 
 
-proc newCsEqualsValueClause*(a, b, c, d: auto): CsEqualsValueClause =
+proc newCs*(t: typedesc[CsEqualsValueClause]; a, b, c, d: auto): CsEqualsValueClause =
   new result
-proc newCsEvent*(a, b, c, d: auto): CsEvent =
+proc newCs*(t: typedesc[CsEvent]; a, b, c, d: auto): CsEvent =
   new result
-proc newCsEventField*(a, b, c, d: auto): CsEventField =
+proc newCs*(t: typedesc[CsEventField]; a, b, c, d: auto): CsEventField =
   new result
-proc newCsExplicitInterfaceSpecifier*(a, b, c,
-    d: auto): CsExplicitInterfaceSpecifier =
+proc newCs*(t: typedesc[CsExplicitInterfaceSpecifier]; a, b, c, d: auto): CsExplicitInterfaceSpecifier =
   new result
-proc newCsExpressionStatement*(a, b, c, d: auto): CsExpressionStatement =
+proc newCs*(t: typedesc[CsExpressionStatement]; a, b, c, d: auto): CsExpressionStatement =
   new result
-proc newCsExternAliasDirective*(a, b, c, d: auto): CsExternAliasDirective =
+proc newCs*(t: typedesc[CsExternAliasDirective]; a, b, c, d: auto): CsExternAliasDirective =
   new result
-proc newCsField*(a, b, c, d: auto): CsField =
+proc newCs*(t: typedesc[CsField]; a, b, c, d: auto): CsField =
   new result
-proc newCsFinallyClause*(a, b, c, d: auto): CsFinallyClause =
+proc newCs*(t: typedesc[CsFinallyClause]; a, b, c, d: auto): CsFinallyClause =
   new result
-proc newCsFixedStatement*(a, b, c, d: auto): CsFixedStatement =
+proc newCs*(t: typedesc[CsFixedStatement]; a, b, c, d: auto): CsFixedStatement =
   new result
-proc newCsForEachStatement*(a, b, c, d: auto): CsForEachStatement =
+proc newCs*(t: typedesc[CsForEachStatement]; a, b, c, d: auto): CsForEachStatement =
   new result
-proc newCsForEachVariableStatement*(a, b, c,
-    d: auto): CsForEachVariableStatement =
+proc newCs*(t: typedesc[CsForEachVariableStatement]; a, b, c, d: auto): CsForEachVariableStatement =
   new result
-proc newCsForStatement*(a, b, c, d: auto): CsForStatement =
+proc newCs*(t: typedesc[CsForStatement]; a, b, c, d: auto): CsForStatement =
   new result
-proc newCsFromClause*(a, b, c, d: auto): CsFromClause =
+proc newCs*(t: typedesc[CsFromClause]; a, b, c, d: auto): CsFromClause =
   new result
-proc newCsGenericName*(a, b, c, d: auto): CsGenericName =
+proc newCs*(t: typedesc[CsGenericName]; a, b, c, d: auto): CsGenericName =
   new result
-proc newCsGlobalStatement*(a, b, c, d: auto): CsGlobalStatement =
+proc newCs*(t: typedesc[CsGlobalStatement]; a, b, c, d: auto): CsGlobalStatement =
   new result
-proc newCsGotoStatement*(a, b, c, d: auto): CsGotoStatement =
+proc newCs*(t: typedesc[CsGotoStatement]; a, b, c, d: auto): CsGotoStatement =
   new result
-proc newCsGroupClause*(a, b, c, d: auto): CsGroupClause =
+proc newCs*(t: typedesc[CsGroupClause]; a, b, c, d: auto): CsGroupClause =
   new result
-proc newCsIfStatement*(a, b, c, d: auto): CsIfStatement =
+proc newCs*(t: typedesc[CsIfStatement]; a, b, c, d: auto): CsIfStatement =
   new result
-proc newCsImplicitArrayCreationExpression*(a, b, c,
-    d: auto): CsImplicitArrayCreationExpression =
+proc newCs*(t: typedesc[CsImplicitArrayCreationExpression]; a, b, c, d: auto): CsImplicitArrayCreationExpression =
   new result
-proc newCsImplicitElementAccess*(a, b, c, d: auto): CsImplicitElementAccess =
+proc newCs*(t: typedesc[CsImplicitElementAccess]; a, b, c, d: auto): CsImplicitElementAccess =
   new result
-proc newCsIncompleteMember*(a, b, c, d: auto): CsIncompleteMember =
+proc newCs*(t: typedesc[CsIncompleteMember]; a, b, c, d: auto): CsIncompleteMember =
   new result
-proc newCsIndexer*(a, b, c, d: auto): CsIndexer =
+proc newCs*(t: typedesc[CsIndexer]; a, b, c, d: auto): CsIndexer =
   new result
-proc newCsInitializerExpression*(a, b, c, d: auto): CsInitializerExpression =
+proc newCs*(t: typedesc[CsInitializerExpression]; a, b, c, d: auto): CsInitializerExpression =
   new result
-proc newCsInterface*(a, b, c, d: auto): CsInterface =
+proc newCs*(t: typedesc[CsInterface]; a, b, c, d: auto): CsInterface =
   new result
-proc newCsInterpolatedStringExpression*(a, b, c,
-    d: auto): CsInterpolatedStringExpression =
+proc newCs*(t: typedesc[CsInterpolatedStringExpression]; a, b, c, d: auto): CsInterpolatedStringExpression =
   new result
-proc newCsInterpolatedStringText*(a, b, c, d: auto): CsInterpolatedStringText =
+proc newCs*(t: typedesc[CsInterpolatedStringText]; a, b, c, d: auto): CsInterpolatedStringText =
   new result
-proc newCsInterpolation*(a, b, c, d: auto): CsInterpolation =
+proc newCs*(t: typedesc[CsInterpolation]; a, b, c, d: auto): CsInterpolation =
   new result
-proc newCsInterpolationAlignmentClause*(a, b, c,
-    d: auto): CsInterpolationAlignmentClause =
+proc newCs*(t: typedesc[CsInterpolationAlignmentClause]; a, b, c, d: auto): CsInterpolationAlignmentClause =
   new result
-proc newCsInterpolationFormatClause*(a, b, c,
-    d: auto): CsInterpolationFormatClause =
+proc newCs*(t: typedesc[CsInterpolationFormatClause]; a, b, c, d: auto): CsInterpolationFormatClause =
   new result
-proc newCsIsPatternExpression*(a, b, c, d: auto): CsIsPatternExpression =
+proc newCs*(t: typedesc[CsIsPatternExpression]; a, b, c, d: auto): CsIsPatternExpression =
   new result
-proc newCsJoinClause*(a, b, c, d: auto): CsJoinClause =
+proc newCs*(t: typedesc[CsJoinClause]; a, b, c, d: auto): CsJoinClause =
   new result
-proc newCsJoinIntoClause*(a, b, c, d: auto): CsJoinIntoClause =
+proc newCs*(t: typedesc[CsJoinIntoClause]; a, b, c, d: auto): CsJoinIntoClause =
   new result
-proc newCsLabeledStatement*(a, b, c, d: auto): CsLabeledStatement =
+proc newCs*(t: typedesc[CsLabeledStatement]; a, b, c, d: auto): CsLabeledStatement =
   new result
-proc newCsLetClause*(a, b, c, d: auto): CsLetClause =
+proc newCs*(t: typedesc[CsLetClause]; a, b, c, d: auto): CsLetClause =
   new result
-proc newCsLocalDeclarationStatement*(a, b, c,
-    d: auto): CsLocalDeclarationStatement =
+proc newCs*(t: typedesc[CsLocalDeclarationStatement]; a, b, c, d: auto): CsLocalDeclarationStatement =
   new result
-proc newCsLocalFunctionStatement*(a, b, c, d: auto): CsLocalFunctionStatement =
+proc newCs*(t: typedesc[CsLocalFunctionStatement]; a, b, c, d: auto): CsLocalFunctionStatement =
   new result
-proc newCsLockStatement*(a, b, c, d: auto): CsLockStatement =
+proc newCs*(t: typedesc[CsLockStatement]; a, b, c, d: auto): CsLockStatement =
   new result
-proc newCsMakeRefExpression*(a, b, c, d: auto): CsMakeRefExpression =
+proc newCs*(t: typedesc[CsMakeRefExpression]; a, b, c, d: auto): CsMakeRefExpression =
   new result
-proc newCsMemberBindingExpression*(a, b, c,
-    d: auto): CsMemberBindingExpression =
+proc newCs*(t: typedesc[CsMemberBindingExpression]; a, b, c, d: auto): CsMemberBindingExpression =
   new result
-proc newCsNameColon*(a, b, c, d: auto): CsNameColon =
+proc newCs*(t: typedesc[CsNameColon]; a, b, c, d: auto): CsNameColon =
   new result
-proc newCsNameEquals*(a, b, c, d: auto): CsNameEquals =
+proc newCs*(t: typedesc[CsNameEquals]; a, b, c, d: auto): CsNameEquals =
   new result
-proc newCsNullableType*(a, b, c, d: auto): CsNullableType =
+proc newCs*(t: typedesc[CsNullableType]; a, b, c, d: auto): CsNullableType =
   new result
-proc newCsObjectCreationExpression*(a, b, c,
-    d: auto): CsObjectCreationExpression =
+proc newCs*(t: typedesc[CsObjectCreationExpression]; a, b, c, d: auto): CsObjectCreationExpression =
   new result
-proc newCsOmittedArraySizeExpression*(a, b, c,
-    d: auto): CsOmittedArraySizeExpression =
+proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; a, b, c, d: auto): CsOmittedArraySizeExpression =
   new result
-proc newCsOmittedTypeArgument*(a, b, c, d: auto): CsOmittedTypeArgument =
+proc newCs*(t: typedesc[CsOmittedTypeArgument]; a, b, c, d: auto): CsOmittedTypeArgument =
   new result
-proc newCsOperator*(a, b, c, d: auto): CsOperator =
+proc newCs*(t: typedesc[CsOperator]; a, b, c, d: auto): CsOperator =
   new result
-proc newCsOrderByClause*(a, b, c, d: auto): CsOrderByClause =
+proc newCs*(t: typedesc[CsOrderByClause]; a, b, c, d: auto): CsOrderByClause =
   new result
-proc newCsOrdering*(a, b, c, d: auto): CsOrdering =
+proc newCs*(t: typedesc[CsOrdering]; a, b, c, d: auto): CsOrdering =
   new result
-proc newCsParameter*(a, b, c, d: auto): CsParameter =
+proc newCs*(t: typedesc[CsParameter]; a, b, c, d: auto): CsParameter =
   new result
-proc newCsParameterList*(a, b, c, d: auto): CsParameterList =
+proc newCs*(t: typedesc[CsParameterList]; a, b, c, d: auto): CsParameterList =
   new result
-proc newCsParenthesizedExpression*(a, b, c,
-    d: auto): CsParenthesizedExpression =
+proc newCs*(t: typedesc[CsParenthesizedExpression]; a, b, c, d: auto): CsParenthesizedExpression =
   new result
-proc newCsParenthesizedLambdaExpression*(a, b, c,
-    d: auto): CsParenthesizedLambdaExpression =
+proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; a, b, c, d: auto): CsParenthesizedLambdaExpression =
   new result
-proc newCsParenthesizedVariableDesignation*(a, b, c,
-    d: auto): CsParenthesizedVariableDesignation =
+proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; a, b, c, d: auto): CsParenthesizedVariableDesignation =
   new result
-proc newCsPointerType*(a, b, c, d: auto): CsPointerType =
+proc newCs*(t: typedesc[CsPointerType]; a, b, c, d: auto): CsPointerType =
   new result
-proc newCsPostfixUnaryExpression*(a, b, c, d: auto): CsPostfixUnaryExpression =
+proc newCs*(t: typedesc[CsPostfixUnaryExpression]; a, b, c, d: auto): CsPostfixUnaryExpression =
   new result
-proc newCsPrefixUnaryExpression*(a, b, c, d: auto): CsPrefixUnaryExpression =
+proc newCs*(t: typedesc[CsPrefixUnaryExpression]; a, b, c, d: auto): CsPrefixUnaryExpression =
   new result
-proc newCsProperty*(a, b, c, d: auto): CsProperty =
+proc newCs*(t: typedesc[CsProperty]; a, b, c, d: auto): CsProperty =
   new result
-proc newCsQueryBody*(a, b, c, d: auto): CsQueryBody =
+proc newCs*(t: typedesc[CsQueryBody]; a, b, c, d: auto): CsQueryBody =
   new result
-proc newCsQueryContinuation*(a, b, c, d: auto): CsQueryContinuation =
+proc newCs*(t: typedesc[CsQueryContinuation]; a, b, c, d: auto): CsQueryContinuation =
   new result
-proc newCsQueryExpression*(a, b, c, d: auto): CsQueryExpression =
+proc newCs*(t: typedesc[CsQueryExpression]; a, b, c, d: auto): CsQueryExpression =
   new result
-proc newCsRefExpression*(a, b, c, d: auto): CsRefExpression =
+proc newCs*(t: typedesc[CsRefExpression]; a, b, c, d: auto): CsRefExpression =
   new result
-proc newCsRefType*(a, b, c, d: auto): CsRefType =
+proc newCs*(t: typedesc[CsRefType]; a, b, c, d: auto): CsRefType =
   new result
-proc newCsRefTypeExpression*(a, b, c, d: auto): CsRefTypeExpression =
+proc newCs*(t: typedesc[CsRefTypeExpression]; a, b, c, d: auto): CsRefTypeExpression =
   new result
-proc newCsRefValueExpression*(a, b, c, d: auto): CsRefValueExpression =
+proc newCs*(t: typedesc[CsRefValueExpression]; a, b, c, d: auto): CsRefValueExpression =
   new result
-proc newCsReturnStatement*(a, b, c, d: auto): CsReturnStatement =
+proc newCs*(t: typedesc[CsReturnStatement]; a, b, c, d: auto): CsReturnStatement =
   new result
-proc newCsSelectClause*(a, b, c, d: auto): CsSelectClause =
+proc newCs*(t: typedesc[CsSelectClause]; a, b, c, d: auto): CsSelectClause =
   new result
-proc newCsSimpleBaseType*(a, b, c, d: auto): CsSimpleBaseType =
+proc newCs*(t: typedesc[CsSimpleBaseType]; a, b, c, d: auto): CsSimpleBaseType =
   new result
-proc newCsSimpleLambdaExpression*(a, b, c, d: auto): CsSimpleLambdaExpression =
+proc newCs*(t: typedesc[CsSimpleLambdaExpression]; a, b, c, d: auto): CsSimpleLambdaExpression =
   new result
-proc newCsSingleVariableDesignation*(a, b, c,
-    d: auto): CsSingleVariableDesignation =
+proc newCs*(t: typedesc[CsSingleVariableDesignation]; a, b, c, d: auto): CsSingleVariableDesignation =
   new result
-proc newCsSizeOfExpression*(a, b, c, d: auto): CsSizeOfExpression =
+proc newCs*(t: typedesc[CsSizeOfExpression]; a, b, c, d: auto): CsSizeOfExpression =
   new result
-proc newCsStackAllocArrayCreationExpression*(a, b, c,
-    d: auto): CsStackAllocArrayCreationExpression =
+proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression]; a, b, c, d: auto): CsStackAllocArrayCreationExpression =
   new result
-proc newCsStruct*(a, b, c, d: auto): CsStruct =
+proc newCs*(t: typedesc[CsStruct]; a, b, c, d: auto): CsStruct =
   new result
-proc newCsSwitchSection*(a, b, c, d: auto): CsSwitchSection =
+proc newCs*(t: typedesc[CsSwitchSection]; a, b, c, d: auto): CsSwitchSection =
   new result
-proc newCsSwitchStatement*(a, b, c, d: auto): CsSwitchStatement =
+proc newCs*(t: typedesc[CsSwitchStatement]; a, b, c, d: auto): CsSwitchStatement =
   new result
-proc newCsThisExpression*(a, b, c, d: auto): CsThisExpression =
+proc newCs*(t: typedesc[CsThisExpression]; a, b, c, d: auto): CsThisExpression =
   new result
-proc newCsThrowExpression*(a, b, c, d: auto): CsThrowExpression =
+proc newCs*(t: typedesc[CsThrowExpression]; a, b, c, d: auto): CsThrowExpression =
   new result
-proc newCsThrowStatement*(a, b, c, d: auto): CsThrowStatement =
+proc newCs*(t: typedesc[CsThrowStatement]; a, b, c, d: auto): CsThrowStatement =
   new result
-proc newCsTryStatement*(a, b, c, d: auto): CsTryStatement =
+proc newCs*(t: typedesc[CsTryStatement]; a, b, c, d: auto): CsTryStatement =
   new result
-proc newCsTupleElement*(a, b, c, d: auto): CsTupleElement =
+proc newCs*(t: typedesc[CsTupleElement]; a, b, c, d: auto): CsTupleElement =
   new result
-proc newCsTupleExpression*(a, b, c, d: auto): CsTupleExpression =
+proc newCs*(t: typedesc[CsTupleExpression]; a, b, c, d: auto): CsTupleExpression =
   new result
-proc newCsTupleType*(a, b, c, d: auto): CsTupleType =
+proc newCs*(t: typedesc[CsTupleType]; a, b, c, d: auto): CsTupleType =
   new result
-proc newCsTypeArgumentList*(a, b, c, d: auto): CsTypeArgumentList =
+proc newCs*(t: typedesc[CsTypeArgumentList]; a, b, c, d: auto): CsTypeArgumentList =
   new result
-proc newCsTypeConstraint*(a, b, c, d: auto): CsTypeConstraint =
+proc newCs*(t: typedesc[CsTypeConstraint]; a, b, c, d: auto): CsTypeConstraint =
   new result
-proc newCsTypeOfExpression*(a, b, c, d: auto): CsTypeOfExpression =
+proc newCs*(t: typedesc[CsTypeOfExpression]; a, b, c, d: auto): CsTypeOfExpression =
   new result
-proc newCsTypeParameter*(a, b, c, d: auto): CsTypeParameter =
+proc newCs*(t: typedesc[CsTypeParameter]; a, b, c, d: auto): CsTypeParameter =
   new result
-proc newCsTypeParameterConstraintClause*(a, b, c,
-    d: auto): CsTypeParameterConstraintClause =
+proc newCs*(t: typedesc[CsTypeParameterConstraintClause]; a, b, c, d: auto): CsTypeParameterConstraintClause =
   new result
-proc newCsTypeParameterList*(a, b, c, d: auto): CsTypeParameterList =
+proc newCs*(t: typedesc[CsTypeParameterList]; a, b, c, d: auto): CsTypeParameterList =
   new result
-proc newCsUnsafeStatement*(a, b, c, d: auto): CsUnsafeStatement =
+proc newCs*(t: typedesc[CsUnsafeStatement]; a, b, c, d: auto): CsUnsafeStatement =
   new result
-proc newCsUsingStatement*(a, b, c, d: auto): CsUsingStatement =
+proc newCs*(t: typedesc[CsUsingStatement]; a, b, c, d: auto): CsUsingStatement =
   new result
-proc newCsWhenClause*(a, b, c, d: auto): CsWhenClause =
+proc newCs*(t: typedesc[CsWhenClause]; a, b, c, d: auto): CsWhenClause =
   new result
-proc newCsWhereClause*(a, b, c, d: auto): CsWhereClause =
+proc newCs*(t: typedesc[CsWhereClause]; a, b, c, d: auto): CsWhereClause =
   new result
-proc newCsWhileStatement*(a, b, c, d: auto): CsWhileStatement =
+proc newCs*(t: typedesc[CsWhileStatement]; a, b, c, d: auto): CsWhileStatement =
   new result
-proc newCsYieldStatement*(a, b, c, d: auto): CsYieldStatement =
+proc newCs*(t: typedesc[CsYieldStatement]; a, b, c, d: auto): CsYieldStatement =
   new result

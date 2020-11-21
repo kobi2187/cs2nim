@@ -4,7 +4,7 @@ import types, state, create
 import tables, options
 
 func extractCsNamespace*(info: Info): CsNamespace =
-  result = newCsNamespace(info.essentials[0])
+  result = newCs(CsNamespace, info.essentials[0], "", "", "")
 import strutils
 proc addNamespace*(root: var CsRoot; csn: CsNamespace) =
   root.ns.add(csn)
@@ -13,7 +13,7 @@ proc addNamespace*(root: var CsRoot; csn: CsNamespace) =
   root.nsTables[name] = csn
 
 proc addNamespace*(root: var CsRoot; ns: string) =
-  let csn = newCsNamespace(ns)
+  let csn = newCs(CsNamespace, ns)
   root.addNamespace(csn)
 
 proc extractClass*(info: Info): CsClass =
