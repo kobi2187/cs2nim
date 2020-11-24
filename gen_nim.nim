@@ -1,5 +1,6 @@
+# {.experimental: "codeReordering".}
 import strutils, sequtils
-import types
+import types, sets
 
 type Module* = object
   name*: string
@@ -68,13 +69,22 @@ proc gen*(r: CsNamespace): string =
   result = s.join("\r\n")
 
 proc makeModule*(ns: CsNamespace): Module =
-  let name = ns.name
+  let name =
+    if ns.parent.len > 0:
+      ns.parent & "." & ns.name
+    else:
+      ns.name
   let output = ns.gen() & "\n\n"
   result = Module(name: name, output: output)
+
+import sets, tables
 
 proc gen*(r: CsRoot): seq[Module] =
   if not r.global.isNil:
     result.add makeModule(r.global)
+
   for n in r.ns:
+    echo "in gen(): ns is: " & $n.name
+    assert r.nsTables.hasKey(n.name), n.name & "is missing"
     result.add makeModule(n)
 

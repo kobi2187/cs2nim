@@ -1,4 +1,5 @@
 # create.nim
+{.experimental: "codeReordering".}
 
 import types
 import json
@@ -12,16 +13,17 @@ proc jsonWithoutSource*(n: JsonNode): JsonNode =
 
 # put here all the newCsType procs
 import tables
-proc newCs*(t: typedesc[CsNamespace]; name, b, c, d: string): CsNamespace =
+proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   new result
   result.name = name
   result.classes = @[]
   result.classTable = newTable[string, CsClass]()
   result.enums = @[]
   result.enumTable = newTable[string, CsEnum]()
+import sets
 
-proc newCs*(t: typedesc[CsRoot]; a, b, c, d: auto): CsRoot =
-  result.ns = @[]
+proc newCs*(t: typedesc[CsRoot]): CsRoot =
+  result.ns = initHashSet[CsNamespace]()
   result.nsTables = newTable[string, CsNamespace]()
 
   let defaultNs = newCs(CsNamespace, "default")

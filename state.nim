@@ -11,23 +11,25 @@ type Info* = ref object
 # type Block* = object
 #   instanceName*, typeName*: string
 
-type Block* = object # TODO: trim this to save on memory: just a type name and the instance name. (instead of Info)
+type Block* = object
   name*: string
   info*: Info
 
+import strutils
 var blocks* = newStack[Block]()
 # proc getBlockCount :int= blocks.len
 proc resetBlocks*() = blocks.clear()
-proc endBlock*() =
-  assert(blocks.len > 0, "blocks is empty! but we got EndBlock")
-  var b = blocks.pop
-  # while b.name == "BlockStarts": b = blocks.pop # until we have an actual construct.
-  echo "-- End of block " & b.name
-
 # import create
-
-
+import algorithm, hashes
 var currentConstruct* = newSeq[Block]()
+proc previousConstruct*: Block =
+  let skipList = @[ #TODO
+    "BlockStarts"
+  ].toHashSet()
+  for i, c in currentConstruct.reversed:
+    if i > 0:
+      if not (c.name in skipList):
+        return c
 
 # declaration string as received from cs side.
 let blockTypesTxt* = [

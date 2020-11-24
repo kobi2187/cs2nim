@@ -1,5 +1,5 @@
 # lineparser.nim
-import state, types, handle_construct
+import state, types, handle_construct, state_utils
 
 type LineKind* = enum
   Decl, EndBlock
@@ -19,6 +19,19 @@ proc modifyPosition(thetype: string; info: Info) =
   if thetype in blockTypesTxt:
     blocks.push c
 
+proc getInfo (line: JsonNode): (seq[string], seq[string]) =
+  var main, extras: seq[string]
+  let linf = line["Info"]
+  if not linf.isNil and linf.kind != JNull:
+    let es = linf["Essentials"]
+    # echo es.kind
+    main =
+      if es.kind == JArray:
+        es.getElems().mapIt(it.getStr)
+      else: @[]
+    extras = linf["Extras"].getElems().mapIt(it.getStr)
+  result = (main, extras)
+
 proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
   let kindstr = line["KindStr"].getStr
   let kind: LineKind =
@@ -31,16 +44,7 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
     assert kindstr == "Decl"
     let decl = line["Declaration"].getStr
 
-    var main, extras: seq[string]
-    let linf = line["Info"]
-    if not linf.isNil and linf.kind != JNull:
-      let es = linf["Essentials"]
-      # echo es.kind
-      main = if es.kind == JArray:
-        es.getElems().mapIt(it.getStr)
-      else: @[]
-      extras = linf["Extras"].getElems().mapIt(it.getStr)
-
+    var (main, extras) = getInfo(line)
     let src = line["Source"].getStr
 
     let info = Info(declName: decl, essentials: main, extras: extras)
@@ -49,7 +53,10 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
 
   of EndBlock:
     assert kindstr == "EndBlock"
-    endBlock()
+    let (main, extras) = getInfo(line)
+    let info = Info(declName: "EndBlock", essentials: main, extras: extras)
+
+    endBlock(info)
 
 import system, os
 proc parseExecFile*(root: var CsRoot; file: JsonNode) = # , root: var CsRoot) =

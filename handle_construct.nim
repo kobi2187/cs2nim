@@ -1,10 +1,17 @@
 import extract, state_utils
 import state, types, create, addinroot
-import tables, json
+import tables, json, stacks, options
 
 
 # handle_construct.nim
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
+  when false:
+    echo "blocks info:"
+    echo "============"
+    echo "last construct: " & $currentConstruct.last
+    echo "previous construct: " & $previousConstruct()
+    echo $currentPath()
+
   ## here, we take the path from `blocks`, if there are consecutive namespaces, we combine them. (ns decl will already create new ns in root if they are nested)
   ## (update block types if we find more)
 
@@ -17,13 +24,20 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
 
   of "CompilationUnit": discard # for real.
   of "NamespaceDeclaration":
-    #handle nested.
-    let newns = extractCsNamespace(info)
+    let newns = extract(CsNamespace, info)
+    # try handle nested.
+    let prev = blocks.peek(-3) # -2*2+1
+    if prev.isSome and prev.get.name == "NamespaceDeclaration":
+      echo "PREV: " & $prev
+      let prevNsName = extract(CsNamespace, prev.get.info).name
+      if prevNsName != newns.name:
+        newns.name = prevNsName & "." & newns.name
+
     root.addNamespace(newns)
 
   of "ClassDeclaration":
-    let c = extractClass(info)
-    let (p, ns) = getcurrentNs(root)
+    let c = extract(CsClass, info)
+    var (p, ns) = getcurrentNs(root)
     # echo "nsPath is: " & p
     c.nsParent = p
     ns.addClass(c)
@@ -32,9 +46,10 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     # extract name:
     let e = extract(typedesc(CsEnum), info)
     # add enum declaration to namespace.
-    var (_, ns) = getCurrentNs(root)
+    var (name, ns) = getCurrentNs(root)
+    echo name
     add(ns, e)
-
+    # note: enums can also appear in classes, but we belong them to namespaces anyway. (does it matter?)
 
   of "EnumMemberDeclaration":
     let em = extract(typedesc(CsEnumMember), info)
@@ -46,12 +61,16 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     lastEnum.items.add(em)
       # enumTable[p
 
+  of "BlockStarts":
+    echo "START OF NEW BLOCK" & $currentConstruct.last
+
+    #TODO: maybe just add here to blocks?? is it really all the { open brackets in cs side?
+
   of "ReturnStatement": discard #TODO
   of "UsingDirective": discard #TODO
   of "QualifiedName": discard #TODO
   of "MethodDeclaration": discard #TODO
   of "PredefinedType": discard #TODO
-  of "BlockStarts": discard #TODO
   of "ExpressionStatement": discard #TODO
   of "InvocationExpression": discard #TODO
   of "ArgumentList": discard #TODO

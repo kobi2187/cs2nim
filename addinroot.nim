@@ -1,15 +1,16 @@
+# {.experimental: "codeReordering".}
+
 type Dummy = object
 import types, tables
 
 proc add*(parent: var CsNamespace; item: CsEnum) =
+
   parent.enums.add item
   parent.enumTable[item.name] = item
 
 proc add*(parent: var CsEnum; item: CsEnumMember) =
   parent.items.add item
 
-proc add*(parent: var Dummy; item: CsAccessor) = discard # TODO
-proc add*(parent: var Dummy; item: CsAccessorList) = discard # TODO
 proc add*(parent: var Dummy; item: CsAliasQualifiedName) = discard # TODO
 proc add*(parent: var Dummy; item: CsAnonymousMethodExpression) = discard # TODO
 proc add*(parent: var Dummy; item: CsAnonymousObjectCreationExpression) = discard # TODO
@@ -143,7 +144,6 @@ proc add*(parent: var Dummy; item: CsTupleElement) = discard # TODO
 proc add*(parent: var Dummy; item: CsTupleExpression) = discard # TODO
 proc add*(parent: var Dummy; item: CsTupleType) = discard # TODO
 proc add*(parent: var Dummy; item: CsTypeArgumentList) = discard # TODO
-proc add*(parent: var Dummy; item: CsTypeConstraint) = discard # TODO
 proc add*(parent: var Dummy; item: CsTypeOfExpression) = discard # TODO
 proc add*(parent: var Dummy; item: CsTypeParameter) = discard # TODO
 proc add*(parent: var Dummy; item: CsTypeParameterConstraintClause) = discard # TODO

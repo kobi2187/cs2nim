@@ -1,3 +1,5 @@
+{.experimental: "codeReordering".}
+
 # types.nim
 
 import tables
@@ -33,12 +35,6 @@ type CsField* = ref object of CsObject
   ttype*: string
   isPublic*: bool
 
-type CsClass* = ref object of CsObject
-  name*: string
-  nsParent*: string
-  fields*: seq[CsField]
-  methods*: seq[CsMethod]
-  isStatic*: bool
 
 
 import options
@@ -200,16 +196,32 @@ type
   CsWhileStatement* = ref object of CsObject
   CsYieldStatement* = ref object of CsObject
 
+# ===========================
+
+type CsClass* = ref object of CsObject
+  name*: string
+  nsParent*: string
+  fields*: seq[CsField]
+  methods*: seq[CsMethod]
+  enums*: seq[CsEnum]
+  enumTable*: TableRef[string, CsEnum]
+  isStatic*: bool
+
 type CsNamespace* = ref object of CsObject
   name*: string
+  parent*: string
   classes*: seq[CsClass]
   classTable*: TableRef[string, CsClass]
   enums*: seq[CsEnum]
   enumTable*: TableRef[string, CsEnum]
 
-
+import sets
 type CsRoot* = object
   global*: CsNamespace
-  ns*: seq[CsNamespace]
+  ns*: HashSet[CsNamespace]
+  # ns*: seq[CsNamespace]
   nsTables*: TableRef[string, CsNamespace]
 
+import hashes
+proc hash*(c: CsNamespace): Hash =
+  result = hash(c.name)

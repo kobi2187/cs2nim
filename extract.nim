@@ -1,27 +1,38 @@
 # extract.nim
-
+{.experimental: "codeReordering".}
 import types, state, create
-import tables, options
+import tables, options, sets, sequtils
 
-func extractCsNamespace*(info: Info): CsNamespace =
-  result = newCs(CsNamespace, info.essentials[0], "", "", "")
-import strutils
+func extract*(t: typedesc[CsNamespace]; info: Info): CsNamespace =
+  result = newCs(CsNamespace, info.essentials[0])
+
 proc addNamespace*(root: var CsRoot; csn: CsNamespace) =
-  root.ns.add(csn)
-  let name = csn.name #.toLowerAscii
-  echo name
+  var name: string
+  if csn.parent != "":
+    name = csn.parent & "." & csn.name
+    csn.parent = ""
+    csn.name = name
+
+  else: name = csn.name
+  let nsnames = root.ns.mapIt(it.name)
+  if not (csn.name in nsnames):
+    root.ns.incl(csn)
+
+  echo root.ns.toSeq.mapIt(it.name)
+  # assert false
+  # root.ns.add(csn)
   root.nsTables[name] = csn
 
 proc addNamespace*(root: var CsRoot; ns: string) =
   let csn = newCs(CsNamespace, ns)
   root.addNamespace(csn)
 
-proc extractClass*(info: Info): CsClass =
+proc extract*(t: typedesc[CsClass]; info: Info): CsClass =
   # new result
   let name = info.essentials[0]
   result = CsClass(name: name)
 
-proc addClass*(ns: CsNamespace; class: CsClass) =
+proc addClass*(ns: var CsNamespace; class: CsClass) =
   ns.classes.add(class)
   ns.classTable[class.name] = class
 
@@ -36,9 +47,11 @@ proc add[T](a:T) =
   currentRef.add(a)
   ]#
 proc extract*(t: typedesc[CsEnum]; info: Info): CsEnum =
+  assert info.essentials.len > 0
   let name = info.essentials[0]
-  result = newCsEnum(name)
+  result = newCs(CsEnum, name)
 
+import strutils
 proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
   let name = info.essentials[0]
   let value =
@@ -47,7 +60,7 @@ proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
       let it = info.essentials[1]
       some(parseInt(it))
 
-  result = newCsEnumMember(name, value)
+  result = newCs(CsEnumMember, name, value)
 
 # proc extract*[T](t: typedesc[T]; info: Info): T = discard
 

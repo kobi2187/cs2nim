@@ -1,22 +1,28 @@
 import system, os
-import ../types, ../writer_utils, ../gen_nim
+import ../types, ../writer_utils, ../gen_nim, ../create
+
+
+import sequtils
+proc nsToFolders*(namespaces: seq[string]): seq[string] =
+  result = namespaces.mapIt(".".mkModuleFilename(it))
+
 
 proc handleFiles(files: seq[string]): string =
   # generates an output string from files processed into tree
-  var tree = CsRoot()
+  var tree = newCs(CsRoot)
   processFiles(tree, files)
   var ls = tree.gen()
   result = concatModulesOutput(ls)
 
-
+import strutils
 # for tests, we assume we will only use one file as output. that is, a correct nim generated file.
 # i/o tests have the namespace to files test.
 proc genTest*(filename: string): bool =
   let
     pwd = getCurrentDir()
     dir = pwd / "tests/samples"
-    src = filename & ".csast"
-    outp = filename & ".nim"
+    src = dir / filename & ".csast"
+    outp = dir / filename & ".nim"
 
   echo dir
   if not dirExists(dir):
@@ -29,7 +35,10 @@ proc genTest*(filename: string): bool =
     echo "file `" & outp & "` does not exist"
     return false
 # lkj
-  let contents = readFile(outp)
-  let gen = handleFiles(@[src])
+  let contents = readFile(outp).strip
+  let gen = handleFiles(@[src]).strip
+  if contents != gen:
+    echo "expected: `" & gen & "`"
+    echo "got: `" & contents & "`"
 
   return contents == gen

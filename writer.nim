@@ -1,5 +1,8 @@
 # writer.nim
-import system, strutils, os, writer_utils, create
+import system, strutils, os
+import writer_utils, create, types
+
+
 proc main() =
 
   echo "Hello world!"
@@ -13,19 +16,21 @@ proc main() =
       files.add fi
     elif fi.dirExists():
       # for file in walkFiles(joinPath(fi, "**/*.csast")):
-      for file in walkDirRec(fi):
-        if file.fileExists and file.endsWith(".csast"):
-          files.add file
+      files = getCsastFiles(fi)
     else: quit("could not find matching or existing file or directory")
 
     echo files.len
+    let inputFolder = fi
     if safer:
       for f in files:
-        var root = newCsRoot() # new root each time.
-        handleJustOne(fi, root, f)
+        var root = newCs(CsRoot) # new root each time.
+        handleJustOne(inputfolder, root, f)
+        writeAll(inputFolder, root)
+
     else:
-      var root = newCsRoot() # only one root to collect all the namespaces.
+      var root = newCs(CsRoot) # only one root to collect all the namespaces.
       handleMany(fi, root, files)
+      writeAll(inputFolder, root)
     echo "finished"
 
 main()
