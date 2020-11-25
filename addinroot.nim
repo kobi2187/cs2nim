@@ -14,6 +14,8 @@ proc add*(parent: var CsEnum; item: CsEnumMember) =
 proc add*(parent: var CsClass; m: CsMethod) =
   parent.methods.add m
 
+proc add*(parent: var CsMethod; t: CsPredefinedType) =
+  parent.returnType = t.name
 
 proc add*(parent: var Dummy; item: CsAliasQualifiedName) = discard # TODO
 proc add*(parent: var Dummy; item: CsAnonymousMethodExpression) = discard # TODO

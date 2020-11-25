@@ -89,11 +89,22 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     m1.parentClass = cls.get.name
     add(cls.get, m1)
 
+  of "PredefinedType":
+    echo "in PredefinedType!!"
+    let t = extract(typedesc(CsPredefinedType), info)
+    var prev = previousConstruct().name
+    case prev
+    of "MethodDeclaration":
+      var m = getLastMethod(root)
+      assert m.isSome
+      add(m.get, t)
+
+
+
 
   of "ReturnStatement": discard #TODO
   of "UsingDirective": discard #TODO
   of "QualifiedName": discard #TODO
-  of "PredefinedType": discard #TODO
   of "ExpressionStatement": discard #TODO
   of "InvocationExpression": discard #TODO
   of "ArgumentList": discard #TODO

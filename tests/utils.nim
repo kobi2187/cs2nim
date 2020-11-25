@@ -38,7 +38,7 @@ proc genTest*(filename: string): bool =
   let contents = readFile(outp).strip
   let gen = handleFiles(@[src]).strip
   if contents != gen:
-    echo "expected: `" & gen & "`"
-    echo "got: `" & contents & "`"
+    echo "expected: `" & contents & "`"
+    echo "got: `" & gen & "`"
 
   return contents == gen

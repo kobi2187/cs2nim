@@ -33,6 +33,9 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
 proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   new result
   result.name = name
+proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
+  new result
+  result.name = name
 
 proc newCs*(t: typedesc[CsAccessor]; a, b, c, d: auto): CsAccessor =
   new result

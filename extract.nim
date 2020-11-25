@@ -71,6 +71,13 @@ proc extract*(t: typedesc[CsMethod]; info: Info): CsMethod =
 
 # proc extract*[T](t: typedesc[T]; info: Info): T = discard
 
+proc extract*(t: typedesc[CsPredefinedType]; info: Info): CsPredefinedType =
+  var name: string
+  if info.essentials.len > 0:
+    name = info.essentials[0]
+  else: name = ""
+  result = newCs(CsPredefinedType, name)
+
 proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument = discard
 proc extract*(t: typedesc[CsExpressionStatement];
     info: Info): CsExpressionStatement = discard #TODO

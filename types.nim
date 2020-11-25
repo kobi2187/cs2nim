@@ -9,47 +9,29 @@ type CsObject = object of RootRef
   line: JsonNode
   src: string
 
-type MethodArgument* = ref object of CsObject
-  name*: string
-  ttype*: string
-  defaultVal*: string
+# type MethodArgument* = ref object of CsObject
+#   name*: string
+#   ttype*: string
+#   defaultVal*: string
 
-type CsMethodSignature* = ref object of CsObject
-  name*: string
-  argList*: seq[MethodArgument]
-  returnType*: string
+# type CsMethodSignature* = ref object of CsObject
+#   name*: string
+#   argList*: seq[MethodArgument]
+#   returnType*: string
 
-type CsMethodBody* = ref object of CsObject
+# type CsMethodBody* = ref object of CsObject
   # exprs
   # stmts
   # ret
-
-
-type CsMethod* = ref object of CsObject
-  name*: string
-  isStatic*: bool
-  parentClass*: string
-  # signature*: CsMethodSignature
-  # body*: CsMethodBody
 
 type CsField* = ref object of CsObject
   name*: string
   ttype*: string
   isPublic*: bool
 
-
-
 import options
+
 type
-
-  CsEnumMember* = ref object of CsObject
-    name*: string
-    value*: Option[int]
-
-  CsEnum* = ref object of CsObject
-    name*: string
-    items*: seq[CsEnumMember]
-
   CsAccessor* = ref object of CsObject
   CsAccessorList* = ref object of CsObject
   CsAliasQualifiedName* = ref object of CsObject
@@ -152,7 +134,6 @@ type
   CsOperator* = ref object of CsObject
   CsOrderByClause* = ref object of CsObject
   CsOrdering* = ref object of CsObject
-  CsParameter* = ref object of CsObject
   CsParameterList* = ref object of CsObject
   CsParenthesizedExpression* = ref object of CsObject
   CsParenthesizedLambdaExpression* = ref object of CsObject
@@ -199,6 +180,19 @@ type
   CsYieldStatement* = ref object of CsObject
 
 # ===========================
+type CsParameter* = ref object of CsObject
+
+type CsPredefinedType* = ref object of CsObject
+  name*: string
+type CsMethod* = ref object of CsObject
+  name*: string
+  isStatic*: bool
+  parentClass*: string
+  parameterList*: seq[CsParameter]
+  returnType*: string
+  body*: seq[string] # TODO: which type, and how to handle. maybe have lastMethod.addToMethodBody(...)
+  ## signature*: CsMethodSignature
+  ## body*: CsMethodBody
 
 type CsClass* = ref object of CsObject
   name*: string
@@ -208,6 +202,14 @@ type CsClass* = ref object of CsObject
   enums*: seq[CsEnum]
   enumTable*: TableRef[string, CsEnum]
   isStatic*: bool
+
+type CsEnumMember* = ref object of CsObject
+  name*: string
+  value*: Option[int]
+
+type CsEnum* = ref object of CsObject
+  name*: string
+  items*: seq[CsEnumMember]
 
 type CsNamespace* = ref object of CsObject
   name*: string
@@ -227,3 +229,4 @@ type CsRoot* = object
 import hashes
 proc hash*(c: CsNamespace): Hash =
   result = hash(c.name)
+

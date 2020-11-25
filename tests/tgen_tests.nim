@@ -1,7 +1,7 @@
-import "./utils", "../writer_utils"
+import "./utils" #, "../writer_utils"
 import unittest
 
-const last = true
+const last = false
 
 suite "code generation tests":
   when not last:
