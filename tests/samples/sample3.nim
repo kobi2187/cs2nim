@@ -1,0 +1,2 @@
+type A* = ref object
+

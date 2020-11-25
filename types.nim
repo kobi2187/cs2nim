@@ -26,9 +26,11 @@ type CsMethodBody* = ref object of CsObject
 
 
 type CsMethod* = ref object of CsObject
-  signature*: CsMethodSignature
-  body*: CsMethodBody
+  name*: string
   isStatic*: bool
+  parentClass*: string
+  # signature*: CsMethodSignature
+  # body*: CsMethodBody
 
 type CsField* = ref object of CsObject
   name*: string

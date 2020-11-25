@@ -30,6 +30,10 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
   result.global = defaultNs
   result.nsTables["default"] = defaultNs
 
+proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
+  new result
+  result.name = name
+
 proc newCs*(t: typedesc[CsAccessor]; a, b, c, d: auto): CsAccessor =
   new result
 proc newCs*(t: typedesc[CsAccessorList]; a, b, c, d: auto): CsAccessorList =

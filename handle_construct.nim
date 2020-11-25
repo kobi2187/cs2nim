@@ -2,8 +2,15 @@ import extract, state_utils
 import state, types, create, addinroot
 import tables, json, stacks, options
 
+var gotStartBlock = false
 
-# handle_construct.nim
+import sets
+
+proc previousBlock(): Option[Block] =
+  let prev = blocks.peek(-3) # -2*2+1
+  result = prev
+
+
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   when false:
     echo "blocks info:"
@@ -12,6 +19,10 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     echo "previous construct: " & $previousConstruct()
     echo $currentPath()
 
+  if gotStartBlock:
+    if not (info.declName in state.blockTypesTxt):
+      echo "!!! `" & info.declName & "` should be in `state.blockTypesTxt`"
+    gotStartBlock = false
   ## here, we take the path from `blocks`, if there are consecutive namespaces, we combine them. (ns decl will already create new ns in root if they are nested)
   ## (update block types if we find more)
 
@@ -23,6 +34,15 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   # declaration names:
 
   of "CompilationUnit": discard # for real.
+
+  of "BlockStarts":
+    echo "START OF NEW BLOCK: " & $currentConstruct.last
+    gotStartBlock = true
+    # note: the construct that comes immediately after, should be added to blocks (in proc modifyPosition), but has to be explicitly enabled on CsDisplay side.
+    # sometimes it is an empty block {}, for example an empty method body. which means we don't yet support method body.
+    # in that case, we may get an assertion because blocks stack len will be odd.
+    # iow: if blocks stack is odd when it receives EndBlock, it means we miss support for some construct.
+
   of "NamespaceDeclaration":
     let newns = extract(CsNamespace, info)
     # try handle nested.
@@ -61,15 +81,18 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     lastEnum.items.add(em)
       # enumTable[p
 
-  of "BlockStarts":
-    echo "START OF NEW BLOCK" & $currentConstruct.last
+  of "MethodDeclaration":
+    echo info #TODO(method declaration)
+    var cls = getLastClass(root)
+    assert cls.isSome
+    let m1: CsMethod = extract(typedesc(CsMethod), info)
+    m1.parentClass = cls.get.name
+    add(cls.get, m1)
 
-    #TODO: maybe just add here to blocks?? is it really all the { open brackets in cs side?
 
   of "ReturnStatement": discard #TODO
   of "UsingDirective": discard #TODO
   of "QualifiedName": discard #TODO
-  of "MethodDeclaration": discard #TODO
   of "PredefinedType": discard #TODO
   of "ExpressionStatement": discard #TODO
   of "InvocationExpression": discard #TODO
@@ -222,26 +245,26 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   # more:
   of "Block": discard #TODO
   of "VariableDeclaration": discard #TODO
-  of "BadDirectiveTrivia": discard #TODO
+  of "BadDirectiveTrivia": discard
   of "BinaryPattern": discard #TODO
 
   of "ConversionOperatorMemberCref": discard #TODO
   of "CrefBracketedParameterList": discard #TODO
   of "CrefParameter": discard #TODO
   of "CrefParameterList": discard #TODO
-  of "DefineDirectiveTrivia": discard #TODO
+  of "DefineDirectiveTrivia": discard
   of "DiscardPattern": discard #TODO
-  of "DocumentationCommentTrivia": discard #TODO
-  of "ElifDirectiveTrivia": discard #TODO
-  of "ElseDirectiveTrivia": discard #TODO
-  of "EndIfDirectiveTrivia": discard #TODO
-  of "EndRegionDirectiveTrivia": discard #TODO
-  of "ErrorDirectiveTrivia": discard #TODO
+  of "DocumentationCommentTrivia": discard
+  of "ElifDirectiveTrivia": discard
+  of "ElseDirectiveTrivia": discard
+  of "EndIfDirectiveTrivia": discard
+  of "EndRegionDirectiveTrivia": discard
+  of "ErrorDirectiveTrivia": discard
   of "FunctionPointerType": discard #TODO
   of "IdentifierName": discard #TODO
   of "ImplicitObjectCreationExpression": discard #TODO
   of "MemberAccessExpression": discard #TODO
-  of "NullableDirectiveTrivia": discard #TODO
+  of "NullableDirectiveTrivia": discard
   of "ParenthesizedPattern": discard #TODO
   of "PositionalPatternClause": discard #TODO
   of "PrimaryConstructorBaseType": discard #TODO
@@ -249,7 +272,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "RangeExpression": discard #TODO
   of "RecordDeclaration": discard #TODO
   of "RecursivePattern": discard #TODO
-  of "RegionDirectiveTrivia": discard #TODO
+  of "RegionDirectiveTrivia": discard
   of "RelationalPattern": discard #TODO
   of "Subpattern": discard #TODO
   of "SwitchExpression": discard #TODO
@@ -259,41 +282,39 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "VariableDeclarator": discard #TODO
   of "VarPattern": discard #TODO
   of "WithExpression": discard #TODO
-  of "XmlCDataSection": discard #TODO
-  of "XmlComment": discard #TODO
-  of "XmlCrefAttribute": discard #TODO
-  of "XmlElement": discard #TODO
-  of "XmlElementEndTag": discard #TODO
-  of "XmlElementStartTag": discard #TODO
-  of "XmlEmptyElement": discard #TODO
-  of "XmlName": discard #TODO
-  of "XmlNameAttribute": discard #TODO
-  of "XmlPrefix": discard #TODO
-  of "XmlProcessingInstruction": discard #TODO
-  of "XmlText": discard #TODO
-  of "XmlTextAttribute": discard #TODO
-  of "IfDirectiveTrivia": discard #TODO
+  of "XmlCDataSection": discard
+  of "XmlComment": discard
+  of "XmlCrefAttribute": discard
+  of "XmlElement": discard
+  of "XmlElementEndTag": discard
+  of "XmlElementStartTag": discard
+  of "XmlEmptyElement": discard
+  of "XmlName": discard
+  of "XmlNameAttribute": discard
+  of "XmlPrefix": discard
+  of "XmlProcessingInstruction": discard
+  of "XmlText": discard
+  of "XmlTextAttribute": discard
+  of "IfDirectiveTrivia": discard
   of "ImplicitStackAllocArrayCreationExpression": discard #TODO
   of "IndexerMemberCref": discard #TODO
-  of "LineDirectiveTrivia": discard #TODO
-  of "LoadDirectiveTrivia": discard #TODO
+  of "LineDirectiveTrivia": discard
+  of "LoadDirectiveTrivia": discard
   of "NameMemberCref": discard #TODO
   of "OperatorMemberCref": discard #TODO
-  of "PragmaChecksumDirectiveTrivia": discard #TODO
-  of "PragmaWarningDirectiveTrivia": discard #TODO
+  of "PragmaChecksumDirectiveTrivia": discard
+  of "PragmaWarningDirectiveTrivia": discard
   of "QualifiedCref": discard #TODO
-  of "ReferenceDirectiveTrivia": discard #TODO
-  of "ShebangDirectiveTrivia": discard #TODO
-  of "SkippedTokensTrivia": discard #TODO
+  of "ReferenceDirectiveTrivia": discard
+  of "ShebangDirectiveTrivia": discard
+  of "SkippedTokensTrivia": discard
   of "TypeCref": discard #TODO
-  of "UndefDirectiveTrivia": discard #TODO
-  of "WarningDirectiveTrivia": discard #TODO
+  of "UndefDirectiveTrivia": discard
+  of "WarningDirectiveTrivia": discard
 
 
 
   else:
-    echo "so far:"
-    echo root #TODO: make a $ proc for CsRoot
-    raise newException(Exception, "unsupported or not implemented: `" &
+    raise newException(Exception, "unsupported! Please add to the switch case above: `" &
         info.declName & "`")
 

@@ -62,6 +62,13 @@ proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
 
   result = newCs(CsEnumMember, name, value)
 
+proc extract*(t: typedesc[CsMethod]; info: Info): CsMethod =
+  let name = info.essentials[0]
+  let m = newCs(CsMethod, name)
+  result = m
+
+
+
 # proc extract*[T](t: typedesc[T]; info: Info): T = discard
 
 proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument = discard

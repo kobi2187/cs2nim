@@ -13,29 +13,34 @@ proc `$`*(blocks: Stack[Block]): string =
   let x = blocks.toSeq.mapIt($it)
   result = $x
 
-import strutils
+import strutils, options
 proc endBlock*(info: Info) =
   echo blocks
   assert(blocks.len > 0, "blocks is empty! but we got EndBlock")
   assert info.declName == "EndBlock"
   let blockCount = parseInt(info.essentials[0])
+  echo "before: " & $blocks.len
+
+  # on endBlock we now always expect to see an even number of items.
+  if (blocks.len mod 2 != 0):
+    echo blocks.pop
+    return
 
   var last = blocks.pop # we do it twice now.
   let bs = blocks.pop
   assert bs.name == "BlockStarts"
 
-  echo "removed " & $last & " from blocks tracking. (assumes we finished with it)"
-
   echo "block count, according to csast:" & $blockCount
   echo "block count, according to our count:" & $blocks.len
-  assert blocks.len == blockCount*2
+  assert blocks.len == blockCount*2, $blocks
+
+  echo "removed " & $last & " from blocks tracking. (assumes we finished with it)"
 
 
   echo "-- End of block: " & $last
 
 
-
-proc nsPath: string =
+proc nsPathNS: seq[CsNamespace] =
   var started = false
  # we assume blocks starts with namespaces.
  # echo blocks
@@ -43,20 +48,42 @@ proc nsPath: string =
     if b.name == "StartBlock": continue # ignore.
     elif b.name == "NamespaceDeclaration":
       started = true
-      if result != "":
-        result &= "."
-      result &= extract(CsNamespace, b.info).name
-
+      result.add extract(CsNamespace, b.info)
     else:
       if not started:
         continue # ignore the beginning until we find a namespace.
       else: # both started and not ns: stop
         break # stop after last ns.
-  if result == "": # result is still empty
-    result = "default"
 
-  echo "nspath: " & result
-  echo "full path: " & $blocks
+proc nsPath*: string = # SAME?
+  let ns = nsPathNS()
+  result = if ns.len > 0:
+    ns.mapIt(it.name).join(".")
+  else:
+    "default"
+
+
+
+# proc nsPath: string =
+#   var started = false
+#  # we assume blocks starts with namespaces.
+#  # echo blocks
+#   for b in blocks.toSeq:
+#     if b.name == "StartBlock": continue # ignore.
+#     elif b.name == "NamespaceDeclaration":
+#       started = true
+#       if result != "":
+#         result &= "."
+#       result &= extract(CsNamespace, b.info).name
+
+#     else:
+#       if not started:
+#         continue # ignore the beginning until we find a namespace.
+#       else: # both started and not ns: stop
+#         break # stop after last ns.
+#   if result == "": # result is still empty
+#     result = "default"
+
 
 
 proc last*[T](s: seq[T]): T =
@@ -74,8 +101,21 @@ proc keys[A, B](t: TableRef[A, B]): seq[A] =
     result.add k
 
 # TODO: fix vscode environment so i can walk the code instead of all this echo debugging.
-# TODO: Want to figure out why endblock doesn't affect stack.
+import options
+proc getLastClass*(root: CsRoot): Option[CsClass] =
+  var ns = nsPathNS()
+  if ns.len == 0: ns = @[root.global]
+  if ns.last.classes.len == 0:
+    result = none(CsClass)
+  else:
+    result = some(ns.last.classes.last)
 
+proc getLastMethod*(root: CsRoot): Option[CsMethod] =
+  let cls = getLastClass(root)
+  if cls.isNone: return #none(CsMethod)
+  elif cls.get.methods.len == 0: return #none(CsMethod)
+  else:
+    return some(cls.get.methods.last)
 
 import tables
 proc getCurrentNs*(root: var CsRoot): (string, CsNamespace) =

@@ -1,15 +1,22 @@
 import "./utils", "../writer_utils"
 import unittest
 
-
+const last = true
 
 suite "code generation tests":
-  test "enums":
-    check genTest("enums")
-  test "a minimal class":
-    check genTest("justClass")
+  when not last:
+  # these should work:
+    test "enums":
+      check genTest("enums")
+    test "a minimal class":
+      check genTest("justClass")
 
-  # test "sample1":
-  #   check genTest("sample1")
-  # test "sample2":
-  #   check genTest("sample2")
+  # working on it:
+  test "sample3":
+    check genTest("sample3")
+
+  # not ready yet.
+    # test "sample2":
+    #   check genTest("sample2")
+    # test "sample1":
+    #   check genTest("sample1")

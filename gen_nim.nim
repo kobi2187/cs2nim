@@ -17,15 +17,20 @@ proc gen*(r: CsMethodSignature, isStatic: bool): string = discard
 
 
 
-proc gen*(m: CsMethod): string =
+proc gen*(m: CsMethod): string = discard #TODO
+  # if m.isStatic:
+    # gen proc
+  # else:
+    # gen method
+
   # "proc method_name*(args..)
   # if m.isStatic is false - we add a self:enclosingClassName as the first argument
-  let sig = m.signature.gen(m.isStatic)
-  let body = m.body.gen()
-  let bodyLines = body.splitLines()
-  result = sig
-  for line in bodyLines:
-    result &= "\t" & line
+  # let sig = m.signature.gen(m.isStatic)
+  # let body = m.body.gen()
+  # let bodyLines = body.splitLines()
+  # result = sig
+  # for line in bodyLines:
+  #   result &= "\t" & line
 
 proc gen*(f: CsField): string =
   result = f.name

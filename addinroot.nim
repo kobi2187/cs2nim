@@ -11,6 +11,10 @@ proc add*(parent: var CsNamespace; item: CsEnum) =
 proc add*(parent: var CsEnum; item: CsEnumMember) =
   parent.items.add item
 
+proc add*(parent: var CsClass; m: CsMethod) =
+  parent.methods.add m
+
+
 proc add*(parent: var Dummy; item: CsAliasQualifiedName) = discard # TODO
 proc add*(parent: var Dummy; item: CsAnonymousMethodExpression) = discard # TODO
 proc add*(parent: var Dummy; item: CsAnonymousObjectCreationExpression) = discard # TODO

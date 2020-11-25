@@ -8,6 +8,11 @@ type Info* = ref object
   extras*: seq[string]
   declName*: string
 
+import strutils
+proc `$`*(info: Info): string =
+  let x = [info.declName, $info.essentials, $info.extras]
+  result = "Info: " & x.join("\n")
+
 # type Block* = object
 #   instanceName*, typeName*: string
 
@@ -23,7 +28,7 @@ proc resetBlocks*() = blocks.clear()
 import algorithm, hashes
 var currentConstruct* = newSeq[Block]()
 proc previousConstruct*: Block =
-  let skipList = @[ #TODO
+  let skipList = @[
     "BlockStarts"
   ].toHashSet()
   for i, c in currentConstruct.reversed:
@@ -37,16 +42,13 @@ let blockTypesTxt* = [
   "NamespaceDeclaration",
   "ClassDeclaration",
   "EnumDeclaration",
+  "MethodDeclaration",
+  "ReturnStatement" # ???
+                    # not yet supported:
 
-  # not yet supported:
-    # "MethodDeclaration",
-
-
-      # todo: ... add more
-        # note: if endblock raises an assert, it means a previous construct was not recorded here.
+    # todo: ... add more, and sync with CsDisplay side.
+    # note: if endblock raises an assert, it means a previous construct was not recorded here.
   ].toHashSet
 
 proc currentPath*(): seq[Block] = blocks.toSeq()
 
-#TODO: we have some samples, make unit tests to see these utils work as expected.
-#TODO: and ofcourse the nim code generates properly.
