@@ -82,7 +82,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       # enumTable[p
 
   of "MethodDeclaration":
-    echo info #TODO(method declaration)
+    # echo info
     var cls = getLastClass(root)
     assert cls.isSome
     let m1: CsMethod = extract(typedesc(CsMethod), info)

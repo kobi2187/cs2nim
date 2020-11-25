@@ -17,12 +17,10 @@ proc gen*(r: CsMethodSignature, isStatic: bool): string = discard
 
 
 
-proc gen*(m: CsMethod): string = discard #TODO
-  # if m.isStatic:
-    # gen proc
-  # else:
-    # gen method
-
+proc gen*(m: CsMethod): string = #TODO(method generation)
+  echo "generating method (wip): " & m.name
+  if m.isStatic: result = "proc " else: result = "method "
+  result &= m.name
   # "proc method_name*(args..)
   # if m.isStatic is false - we add a self:enclosingClassName as the first argument
   # let sig = m.signature.gen(m.isStatic)
@@ -38,16 +36,14 @@ proc gen*(f: CsField): string =
   result &= ": " & f.ttype
 
 proc gen*(c: CsClass): string =
-  if c.isNil: result = ""
-  else:
-    result &= "type " & c.name & "* = ref object"
-    for f in c.fields:
-      result &= "\t" & f.gen() & "\r\n"
-    # result &= "\r\n"
-
-    for m in c.methods:
-      result &= m.gen()
-      result &= "\r\n"
+  echo "generating class:" & c.name
+  if c.isNil: result = "" else: result &= "type " & c.name & "* = ref object"
+  for f in c.fields:
+    result &= "\t" & f.gen() & "\r\n"
+  echo "methods count: " & $c.methods.len
+  for m in c.methods:
+    result &= m.gen()
+    result &= "\r\n"
 
 import options
 proc gen*(e: CsEnumMember): string =
@@ -66,6 +62,7 @@ proc gen*(e: CsEnum): string =
 
 
 proc gen*(r: CsNamespace): string =
+  echo "generating namespace: " & r.name
   var s: seq[string] = @[]
   for c in r.classes:
     s.add(c.gen())
@@ -74,9 +71,8 @@ proc gen*(r: CsNamespace): string =
   result = s.join("\r\n")
 
 proc makeModule*(ns: CsNamespace): Module =
-  let name =
-    if ns.parent.len > 0:
-      ns.parent & "." & ns.name
+  let name = if ns.parent.len > 0:
+    ns.parent & "." & ns.name
     else:
       ns.name
   let output = ns.gen() & "\n\n"
