@@ -1,4 +1,4 @@
 type A* = ref object
 
-proc hi(arg: string): int =
+proc hi(this: A; arg: string): int =
   return 1

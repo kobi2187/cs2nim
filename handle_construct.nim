@@ -114,7 +114,11 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     m.get.parameterList.add p
 
 
-  of "ReturnStatement": discard #TODO
+  of "ReturnStatement": #TODO
+    echo "in return statement!"
+
+
+
   of "UsingDirective": discard #TODO
   of "QualifiedName": discard #TODO
   of "ExpressionStatement": discard #TODO

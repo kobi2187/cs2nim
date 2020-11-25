@@ -13,15 +13,23 @@ proc gen*(p: CsParameter): string =
   p.name & ": " & p.ptype.strip
 
 proc gen*(p: CsParameterList): string =
-  result = p.parameters.mapIt(it.gen()).join(", ")
+  result = p.parameters.mapIt(it.gen()).join("; ")
 
-proc gen*(m: CsMethod): string =
+import create
+proc addSelfParam(m: var CsMethod) =
+  let p = newCs(CsParameter, "this", m.parentClass)
+  m.parameterList.parameters.insert(@[p], 0)
+
+import sequtils
+proc gen*(m: var CsMethod): string =
   echo "generating method (wip): " & m.name
   result = "proc "
-  # if m.isStatic: result = "proc " else: result = "method "
+  if not m.isStatic:
+    m.addSelfParam()
+
   let parameterList = m.parameterList.gen()
   let returnType = m.returnType
-  let body = "" # TODO
+  let body = "  discard" # TODO
   result &= m.name & "(" & parameterList & ")"
   if returnType != "": result &= ": " & returnType
   result &= " ="
@@ -51,7 +59,7 @@ proc gen*(c: CsClass): string =
   for f in c.fields:
     result &= "\t" & f.gen() & "\r\n"
   echo "methods count: " & $c.methods.len
-  for m in c.methods:
+  for m in c.methods.mitems:
     result &= m.gen()
     result &= "\r\n"
 
