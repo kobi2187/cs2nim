@@ -37,6 +37,14 @@ proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
   new result
   result.name = name
 
+proc newCs*(t: typedesc[CsParameterList]): CsParameterList =
+  new result # start empty.
+
+proc newCs*(t: typedesc[CsParameter]; a, b: string): CsParameter =
+  new result
+  result.name = a
+  result.ptype = b
+
 proc newCs*(t: typedesc[CsAccessor]; a, b, c, d: auto): CsAccessor =
   new result
 proc newCs*(t: typedesc[CsAccessorList]; a, b, c, d: auto): CsAccessorList =
@@ -250,10 +258,8 @@ proc newCs*(t: typedesc[CsOrderByClause]; a, b, c, d: auto): CsOrderByClause =
   new result
 proc newCs*(t: typedesc[CsOrdering]; a, b, c, d: auto): CsOrdering =
   new result
-proc newCs*(t: typedesc[CsParameter]; a, b, c, d: auto): CsParameter =
-  new result
-proc newCs*(t: typedesc[CsParameterList]; a, b, c, d: auto): CsParameterList =
-  new result
+
+
 proc newCs*(t: typedesc[CsParenthesizedExpression]; a, b, c, d: auto): CsParenthesizedExpression =
   new result
 proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; a, b, c, d: auto): CsParenthesizedLambdaExpression =

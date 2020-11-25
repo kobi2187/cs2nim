@@ -78,16 +78,24 @@ proc extract*(t: typedesc[CsPredefinedType]; info: Info): CsPredefinedType =
   else: name = ""
   result = newCs(CsPredefinedType, name)
 
+proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList =
+  result = newCs(CsParameterList)
+
+proc extract*(t: typedesc[CsParameter]; info: Info): CsParameter =
+  assert info.essentials.len >= 2
+  let name = info.essentials[0]
+  let ty = info.essentials[1]
+  result = newCs(CsParameter, name, ty)
+
+
 proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument = discard
 proc extract*(t: typedesc[CsExpressionStatement];
     info: Info): CsExpressionStatement = discard #TODO
 proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression = discard #TODO
-proc extract*(t: typedesc[CsParameter]; info: Info): CsParameter = discard #TODO
 proc extract*(t: typedesc[CsAssignmentExpression];
     info: Info): CsAssignmentExpression = discard #TODO
 proc extract*(t: typedesc[CsEqualsValueClause];
     info: Info): CsEqualsValueClause = discard #TODO
-proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList = discard #TODO
 proc extract*(t: typedesc[CsLocalDeclarationStatement];
     info: Info): CsLocalDeclarationStatement = discard #TODO
 proc extract*(t: typedesc[CsObjectCreationExpression];

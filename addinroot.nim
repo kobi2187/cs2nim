@@ -17,6 +17,9 @@ proc add*(parent: var CsClass; m: CsMethod) =
 proc add*(parent: var CsMethod; t: CsPredefinedType) =
   parent.returnType = t.name
 
+proc add*(parent: var CsParameterList; item: CsParameter) =
+  parent.parameters.add item
+
 proc add*(parent: var Dummy; item: CsAliasQualifiedName) = discard # TODO
 proc add*(parent: var Dummy; item: CsAnonymousMethodExpression) = discard # TODO
 proc add*(parent: var Dummy; item: CsAnonymousObjectCreationExpression) = discard # TODO
@@ -117,7 +120,6 @@ proc add*(parent: var Dummy; item: CsOmittedTypeArgument) = discard # TODO
 proc add*(parent: var Dummy; item: CsOperator) = discard # TODO
 proc add*(parent: var Dummy; item: CsOrderByClause) = discard # TODO
 proc add*(parent: var Dummy; item: CsOrdering) = discard # TODO
-proc add*(parent: var Dummy; item: CsParameter) = discard # TODO
 proc add*(parent: var Dummy; item: CsParameterList) = discard # TODO
 proc add*(parent: var Dummy; item: CsParenthesizedExpression) = discard # TODO
 proc add*(parent: var Dummy; item: CsParenthesizedLambdaExpression) = discard # TODO

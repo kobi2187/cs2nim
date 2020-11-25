@@ -7,12 +7,19 @@ type Module* = object
 
 # note: with interfaces in Nim, the name doesn't matter, it's structural, and there is only one possible parent for a type in Nim, so we can create a baseclass, combining all those interfaces. the interface itself is just a seq of empty procs - signatures (and a name), so this set of interfaces, can be combined to one with a long name. some kind of hashtable for these will be needed in state-- an interface in c# can have many interface parents for example. we can generate its full info with a proc on a need-basis (live). if the type inherits a class as well, we'll first generate the parent type unless already exists, combined with those interfaces.
 # note: interfaces' other side in compile-time is 'concepts', giving more info about the type. But the concepts cannot be used in runtime, such as a seq of interface-abiding objects. so we still create the type as explained above. Nim inheritance has simply one parent.
+import strutils
+
+proc gen*(p: CsParameter): string =
+  p.name & ": " & p.ptype.strip
+
+proc gen*(p: CsParameterList): string =
+  result = p.parameters.mapIt(it.gen()).join(", ")
 
 proc gen*(m: CsMethod): string =
   echo "generating method (wip): " & m.name
   result = "proc "
   # if m.isStatic: result = "proc " else: result = "method "
-  let parameterList = "" # TODO
+  let parameterList = m.parameterList.gen()
   let returnType = m.returnType
   let body = "" # TODO
   result &= m.name & "(" & parameterList & ")"

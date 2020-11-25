@@ -12,7 +12,7 @@ proc previousBlock(): Option[Block] =
 
 
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
-  when false:
+  when true:
     echo "blocks info:"
     echo "============"
     echo "last construct: " & $currentConstruct.last
@@ -99,7 +99,19 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       assert m.isSome
       add(m.get, t)
 
+  of "ParameterList": #TODO
+    echo "! in parameter list!"
+    let p = extract(typedesc(CsParameterList), info)
+    var m = getLastMethod(root)
+    assert m.isSome()
+    m.get.parameterList = p
 
+  of "Parameter": #TODO
+    echo "! in parameter!"
+    let p = extract(typedesc(CsParameter), info)
+    var m = getLastMethod(root)
+    assert m.isSome()
+    m.get.parameterList.add p
 
 
   of "ReturnStatement": discard #TODO
@@ -110,11 +122,9 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "ArgumentList": discard #TODO
   of "Argument": discard #TODO
   of "LiteralExpression": discard #TODO
-  of "Parameter": discard #TODO
   of "BinaryExpression": discard #TODO
   of "AssignmentExpression": discard #TODO
   of "EqualsValueClause": discard #TODO
-  of "ParameterList": discard #TODO
   of "LocalDeclarationStatement": discard #TODO
   of "ObjectCreationExpression": discard #TODO
   of "IfStatement": discard #TODO

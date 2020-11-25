@@ -78,7 +78,8 @@
       "Declaration": "Parameter",
       "Info": {
         "Essentials": [
-          "string arg"
+          "arg",
+          "string "
         ],
         "Extras": []
       },

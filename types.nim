@@ -134,7 +134,6 @@ type
   CsOperator* = ref object of CsObject
   CsOrderByClause* = ref object of CsObject
   CsOrdering* = ref object of CsObject
-  CsParameterList* = ref object of CsObject
   CsParenthesizedExpression* = ref object of CsObject
   CsParenthesizedLambdaExpression* = ref object of CsObject
   CsParenthesizedVariableDesignation* = ref object of CsObject
@@ -180,17 +179,24 @@ type
   CsYieldStatement* = ref object of CsObject
 
 # ===========================
+
 type CsParameter* = ref object of CsObject
+  name*: string
+  ptype*: string
+
+type CsParameterList* = ref object of CsObject
+  parameters*: seq[CsParameter]
 
 type CsPredefinedType* = ref object of CsObject
   name*: string
+
 type CsMethod* = ref object of CsObject
   name*: string
   isStatic*: bool
   parentClass*: string
-  parameterList*: seq[CsParameter]
+  parameterList*: CsParameterList # seq[CsParameter]
   returnType*: string
-  body*: seq[string] # TODO: which type, and how to handle. maybe have lastMethod.addToMethodBody(...)
+  body*: seq[string]              # TODO: which type, and how to handle. maybe have lastMethod.addToMethodBody(...)
   ## signature*: CsMethodSignature
   ## body*: CsMethodBody
 
