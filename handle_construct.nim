@@ -81,7 +81,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     let p = currentPath().last.itemName
     echo p
     var lastEnum = ns.enumTable[p]
-    lastE > num.items.add(em)
+    lastEnum.items.add(em)
       # enumTable[p
 
   of "MethodDeclaration":
