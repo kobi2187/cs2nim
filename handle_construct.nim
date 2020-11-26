@@ -11,15 +11,17 @@ proc previousBlock(): Option[Block] =
   result = prev
 
 import constructs/constructs
-
+import strutils
+  # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
-  when true:
+  when false:
     echo "blocks info:"
     echo "============"
     echo "last construct: " & $currentConstruct.last
     echo "previous construct: " & $previousConstruct()
     echo $currentPath()
 
+  if src.strip().len > 0: echo "C# source code was: " & src
   if gotStartBlock:
     if not (info.declName in state.blockTypesTxt):
       echo "!!! `" & info.declName & "` should be in `state.blockTypesTxt`"
@@ -34,7 +36,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   case info.declName
   # declaration names:
 
-  of "CompilationUnit": discard # for real.
+  of "CompilationUnit": echo "got CompilationUnit" #TODO(handle: CompilationUnit)
 
   of "BlockStarts":
     echo "START OF NEW BLOCK: " & $currentConstruct.last
@@ -79,7 +81,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     let p = currentPath().last.itemName
     echo p
     var lastEnum = ns.enumTable[p]
-    lastEnum.items.add(em)
+    lastE > num.items.add(em)
       # enumTable[p
 
   of "MethodDeclaration":
@@ -96,247 +98,261 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     var prev = previousConstruct().name
     case prev
     of "MethodDeclaration":
-      var m = getLastMethod(root)
+      var m = getLastClass(root).get.getLastMethod()
       assert m.isSome
       add(m.get, t)
 
   of "ParameterList": #TODO
     echo "! in parameter list!"
     let p = extract(typedesc(CsParameterList), info)
-    var m = getLastMethod(root)
-    assert m.isSome()
-    m.get.parameterList = p
+    var c = getLastClass(root).get
+    case c.lastAddedTo
+    of Methods:
+      var m = getLastMethod(c)
+      assert m.isSome()
+      m.get.parameterList = p
+    # of Ctors:
+    #   discard
+    else: discard # TODO
 
-  of "Parameter": #TODO
+
+    var prev = previousConstruct()
+
+  of "Parameter": #TODO unfinished :)
     echo "! in parameter!"
+    echo info
     let p = extract(typedesc(CsParameter), info)
-    var m = getLastMethod(root)
+
+    var m = root.getLastClass().get.getLastMethod()
     assert m.isSome()
     m.get.parameterList.add p
 
 
   of "ReturnStatement": #TODO
     echo "in return statement!"
+    echo info
+    # todo info is empty, add more from CsDisplay.
+    var m = root.getLastClass().get.getLastMethod()
+    m.get.body.add "return #TODO"
 
 
 
-  of "UsingDirective": discard #TODO
-  of "QualifiedName": discard #TODO
-  of "ExpressionStatement": discard #TODO
-  of "InvocationExpression": discard #TODO
-  of "ArgumentList": discard #TODO
-  of "Argument": discard #TODO
-  of "LiteralExpression": discard #TODO
-  of "BinaryExpression": discard #TODO
-  of "AssignmentExpression": discard #TODO
-  of "EqualsValueClause": discard #TODO
-  of "LocalDeclarationStatement": discard #TODO
-  of "ObjectCreationExpression": discard #TODO
-  of "IfStatement": discard #TODO
-  of "Attribute": discard #TODO
-  of "AttributeList": discard #TODO
-  of "ThisExpression": discard #TODO
-  of "TypeArgumentList": discard #TODO
-  of "GenericName": discard #TODO
-  of "AttributeArgument": discard #TODO
-  of "AccessorDeclaration": discard #TODO
-  of "FieldDeclaration": discard #TODO
-  of "BracketedArgumentList": discard #TODO
-  of "ElementAccessExpression": discard #TODO
-  of "PropertyDeclaration": discard #TODO
-  of "AccessorList": discard #TODO
-  of "AttributeArgumentList": discard #TODO
-  of "ParenthesizedExpression": discard #TODO
-  of "CastExpression": discard #TODO
-  of "ArrayRankSpecifier": discard #TODO
-  of "ArrayType": discard #TODO
-  of "PrefixUnaryExpression": discard #TODO
-  of "OmittedArraySizeExpression": discard #TODO
-  of "InitializerExpression": discard #TODO
-  of "NameEquals": discard #TODO
-  of "ThrowStatement": discard #TODO
-  of "TypeOfExpression": discard #TODO
-  of "ElseClause": discard #TODO
-  of "CaseSwitchLabel": discard #TODO
-  of "SimpleBaseType": discard #TODO
-  of "ConstructorDeclaration": discard #TODO
-  of "BaseList": discard #TODO
-  of "SwitchSection": discard #TODO
-  of "SimpleLambdaExpression": discard #TODO
-  of "PostfixUnaryExpression": discard #TODO
-  of "ArrayCreationExpression": discard #TODO
-  of "ArrowExpressionClause": discard #TODO
-  of "BreakStatement": discard #TODO
-  of "AliasQualifiedName": discard #TODO
-  of "TypeParameter": discard #TODO
-  of "AwaitExpression": discard #TODO
-  of "ConditionalExpression": discard #TODO
-  of "AttributeTargetSpecifier": discard #TODO
-  of "TypeParameterList": discard #TODO
-  of "ForEachStatement": discard #TODO
-  of "ForStatement": discard #TODO
-  of "InterpolatedStringText": discard #TODO
-  of "ParenthesizedLambdaExpression": discard #TODO
-  of "TryStatement": discard #TODO
-  of "NullableType": discard #TODO
-  of "BaseExpression": discard #TODO
-  of "CatchClause": discard #TODO
-  of "ConstructorInitializer": discard #TODO
-  of "Interpolation": discard #TODO
-  of "CatchDeclaration": discard #TODO
-  of "NameColon": discard #TODO
-  of "UsingStatement": discard #TODO
-  of "TypeParameterConstraintClause": discard #TODO
-  of "TypeConstraint": discard #TODO
-  of "SingleVariableDesignation": discard #TODO
-  of "InterpolatedStringExpression": discard #TODO
-  of "ImplicitArrayCreationExpression": discard #TODO
-  of "WhileStatement": discard #TODO
-  of "DeclarationExpression": discard #TODO
-  of "ExplicitInterfaceSpecifier": discard #TODO
-  of "ConditionalAccessExpression": discard #TODO
-  of "SwitchStatement": discard #TODO
-  of "MemberBindingExpression": discard #TODO
-  of "DefaultExpression": discard #TODO
-  of "PointerType": discard #TODO
-  of "InterfaceDeclaration": discard #TODO
-  of "ContinueStatement": discard #TODO
-  of "FinallyClause": discard #TODO
-  of "DefaultSwitchLabel": discard #TODO
-  of "YieldStatement": discard #TODO
-  of "AnonymousObjectMemberDeclarator": discard #TODO
-  of "CheckedExpression": discard #TODO
-  of "StructDeclaration": discard #TODO
-  of "IsPatternExpression": discard #TODO
-  of "LockStatement": discard #TODO
-  of "DeclarationPattern": discard #TODO
-  of "ThrowExpression": discard #TODO
-  of "ConstantPattern": discard #TODO
-  of "RefType": discard #TODO
-  of "RefExpression": discard #TODO
-  of "ClassOrStructConstraint": discard #TODO
-  of "OmittedTypeArgument": discard #TODO
-  of "TupleElement": discard #TODO
-  of "OperatorDeclaration": discard #TODO
-  of "EventFieldDeclaration": discard #TODO
-  of "DelegateDeclaration": discard #TODO
-  of "ImplicitElementAccess": discard #TODO
-  of "AnonymousMethodExpression": discard #TODO
-  of "TupleExpression": discard #TODO
-  of "AnonymousObjectCreationExpression": discard #TODO
-  of "IndexerDeclaration": discard #TODO
-  of "BracketedParameterList": discard #TODO
-  of "EventDeclaration": discard #TODO
-  of "GotoStatement": discard #TODO
-  of "DoStatement": discard #TODO
-  of "GlobalStatement": discard #TODO
-  of "IncompleteMember": discard #TODO
-  of "LocalFunctionStatement": discard #TODO
-  of "ConversionOperatorDeclaration": discard #TODO
-  of "TupleType": discard #TODO
-  of "FixedStatement": discard #TODO
-  of "EmptyStatement": discard #TODO
-  of "FromClause": discard #TODO
-  of "SizeOfExpression": discard #TODO
-  of "QueryBody": discard #TODO
-  of "CheckedStatement": discard #TODO
-  of "QueryExpression": discard #TODO
-  of "SelectClause": discard #TODO
-  of "CasePatternSwitchLabel": discard #TODO
-  of "LabeledStatement": discard #TODO
-  of "WhereClause": discard #TODO
-  of "ConstructorConstraint": discard #TODO
-  of "UnsafeStatement": discard #TODO
-  of "ParenthesizedVariableDesignation": discard #TODO
-  of "InterpolationFormatClause": discard #TODO
-  of "DestructorDeclaration": discard #TODO
-  of "DiscardDesignation": discard #TODO
-  of "StackAllocArrayCreationExpression": discard #TODO
-  of "WhenClause": discard #TODO
-  of "ForEachVariableStatement": discard #TODO
-  of "LetClause": discard #TODO
-  of "ElementBindingExpression": discard #TODO
-  of "CatchFilterClause": discard #TODO
-  of "Ordering": discard #TODO
-  of "OrderByClause": discard #TODO
-  of "JoinClause": discard #TODO
-  of "GroupClause": discard #TODO
-  of "InterpolationAlignmentClause": discard #TODO
-  of "QueryContinuation": discard #TODO
-  of "ExternAliasDirective": discard #TODO
-  of "MakeRefExpression": discard #TODO
-  of "JoinIntoClause": discard #TODO
-  of "RefValueExpression": discard #TODO
-  of "RefTypeExpression": discard #TODO
-  # more:
-  of "Block": discard #TODO
-  of "VariableDeclaration": discard #TODO
-  of "BadDirectiveTrivia": discard
-  of "BinaryPattern": discard #TODO
 
-  of "ConversionOperatorMemberCref": discard #TODO
-  of "CrefBracketedParameterList": discard #TODO
-  of "CrefParameter": discard #TODO
-  of "CrefParameterList": discard #TODO
-  of "DefineDirectiveTrivia": discard
-  of "DiscardPattern": discard #TODO
-  of "DocumentationCommentTrivia": discard
-  of "ElifDirectiveTrivia": discard
-  of "ElseDirectiveTrivia": discard
-  of "EndIfDirectiveTrivia": discard
-  of "EndRegionDirectiveTrivia": discard
-  of "ErrorDirectiveTrivia": discard
-  of "FunctionPointerType": discard #TODO
-  of "IdentifierName": discard #TODO
-  of "ImplicitObjectCreationExpression": discard #TODO
-  of "MemberAccessExpression": discard #TODO
-  of "NullableDirectiveTrivia": discard
-  of "ParenthesizedPattern": discard #TODO
-  of "PositionalPatternClause": discard #TODO
-  of "PrimaryConstructorBaseType": discard #TODO
-  of "PropertyPatternClause": discard #TODO
-  of "RangeExpression": discard #TODO
-  of "RecordDeclaration": discard #TODO
-  of "RecursivePattern": discard #TODO
-  of "RegionDirectiveTrivia": discard
-  of "RelationalPattern": discard #TODO
-  of "Subpattern": discard #TODO
-  of "SwitchExpression": discard #TODO
-  of "SwitchExpressionArm": discard #TODO
-  of "TypePattern": discard #TODO
-  of "UnaryPattern": discard #TODO
-  of "VariableDeclarator": discard #TODO
-  of "VarPattern": discard #TODO
-  of "WithExpression": discard #TODO
-  of "XmlCDataSection": discard
-  of "XmlComment": discard
-  of "XmlCrefAttribute": discard
-  of "XmlElement": discard
-  of "XmlElementEndTag": discard
-  of "XmlElementStartTag": discard
-  of "XmlEmptyElement": discard
-  of "XmlName": discard
-  of "XmlNameAttribute": discard
-  of "XmlPrefix": discard
-  of "XmlProcessingInstruction": discard
-  of "XmlText": discard
-  of "XmlTextAttribute": discard
-  of "IfDirectiveTrivia": discard
-  of "ImplicitStackAllocArrayCreationExpression": discard #TODO
-  of "IndexerMemberCref": discard #TODO
-  of "LineDirectiveTrivia": discard
-  of "LoadDirectiveTrivia": discard
-  of "NameMemberCref": discard #TODO
-  of "OperatorMemberCref": discard #TODO
-  of "PragmaChecksumDirectiveTrivia": discard
-  of "PragmaWarningDirectiveTrivia": discard
-  of "QualifiedCref": discard #TODO
-  of "ReferenceDirectiveTrivia": discard
-  of "ShebangDirectiveTrivia": discard
-  of "SkippedTokensTrivia": discard
-  of "TypeCref": discard #TODO
-  of "UndefDirectiveTrivia": discard
-  of "WarningDirectiveTrivia": discard
+  of "UsingDirective": echo "got UsingDirective" #TODO(handle: UsingDirective)
+  of "QualifiedName": echo "got QualifiedName" #TODO(handle: QualifiedName)
+  of "ExpressionStatement": echo "got ExpressionStatement" #TODO(handle: ExpressionStatement)
+  of "InvocationExpression": echo "got InvocationExpression" #TODO(handle: InvocationExpression)
+  of "ArgumentList": echo "got ArgumentList" #TODO(handle: ArgumentList)
+  of "Argument": echo "got Argument" #TODO(handle: Argument)
+  of "LiteralExpression": echo "got LiteralExpression" #TODO(handle: LiteralExpression)
+  of "BinaryExpression": echo "got BinaryExpression" #TODO(handle: BinaryExpression)
+  of "AssignmentExpression": echo "got AssignmentExpression" #TODO(handle: AssignmentExpression)
+  of "EqualsValueClause": echo "got EqualsValueClause" #TODO(handle: EqualsValueClause)
+  of "LocalDeclarationStatement": echo "got LocalDeclarationStatement" #TODO(handle: LocalDeclarationStatement)
+  of "ObjectCreationExpression": echo "got ObjectCreationExpression" #TODO(handle: ObjectCreationExpression)
+  of "IfStatement": echo "got IfStatement" #TODO(handle: IfStatement)
+  of "Attribute": echo "got Attribute" #TODO(handle: Attribute)
+  of "AttributeList": echo "got AttributeList" #TODO(handle: AttributeList)
+  of "ThisExpression": echo "got ThisExpression" #TODO(handle: ThisExpression)
+  of "TypeArgumentList": echo "got TypeArgumentList" #TODO(handle: TypeArgumentList)
+  of "GenericName": echo "got GenericName" #TODO(handle: GenericName)
+  of "AttributeArgument": echo "got AttributeArgument" #TODO(handle: AttributeArgument)
+  of "AccessorDeclaration": echo "got AccessorDeclaration" #TODO(handle: AccessorDeclaration)
+  of "FieldDeclaration": echo "got FieldDeclaration" #TODO(handle: FieldDeclaration)
+  of "BracketedArgumentList": echo "got BracketedArgumentList" #TODO(handle: BracketedArgumentList)
+  of "ElementAccessExpression": echo "got ElementAccessExpression" #TODO(handle: ElementAccessExpression)
+  of "PropertyDeclaration": echo "got PropertyDeclaration" #TODO(handle: PropertyDeclaration)
+  of "AccessorList": echo "got AccessorList" #TODO(handle: AccessorList)
+  of "AttributeArgumentList": echo "got AttributeArgumentList" #TODO(handle: AttributeArgumentList)
+  of "ParenthesizedExpression": echo "got ParenthesizedExpression" #TODO(handle: ParenthesizedExpression)
+  of "CastExpression": echo "got CastExpression" #TODO(handle: CastExpression)
+  of "ArrayRankSpecifier": echo "got ArrayRankSpecifier" #TODO(handle: ArrayRankSpecifier)
+  of "ArrayType": echo "got ArrayType" #TODO(handle: ArrayType)
+  of "PrefixUnaryExpression": echo "got PrefixUnaryExpression" #TODO(handle: PrefixUnaryExpression)
+  of "OmittedArraySizeExpression": echo "got OmittedArraySizeExpression" #TODO(handle: OmittedArraySizeExpression)
+  of "InitializerExpression": echo "got InitializerExpression" #TODO(handle: InitializerExpression)
+  of "NameEquals": echo "got NameEquals" #TODO(handle: NameEquals)
+  of "ThrowStatement": echo "got ThrowStatement" #TODO(handle: ThrowStatement)
+  of "TypeOfExpression": echo "got TypeOfExpression" #TODO(handle: TypeOfExpression)
+  of "ElseClause": echo "got ElseClause" #TODO(handle: ElseClause)
+  of "CaseSwitchLabel": echo "got CaseSwitchLabel" #TODO(handle: CaseSwitchLabel)
+  of "SimpleBaseType": echo "got SimpleBaseType" #TODO(handle: SimpleBaseType)
+  of "ConstructorDeclaration": echo "got ConstructorDeclaration" #TODO(handle: ConstructorDeclaration)
+  of "BaseList": echo "got BaseList" #TODO(handle: BaseList)
+  of "SwitchSection": echo "got SwitchSection" #TODO(handle: SwitchSection)
+  of "SimpleLambdaExpression": echo "got SimpleLambdaExpression" #TODO(handle: SimpleLambdaExpression)
+  of "PostfixUnaryExpression": echo "got PostfixUnaryExpression" #TODO(handle: PostfixUnaryExpression)
+  of "ArrayCreationExpression": echo "got ArrayCreationExpression" #TODO(handle: ArrayCreationExpression)
+  of "ArrowExpressionClause": echo "got ArrowExpressionClause" #TODO(handle: ArrowExpressionClause)
+  of "BreakStatement": echo "got BreakStatement" #TODO(handle: BreakStatement)
+  of "AliasQualifiedName": echo "got AliasQualifiedName" #TODO(handle: AliasQualifiedName)
+  of "TypeParameter": echo "got TypeParameter" #TODO(handle: TypeParameter)
+  of "AwaitExpression": echo "got AwaitExpression" #TODO(handle: AwaitExpression)
+  of "ConditionalExpression": echo "got ConditionalExpression" #TODO(handle: ConditionalExpression)
+  of "AttributeTargetSpecifier": echo "got AttributeTargetSpecifier" #TODO(handle: AttributeTargetSpecifier)
+  of "TypeParameterList": echo "got TypeParameterList" #TODO(handle: TypeParameterList)
+  of "ForEachStatement": echo "got ForEachStatement" #TODO(handle: ForEachStatement)
+  of "ForStatement": echo "got ForStatement" #TODO(handle: ForStatement)
+  of "InterpolatedStringText": echo "got InterpolatedStringText" #TODO(handle: InterpolatedStringText)
+  of "ParenthesizedLambdaExpression": echo "got ParenthesizedLambdaExpression" #TODO(handle: ParenthesizedLambdaExpression)
+  of "TryStatement": echo "got TryStatement" #TODO(handle: TryStatement)
+  of "NullableType": echo "got NullableType" #TODO(handle: NullableType)
+  of "BaseExpression": echo "got BaseExpression" #TODO(handle: BaseExpression)
+  of "CatchClause": echo "got CatchClause" #TODO(handle: CatchClause)
+  of "ConstructorInitializer": echo "got ConstructorInitializer" #TODO(handle: ConstructorInitializer)
+  of "Interpolation": echo "got Interpolation" #TODO(handle: Interpolation)
+  of "CatchDeclaration": echo "got CatchDeclaration" #TODO(handle: CatchDeclaration)
+  of "NameColon": echo "got NameColon" #TODO(handle: NameColon)
+  of "UsingStatement": echo "got UsingStatement" #TODO(handle: UsingStatement)
+  of "TypeParameterConstraintClause": echo "got TypeParameterConstraintClause" #TODO(handle: TypeParameterConstraintClause)
+  of "TypeConstraint": echo "got TypeConstraint" #TODO(handle: TypeConstraint)
+  of "SingleVariableDesignation": echo "got SingleVariableDesignation" #TODO(handle: SingleVariableDesignation)
+  of "InterpolatedStringExpression": echo "got InterpolatedStringExpression" #TODO(handle: InterpolatedStringExpression)
+  of "ImplicitArrayCreationExpression": echo "got ImplicitArrayCreationExpression" #TODO(handle: ImplicitArrayCreationExpression)
+  of "WhileStatement": echo "got WhileStatement" #TODO(handle: WhileStatement)
+  of "DeclarationExpression": echo "got DeclarationExpression" #TODO(handle: DeclarationExpression)
+  of "ExplicitInterfaceSpecifier": echo "got ExplicitInterfaceSpecifier" #TODO(handle: ExplicitInterfaceSpecifier)
+  of "ConditionalAccessExpression": echo "got ConditionalAccessExpression" #TODO(handle: ConditionalAccessExpression)
+  of "SwitchStatement": echo "got SwitchStatement" #TODO(handle: SwitchStatement)
+  of "MemberBindingExpression": echo "got MemberBindingExpression" #TODO(handle: MemberBindingExpression)
+  of "DefaultExpression": echo "got DefaultExpression" #TODO(handle: DefaultExpression)
+  of "PointerType": echo "got PointerType" #TODO(handle: PointerType)
+  of "InterfaceDeclaration": echo "got InterfaceDeclaration" #TODO(handle: InterfaceDeclaration)
+  of "ContinueStatement": echo "got ContinueStatement" #TODO(handle: ContinueStatement)
+  of "FinallyClause": echo "got FinallyClause" #TODO(handle: FinallyClause)
+  of "DefaultSwitchLabel": echo "got DefaultSwitchLabel" #TODO(handle: DefaultSwitchLabel)
+  of "YieldStatement": echo "got YieldStatement" #TODO(handle: YieldStatement)
+  of "AnonymousObjectMemberDeclarator": echo "got AnonymousObjectMemberDeclarator" #TODO(handle: AnonymousObjectMemberDeclarator)
+  of "CheckedExpression": echo "got CheckedExpression" #TODO(handle: CheckedExpression)
+  of "StructDeclaration": echo "got StructDeclaration" #TODO(handle: StructDeclaration)
+  of "IsPatternExpression": echo "got IsPatternExpression" #TODO(handle: IsPatternExpression)
+  of "LockStatement": echo "got LockStatement" #TODO(handle: LockStatement)
+  of "DeclarationPattern": echo "got DeclarationPattern" #TODO(handle: DeclarationPattern)
+  of "ThrowExpression": echo "got ThrowExpression" #TODO(handle: ThrowExpression)
+  of "ConstantPattern": echo "got ConstantPattern" #TODO(handle: ConstantPattern)
+  of "RefType": echo "got RefType" #TODO(handle: RefType)
+  of "RefExpression": echo "got RefExpression" #TODO(handle: RefExpression)
+  of "ClassOrStructConstraint": echo "got ClassOrStructConstraint" #TODO(handle: ClassOrStructConstraint)
+  of "OmittedTypeArgument": echo "got OmittedTypeArgument" #TODO(handle: OmittedTypeArgument)
+  of "TupleElement": echo "got TupleElement" #TODO(handle: TupleElement)
+  of "OperatorDeclaration": echo "got OperatorDeclaration" #TODO(handle: OperatorDeclaration)
+  of "EventFieldDeclaration": echo "got EventFieldDeclaration" #TODO(handle: EventFieldDeclaration)
+  of "DelegateDeclaration": echo "got DelegateDeclaration" #TODO(handle: DelegateDeclaration)
+  of "ImplicitElementAccess": echo "got ImplicitElementAccess" #TODO(handle: ImplicitElementAccess)
+  of "AnonymousMethodExpression": echo "got AnonymousMethodExpression" #TODO(handle: AnonymousMethodExpression)
+  of "TupleExpression": echo "got TupleExpression" #TODO(handle: TupleExpression)
+  of "AnonymousObjectCreationExpression": echo "got AnonymousObjectCreationExpression" #TODO(handle: AnonymousObjectCreationExpression)
+  of "IndexerDeclaration": echo "got IndexerDeclaration" #TODO(handle: IndexerDeclaration)
+  of "BracketedParameterList": echo "got BracketedParameterList" #TODO(handle: BracketedParameterList)
+  of "EventDeclaration": echo "got EventDeclaration" #TODO(handle: EventDeclaration)
+  of "GotoStatement": echo "got GotoStatement" #TODO(handle: GotoStatement)
+  of "DoStatement": echo "got DoStatement" #TODO(handle: DoStatement)
+  of "GlobalStatement": echo "got GlobalStatement" #TODO(handle: GlobalStatement)
+  of "IncompleteMember": echo "got IncompleteMember" #TODO(handle: IncompleteMember)
+  of "LocalFunctionStatement": echo "got LocalFunctionStatement" #TODO(handle: LocalFunctionStatement)
+  of "ConversionOperatorDeclaration": echo "got ConversionOperatorDeclaration" #TODO(handle: ConversionOperatorDeclaration)
+  of "TupleType": echo "got TupleType" #TODO(handle: TupleType)
+  of "FixedStatement": echo "got FixedStatement" #TODO(handle: FixedStatement)
+  of "EmptyStatement": echo "got EmptyStatement" #TODO(handle: EmptyStatement)
+  of "FromClause": echo "got FromClause" #TODO(handle: FromClause)
+  of "SizeOfExpression": echo "got SizeOfExpression" #TODO(handle: SizeOfExpression)
+  of "QueryBody": echo "got QueryBody" #TODO(handle: QueryBody)
+  of "CheckedStatement": echo "got CheckedStatement" #TODO(handle: CheckedStatement)
+  of "QueryExpression": echo "got QueryExpression" #TODO(handle: QueryExpression)
+  of "SelectClause": echo "got SelectClause" #TODO(handle: SelectClause)
+  of "CasePatternSwitchLabel": echo "got CasePatternSwitchLabel" #TODO(handle: CasePatternSwitchLabel)
+  of "LabeledStatement": echo "got LabeledStatement" #TODO(handle: LabeledStatement)
+  of "WhereClause": echo "got WhereClause" #TODO(handle: WhereClause)
+  of "ConstructorConstraint": echo "got ConstructorConstraint" #TODO(handle: ConstructorConstraint)
+  of "UnsafeStatement": echo "got UnsafeStatement" #TODO(handle: UnsafeStatement)
+  of "ParenthesizedVariableDesignation": echo "got ParenthesizedVariableDesignation" #TODO(handle: ParenthesizedVariableDesignation)
+  of "InterpolationFormatClause": echo "got InterpolationFormatClause" #TODO(handle: InterpolationFormatClause)
+  of "DestructorDeclaration": echo "got DestructorDeclaration" #TODO(handle: DestructorDeclaration)
+  of "DiscardDesignation": echo "got DiscardDesignation" #TODO(handle: DiscardDesignation)
+  of "StackAllocArrayCreationExpression": echo "got StackAllocArrayCreationExpression" #TODO(handle: StackAllocArrayCreationExpression)
+  of "WhenClause": echo "got WhenClause" #TODO(handle: WhenClause)
+  of "ForEachVariableStatement": echo "got ForEachVariableStatement" #TODO(handle: ForEachVariableStatement)
+  of "LetClause": echo "got LetClause" #TODO(handle: LetClause)
+  of "ElementBindingExpression": echo "got ElementBindingExpression" #TODO(handle: ElementBindingExpression)
+  of "CatchFilterClause": echo "got CatchFilterClause" #TODO(handle: CatchFilterClause)
+  of "Ordering": echo "got Ordering" #TODO(handle: Ordering)
+  of "OrderByClause": echo "got OrderByClause" #TODO(handle: OrderByClause)
+  of "JoinClause": echo "got JoinClause" #TODO(handle: JoinClause)
+  of "GroupClause": echo "got GroupClause" #TODO(handle: GroupClause)
+  of "InterpolationAlignmentClause": echo "got InterpolationAlignmentClause" #TODO(handle: InterpolationAlignmentClause)
+  of "QueryContinuation": echo "got QueryContinuation" #TODO(handle: QueryContinuation)
+  of "ExternAliasDirective": echo "got ExternAliasDirective" #TODO(handle: ExternAliasDirective)
+  of "MakeRefExpression": echo "got MakeRefExpression" #TODO(handle: MakeRefExpression)
+  of "JoinIntoClause": echo "got JoinIntoClause" #TODO(handle: JoinIntoClause)
+  of "RefValueExpression": echo "got RefValueExpression" #TODO(handle: RefValueExpression)
+  of "RefTypeExpression": echo "got RefTypeExpression" #TODO(handle: RefTypeExpression)
+  of "Block": echo "got Block" #TODO(handle: Block)
+  of "VariableDeclaration": echo "got VariableDeclaration" #TODO(handle: VariableDeclaration)
+  of "BadDirectiveTrivia": echo "got BadDirectiveTrivia" #TODO(handle: BadDirectiveTrivia)
+  of "BinaryPattern": echo "got BinaryPattern" #TODO(handle: BinaryPattern)
+  of "ConversionOperatorMemberCref": echo "got ConversionOperatorMemberCref" #TODO(handle: ConversionOperatorMemberCref)
+  of "CrefBracketedParameterList": echo "got CrefBracketedParameterList" #TODO(handle: CrefBracketedParameterList)
+  of "CrefParameter": echo "got CrefParameter" #TODO(handle: CrefParameter)
+  of "CrefParameterList": echo "got CrefParameterList" #TODO(handle: CrefParameterList)
+  of "DefineDirectiveTrivia": echo "got DefineDirectiveTrivia" #TODO(handle: DefineDirectiveTrivia)
+  of "DiscardPattern": echo "got DiscardPattern" #TODO(handle: DiscardPattern)
+  of "DocumentationCommentTrivia": echo "got DocumentationCommentTrivia" #TODO(handle: DocumentationCommentTrivia)
+  of "ElifDirectiveTrivia": echo "got ElifDirectiveTrivia" #TODO(handle: ElifDirectiveTrivia)
+  of "ElseDirectiveTrivia": echo "got ElseDirectiveTrivia" #TODO(handle: ElseDirectiveTrivia)
+  of "EndIfDirectiveTrivia": echo "got EndIfDirectiveTrivia" #TODO(handle: EndIfDirectiveTrivia)
+  of "EndRegionDirectiveTrivia": echo "got EndRegionDirectiveTrivia" #TODO(handle: EndRegionDirectiveTrivia)
+  of "ErrorDirectiveTrivia": echo "got ErrorDirectiveTrivia" #TODO(handle: ErrorDirectiveTrivia)
+  of "FunctionPointerType": echo "got FunctionPointerType" #TODO(handle: FunctionPointerType)
+  of "IdentifierName": echo "got IdentifierName" #TODO(handle: IdentifierName)
+  of "ImplicitObjectCreationExpression": echo "got ImplicitObjectCreationExpression" #TODO(handle: ImplicitObjectCreationExpression)
+  of "MemberAccessExpression": echo "got MemberAccessExpression" #TODO(handle: MemberAccessExpression)
+  of "NullableDirectiveTrivia": echo "got NullableDirectiveTrivia" #TODO(handle: NullableDirectiveTrivia)
+  of "ParenthesizedPattern": echo "got ParenthesizedPattern" #TODO(handle: ParenthesizedPattern)
+  of "PositionalPatternClause": echo "got PositionalPatternClause" #TODO(handle: PositionalPatternClause)
+  of "PrimaryConstructorBaseType": echo "got PrimaryConstructorBaseType" #TODO(handle: PrimaryConstructorBaseType)
+  of "PropertyPatternClause": echo "got PropertyPatternClause" #TODO(handle: PropertyPatternClause)
+  of "RangeExpression": echo "got RangeExpression" #TODO(handle: RangeExpression)
+  of "RecordDeclaration": echo "got RecordDeclaration" #TODO(handle: RecordDeclaration)
+  of "RecursivePattern": echo "got RecursivePattern" #TODO(handle: RecursivePattern)
+  of "RegionDirectiveTrivia": echo "got RegionDirectiveTrivia" #TODO(handle: RegionDirectiveTrivia)
+  of "RelationalPattern": echo "got RelationalPattern" #TODO(handle: RelationalPattern)
+  of "Subpattern": echo "got Subpattern" #TODO(handle: Subpattern)
+  of "SwitchExpression": echo "got SwitchExpression" #TODO(handle: SwitchExpression)
+  of "SwitchExpressionArm": echo "got SwitchExpressionArm" #TODO(handle: SwitchExpressionArm)
+  of "TypePattern": echo "got TypePattern" #TODO(handle: TypePattern)
+  of "UnaryPattern": echo "got UnaryPattern" #TODO(handle: UnaryPattern)
+  of "VariableDeclarator": echo "got VariableDeclarator" #TODO(handle: VariableDeclarator)
+  of "VarPattern": echo "got VarPattern" #TODO(handle: VarPattern)
+  of "WithExpression": echo "got WithExpression" #TODO(handle: WithExpression)
+  of "XmlCDataSection": echo "got XmlCDataSection" #TODO(handle: XmlCDataSection)
+  of "XmlComment": echo "got XmlComment" #TODO(handle: XmlComment)
+  of "XmlCrefAttribute": echo "got XmlCrefAttribute" #TODO(handle: XmlCrefAttribute)
+  of "XmlElement": echo "got XmlElement" #TODO(handle: XmlElement)
+  of "XmlElementEndTag": echo "got XmlElementEndTag" #TODO(handle: XmlElementEndTag)
+  of "XmlElementStartTag": echo "got XmlElementStartTag" #TODO(handle: XmlElementStartTag)
+  of "XmlEmptyElement": echo "got XmlEmptyElement" #TODO(handle: XmlEmptyElement)
+  of "XmlName": echo "got XmlName" #TODO(handle: XmlName)
+  of "XmlNameAttribute": echo "got XmlNameAttribute" #TODO(handle: XmlNameAttribute)
+  of "XmlPrefix": echo "got XmlPrefix" #TODO(handle: XmlPrefix)
+  of "XmlProcessingInstruction": echo "got XmlProcessingInstruction" #TODO(handle: XmlProcessingInstruction)
+  of "XmlText": echo "got XmlText" #TODO(handle: XmlText)
+  of "XmlTextAttribute": echo "got XmlTextAttribute" #TODO(handle: XmlTextAttribute)
+  of "IfDirectiveTrivia": echo "got IfDirectiveTrivia" #TODO(handle: IfDirectiveTrivia)
+  of "ImplicitStackAllocArrayCreationExpression": echo "got ImplicitStackAllocArrayCreationExpression" #TODO(handle: ImplicitStackAllocArrayCreationExpression)
+  of "IndexerMemberCref": echo "got IndexerMemberCref" #TODO(handle: IndexerMemberCref)
+  of "LineDirectiveTrivia": echo "got LineDirectiveTrivia" #TODO(handle: LineDirectiveTrivia)
+  of "LoadDirectiveTrivia": echo "got LoadDirectiveTrivia" #TODO(handle: LoadDirectiveTrivia)
+  of "NameMemberCref": echo "got NameMemberCref" #TODO(handle: NameMemberCref)
+  of "OperatorMemberCref": echo "got OperatorMemberCref" #TODO(handle: OperatorMemberCref)
+  of "PragmaChecksumDirectiveTrivia": echo "got PragmaChecksumDirectiveTrivia" #TODO(handle: PragmaChecksumDirectiveTrivia)
+  of "PragmaWarningDirectiveTrivia": echo "got PragmaWarningDirectiveTrivia" #TODO(handle: PragmaWarningDirectiveTrivia)
+  of "QualifiedCref": echo "got QualifiedCref" #TODO(handle: QualifiedCref)
+  of "ReferenceDirectiveTrivia": echo "got ReferenceDirectiveTrivia" #TODO(handle: ReferenceDirectiveTrivia)
+  of "ShebangDirectiveTrivia": echo "got ShebangDirectiveTrivia" #TODO(handle: ShebangDirectiveTrivia)
+  of "SkippedTokensTrivia": echo "got SkippedTokensTrivia" #TODO(handle: SkippedTokensTrivia)
+  of "TypeCref": echo "got TypeCref" #TODO(handle: TypeCref)
+  of "UndefDirectiveTrivia": echo "got UndefDirectiveTrivia" #TODO(handle: UndefDirectiveTrivia)
+  of "WarningDirectiveTrivia": echo "got WarningDirectiveTrivia" #TODO(handle: WarningDirectiveTrivia)
 
 
 

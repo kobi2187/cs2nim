@@ -1,6 +1,6 @@
-import utils, ../writer_utils, ../create, ../types, ../gen_nim
-import unittest
-import os
+import utils, ../writer_utils, ../types
+import ../constructs/constructs
+import unittest, os
 
 proc modulesFromFiles(files: seq[string]): seq[Module] =
   var root = newCs(CsRoot)

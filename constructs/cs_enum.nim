@@ -27,4 +27,4 @@ proc gen*(e: CsEnum): string =
     result &= "\n  "
     let strs = e.items.mapIt(it.gen())
     result &= strs.join(", ")
-  echo result
+  # echo result

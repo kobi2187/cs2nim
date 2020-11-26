@@ -110,12 +110,12 @@ proc getLastClass*(root: CsRoot): Option[CsClass] =
   else:
     result = some(ns.last.classes.last)
 
-proc getLastMethod*(root: CsRoot): Option[CsMethod] =
-  let cls = getLastClass(root)
-  if cls.isNone: return #none(CsMethod)
-  elif cls.get.methods.len == 0: return #none(CsMethod)
+proc getLastMethod*(cls: CsClass): Option[CsMethod] =
+  # let cls = getLastClass(root)
+  # if cls.isNone: return #none(CsMethod)
+  if cls.methods.len == 0: return #none(CsMethod)
   else:
-    return some(cls.get.methods.last)
+    return some(cls.methods.last)
 
 import tables
 proc getCurrentNs*(root: var CsRoot): (string, CsNamespace) =

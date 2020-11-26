@@ -33,3 +33,5 @@ type Construct* = concept T, Parent
   proc add*(parent: var Parent; item: T)
   proc extract*(t: typedesc[T]; info: Info): T
   proc newCs*(t: typedesc[T]; a, b, c, d: auto): T
+  # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
+  # will it create a circular dependency? maybe. try.

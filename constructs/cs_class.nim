@@ -1,14 +1,19 @@
 import ../types
-import cs_method, cs_field, cs_enum
+import cs_method, cs_field, cs_enum, cs_constructor
 import tables
 
+
+type ClassParts* = enum
+  Fields, Methods, Ctors, Enums
 type CsClass* = ref object of CsObject
   name*: string
   nsParent*: string
   fields*: seq[CsField]
   methods*: seq[CsMethod]
+  ctors*: seq[CsConstructor]
   enums*: seq[CsEnum]
   enumTable*: TableRef[string, CsEnum]
+  lastAddedTo*: ClassParts
   isStatic*: bool
 
 proc newCs*(t: typedesc[CsClass]; name: string): CsClass =
@@ -19,8 +24,13 @@ proc extract*(t: typedesc[CsClass]; info: Info): CsClass =
   let name = info.essentials[0]
   result = CsClass(name: name)
 
+proc add*(parent: var CsClass; m: CsConstructor) =
+  parent.ctors.add m
+  parent.lastAddedTo = Ctors
+
 proc add*(parent: var CsClass; m: CsMethod) =
   parent.methods.add m
+  parent.lastAddedTo = Methods
 
 
 proc gen*(c: CsClass): string =
