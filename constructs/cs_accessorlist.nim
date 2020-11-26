@@ -1,2 +1,12 @@
 import ../types
-proc add*(parent: var Dummy; item: CsAccessorList) = discard # TODO
+type CsAccessorList* = ref object of CsObject #TODO(type:CsAccessorList)
+
+proc newCs*(t: typedesc[CsAccessorList]; name: string): CsAccessorList =
+  new result #TODO(create:CsAccessorList)
+
+proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList = discard #TODO(extract:CsAccessorList)
+
+proc add*(parent: var Dummy; item: CsAccessorList) = discard # TODO(add:CsAccessorList)
+
+
+proc gen*(c: var CsAccessorList): string = discard #TODO(gen:CsAccessorList)

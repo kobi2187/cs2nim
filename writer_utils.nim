@@ -1,4 +1,4 @@
-import gen_nim, types
+import types, constructs/constructs
 import lineparser
 
 import os, system, times

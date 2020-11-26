@@ -2,29 +2,17 @@
 import stacks, sets
 # import json
 
-# import types
-type Info* = ref object
-  essentials*: seq[string]
-  extras*: seq[string]
-  declName*: string
-
-import strutils
-proc `$`*(info: Info): string =
-  let x = [info.declName, $info.essentials, $info.extras]
-  result = "Info: " & x.join("\n")
-
-# type Block* = object
-#   instanceName*, typeName*: string
+import types
 
 type Block* = object
   name*: string
   info*: Info
 
-import strutils
 var blocks* = newStack[Block]()
-# proc getBlockCount :int= blocks.len
+
 proc resetBlocks*() = blocks.clear()
-# import create
+
+
 import algorithm, hashes
 var currentConstruct* = newSeq[Block]()
 proc previousConstruct*: Block =

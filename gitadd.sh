@@ -1,4 +1,5 @@
 git add *.nim
+git add constructs/*.nim
 git add tests/*.nim
 git add tests/**/*.nim
 git add tests/**/*.cs
