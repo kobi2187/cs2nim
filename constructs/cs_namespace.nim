@@ -1,4 +1,5 @@
-import ../types
+import ../types, cs_class, cs_enum
+import tables, sequtils, sets, strutils
 
 type CsNamespace* = ref object of CsObject
   name*: string
@@ -19,24 +20,14 @@ proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
 func extract*(t: typedesc[CsNamespace]; info: Info): CsNamespace =
   result = newCs(CsNamespace, info.essentials[0])
 
-proc add*(root: var CsRoot; csn: CsNamespace) =
-  var name: string
-  if csn.parent != "":
-    name = csn.parent & "." & csn.name
-    csn.parent = ""
-    csn.name = name
-
-  else: name = csn.name
-  let nsnames = root.ns.mapIt(it.name)
-  if not (csn.name in nsnames):
-    root.ns.incl(csn)
-
-  echo root.ns.toSeq.mapIt(it.name)
-  # assert false
-  # root.ns.add(csn)
-  root.nsTables[name] = csn
+proc add*(parent: var CsNamespace; item: CsEnum) =
+  parent.enums.add item
+  parent.enumTable[item.name] = item
 
 
+proc add*(ns: var CsNamespace; class: CsClass) =
+  ns.classes.add(class)
+  ns.classTable[class.name] = class
 
 proc gen*(r: CsNamespace): string =
   echo "generating namespace: " & r.name

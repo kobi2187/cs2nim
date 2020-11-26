@@ -1,4 +1,6 @@
-import ../types
+import ../types, cs_enummember
+import sequtils, strutils
+
 type CsEnum* = ref object of CsObject
   name*: string
   items*: seq[CsEnumMember]
@@ -14,10 +16,8 @@ proc extract*(t: typedesc[CsEnum]; info: Info): CsEnum =
   let name = info.essentials[0]
   result = newCs(CsEnum, name)
 
-
-proc add*(parent: var CsNamespace; item: CsEnum) =
-  parent.enums.add item
-  parent.enumTable[item.name] = item
+proc add*(parent: var CsEnum; item: CsEnumMember) =
+  parent.items.add item
 
 proc gen*(e: CsEnum): string =
   echo "members count:" & $e.items.len

@@ -1,5 +1,5 @@
 import ../types, cs_namespace
-import sets, tables
+import sets, tables, sequtils
 
 type CsRoot* = object
   global*: CsNamespace
@@ -14,6 +14,25 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
   let defaultNs = newCs(CsNamespace, "default")
   result.global = defaultNs
   result.nsTables["default"] = defaultNs
+
+
+proc add*(root: var CsRoot; csn: CsNamespace) =
+  var name: string
+  if csn.parent != "":
+    name = csn.parent & "." & csn.name
+    csn.parent = ""
+    csn.name = name
+
+  else: name = csn.name
+  let nsnames = root.ns.mapIt(it.name)
+  if not (csn.name in nsnames):
+    root.ns.incl(csn)
+
+  echo root.ns.toSeq.mapIt(it.name)
+  # assert false
+  # root.ns.add(csn)
+  root.nsTables[name] = csn
+
 
 
 

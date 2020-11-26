@@ -9,6 +9,7 @@ proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   result.name = name
   result.value = value
 
+import strutils
 proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
   let name = info.essentials[0]
   let value =
@@ -19,8 +20,7 @@ proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
 
   result = newCs(CsEnumMember, name, value)
 
-proc add*(parent: var CsEnum; item: CsEnumMember) =
-  parent.items.add item
+
 
 import options
 proc gen*(e: CsEnumMember): string =

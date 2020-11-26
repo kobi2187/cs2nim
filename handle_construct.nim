@@ -1,5 +1,5 @@
-import extract, state_utils
-import state, types, create, addinroot
+import state_utils
+import state, types
 import tables, json, stacks, options
 
 var gotStartBlock = false
@@ -10,6 +10,7 @@ proc previousBlock(): Option[Block] =
   let prev = blocks.peek(-3) # -2*2+1
   result = prev
 
+import constructs/constructs
 
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   when true:
@@ -53,14 +54,14 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       if prevNsName != newns.name:
         newns.name = prevNsName & "." & newns.name
 
-    root.addNamespace(newns)
+    root.add(newns)
 
   of "ClassDeclaration":
     let c = extract(CsClass, info)
     var (p, ns) = getcurrentNs(root)
     # echo "nsPath is: " & p
     c.nsParent = p
-    ns.addClass(c)
+    ns.add(c)
 
   of "EnumDeclaration":
     # extract name:

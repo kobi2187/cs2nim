@@ -13,7 +13,6 @@ proc extract*(t: typedesc[CsPredefinedType]; info: Info): CsPredefinedType =
   else: name = ""
   result = newCs(CsPredefinedType, name)
 
-proc add*(parent: var CsMethod; t: CsPredefinedType) =
-  parent.returnType = t.name
+
 
 proc gen*(c: var CsPredefinedType): string = discard #TODO(gen:CsPredefinedType)

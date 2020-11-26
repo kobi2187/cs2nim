@@ -1,4 +1,5 @@
-import ../types
+import ../types, cs_parameterlist, cs_parameter, cs_predefinedtype
+
 
 type CsMethod* = ref object of CsObject
   name*: string
@@ -19,14 +20,15 @@ proc extract*(t: typedesc[CsMethod]; info: Info): CsMethod =
   let m = newCs(CsMethod, name)
   result = m
 
-proc add*(parent: var CsClass; m: CsMethod) =
-  parent.methods.add m
+proc add*(parent: var CsMethod; t: CsPredefinedType) =
+  parent.returnType = t.name
+
+import sequtils
 
 proc addSelfParam(m: var CsMethod) =
   let p = newCs(CsParameter, "this", m.parentClass)
   m.parameterList.parameters.insert(@[p], 0)
 
-import sequtils
 proc gen*(m: var CsMethod): string =
   echo "generating method (wip): " & m.name
   result = "proc "

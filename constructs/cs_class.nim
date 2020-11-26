@@ -1,4 +1,7 @@
 import ../types
+import cs_method, cs_field, cs_enum
+import tables
+
 type CsClass* = ref object of CsObject
   name*: string
   nsParent*: string
@@ -16,10 +19,8 @@ proc extract*(t: typedesc[CsClass]; info: Info): CsClass =
   let name = info.essentials[0]
   result = CsClass(name: name)
 
-
-proc add*(ns: var CsNamespace; class: CsClass) =
-  ns.classes.add(class)
-  ns.classTable[class.name] = class
+proc add*(parent: var CsClass; m: CsMethod) =
+  parent.methods.add m
 
 
 proc gen*(c: CsClass): string =

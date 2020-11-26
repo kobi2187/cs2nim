@@ -1,6 +1,6 @@
 # lineparser.nim
 import state, types, handle_construct, state_utils
-
+import constructs/cs_root
 type LineKind* = enum
   Decl, EndBlock
 

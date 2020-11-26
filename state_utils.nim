@@ -1,7 +1,7 @@
 # state_utils.nim
 import stacks, tables, json
 import sequtils
-import state, extract, types #, sequtils, create, addinroot
+import state, types #, sequtils, create, addinroot
 
 proc `$`*(it: Block): string =
   result =
@@ -39,7 +39,7 @@ proc endBlock*(info: Info) =
 
   echo "-- End of block: " & $last
 
-
+import constructs/cs_namespace
 proc nsPathNS: seq[CsNamespace] =
   var started = false
  # we assume blocks starts with namespaces.
@@ -101,7 +101,7 @@ proc keys[A, B](t: TableRef[A, B]): seq[A] =
     result.add k
 
 # TODO: fix vscode environment so i can walk the code instead of all this echo debugging.
-import options
+import options, constructs / [cs_root, cs_class, cs_method]
 proc getLastClass*(root: CsRoot): Option[CsClass] =
   var ns = nsPathNS()
   if ns.len == 0: ns = @[root.global]
