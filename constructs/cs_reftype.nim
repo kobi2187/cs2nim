@@ -1,3 +1,4 @@
+import ../types
 type CsRefType* = ref object of CsObject #TODO(type:CsRefType)
 
 proc newCs*(t: typedesc[CsRefType]; name: string): CsRefType =

@@ -1,3 +1,4 @@
+import ../types
 type CsDefaultExpression* = ref object of CsObject #TODO(type:CsDefaultExpression)
 
 proc newCs*(t: typedesc[CsDefaultExpression]; name: string): CsDefaultExpression =

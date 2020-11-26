@@ -1,3 +1,4 @@
+import ../types
 type CsDiscardDesignation* = ref object of CsObject #TODO(type:CsDiscardDesignation)
 
 proc newCs*(t: typedesc[CsDiscardDesignation]; name: string): CsDiscardDesignation =

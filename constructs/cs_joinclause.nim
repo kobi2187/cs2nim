@@ -1,3 +1,4 @@
+import ../types
 type CsJoinClause* = ref object of CsObject #TODO(type:CsJoinClause)
 
 proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =

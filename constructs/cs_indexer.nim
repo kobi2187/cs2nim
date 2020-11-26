@@ -1,3 +1,4 @@
+import ../types
 type CsIndexer* = ref object of CsObject #TODO(type:CsIndexer)
 
 proc newCs*(t: typedesc[CsIndexer]; name: string): CsIndexer =

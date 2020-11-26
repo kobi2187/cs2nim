@@ -1,3 +1,4 @@
+import ../types
 type CsEvent* = ref object of CsObject #TODO(type:CsEvent)
 
 proc newCs*(t: typedesc[CsEvent]; name: string): CsEvent =

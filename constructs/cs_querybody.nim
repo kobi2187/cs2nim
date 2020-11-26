@@ -1,3 +1,4 @@
+import ../types
 type CsQueryBody* = ref object of CsObject #TODO(type:CsQueryBody)
 
 proc newCs*(t: typedesc[CsQueryBody]; name: string): CsQueryBody =

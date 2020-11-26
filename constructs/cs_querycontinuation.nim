@@ -1,3 +1,4 @@
+import ../types
 type CsQueryContinuation* = ref object of CsObject #TODO(type:CsQueryContinuation)
 
 proc newCs*(t: typedesc[CsQueryContinuation]; name: string): CsQueryContinuation =

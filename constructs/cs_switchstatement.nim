@@ -1,3 +1,4 @@
+import ../types
 type CsSwitchStatement* = ref object of CsObject #TODO(type:CsSwitchStatement)
 
 proc newCs*(t: typedesc[CsSwitchStatement]; name: string): CsSwitchStatement =

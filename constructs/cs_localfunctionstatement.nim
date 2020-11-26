@@ -1,3 +1,4 @@
+import ../types
 type CsLocalFunctionStatement* = ref object of CsObject #TODO(type:CsLocalFunctionStatement)
 
 proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctionStatement =

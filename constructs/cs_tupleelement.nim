@@ -1,3 +1,4 @@
+import ../types
 type CsTupleElement* = ref object of CsObject #TODO(type:CsTupleElement)
 
 proc newCs*(t: typedesc[CsTupleElement]; name: string): CsTupleElement =

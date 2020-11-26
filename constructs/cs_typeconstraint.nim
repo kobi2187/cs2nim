@@ -1,4 +1,4 @@
-proc add*(parent: var Dummy; item: CsTypeConstraint) = discard # TODO
+import ../types
 type CsTypeConstraint* = ref object of CsObject #TODO(type:CsTypeConstraint)
 
 proc newCs*(t: typedesc[CsTypeConstraint]; name: string): CsTypeConstraint =

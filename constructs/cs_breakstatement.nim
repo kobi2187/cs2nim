@@ -1,3 +1,4 @@
+import ../types
 type CsBreakStatement* = ref object of CsObject #TODO(type:CsBreakStatement)
 
 proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =

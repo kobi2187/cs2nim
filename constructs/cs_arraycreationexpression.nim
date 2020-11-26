@@ -1,3 +1,4 @@
+import ../types
 type CsArrayCreationExpression* = ref object of CsObject #TODO(type:CsArrayCreationExpression)
 
 proc newCs*(t: typedesc[CsArrayCreationExpression]; name: string): CsArrayCreationExpression =

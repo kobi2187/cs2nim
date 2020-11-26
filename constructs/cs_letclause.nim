@@ -1,3 +1,4 @@
+import ../types
 type CsLetClause* = ref object of CsObject #TODO(type:CsLetClause)
 
 proc newCs*(t: typedesc[CsLetClause]; name: string): CsLetClause =

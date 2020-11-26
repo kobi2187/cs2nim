@@ -1,3 +1,4 @@
+import ../types
 type CsInterpolationFormatClause* = ref object of CsObject #TODO(type:CsInterpolationFormatClause)
 
 proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpolationFormatClause =

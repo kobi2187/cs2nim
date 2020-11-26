@@ -1,3 +1,4 @@
+import ../types
 type CsOmittedTypeArgument* = ref object of CsObject #TODO(type:CsOmittedTypeArgument)
 
 proc newCs*(t: typedesc[CsOmittedTypeArgument]; name: string): CsOmittedTypeArgument =

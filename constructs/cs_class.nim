@@ -1,3 +1,4 @@
+import ../types
 type CsClass* = ref object of CsObject
   name*: string
   nsParent*: string

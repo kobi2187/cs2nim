@@ -1,3 +1,4 @@
+import ../types
 type CsEnum* = ref object of CsObject
   name*: string
   items*: seq[CsEnumMember]

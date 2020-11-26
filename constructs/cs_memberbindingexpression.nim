@@ -1,3 +1,4 @@
+import ../types
 type CsMemberBindingExpression* = ref object of CsObject #TODO(type:CsMemberBindingExpression)
 
 proc newCs*(t: typedesc[CsMemberBindingExpression]; name: string): CsMemberBindingExpression =

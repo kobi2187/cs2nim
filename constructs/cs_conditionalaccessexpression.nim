@@ -1,3 +1,4 @@
+import ../types
 type CsConditionalAccessExpression* = ref object of CsObject #TODO(type:CsConditionalAccessExpression)
 
 proc newCs*(t: typedesc[CsConditionalAccessExpression]; name: string): CsConditionalAccessExpression =

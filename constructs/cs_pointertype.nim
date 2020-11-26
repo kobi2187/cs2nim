@@ -1,3 +1,4 @@
+import ../types
 type CsPointerType* = ref object of CsObject #TODO(type:CsPointerType)
 
 proc newCs*(t: typedesc[CsPointerType]; name: string): CsPointerType =

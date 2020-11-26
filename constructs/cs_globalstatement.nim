@@ -1,3 +1,4 @@
+import ../types
 type CsGlobalStatement* = ref object of CsObject #TODO(type:CsGlobalStatement)
 
 proc newCs*(t: typedesc[CsGlobalStatement]; name: string): CsGlobalStatement =

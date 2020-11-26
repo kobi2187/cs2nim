@@ -1,3 +1,4 @@
+import ../types
 type CsAwaitExpression* = ref object of CsObject #TODO(type:CsAwaitExpression)
 
 proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =

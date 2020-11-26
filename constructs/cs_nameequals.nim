@@ -1,3 +1,4 @@
+import ../types
 type CsNameEquals* = ref object of CsObject #TODO(type:CsNameEquals)
 
 proc newCs*(t: typedesc[CsNameEquals]; name: string): CsNameEquals =

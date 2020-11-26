@@ -1,3 +1,4 @@
+import ../types
 type CsLabeledStatement* = ref object of CsObject #TODO(type:CsLabeledStatement)
 
 proc newCs*(t: typedesc[CsLabeledStatement]; name: string): CsLabeledStatement =

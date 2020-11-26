@@ -1,3 +1,4 @@
+import ../types
 type CsThrowExpression* = ref object of CsObject #TODO(type:CsThrowExpression)
 
 proc newCs*(t: typedesc[CsThrowExpression]; name: string): CsThrowExpression =

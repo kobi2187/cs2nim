@@ -1,3 +1,4 @@
+import ../types
 type CsContinueStatement* = ref object of CsObject #TODO(type:CsContinueStatement)
 
 proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement =

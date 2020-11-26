@@ -1,3 +1,4 @@
+import ../types
 type CsForEachStatement* = ref object of CsObject #TODO(type:CsForEachStatement)
 
 proc newCs*(t: typedesc[CsForEachStatement]; name: string): CsForEachStatement =

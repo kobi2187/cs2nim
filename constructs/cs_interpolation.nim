@@ -1,3 +1,4 @@
+import ../types
 type CsInterpolation* = ref object of CsObject #TODO(type:CsInterpolation)
 
 proc newCs*(t: typedesc[CsInterpolation]; name: string): CsInterpolation =

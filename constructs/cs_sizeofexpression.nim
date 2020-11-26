@@ -1,3 +1,4 @@
+import ../types
 type CsSizeOfExpression* = ref object of CsObject #TODO(type:CsSizeOfExpression)
 
 proc newCs*(t: typedesc[CsSizeOfExpression]; name: string): CsSizeOfExpression =

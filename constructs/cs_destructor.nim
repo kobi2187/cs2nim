@@ -1,3 +1,4 @@
+import ../types
 type CsDestructor* = ref object of CsObject #TODO(type:CsDestructor)
 
 proc newCs*(t: typedesc[CsDestructor]; name: string): CsDestructor =

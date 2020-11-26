@@ -1,3 +1,4 @@
+import ../types
 
 type CsMethod* = ref object of CsObject
   name*: string

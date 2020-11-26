@@ -1,3 +1,4 @@
+import ../types
 type CsWhereClause* = ref object of CsObject #TODO(type:CsWhereClause)
 
 proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =

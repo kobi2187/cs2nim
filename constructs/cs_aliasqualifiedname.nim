@@ -1,3 +1,4 @@
+import ../types
 type CsAliasQualifiedName* = ref object of CsObject #TODO(type:CsAliasQualifiedName)
 
 proc newCs*(t: typedesc[CsAliasQualifiedName]; name: string): CsAliasQualifiedName =

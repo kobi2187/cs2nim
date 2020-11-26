@@ -1,3 +1,4 @@
+import ../types
 type CsArrowExpressionClause* = ref object of CsObject #TODO(type:CsArrowExpressionClause)
 
 proc newCs*(t: typedesc[CsArrowExpressionClause]; name: string): CsArrowExpressionClause =

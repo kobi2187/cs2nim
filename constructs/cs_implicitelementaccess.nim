@@ -1,3 +1,4 @@
+import ../types
 type CsImplicitElementAccess* = ref object of CsObject #TODO(type:CsImplicitElementAccess)
 
 proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitElementAccess =

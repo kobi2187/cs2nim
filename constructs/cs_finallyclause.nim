@@ -1,3 +1,4 @@
+import ../types
 type CsFinallyClause* = ref object of CsObject #TODO(type:CsFinallyClause)
 
 proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =

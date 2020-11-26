@@ -1,3 +1,4 @@
+import ../types
 type CsOrderByClause* = ref object of CsObject #TODO(type:CsOrderByClause)
 
 proc newCs*(t: typedesc[CsOrderByClause]; name: string): CsOrderByClause =

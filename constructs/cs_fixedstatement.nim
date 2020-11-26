@@ -1,3 +1,4 @@
+import ../types
 type CsFixedStatement* = ref object of CsObject #TODO(type:CsFixedStatement)
 
 proc newCs*(t: typedesc[CsFixedStatement]; name: string): CsFixedStatement =

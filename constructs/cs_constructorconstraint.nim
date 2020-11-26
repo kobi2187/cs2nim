@@ -1,3 +1,4 @@
+import ../types
 type CsConstructorConstraint* = ref object of CsObject #TODO(type:CsConstructorConstraint)
 
 proc newCs*(t: typedesc[CsConstructorConstraint]; name: string): CsConstructorConstraint =

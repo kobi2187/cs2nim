@@ -1,3 +1,4 @@
+import ../types
 type CsNullableType* = ref object of CsObject #TODO(type:CsNullableType)
 
 proc newCs*(t: typedesc[CsNullableType]; name: string): CsNullableType =

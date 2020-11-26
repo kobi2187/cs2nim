@@ -1,3 +1,4 @@
+import ../types
 type CsDeclarationPattern* = ref object of CsObject #TODO(type:CsDeclarationPattern)
 
 proc newCs*(t: typedesc[CsDeclarationPattern]; name: string): CsDeclarationPattern =

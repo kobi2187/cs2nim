@@ -1,3 +1,4 @@
+import ../types
 type CsGroupClause* = ref object of CsObject #TODO(type:CsGroupClause)
 
 proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =

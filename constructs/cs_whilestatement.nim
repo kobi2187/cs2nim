@@ -1,3 +1,4 @@
+import ../types
 type CsWhileStatement* = ref object of CsObject #TODO(type:CsWhileStatement)
 
 proc newCs*(t: typedesc[CsWhileStatement]; name: string): CsWhileStatement =

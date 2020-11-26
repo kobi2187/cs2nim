@@ -1,3 +1,4 @@
+import ../types
 type CsCatchFilterClause* = ref object of CsObject #TODO(type:CsCatchFilterClause)
 
 proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause =

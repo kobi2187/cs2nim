@@ -1,3 +1,4 @@
+import ../types
 type CsGotoStatement* = ref object of CsObject #TODO(type:CsGotoStatement)
 
 proc newCs*(t: typedesc[CsGotoStatement]; name: string): CsGotoStatement =

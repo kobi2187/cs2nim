@@ -1,3 +1,4 @@
+import ../types
 type CsWhenClause* = ref object of CsObject #TODO(type:CsWhenClause)
 
 proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =

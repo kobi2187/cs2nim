@@ -1,3 +1,4 @@
+import ../types
 type CsPredefinedType* = ref object of CsObject
   name*: string
 

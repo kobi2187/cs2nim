@@ -1,3 +1,4 @@
+import ../types
 type CsConstantPattern* = ref object of CsObject #TODO(type:CsConstantPattern)
 
 proc newCs*(t: typedesc[CsConstantPattern]; name: string): CsConstantPattern =

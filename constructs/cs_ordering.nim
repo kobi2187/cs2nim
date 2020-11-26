@@ -1,3 +1,4 @@
+import ../types
 type CsOrdering* = ref object of CsObject #TODO(type:CsOrdering)
 
 proc newCs*(t: typedesc[CsOrdering]; name: string): CsOrdering =

@@ -1,3 +1,4 @@
+import ../types
 
 type CsNamespace* = ref object of CsObject
   name*: string

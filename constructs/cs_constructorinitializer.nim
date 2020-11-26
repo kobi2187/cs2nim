@@ -1,3 +1,4 @@
+import ../types
 type CsConstructorInitializer* = ref object of CsObject #TODO(type:CsConstructorInitializer)
 
 proc newCs*(t: typedesc[CsConstructorInitializer]; name: string): CsConstructorInitializer =

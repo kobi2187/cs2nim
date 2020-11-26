@@ -1,3 +1,4 @@
+import ../types
 type CsIncompleteMember* = ref object of CsObject #TODO(type:CsIncompleteMember)
 
 proc newCs*(t: typedesc[CsIncompleteMember]; name: string): CsIncompleteMember =

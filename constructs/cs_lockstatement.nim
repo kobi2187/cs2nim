@@ -1,3 +1,4 @@
+import ../types
 type CsLockStatement* = ref object of CsObject #TODO(type:CsLockStatement)
 
 proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =

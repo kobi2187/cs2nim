@@ -1,3 +1,4 @@
+import ../types
 type CsOperator* = ref object of CsObject #TODO(type:CsOperator)
 
 proc newCs*(t: typedesc[CsOperator]; name: string): CsOperator =

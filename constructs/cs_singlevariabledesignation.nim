@@ -1,3 +1,4 @@
+import ../types
 type CsSingleVariableDesignation* = ref object of CsObject #TODO(type:CsSingleVariableDesignation)
 
 proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVariableDesignation =

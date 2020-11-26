@@ -1,3 +1,4 @@
+import ../types
 type CsExternAliasDirective* = ref object of CsObject #TODO(type:CsExternAliasDirective)
 
 proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDirective =

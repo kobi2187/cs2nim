@@ -1,3 +1,5 @@
+import ../types
+
 type CsTypeOfExpression* = ref object of CsObject #TODO(type:CsTypeOfExpression)
 
 proc newCs*(t: typedesc[CsTypeOfExpression]; name: string): CsTypeOfExpression =
