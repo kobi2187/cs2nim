@@ -36,7 +36,8 @@ proc genTest*(filename: string): bool =
     return false
 # lkj
   let contents = readFile(outp).strip
-  let gen = handleFiles(@[src]).strip
+  let gen = handleFiles(@[src]).strip.replace("\r\n", "\n")
+
   if contents != gen:
     echo "expected: `" & contents & "`"
     echo "got: `" & gen & "`"

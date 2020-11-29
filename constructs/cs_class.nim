@@ -3,7 +3,7 @@ import cs_method, cs_field, cs_enum, cs_constructor
 import tables
 
 
-type ClassParts* = enum
+type ClassParts* {.pure.} = enum
   Fields, Methods, Ctors, Enums
 type CsClass* = ref object of CsObject
   name*: string

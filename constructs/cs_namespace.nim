@@ -1,5 +1,5 @@
 import ../types, cs_class, cs_enum
-import tables, sequtils, sets, strutils
+import tables, sets, strutils
 
 type CsNamespace* = ref object of CsObject
   name*: string

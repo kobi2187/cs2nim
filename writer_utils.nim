@@ -11,6 +11,7 @@ proc getCsastFiles*(folder: string): seq[string] =
 
 
 proc processFiles*(root: var CsRoot; files: seq[string]) =
+  echo "processing files"
   for f in files:
     assert f.endsWith(".csast")
     let linesJson = parseFile(f)

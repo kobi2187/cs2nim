@@ -7,9 +7,8 @@ type CsMethod* = ref object of CsObject
   parentClass*: string
   parameterList*: CsParameterList # seq[CsParameter]
   returnType*: string
-  body*: seq[string]              # TODO: which type, and how to handle. maybe have lastMethod.addToMethodBody(...)
-  ## signature*: CsMethodSignature
-  ## body*: CsMethodBody
+  body*: seq[BodyExpr]            # use here inheritance and methods (runtime dispatch).
+                                  # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
 
 proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   new result
@@ -23,7 +22,14 @@ proc extract*(t: typedesc[CsMethod]; info: Info): CsMethod =
 proc add*(parent: var CsMethod; t: CsPredefinedType) =
   parent.returnType = t.name
 
-import sequtils
+proc add*(parent: var CsMethod; p: CsParameterList) =
+  parent.parameterList = p
+
+import cs_returnstatement
+proc add*(parent: var CsMethod; item: CsReturnStatement) =
+  parent.body.add item
+
+import sequtils, strutils
 
 proc addSelfParam(m: var CsMethod) =
   let p = newCs(CsParameter, "this", m.parentClass)
@@ -31,16 +37,19 @@ proc addSelfParam(m: var CsMethod) =
 
 proc gen*(m: var CsMethod): string =
   echo "generating method (wip): " & m.name
-  result = "proc "
+  if not m.isStatic: result = "method " else: result = "proc "
   if not m.isStatic:
     m.addSelfParam()
 
   let parameterList = m.parameterList.gen()
-  let returnType = m.returnType
-  let body = "  discard" # TODO
+  let returnType = if m.returnType != "void": m.returnType else: ""
+  let body =
+    if m.body.len == 0: "discard"
+    else: m.body.mapIt(it.gen()).join("\r\n  ")
+
   result &= m.name & "(" & parameterList & ")"
   if returnType != "": result &= ": " & returnType
   result &= " ="
-  result &= "\r\n"
+  result &= "\r\n  "
 
   result &= body

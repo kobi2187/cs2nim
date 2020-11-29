@@ -1,6 +1,11 @@
+import constructs/[cs_class, cs_root]
+import strutils
+import constructs/constructs
+
 import state_utils
 import state, types
-import tables, json, stacks, options
+# import tables, json,
+import stacks, options
 
 var gotStartBlock = false
 
@@ -10,8 +15,44 @@ proc previousBlock(): Option[Block] =
   let prev = blocks.peek(-3) # -2*2+1
   result = prev
 
-import constructs/constructs
-import strutils
+
+
+proc getLastEnumMember(root: CsRoot): CsEnumMember =
+  let (_, ns) = getCurrentNs(root)
+  var e = ns.enums.last
+  result = e.items.last
+
+
+proc addToLastMethodOrCtor(root: CsRoot, p: CsParameterList) =
+  var c = getLastClass(root).get
+  assert c.lastAddedTo in [ClassParts.Methods, ClassParts.Ctors]
+  case c.lastAddedTo
+  of ClassParts.Methods:
+    var m = getLastMethod(c)
+    assert m.isSome()
+    add(m.get, p)
+  of ClassParts.Ctors:
+    var ctr = getLastCtor(c)
+    assert ctr.isSome()
+    add(ctr.get, p)
+  else: assert false, "not implemented!"
+
+proc addIfBodyExpr(root: CsRoot; item: BodyExpr) =
+  var c = root.getLastClass().get
+  assert c.lastAddedTo in [ClassParts.Methods, ClassParts.Ctors]
+  # we assume bodyExpr to only exist within a method or a ctor.
+  # todo: probably get/set also, haven't seen yet.
+  if c.lastAddedTo == ClassParts.Methods:
+    let m = c.getLastMethod()
+    assert m.isSome
+    m.get.body.add item
+  elif c.lastAddedTo == ClassParts.Ctors:
+    let m = c.getLastCtor()
+    assert m.isSome
+    m.get.body.add item
+  else: assert false, "Unforeseen! or not yet implemented"
+
+
   # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   when false:
@@ -76,13 +117,11 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
 
   of "EnumMemberDeclaration":
     let em = extract(typedesc(CsEnumMember), info)
-    var (name, ns) = getCurrentNs(root)
-    echo name
-    let p = currentPath().last.itemName
-    echo p
-    var lastEnum = ns.enumTable[p]
+    var (_, ns) = getCurrentNs(root)
+    # echo name
+    var lastEnum = ns.enums.last
+    # var lastEnum = ns.enumTable[p]
     lastEnum.items.add(em)
-      # enumTable[p
 
   of "MethodDeclaration":
     # echo info
@@ -102,21 +141,14 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       assert m.isSome
       add(m.get, t)
 
-  of "ParameterList": #TODO
+  of "ParameterList":
     echo "! in parameter list!"
     let p = extract(typedesc(CsParameterList), info)
-    var c = getLastClass(root).get
-    case c.lastAddedTo
-    of Methods:
-      var m = getLastMethod(c)
-      assert m.isSome()
-      m.get.parameterList = p
-    # of Ctors:
-    #   discard
-    else: discard # TODO
+    addToLastMethodOrCtor(root, p)
 
 
-    var prev = previousConstruct()
+
+    # var prev = previousConstruct()
 
   of "Parameter": #TODO unfinished :)
     echo "! in parameter!"
@@ -131,9 +163,44 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "ReturnStatement": #TODO
     echo "in return statement!"
     echo info
-    # todo info is empty, add more from CsDisplay.
-    var m = root.getLastClass().get.getLastMethod()
-    m.get.body.add "return #TODO"
+    let r = extract(typedesc(CsReturnStatement), info)
+    addIfBodyExpr(root, r)
+
+  of "LiteralExpression":
+    echo "got LiteralExpression" #TODO(handle: LiteralExpression)
+    # just extract and add to last construct seen.
+    let r = extract(typedesc(CsLiteralExpression), info)
+    var prev = previousConstruct()
+    # literal can be seen in many places.
+    let whichType = prev.name
+    # let probablyName = prev.info.essentials[0]
+    case whichType:
+    of "EqualsValueClause":
+    # we'll need to get prevprev construct and assign the value to it.
+      let prevprev = prevprevConstruct()
+      let prevprevType = prevprev.name
+      case prevprevType:
+        of "EnumMemberDeclaration": getLastEnumMember(root).add(r.value)
+        else: assert false, prevprevType
+
+    # of "CsNamespace...": assert false
+    # of "CsClass...": assert false
+    # of "CsParameter...": assert false
+    of "ReturnStatement":
+      # assume return only exists within method bodies
+      let c = getLastClass(root).get
+      case c.lastAddedTo
+      of ClassParts.Methods:
+        var m = c.getLastMethod().get
+        var ret = m.body.last
+        assert ret.ttype == "CsReturnStatement"
+        cast[CsReturnStatement](ret).expr = r
+
+      else: assert false
+
+    else: assert false, prev.name
+
+    # for method/ctor body: addIfBodyExpr(root, r)
 
 
 
@@ -144,7 +211,6 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "InvocationExpression": echo "got InvocationExpression" #TODO(handle: InvocationExpression)
   of "ArgumentList": echo "got ArgumentList" #TODO(handle: ArgumentList)
   of "Argument": echo "got Argument" #TODO(handle: Argument)
-  of "LiteralExpression": echo "got LiteralExpression" #TODO(handle: LiteralExpression)
   of "BinaryExpression": echo "got BinaryExpression" #TODO(handle: BinaryExpression)
   of "AssignmentExpression": echo "got AssignmentExpression" #TODO(handle: AssignmentExpression)
   of "EqualsValueClause": echo "got EqualsValueClause" #TODO(handle: EqualsValueClause)

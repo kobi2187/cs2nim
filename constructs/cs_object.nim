@@ -1,8 +1,9 @@
 import ../types
-type CsObject* = ref object of CsObject #TODO(type:CsObject)
+type CsObject* = ref object of RootRef
 
 proc newCs*(t: typedesc[CsObject]; name: string): CsObject =
-  new result #TODO(create:CsObject)
+  new result
+  result.name = name
 
 proc extract*(t: typedesc[CsObject]; info: Info): CsObject = discard #TODO(extract:CsObject)
 

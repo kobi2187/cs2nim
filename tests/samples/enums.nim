@@ -1,2 +1,2 @@
 type Compass* = enum
-  North, South, East, West
+  North = 1, South, East, West

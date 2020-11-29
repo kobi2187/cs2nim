@@ -4,11 +4,18 @@
 import json
 
 type Dummy* = object
+# for constructs in a method body.
+type BodyExpr* = ref object of RootObj
+  #  name*: string
+  ttype*: string
+
+method gen*(e: BodyExpr): string {.base.} =
+  raise newException(Exception, "Not Implemented for " & e.ttype) #& " " & e.name)
 
 type Info* = ref object
+  declName*: string
   essentials*: seq[string]
   extras*: seq[string]
-  declName*: string
 
 import strutils
 proc `$`*(info: Info): string =

@@ -101,7 +101,7 @@ proc keys[A, B](t: TableRef[A, B]): seq[A] =
     result.add k
 
 # TODO: fix vscode environment so i can walk the code instead of all this echo debugging.
-import options, constructs / [cs_root, cs_class, cs_method]
+import options, constructs / [cs_root, cs_class, cs_method, cs_constructor]
 proc getLastClass*(root: CsRoot): Option[CsClass] =
   var ns = nsPathNS()
   if ns.len == 0: ns = @[root.global]
@@ -111,18 +111,21 @@ proc getLastClass*(root: CsRoot): Option[CsClass] =
     result = some(ns.last.classes.last)
 
 proc getLastMethod*(cls: CsClass): Option[CsMethod] =
-  # let cls = getLastClass(root)
-  # if cls.isNone: return #none(CsMethod)
-  if cls.methods.len == 0: return #none(CsMethod)
+  if cls.methods.len == 0: return
   else:
     return some(cls.methods.last)
 
+proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
+  if cls.ctors.len == 0: return
+  else:
+    return some(cls.ctors.last)
+
 import tables
-proc getCurrentNs*(root: var CsRoot): (string, CsNamespace) =
+proc getCurrentNs*(root: CsRoot): (string, CsNamespace) =
   var p = nsPath()
   if p == "": p = "default"
   echo p
-  assert root.nsTables.hasKey(p), "probably bug with not popping the stack when block ends.\n" & $(keys(root.nsTables))
+  assert root.nsTables.hasKey(p)
   let ns = root.nsTables[p]
   result = (p, ns)
 
