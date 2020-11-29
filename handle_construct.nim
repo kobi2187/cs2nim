@@ -160,7 +160,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     m.get.parameterList.add p
 
 
-  of "ReturnStatement": #TODO
+  of "ReturnStatement":
     echo "in return statement!"
     echo info
     let r = extract(typedesc(CsReturnStatement), info)
