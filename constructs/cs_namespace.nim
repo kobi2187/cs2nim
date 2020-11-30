@@ -9,6 +9,13 @@ type CsNamespace* = ref object of CsObject
   enums*: seq[CsEnum]
   enumTable*: TableRef[string, CsEnum]
 
+import sequtils
+proc `$`*(n: CsNamespace): string =
+  result = "name:" & n.name
+  result &= "\nparent" & n.parent
+  result &= "\nclasses:" & n.classes.mapIt(it.name).join(" ")
+  result &= "\nenums:" & n.enums.mapIt(it.name).join(" ")
+
 proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   new result
   result.name = name

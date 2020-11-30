@@ -7,6 +7,14 @@ type CsRoot* = object
   # ns*: seq[CsNamespace]
   nsTables*: TableRef[string, CsNamespace]
 
+import strutils
+proc `$`*(r: CsRoot): string =
+  result = "I am the CsRoot object:\n"
+  if not r.global.isNil:
+    result &= "global is set\n"
+  result &= "ns count: " & $r.ns.len
+  result &= "\n" & r.ns.mapIt(it.name).join(" ")
+
 proc newCs*(t: typedesc[CsRoot]): CsRoot =
   result.ns = initHashSet[CsNamespace]()
   result.nsTables = newTable[string, CsNamespace]()

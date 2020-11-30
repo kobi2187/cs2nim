@@ -31,11 +31,13 @@ proc gen*(c: var CsConstructor): string =
 
   let parameterList = c.parameterList.gen()
   let returnType = c.parentClass
-  let body = c.body.mapIt(it.gen()).join("\r\n")
+  let body =
+    if c.body.len == 0: "new result"
+    else: c.body.mapIt(it.gen()).join("\r\n  ")
 
   result &= "new" & c.name & "(" & parameterList & ")"
   if returnType != "": result &= ": " & returnType
   result &= " ="
-  result &= "\r\n"
+  result &= "\r\n  "
 
   result &= body

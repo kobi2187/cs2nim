@@ -2,6 +2,7 @@
 import stacks, tables, json
 import sequtils
 import state, types #, sequtils, create, addinroot
+import constructs/cs_root
 
 proc `$`*(it: Block): string =
   result =
@@ -39,8 +40,9 @@ proc endBlock*(info: Info) =
 
   echo "-- End of block: " & $last
 
-import constructs/cs_namespace
-proc nsPathNS: seq[CsNamespace] =
+import tables
+import constructs/[cs_namespace, cs_root]
+proc nsPathNS(r: CsRoot): seq[CsNamespace] =
   var started = false
  # we assume blocks starts with namespaces.
  # echo blocks
@@ -48,15 +50,17 @@ proc nsPathNS: seq[CsNamespace] =
     if b.name == "StartBlock": continue # ignore.
     elif b.name == "NamespaceDeclaration":
       started = true
-      result.add extract(CsNamespace, b.info)
+      let name = extract(CsNamespace, b.info).name
+      let actualNs = r.nsTables[name]
+      result.add(actualNs)
     else:
       if not started:
         continue # ignore the beginning until we find a namespace.
       else: # both started and not ns: stop
         break # stop after last ns.
 
-proc nsPath*: string = # SAME?
-  let ns = nsPathNS()
+proc nsPath*(r: CsRoot): string = # SAME?
+  let ns = nsPathNS(r)
   result = if ns.len > 0:
     ns.mapIt(it.name).join(".")
   else:
@@ -103,7 +107,8 @@ proc keys[A, B](t: TableRef[A, B]): seq[A] =
 # TODO: fix vscode environment so i can walk the code instead of all this echo debugging.
 import options, constructs / [cs_root, cs_class, cs_method, cs_constructor]
 proc getLastClass*(root: CsRoot): Option[CsClass] =
-  var ns = nsPathNS()
+  var ns = nsPathNS(root)
+  echo ns
   if ns.len == 0: ns = @[root.global]
   if ns.last.classes.len == 0:
     result = none(CsClass)
@@ -122,7 +127,7 @@ proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
 
 import tables
 proc getCurrentNs*(root: CsRoot): (string, CsNamespace) =
-  var p = nsPath()
+  var p = nsPath(root)
   if p == "": p = "default"
   echo p
   assert root.nsTables.hasKey(p)

@@ -3,6 +3,7 @@ using System;
 class Hi {
     public static void hello() {
         Console.WriteLine("Hello world");
+        Console.WriteLine("Hello world");
     }
 }
 class Second {
