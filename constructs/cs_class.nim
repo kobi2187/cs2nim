@@ -63,6 +63,9 @@ proc gen*(c: CsClass): string =
   echo "has Indexer: " & $c.hasIndexer
   if c.hasIndexer:
     result &= c.indexer.gen()
+  echo "has properties: " & $c.properties.len
+  for p in c.properties:
+    result &= p.gen()
 
 proc add*(parent: var CsClass; m: CsConstructor) =
   parent.ctors.add m
@@ -77,6 +80,7 @@ proc add*(parent: var CsClass; m: CsMethod) =
 proc add*(parent: var CsClass; item: CsProperty) =
   parent.properties.add item
   parent.lastAddedTo = some(Properties)
+  item.parentClass = parent.name
 
 proc add*(parent: var CsClass; item: CsIndexer) =
   parent.indexer = item

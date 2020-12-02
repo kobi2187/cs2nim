@@ -68,7 +68,7 @@ proc nsPath*(r: CsRoot): string = # SAME?
 proc last*[T](s: seq[T]): T =
   result = s[s.len-1]
 proc isEmpty*[T](s: seq[T]): bool =
-  result = s.len == 0
+  result = (s.len == 0)
 proc itemName*(b: Block): string =
   b.info.essentials[0]
 
@@ -115,9 +115,13 @@ proc getLastProperty(c: CsClass): Option[CsProperty] =
   assert c.lastAddedTo.isSome
   case c.lastAddedTo.get
   of ClassParts.Properties:
-    result = if c.properties.isEmpty: none(CsProperty)
+    # echo "~~~" & c.properties.mapIt(it.name)
+    if c.properties.isEmpty:
+      result = none(CsProperty)
     else:
-      some(c.properties.last)
+      assert c.properties.len > 0
+      var last = c.properties[^1]
+      result = some(last)
 
   else: assert false, "Unsupported"
 

@@ -16,11 +16,13 @@ suite "code generation tests":
       check genTest("sample2")
     test "sample4":
       check genTest("sample4")
+    test "sample5":
+      check genTest("sample5")
 
   # working on it:
   when true:
-    test "sample5":
-      check genTest("sample5")
+    test "sample6":
+      check genTest("sample6")
   when false: # not ready yet.
     test "sample1":
       check genTest("sample1")
