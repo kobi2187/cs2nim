@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsConditionalExpression]; name: string): CsConditionalEx
 
 proc extract*(t: typedesc[CsConditionalExpression]; info: Info): CsConditionalExpression = discard #TODO(extract:CsConditionalExpression)
 
-proc add*(parent: var Dummy; item: CsConditionalExpression) = discard # TODO(add:CsConditionalExpression)
+proc add*(parent: var CsConditionalExpression; item: Dummy) = discard # TODO(add:CsConditionalExpression)
 
 proc gen*(c: var CsConditionalExpression): string = discard #TODO(gen:CsConditionalExpression)

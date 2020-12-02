@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsBinaryExpression]; name: string): CsBinaryExpression =
 
 proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression = discard #TODO(extract:CsBinaryExpression)
 
-proc add*(parent: var Dummy; item: CsBinaryExpression) = discard # TODO(add:CsBinaryExpression)
+proc add*(parent: var CsBinaryExpression; item: Dummy) = discard # TODO(add:CsBinaryExpression)
 
 proc gen*(c: var CsBinaryExpression): string = discard #TODO(gen:CsBinaryExpression)

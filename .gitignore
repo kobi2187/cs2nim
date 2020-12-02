@@ -3,5 +3,4 @@ nim_code/
 *.todo
 nim_syntax_playground/
 module_test/
-samples/
 *.tar.*

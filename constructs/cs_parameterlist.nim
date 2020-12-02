@@ -8,7 +8,7 @@ proc newCs*(t: typedesc[CsParameterList]): CsParameterList =
 proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList =
   result = newCs(CsParameterList)
 
-# proc add*(parent: var Dummy; item: CsParameterList) = discard # TODO(add:CsParameterList)
+# proc add*(parent: var CsParameterList; item: Dummy) = discard # TODO(add:CsParameterList)
 proc add*(parent: var CsParameterList; item: CsParameter) =
   parent.parameters.add item
 

@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsIfStatement]; name: string): CsIfStatement =
 
 proc extract*(t: typedesc[CsIfStatement]; info: Info): CsIfStatement = discard #TODO(extract:CsIfStatement)
 
-proc add*(parent: var Dummy; item: CsIfStatement) = discard # TODO(add:CsIfStatement)
+proc add*(parent: var CsIfStatement; item: Dummy) = discard # TODO(add:CsIfStatement)
 
 proc gen*(c: var CsIfStatement): string = discard #TODO(gen:CsIfStatement)

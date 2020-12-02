@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitEleme
 
 proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitElementAccess = discard #TODO(extract:CsImplicitElementAccess)
 
-proc add*(parent: var Dummy; item: CsImplicitElementAccess) = discard # TODO(add:CsImplicitElementAccess)
+proc add*(parent: var CsImplicitElementAccess; item: Dummy) = discard # TODO(add:CsImplicitElementAccess)
 
 proc gen*(c: var CsImplicitElementAccess): string = discard #TODO(gen:CsImplicitElementAccess)

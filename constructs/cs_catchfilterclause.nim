@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause
 
 proc extract*(t: typedesc[CsCatchFilterClause]; info: Info): CsCatchFilterClause = discard #TODO(extract:CsCatchFilterClause)
 
-proc add*(parent: var Dummy; item: CsCatchFilterClause) = discard # TODO(add:CsCatchFilterClause)
+proc add*(parent: var CsCatchFilterClause; item: Dummy) = discard # TODO(add:CsCatchFilterClause)
 
 proc gen*(c: var CsCatchFilterClause): string = discard #TODO(gen:CsCatchFilterClause)

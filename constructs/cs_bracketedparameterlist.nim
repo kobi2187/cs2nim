@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsBracketedParameterList]; name: string): CsBracketedPar
 
 proc extract*(t: typedesc[CsBracketedParameterList]; info: Info): CsBracketedParameterList = discard #TODO(extract:CsBracketedParameterList)
 
-proc add*(parent: var Dummy; item: CsBracketedParameterList) = discard # TODO(add:CsBracketedParameterList)
+proc add*(parent: var CsBracketedParameterList; item: Dummy) = discard # TODO(add:CsBracketedParameterList)
 
 proc gen*(c: var CsBracketedParameterList): string = discard #TODO(gen:CsBracketedParameterList)

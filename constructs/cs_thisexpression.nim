@@ -7,6 +7,6 @@ proc newCs*(t: typedesc[CsThisExpression]; name: string): CsThisExpression =
 
 proc extract*(t: typedesc[CsThisExpression]; info: Info): CsThisExpression = discard #TODO(extract:CsThisExpression)
 
-proc add*(parent: var Dummy; item: CsThisExpression) = discard # TODO(add:CsThisExpression)
+proc add*(parent: var CsThisExpression; item: Dummy) = discard # TODO(add:CsThisExpression)
 
 proc gen*(c: var CsThisExpression): string = discard #TODO(gen:CsThisExpression)

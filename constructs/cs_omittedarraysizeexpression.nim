@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedA
 
 proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedArraySizeExpression = discard #TODO(extract:CsOmittedArraySizeExpression)
 
-proc add*(parent: var Dummy; item: CsOmittedArraySizeExpression) = discard # TODO(add:CsOmittedArraySizeExpression)
+proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy) = discard # TODO(add:CsOmittedArraySizeExpression)
 
 proc gen*(c: var CsOmittedArraySizeExpression): string = discard #TODO(gen:CsOmittedArraySizeExpression)

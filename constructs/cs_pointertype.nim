@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsPointerType]; name: string): CsPointerType =
 
 proc extract*(t: typedesc[CsPointerType]; info: Info): CsPointerType = discard #TODO(extract:CsPointerType)
 
-proc add*(parent: var Dummy; item: CsPointerType) = discard # TODO(add:CsPointerType)
+proc add*(parent: var CsPointerType; item: Dummy) = discard # TODO(add:CsPointerType)
 
 proc gen*(c: var CsPointerType): string = discard #TODO(gen:CsPointerType)

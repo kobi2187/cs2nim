@@ -1,11 +1,14 @@
 import ../types
 type CsExplicitInterfaceSpecifier* = ref object of CsObject #TODO(type:CsExplicitInterfaceSpecifier)
-
+  name*: string
 proc newCs*(t: typedesc[CsExplicitInterfaceSpecifier]; name: string): CsExplicitInterfaceSpecifier =
-  new result #TODO(create:CsExplicitInterfaceSpecifier)
+  new result
+  result.name = name
 
-proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicitInterfaceSpecifier = discard #TODO(extract:CsExplicitInterfaceSpecifier)
+proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicitInterfaceSpecifier = #TODO(extract:CsExplicitInterfaceSpecifier)
+  let name = info.essentials[0]
+  result = newCs(CsExplicitInterfaceSpecifier, name)
 
-proc add*(parent: var Dummy; item: CsExplicitInterfaceSpecifier) = discard # TODO(add:CsExplicitInterfaceSpecifier)
+# proc add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) = discard # TODO(add:CsExplicitInterfaceSpecifier)
 
-proc gen*(c: var CsExplicitInterfaceSpecifier): string = discard #TODO(gen:CsExplicitInterfaceSpecifier)
+# proc gen*(c: var CsExplicitInterfaceSpecifier): string = discard #TODO(gen:CsExplicitInterfaceSpecifier)

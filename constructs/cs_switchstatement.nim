@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsSwitchStatement]; name: string): CsSwitchStatement =
 
 proc extract*(t: typedesc[CsSwitchStatement]; info: Info): CsSwitchStatement = discard #TODO(extract:CsSwitchStatement)
 
-proc add*(parent: var Dummy; item: CsSwitchStatement) = discard # TODO(add:CsSwitchStatement)
+proc add*(parent: var CsSwitchStatement; item: Dummy) = discard # TODO(add:CsSwitchStatement)
 
 proc gen*(c: var CsSwitchStatement): string = discard #TODO(gen:CsSwitchStatement)

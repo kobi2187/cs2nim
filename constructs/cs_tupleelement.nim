@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsTupleElement]; name: string): CsTupleElement =
 
 proc extract*(t: typedesc[CsTupleElement]; info: Info): CsTupleElement = discard #TODO(extract:CsTupleElement)
 
-proc add*(parent: var Dummy; item: CsTupleElement) = discard # TODO(add:CsTupleElement)
+proc add*(parent: var CsTupleElement; item: Dummy) = discard # TODO(add:CsTupleElement)
 
 proc gen*(c: var CsTupleElement): string = discard #TODO(gen:CsTupleElement)

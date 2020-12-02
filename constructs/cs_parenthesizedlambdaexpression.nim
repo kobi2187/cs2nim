@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; name: string): CsParen
 
 proc extract*(t: typedesc[CsParenthesizedLambdaExpression]; info: Info): CsParenthesizedLambdaExpression = discard #TODO(extract:CsParenthesizedLambdaExpression)
 
-proc add*(parent: var Dummy; item: CsParenthesizedLambdaExpression) = discard # TODO(add:CsParenthesizedLambdaExpression)
+proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy) = discard # TODO(add:CsParenthesizedLambdaExpression)
 
 proc gen*(c: var CsParenthesizedLambdaExpression): string = discard #TODO(gen:CsParenthesizedLambdaExpression)

@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAno
 
 proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAnonymousObjectMemberDeclarator = discard #TODO(extract:CsAnonymousObjectMemberDeclarator)
 
-proc add*(parent: var Dummy; item: CsAnonymousObjectMemberDeclarator) = discard # TODO(add:CsAnonymousObjectMemberDeclarator)
+proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy) = discard # TODO(add:CsAnonymousObjectMemberDeclarator)
 
 proc gen*(c: var CsAnonymousObjectMemberDeclarator): string = discard #TODO(gen:CsAnonymousObjectMemberDeclarator)

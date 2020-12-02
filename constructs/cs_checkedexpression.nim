@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsCheckedExpression]; name: string): CsCheckedExpression
 
 proc extract*(t: typedesc[CsCheckedExpression]; info: Info): CsCheckedExpression = discard #TODO(extract:CsCheckedExpression)
 
-proc add*(parent: var Dummy; item: CsCheckedExpression) = discard # TODO(add:CsCheckedExpression)
+proc add*(parent: var CsCheckedExpression; item: Dummy) = discard # TODO(add:CsCheckedExpression)
 
 proc gen*(c: var CsCheckedExpression): string = discard #TODO(gen:CsCheckedExpression)

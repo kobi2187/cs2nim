@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVar
 
 proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVariableDesignation = discard #TODO(extract:CsSingleVariableDesignation)
 
-proc add*(parent: var Dummy; item: CsSingleVariableDesignation) = discard # TODO(add:CsSingleVariableDesignation)
+proc add*(parent: var CsSingleVariableDesignation; item: Dummy) = discard # TODO(add:CsSingleVariableDesignation)
 
 proc gen*(c: var CsSingleVariableDesignation): string = discard #TODO(gen:CsSingleVariableDesignation)

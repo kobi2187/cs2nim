@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsForEachVariableStatement]; name: string): CsForEachVar
 
 proc extract*(t: typedesc[CsForEachVariableStatement]; info: Info): CsForEachVariableStatement = discard #TODO(extract:CsForEachVariableStatement)
 
-proc add*(parent: var Dummy; item: CsForEachVariableStatement) = discard # TODO(add:CsForEachVariableStatement)
+proc add*(parent: var CsForEachVariableStatement; item: Dummy) = discard # TODO(add:CsForEachVariableStatement)
 
 proc gen*(c: var CsForEachVariableStatement): string = discard #TODO(gen:CsForEachVariableStatement)

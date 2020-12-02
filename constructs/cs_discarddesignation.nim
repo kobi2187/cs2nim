@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsDiscardDesignation]; name: string): CsDiscardDesignati
 
 proc extract*(t: typedesc[CsDiscardDesignation]; info: Info): CsDiscardDesignation = discard #TODO(extract:CsDiscardDesignation)
 
-proc add*(parent: var Dummy; item: CsDiscardDesignation) = discard # TODO(add:CsDiscardDesignation)
+proc add*(parent: var CsDiscardDesignation; item: Dummy) = discard # TODO(add:CsDiscardDesignation)
 
 proc gen*(c: var CsDiscardDesignation): string = discard #TODO(gen:CsDiscardDesignation)

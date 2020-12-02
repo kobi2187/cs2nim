@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
 
 proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = discard #TODO(extract:CsWhenClause)
 
-proc add*(parent: var Dummy; item: CsWhenClause) = discard # TODO(add:CsWhenClause)
+proc add*(parent: var CsWhenClause; item: Dummy) = discard # TODO(add:CsWhenClause)
 
 proc gen*(c: var CsWhenClause): string = discard #TODO(gen:CsWhenClause)

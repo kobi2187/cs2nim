@@ -6,7 +6,7 @@ proc newCs*(t: typedesc[CsAccessorList]; name: string): CsAccessorList =
 
 proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList = discard #TODO(extract:CsAccessorList)
 
-proc add*(parent: var Dummy; item: CsAccessorList) = discard # TODO(add:CsAccessorList)
+proc add*(parent: var CsAccessorList; item: Dummy) = discard # TODO(add:CsAccessorList)
 
 
 proc gen*(c: var CsAccessorList): string = discard #TODO(gen:CsAccessorList)

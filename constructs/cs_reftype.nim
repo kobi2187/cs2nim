@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsRefType]; name: string): CsRefType =
 
 proc extract*(t: typedesc[CsRefType]; info: Info): CsRefType = discard #TODO(extract:CsRefType)
 
-proc add*(parent: var Dummy; item: CsRefType) = discard # TODO(add:CsRefType)
+proc add*(parent: var CsRefType; item: Dummy) = discard # TODO(add:CsRefType)
 
 proc gen*(c: var CsRefType): string = discard #TODO(gen:CsRefType)

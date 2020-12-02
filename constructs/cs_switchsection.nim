@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsSwitchSection]; name: string): CsSwitchSection =
 
 proc extract*(t: typedesc[CsSwitchSection]; info: Info): CsSwitchSection = discard #TODO(extract:CsSwitchSection)
 
-proc add*(parent: var Dummy; item: CsSwitchSection) = discard # TODO(add:CsSwitchSection)
+proc add*(parent: var CsSwitchSection; item: Dummy) = discard # TODO(add:CsSwitchSection)
 
 proc gen*(c: var CsSwitchSection): string = discard #TODO(gen:CsSwitchSection)

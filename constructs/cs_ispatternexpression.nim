@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsIsPatternExpression]; name: string): CsIsPatternExpres
 
 proc extract*(t: typedesc[CsIsPatternExpression]; info: Info): CsIsPatternExpression = discard #TODO(extract:CsIsPatternExpression)
 
-proc add*(parent: var Dummy; item: CsIsPatternExpression) = discard # TODO(add:CsIsPatternExpression)
+proc add*(parent: var CsIsPatternExpression; item: Dummy) = discard # TODO(add:CsIsPatternExpression)
 
 proc gen*(c: var CsIsPatternExpression): string = discard #TODO(gen:CsIsPatternExpression)

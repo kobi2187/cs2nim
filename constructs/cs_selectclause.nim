@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsSelectClause]; name: string): CsSelectClause =
 
 proc extract*(t: typedesc[CsSelectClause]; info: Info): CsSelectClause = discard #TODO(extract:CsSelectClause)
 
-proc add*(parent: var Dummy; item: CsSelectClause) = discard # TODO(add:CsSelectClause)
+proc add*(parent: var CsSelectClause; item: Dummy) = discard # TODO(add:CsSelectClause)
 
 proc gen*(c: var CsSelectClause): string = discard #TODO(gen:CsSelectClause)

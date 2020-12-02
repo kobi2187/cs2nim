@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsPostfixUnaryExpression]; name: string): CsPostfixUnary
 
 proc extract*(t: typedesc[CsPostfixUnaryExpression]; info: Info): CsPostfixUnaryExpression = discard #TODO(extract:CsPostfixUnaryExpression)
 
-proc add*(parent: var Dummy; item: CsPostfixUnaryExpression) = discard # TODO(add:CsPostfixUnaryExpression)
+proc add*(parent: var CsPostfixUnaryExpression; item: Dummy) = discard # TODO(add:CsPostfixUnaryExpression)
 
 proc gen*(c: var CsPostfixUnaryExpression): string = discard #TODO(gen:CsPostfixUnaryExpression)

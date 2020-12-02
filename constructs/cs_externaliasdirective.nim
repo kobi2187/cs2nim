@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDir
 
 proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective = discard #TODO(extract:CsExternAliasDirective)
 
-proc add*(parent: var Dummy; item: CsExternAliasDirective) = discard # TODO(add:CsExternAliasDirective)
+proc add*(parent: var CsExternAliasDirective; item: Dummy) = discard # TODO(add:CsExternAliasDirective)
 
 proc gen*(c: var CsExternAliasDirective): string = discard #TODO(gen:CsExternAliasDirective)

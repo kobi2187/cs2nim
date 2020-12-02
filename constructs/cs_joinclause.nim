@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =
 
 proc extract*(t: typedesc[CsJoinClause]; info: Info): CsJoinClause = discard #TODO(extract:CsJoinClause)
 
-proc add*(parent: var Dummy; item: CsJoinClause) = discard # TODO(add:CsJoinClause)
+proc add*(parent: var CsJoinClause; item: Dummy) = discard # TODO(add:CsJoinClause)
 
 proc gen*(c: var CsJoinClause): string = discard #TODO(gen:CsJoinClause)

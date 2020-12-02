@@ -1,10 +1,10 @@
 import ../types
-import cs_method, cs_field, cs_enum, cs_constructor
+import cs_method, cs_field, cs_enum, cs_constructor, cs_property, cs_indexer
 import tables
 
 
 type ClassParts* {.pure.} = enum
-  Fields, Methods, Ctors, Enums
+  Fields, Methods, Ctors, Enums, Properties, Indexer
 
 import options
 type CsClass* = ref object of CsObject
@@ -13,12 +13,17 @@ type CsClass* = ref object of CsObject
   extends*: string
   implements*: seq[string]
   fields*: seq[CsField]
+  properties*: seq[CsProperty]
   methods*: seq[CsMethod]
   ctors*: seq[CsConstructor]
   enums*: seq[CsEnum]
   enumTable*: TableRef[string, CsEnum]
   lastAddedTo*: Option[ClassParts]
   isStatic*: bool
+  indexer*: CsIndexer
+  # hasIndexer*: bool
+
+proc hasIndexer*(c: CsClass): bool = not c.indexer.isNil
 
 proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[string] = @[]): CsClass =
   new result
@@ -38,15 +43,6 @@ proc extract*(t: typedesc[CsClass]; info: Info): CsClass =
   else:
     result = newCs(CsClass, name)
 
-proc add*(parent: var CsClass; m: CsConstructor) =
-  parent.ctors.add m
-  parent.lastAddedTo = some(Ctors)
-  m.parentClass = parent.name
-
-proc add*(parent: var CsClass; m: CsMethod) =
-  parent.methods.add m
-  parent.lastAddedTo = some(Methods)
-  m.parentClass = parent.name
 
 
 proc gen*(c: CsClass): string =
@@ -64,3 +60,25 @@ proc gen*(c: CsClass): string =
   for ctor in c.ctors.mitems:
     result &= ctor.gen()
     result &= "\r\n"
+  echo "has Indexer: " & $c.hasIndexer
+  if c.hasIndexer:
+    result &= c.indexer.gen()
+
+proc add*(parent: var CsClass; m: CsConstructor) =
+  parent.ctors.add m
+  parent.lastAddedTo = some(Ctors)
+  m.parentClass = parent.name
+
+proc add*(parent: var CsClass; m: CsMethod) =
+  parent.methods.add m
+  parent.lastAddedTo = some(Methods)
+  m.parentClass = parent.name
+
+proc add*(parent: var CsClass; item: CsProperty) =
+  parent.properties.add item
+  parent.lastAddedTo = some(Properties)
+
+proc add*(parent: var CsClass; item: CsIndexer) =
+  parent.indexer = item
+  parent.lastAddedTo = some(Indexer)
+  # item.parentName = parent.name

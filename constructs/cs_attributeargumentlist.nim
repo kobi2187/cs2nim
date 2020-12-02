@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsAttributeArgumentList]; name: string): CsAttributeArgu
 
 proc extract*(t: typedesc[CsAttributeArgumentList]; info: Info): CsAttributeArgumentList = discard #TODO(extract:CsAttributeArgumentList)
 
-proc add*(parent: var Dummy; item: CsAttributeArgumentList) = discard # TODO(add:CsAttributeArgumentList)
+proc add*(parent: var CsAttributeArgumentList; item: Dummy) = discard # TODO(add:CsAttributeArgumentList)
 
 proc gen*(c: var CsAttributeArgumentList): string = discard #TODO(gen:CsAttributeArgumentList)

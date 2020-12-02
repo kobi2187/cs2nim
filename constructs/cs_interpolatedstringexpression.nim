@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsInterpolatedStringExpression]; name: string): CsInterp
 
 proc extract*(t: typedesc[CsInterpolatedStringExpression]; info: Info): CsInterpolatedStringExpression = discard #TODO(extract:CsInterpolatedStringExpression)
 
-proc add*(parent: var Dummy; item: CsInterpolatedStringExpression) = discard # TODO(add:CsInterpolatedStringExpression)
+proc add*(parent: var CsInterpolatedStringExpression; item: Dummy) = discard # TODO(add:CsInterpolatedStringExpression)
 
 proc gen*(c: var CsInterpolatedStringExpression): string = discard #TODO(gen:CsInterpolatedStringExpression)

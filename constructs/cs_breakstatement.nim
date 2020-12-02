@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =
 
 proc extract*(t: typedesc[CsBreakStatement]; info: Info): CsBreakStatement = discard #TODO(extract:CsBreakStatement)
 
-proc add*(parent: var Dummy; item: CsBreakStatement) = discard # TODO(add:CsBreakStatement)
+proc add*(parent: var CsBreakStatement; item: Dummy) = discard # TODO(add:CsBreakStatement)
 
 proc gen*(c: var CsBreakStatement): string = discard #TODO(gen:CsBreakStatement)

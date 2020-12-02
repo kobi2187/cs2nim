@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsFixedStatement]; name: string): CsFixedStatement =
 
 proc extract*(t: typedesc[CsFixedStatement]; info: Info): CsFixedStatement = discard #TODO(extract:CsFixedStatement)
 
-proc add*(parent: var Dummy; item: CsFixedStatement) = discard # TODO(add:CsFixedStatement)
+proc add*(parent: var CsFixedStatement; item: Dummy) = discard # TODO(add:CsFixedStatement)
 
 proc gen*(c: var CsFixedStatement): string = discard #TODO(gen:CsFixedStatement)

@@ -1,5 +1,8 @@
-import ../types, cs_class, cs_enum
-import tables, sets, strutils
+import ../types, cs_class, cs_enum, cs_interface
+import tables, sets, strutils, options
+
+type NamespaceParts* {.pure.} = enum
+  Interfaces, Enums, Classes
 
 type CsNamespace* = ref object of CsObject
   name*: string
@@ -8,6 +11,9 @@ type CsNamespace* = ref object of CsObject
   classTable*: TableRef[string, CsClass]
   enums*: seq[CsEnum]
   enumTable*: TableRef[string, CsEnum]
+  interfaces*: seq[CsInterface]
+  interfaceTable*: TableRef[string, CsInterface]
+  lastAddedTo*: Option[NamespaceParts]
 
 import sequtils
 proc `$`*(n: CsNamespace): string =
@@ -23,6 +29,8 @@ proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   result.classTable = newTable[string, CsClass]()
   result.enums = @[]
   result.enumTable = newTable[string, CsEnum]()
+  result.interfaces = @[]
+  result.interfaceTable = newTable[string, CsInterface]()
 
 func extract*(t: typedesc[CsNamespace]; info: Info): CsNamespace =
   result = newCs(CsNamespace, info.essentials[0])
@@ -30,11 +38,12 @@ func extract*(t: typedesc[CsNamespace]; info: Info): CsNamespace =
 proc add*(parent: var CsNamespace; item: CsEnum) =
   parent.enums.add item
   parent.enumTable[item.name] = item
-
+  parent.lastAddedTo = some(NamespaceParts.Enums)
 
 proc add*(ns: var CsNamespace; class: CsClass) =
   ns.classes.add(class)
   ns.classTable[class.name] = class
+  ns.lastAddedTo = some(NamespaceParts.Classes)
 
 proc gen*(r: CsNamespace): string =
   echo "generating namespace: " & r.name

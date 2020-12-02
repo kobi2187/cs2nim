@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsDeclarationPattern]; name: string): CsDeclarationPatte
 
 proc extract*(t: typedesc[CsDeclarationPattern]; info: Info): CsDeclarationPattern = discard #TODO(extract:CsDeclarationPattern)
 
-proc add*(parent: var Dummy; item: CsDeclarationPattern) = discard # TODO(add:CsDeclarationPattern)
+proc add*(parent: var CsDeclarationPattern; item: Dummy) = discard # TODO(add:CsDeclarationPattern)
 
 proc gen*(c: var CsDeclarationPattern): string = discard #TODO(gen:CsDeclarationPattern)

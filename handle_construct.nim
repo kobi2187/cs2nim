@@ -1,20 +1,16 @@
-import constructs/[cs_class, cs_root]
-import strutils
 import constructs/constructs
+import state_utils, state, types
+import strutils, stacks, options, sets
 
-import state_utils
-import state, types
-# import tables, json,
-import stacks, options
+const urgent = true
 
 var gotStartBlock = false
 
-import sets
+var debugWantSomeWork = false #true
 
-var debugWantSomeWork = true
-
-proc previousBlock(): Option[Block] =
-  let prev = blocks.peek(-3) # -2*2+1
+proc previousBlock*(a: int = 2): Option[Block] =
+  let idx = -2 * a + 1
+  let prev = blocks.peek(idx) # -2*2+1 = -3
   result = prev
 
 
@@ -27,7 +23,7 @@ proc getLastEnumMember(root: CsRoot): CsEnumMember =
 
 proc addToLastMethodOrCtor(root: CsRoot, p: CsParameterList) =
   echo root
-  let (a, b) = root.getCurrentNs()
+  let (_, b) = root.getCurrentNs()
   echo b
 
   var c = getLastClass(root).get
@@ -143,20 +139,42 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
 
   of "IndexerDeclaration":
     echo "got IndexerDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IndexerDeclaration)
     echo info
-    assert false, "implement me plz"
+    # if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IndexerDeclaration)
+    let indexer = extract(CsIndexer, info)
+    var (name, ns) = root.getCurrentNs()
+    assert ns.lastAddedTo.isSome
+    case ns.lastAddedTo.get
+    of NamespaceParts.Classes:
+      var cls = root.getLastClass()
+      assert cls.isSome
+      cls.get.add(indexer)
+    else: assert false, "Not yet implemented"
 
   of "PredefinedType":
     echo "in PredefinedType!!"
     let t = extract(typedesc(CsPredefinedType), info)
     var prev = previousConstruct().name
+    echo "previous construct was: " & prev
     case prev
     of "MethodDeclaration":
       var m = getLastClass(root).get.getLastMethod()
       assert m.isSome
       add(m.get, t)
+    of "PropertyDeclaration":
+      var prop = root.getLastProperty()
+      assert prop.issome()
+      add(prop.get, t)
 
+    of "IndexerDeclaration":
+      echo info
+      var indexer = root.getLastIndexer()
+      assert indexer.isSome
+      add(indexer.get, t)
+
+    of "Parameter": discard
+    else:
+      assert false, prev
   of "ParameterList":
     echo "! in parameter list!"
     let p = extract(typedesc(CsParameterList), info)
@@ -181,14 +199,17 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       var ctr = c.getLastCtor()
       assert ctr.isSome
       ctr.get.parameterList.add p
-    else: assert false, "not implemented"
+    of ClassParts.Indexer:
+      var idxr = c.indexer
+      add(idxr, p)
+
+
+    else: assert false, "not implemented " & $c.lastAddedTo.get
   of "Argument":
     echo info
     # assert false
   of "ConstructorDeclaration":
     echo "got ConstructorDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConstructorDeclaration)
-    echo info
     let ctor = extract(CsConstructor, info)
     var c = root.getLastClass().get
     c.add(ctor)
@@ -238,18 +259,54 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     # for method/ctor body: addIfBodyExpr(root, r)
   # =============================================================================
   of "QualifiedName":
-    echo "got QualifiedName"
+    # echo "got QualifiedName"
     discard
     # if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: QualifiedName)
 
   of "IdentifierName":
-    echo "got IdentifierName"
+    # echo "got IdentifierName"
     discard
     # if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IdentifierName)
 
+  of "SimpleBaseType":
+    when not urgent:
+      echo "got SimpleBaseType"
+      if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SimpleBaseType)
+    discard
+
   of "BaseList": # TODO: Can implement this instead of 2nd essential in class. but not really crucial for now.
-    echo "got BaseList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BaseList)
+    when not urgent:
+      echo "got BaseList"
+      if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BaseList)
+    discard
+
+  of "PropertyDeclaration":
+    echo "got PropertyDeclaration"
+    # TODO FOR NOW
+    echo info
+    let csp = extract(CsProperty, info)
+    var (_, ns) = getCurrentNs(root)
+    case ns.lastAddedTo.get
+      of Interfaces:
+        discard # TODO
+        # let iface = ns.getLastInterface()
+        # iface.add(csp)
+      of Classes:
+        var cls = ns.getLastClass().get
+        cls.add(csp)
+      of [NamespaceParts.Enums]: discard
+
+  # ######## NOW IMPLEMENTING: #########
+  of "ExplicitInterfaceSpecifier":
+    echo "got ExplicitInterfaceSpecifier"
+    echo info
+    let exp = extract(CsExplicitInterfaceSpecifier, info)
+
+    let a = prevprevConstruct().name
+    case a
+    of "IndexerDeclaration":
+      var idxr = root.getLastIndexer().get
+      idxr.add(exp)
 
   of "UsingDirective":
     echo "got UsingDirective"
@@ -311,9 +368,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "ElementAccessExpression":
     echo "got ElementAccessExpression"
     if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ElementAccessExpression)
-  of "PropertyDeclaration":
-    echo "got PropertyDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PropertyDeclaration)
+
   of "AccessorList":
     echo "got AccessorList"
     if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AccessorList)
@@ -356,9 +411,6 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "CaseSwitchLabel":
     echo "got CaseSwitchLabel"
     if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CaseSwitchLabel)
-  of "SimpleBaseType":
-    echo "got SimpleBaseType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SimpleBaseType)
 
   of "SwitchSection":
     echo "got SwitchSection"
@@ -456,9 +508,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "DeclarationExpression":
     echo "got DeclarationExpression"
     if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DeclarationExpression)
-  of "ExplicitInterfaceSpecifier":
-    echo "got ExplicitInterfaceSpecifier"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ExplicitInterfaceSpecifier)
+
   of "ConditionalAccessExpression":
     echo "got ConditionalAccessExpression"
     if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConditionalAccessExpression)

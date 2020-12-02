@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDecl
 
 proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info): CsLocalDeclarationStatement = discard #TODO(extract:CsLocalDeclarationStatement)
 
-proc add*(parent: var Dummy; item: CsLocalDeclarationStatement) = discard # TODO(add:CsLocalDeclarationStatement)
+proc add*(parent: var CsLocalDeclarationStatement; item: Dummy) = discard # TODO(add:CsLocalDeclarationStatement)
 
 proc gen*(c: var CsLocalDeclarationStatement): string = discard #TODO(gen:CsLocalDeclarationStatement)

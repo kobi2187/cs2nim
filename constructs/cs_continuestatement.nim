@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement
 
 proc extract*(t: typedesc[CsContinueStatement]; info: Info): CsContinueStatement = discard #TODO(extract:CsContinueStatement)
 
-proc add*(parent: var Dummy; item: CsContinueStatement) = discard # TODO(add:CsContinueStatement)
+proc add*(parent: var CsContinueStatement; item: Dummy) = discard # TODO(add:CsContinueStatement)
 
 proc gen*(c: var CsContinueStatement): string = discard #TODO(gen:CsContinueStatement)

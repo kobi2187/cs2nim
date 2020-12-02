@@ -42,8 +42,8 @@ let blockTypesTxt* = [
   "ClassDeclaration",
   "EnumDeclaration",
   "MethodDeclaration",
-  "ReturnStatement" # ???
-                    # not yet supported:
+  "ReturnStatement" ,
+  "PropertyDeclaration",
 
     # todo: ... add more, and sync with CsDisplay side.
     # note: if endblock raises an assert, it means a previous construct was not recorded here.

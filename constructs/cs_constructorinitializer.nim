@@ -6,6 +6,6 @@ proc newCs*(t: typedesc[CsConstructorInitializer]; name: string): CsConstructorI
 
 proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorInitializer = discard #TODO(extract:CsConstructorInitializer)
 
-proc add*(parent: var Dummy; item: CsConstructorInitializer) = discard # TODO(add:CsConstructorInitializer)
+proc add*(parent: var CsConstructorInitializer; item: Dummy) = discard # TODO(add:CsConstructorInitializer)
 
 proc gen*(c: var CsConstructorInitializer): string = discard #TODO(gen:CsConstructorInitializer)
