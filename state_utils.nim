@@ -3,14 +3,20 @@ import stacks, tables, json, sequtils, options
 import state, types
 
 proc `$`*(it: Block): string =
-  result =
-    if not it.info.isNil and it.info.essentials.len > 0:
-      it.name & ": `" & it.info.essentials[0] & "`"
-    else: it.name
+  if not it.info.isNil and it.info.essentials.len > 0:
+    result = it.name & ": `" & it.info.essentials[0] & "`"
+    if it.info.extras.len > 0:
+      result &= " " & it.info.extras[0]
+  else: result = it.name
 
 proc `$`*(blocks: Stack[Block]): string =
   let x = blocks.toSeq.mapIt($it)
   result = $x
+
+proc nameFromCsast(b: Block): string =
+  result = ""
+  if b.info.extras.len > 0: result = b.info.extras[0]
+
 
 import strutils, options
 proc endBlock*(info: Info) =
@@ -24,13 +30,12 @@ proc endBlock*(info: Info) =
   if (blocks.len mod 2 != 0):
     echo blocks.pop
     return
-
   var last = blocks.pop # we do it twice now.
   let bs = blocks.pop
   assert bs.name == "BlockStarts"
 
   echo "block count, according to csast:" & $blockCount
-  echo "block count, according to our count:" & $blocks.len
+  echo "block count, according to our count:" & $(blocks.len div 2)
   assert blocks.len == blockCount*2, $blocks
 
   echo "removed " & $last & " from blocks tracking. (assumes we finished with it)"

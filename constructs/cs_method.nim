@@ -18,6 +18,11 @@ proc extract*(t: typedesc[CsMethod]; info: Info): CsMethod =
   let name = info.essentials[0]
   let m = newCs(CsMethod, name)
   result = m
+  if info.extras.len > 0:
+    let e = info.extras[0]
+    echo e
+    if e.contains("static"):
+      result.isStatic = true
 
 proc add*(parent: var CsMethod; t: CsPredefinedType) =
   parent.returnType = t.name

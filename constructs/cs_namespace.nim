@@ -1,4 +1,4 @@
-import ../types, cs_class, cs_enum, cs_interface
+import ../types, cs_class, cs_enum, cs_interface, cs_usingdirective
 import tables, sets, strutils, options
 
 type NamespaceParts* {.pure.} = enum
@@ -14,6 +14,7 @@ type CsNamespace* = ref object of CsObject
   interfaces*: seq[CsInterface]
   interfaceTable*: TableRef[string, CsInterface]
   lastAddedTo*: Option[NamespaceParts]
+  imports*: seq[CsUsingDirective]
 
 import sequtils
 proc `$`*(n: CsNamespace): string =
@@ -45,11 +46,18 @@ proc add*(ns: var CsNamespace; class: CsClass) =
   ns.classTable[class.name] = class
   ns.lastAddedTo = some(NamespaceParts.Classes)
 
+proc add*(ns: var CsNamespace; use: CsUsingDirective) =
+  ns.imports.add use
+
 proc gen*(r: CsNamespace): string =
   echo "generating namespace: " & r.name
   var s: seq[string] = @[]
+  for u in r.imports:
+    s.add(u.gen())
+  s.add("")
   for c in r.classes:
     s.add(c.gen())
+  s.add("")
   for e in r.enums:
     s.add(e.gen())
   result = s.join("\r\n")

@@ -3,6 +3,8 @@ import ../types
 type CsParameter* = ref object of CsObject
   name*: string
   ptype*: string
+  isRef*: bool
+  isOut*: bool
 
 proc newCs*(t: typedesc[CsParameter]; a, b: string): CsParameter =
   new result
@@ -14,9 +16,17 @@ proc extract*(t: typedesc[CsParameter]; info: Info): CsParameter =
   let name = info.essentials[0].strip()
   let ty = info.essentials[1].strip()
   result = newCs(CsParameter, name, ty)
+  if info.extras.len > 0:
+    let e = info.extras[0]
+    if e.contains("ref"): result.isRef = true
+
 
 
 
 import strutils
 proc gen*(p: CsParameter): string =
-  p.name & ": " & p.ptype.strip
+  result = p.name & ": "
+  if p.isRef:
+    result &= "var "
+  result &= p.ptype.strip
+

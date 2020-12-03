@@ -1,12 +1,13 @@
 import constructs/constructs
 import state_utils, state, types
 import strutils, stacks, options, sets
-
+import typeinfo
 const urgent = true
 
 var gotStartBlock = false
 
-var debugWantSomeWork = false #true
+var debugWantSomeWork = false
+# var debugWantSomeWork = true
 
 proc previousBlock*(a: int = 2): Option[Block] =
   let idx = -2 * a + 1
@@ -57,7 +58,6 @@ proc addIfBodyExpr(root: CsRoot; item: BodyExpr) =
   else: assert false, "Unforeseen! or not yet implemented"
 
 
-  # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
 proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   when false:
     echo "blocks info:"
@@ -111,6 +111,22 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     # echo "nsPath is: " & p
     c.nsParent = p
     ns.add(c)
+
+  of "ArgumentList":
+    echo "got ArgumentList"
+    let arglist = extract(CsArgumentList, info)
+    # now add to last method.
+    let c = root.getLastClass().get
+    let m = c.getLastMethod().get
+    var es = m.body.last
+    assert es.ttype == "CsExpressionStatement"
+    cast[CsExpressionStatement](es).args = arglist
+
+  of "UsingDirective":
+    echo "got UsingDirective"
+    var (p, ns) = getcurrentNs(root)
+    let use = extract(CsUsingDirective, info)
+    ns.add(use)
 
   of "EnumDeclaration":
     # extract name:
@@ -184,7 +200,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
 
     # var prev = previousConstruct()
 
-  of "Parameter": #TODO unfinished :)
+  of "Parameter":
     echo "! in parameter!"
     echo info
     let p = extract(typedesc(CsParameter), info)
@@ -241,6 +257,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     # of "CsNamespace...": assert false
     # of "CsClass...": assert false
     # of "CsParameter...": assert false
+    of "Argument": discard # assert false
     of "ReturnStatement":
       # assume return only exists within method bodies
       let c = getLastClass(root).get
@@ -308,18 +325,24 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       var idxr = root.getLastIndexer().get
       idxr.add(exp)
 
-  of "UsingDirective":
-    echo "got UsingDirective"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: UsingDirective)
   of "ExpressionStatement":
     echo "got ExpressionStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ExpressionStatement)
+    let es = extract(CsExpressionStatement, info)
+    root.addIfBodyExpr(es)
+    # add empty MethodBodyLine : BodyExpr to last method.
+    # then fill it with invocationExpression and ArgumentList
+    # gen is a method then.
   of "InvocationExpression":
     echo "got InvocationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: InvocationExpression)
-  of "ArgumentList":
-    echo "got ArgumentList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ArgumentList)
+    # when we get this, extract and
+    let ie = extract(CsInvocationExpression, info)
+    # now add to last method.
+    let c = root.getLastClass().get
+    let m = c.getLastMethod().get
+    var es = m.body.last
+    assert es.ttype == "CsExpressionStatement"
+    cast[CsExpressionStatement](es).call = ie
+
   of "BinaryExpression":
     echo "got BinaryExpression"
     if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BinaryExpression)

@@ -42,11 +42,12 @@ let blockTypesTxt* = [
   "ClassDeclaration",
   "EnumDeclaration",
   "MethodDeclaration",
-  "ReturnStatement" ,
+  "ReturnStatement",
   "PropertyDeclaration",
+  "ExpressionStatement",
 
     # todo: ... add more, and sync with CsDisplay side.
-    # note: if endblock raises an assert, it means a previous construct was not recorded here.
+      # note: if endblock raises an assert, it means a previous construct was not recorded here.
   ].toHashSet
 
 proc currentPath*(): seq[Block] = blocks.toSeq()

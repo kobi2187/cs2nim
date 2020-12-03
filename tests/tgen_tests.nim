@@ -1,7 +1,7 @@
 import "./utils" #, "../writer_utils"
 import unittest
 
-const last = false
+const last = true
 
 suite "code generation tests":
   when not last:
@@ -18,12 +18,15 @@ suite "code generation tests":
       check genTest("sample4")
     test "sample5":
       check genTest("sample5")
-
-  # working on it:
-  when true:
     test "sample6":
       check genTest("sample6")
-  when false: # not ready yet.
+    test "sample7":
+      check genTest("sample7")
+    test "sample8":
+      check genTest("sample8")
+  when true:
+    # working on it:
     test "sample1":
       check genTest("sample1")
-    # discard
+  when false: # not ready yet.
+    discard

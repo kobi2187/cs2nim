@@ -41,5 +41,8 @@ proc genTest*(filename: string): bool =
   if contents != gen:
     echo "expected: `" & contents & "`"
     echo "got: `" & gen & "`"
+    writeFile("/tmp/expected", contents)
+    writeFile("/tmp/got", gen)
+    discard execShellCmd("diff -a -d --color=always /tmp/expected /tmp/got")
 
   return contents == gen
