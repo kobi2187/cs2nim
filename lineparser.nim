@@ -1,4 +1,5 @@
 # lineparser.nim
+import uuids
 import state, types, handle_construct, state_utils
 import constructs/cs_root
 type LineKind* = enum
@@ -8,18 +9,19 @@ import stacks, sets, json
 import sequtils
 import json
 
+import ideal
 
 # design note: root will be the beginning, many cs files can be parsed, (so, it means we'll pass it as a var argument)
 # and all their results added to that root. a "global" namespace contains all the valid top level constructs (not within a namespace)
 # so the resulting Nim modules (as files), may need to "import global" to have access to these parts.
-proc modifyPosition(thetype: string; info: Info) =
-  let c = Block(name: thetype, info: info)
+proc modifyPosition(thetype: string; info: Info; id: UUID) =
+  let c = Block(name: thetype, info: info, id: id)
   currentConstruct.add(c)
 
   if thetype in blockTypesTxt:
     blocks.push c
 
-proc getInfo (line: JsonNode): (seq[string], seq[string]) =
+proc getInfo(line: JsonNode): (seq[string], seq[string]) =
   var main, extras: seq[string]
   let linf = line["Info"]
   if not linf.isNil and linf.kind != JNull:
@@ -48,8 +50,10 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
     let src = line["Source"].getStr
 
     let info = Info(declName: decl, essentials: main, extras: extras)
-    modifyPosition(decl, info)
-    addToRoot(root, src, info)
+    let id = genUUID()
+    modifyPosition(decl, info, id)
+    when true: addToRoot(root, src, info, id)
+    when false: addToRoot2(root, src, info, id) # slowly switch to new system, while making sure it compiles.
 
   of EndBlock:
     assert kindstr == "EndBlock"

@@ -1,9 +1,9 @@
-import ../types
+import ../types, uuids, options
 type CsPredefinedType* = ref object of CsObject
-  name*: string
 
 proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
   new result
+  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsPredefinedType]; info: Info): CsPredefinedType =

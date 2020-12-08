@@ -1,9 +1,8 @@
-import ../types
+import ../types, uuids, options
 import cs_predefinedtype
 
 type CsProperty* = ref object of CsObject
   retType*: string
-  name*: string
   hasGet*: bool
   hasSet*: bool
   parentClass*: string
@@ -12,6 +11,7 @@ type CsProperty* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
   new result
+  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsProperty]; info: Info): CsProperty =

@@ -1,6 +1,6 @@
 # writer.nim
 import system, strutils, os
-import writer_utils, types
+import writer_utils, state
 import constructs/cs_root
 
 proc main() =
@@ -24,6 +24,7 @@ proc main() =
     if safer:
       for f in files:
         var root = newCs(CsRoot) # new root each time.
+        currentRoot = root
         handleJustOne(inputfolder, root, f)
         writeAll(inputFolder, root)
 

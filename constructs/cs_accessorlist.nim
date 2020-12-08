@@ -1,12 +1,15 @@
-import ../types
+import ../types, uuids, options
 type CsAccessorList* = ref object of CsObject #TODO(type:CsAccessorList)
 
 proc newCs*(t: typedesc[CsAccessorList]; name: string): CsAccessorList =
-  new result #TODO(create:CsAccessorList)
+  new result
+  result.id = uuids.genUUID #TODO(create:CsAccessorList)
 
 proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList = discard #TODO(extract:CsAccessorList)
 
-proc add*(parent: var CsAccessorList; item: Dummy) = discard # TODO(add:CsAccessorList)
+proc add*(parent: var CsAccessorList; item: Dummy) =
+  discard # TODO(add:CsAccessorList)
+  # item.parentId = parent.id
 
 
 proc gen*(c: var CsAccessorList): string = discard #TODO(gen:CsAccessorList)

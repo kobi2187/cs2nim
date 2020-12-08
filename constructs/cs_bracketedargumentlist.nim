@@ -1,11 +1,14 @@
-import ../types
+import ../types, uuids, options
 type CsBracketedArgumentList* = ref object of CsObject #TODO(type:CsBracketedArgumentList)
 
 proc newCs*(t: typedesc[CsBracketedArgumentList]; name: string): CsBracketedArgumentList =
-  new result #TODO(create:CsBracketedArgumentList)
+  new result
+  result.id = uuids.genUUID #TODO(create:CsBracketedArgumentList)
 
 proc extract*(t: typedesc[CsBracketedArgumentList]; info: Info): CsBracketedArgumentList = discard #TODO(extract:CsBracketedArgumentList)
 
-proc add*(parent: var CsBracketedArgumentList; item: Dummy) = discard # TODO(add:CsBracketedArgumentList)
+proc add*(parent: var CsBracketedArgumentList; item: Dummy) =
+  discard # TODO(add:CsBracketedArgumentList)
+  # item.parentId = parent.id
 
 proc gen*(c: var CsBracketedArgumentList): string = discard #TODO(gen:CsBracketedArgumentList)

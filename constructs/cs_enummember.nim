@@ -1,11 +1,11 @@
-import options, ../types
+import options, ../types, uuids
 
 type CsEnumMember* = ref object of CsObject
-  name*: string
   value*: string #Option[int]
 
 proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   new result
+  result.id = genUUID().some
   result.name = name
   result.value = value
 

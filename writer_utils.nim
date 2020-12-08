@@ -3,6 +3,9 @@ import lineparser
 
 import os, system, times
 import strutils, os, json
+import constructs/cs_root
+var currentRoot*: CsRoot
+
 
 proc getCsastFiles*(folder: string): seq[string] =
   for file in walkDirRec(folder):
@@ -21,7 +24,7 @@ proc concatModulesOutput*(mods: seq[Module]): string =
   for m in mods:
     result &= m.output & "\n\n"
 
-let safer* = false
+let safer* = true
 const suffixOutputDir = "nim_code/dotnet"
 let dt = now().format("yyyyMMddHHmm")
 
@@ -90,7 +93,7 @@ import json, algorithm
 
 proc handleJustOne*(inputFolder: string; root: var CsRoot;
     file: string) =
-  echo file
+  echo "working on: " & file
   let linesJson = parseFile(file)
   parseExecFile(root, linesJson)
 
@@ -106,6 +109,7 @@ proc stats(i: int; f: string; len: int; sw: DateTime): string =
 proc handleMany*(inputFolder: string; root: var CsRoot; files: seq[string]) =
   var sw = now()
   for i, f in files.sorted:
+    echo "working on: " & f
     let str = stats(i, f, files.len, sw)
     write(stdout, str)
 

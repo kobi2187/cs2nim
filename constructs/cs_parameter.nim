@@ -1,13 +1,13 @@
-import ../types
+import ../types,uuids,options
 
 type CsParameter* = ref object of CsObject
-  name*: string
   ptype*: string
   isRef*: bool
   isOut*: bool
 
 proc newCs*(t: typedesc[CsParameter]; a, b: string): CsParameter =
   new result
+  result.id = genUUID().some
   result.name = a
   result.ptype = b
 

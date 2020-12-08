@@ -1,11 +1,14 @@
-import ../types
+import ../types, uuids, options
 type CsRefTypeExpression* = ref object of CsObject #TODO(type:CsRefTypeExpression)
 
 proc newCs*(t: typedesc[CsRefTypeExpression]; name: string): CsRefTypeExpression =
-  new result #TODO(create:CsRefTypeExpression)
+  new result
+  result.id = uuids.genUUID #TODO(create:CsRefTypeExpression)
 
 proc extract*(t: typedesc[CsRefTypeExpression]; info: Info): CsRefTypeExpression = discard #TODO(extract:CsRefTypeExpression)
 
-proc add*(parent: var CsRefTypeExpression; item: Dummy) = discard # TODO(add:CsRefTypeExpression)
+proc add*(parent: var CsRefTypeExpression; item: Dummy) =
+  discard # TODO(add:CsRefTypeExpression)
+  # item.parentId = parent.id
 
 proc gen*(c: var CsRefTypeExpression): string = discard #TODO(gen:CsRefTypeExpression)

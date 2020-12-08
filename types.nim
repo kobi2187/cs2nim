@@ -4,13 +4,14 @@
 import json
 
 type Dummy* = object
-# for constructs in a method body.
-type BodyExpr* = ref object of RootObj
-  #  name*: string
-  ttype*: string
 
-method gen*(e: BodyExpr): string {.base.} =
-  raise newException(Exception, "Not Implemented for " & e.ttype) #& " " & e.name)
+
+# pass this object instead of many arguments
+# to create the same api.
+
+type AllNeededData* = object
+  tbd: string
+
 
 type Info* = ref object
   declName*: string
@@ -22,9 +23,13 @@ proc `$`*(info: Info): string =
   let x = [info.declName, $info.essentials, $info.extras]
   result = "Info: " & x.join("\n")
 
+import uuids, options
 type CsObject* = object of RootRef
-  line: JsonNode
-  src: string
+  name*: string
+  id*: Option[UUID]
+  parentId*: Option[UUID]
+  # line*: JsonNode
+  src*: string
 
 type Module* = object
   name*: string
@@ -35,10 +40,19 @@ proc jsonWithoutSource*(n: JsonNode): JsonNode =
   p.delete("Source")
   result = p
 
+# for constructs in a method body.
+type BodyExpr* = ref object of CsObject # RootObj
+                                        #  name*: string
+  ttype*: string
+method gen*(e: BodyExpr): string {.base.} =
+  raise newException(Exception, "Not Implemented for " & e.ttype) #& " " & e.name)
+
 # possibly redundant. haven't yet used:
-type Construct* = concept T, Parent
+type CConstruct* = concept T, Parent
   proc add*(parent: var Parent; item: T)
   proc extract*(t: typedesc[T]; info: Info): T
   proc newCs*(t: typedesc[T]; a, b, c, d: auto): T
   # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
   # will it create a circular dependency? maybe. try.
+
+

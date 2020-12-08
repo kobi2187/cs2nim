@@ -2,6 +2,7 @@ import constructs / [cs_root, cs_class, cs_method, cs_constructor, cs_property, 
 import stacks, tables, json, sequtils, options
 import state, types
 
+
 proc `$`*(it: Block): string =
   if not it.info.isNil and it.info.essentials.len > 0:
     result = it.name & ": `" & it.info.essentials[0] & "`"
@@ -54,6 +55,7 @@ proc nsPathNS(r: CsRoot): seq[CsNamespace] =
     elif b.name == "NamespaceDeclaration":
       started = true
       let name = extract(CsNamespace, b.info).name
+      echo "the name: " & name
       let actualNs = r.nsTables[name]
       result.add(actualNs)
     else:
@@ -115,6 +117,35 @@ proc getCurrentNs*(root: CsRoot): (string, CsNamespace) =
   assert root.nsTables.hasKey(p)
   let ns = root.nsTables[p]
   result = (p, ns)
+
+import options
+proc lastAddedInfo*(root: var CsRoot): string =
+  var (p, ns) = state_utils.getCurrentNs(root)
+  result = "current ns: " & p
+  result &= " namespace added something: " & $ns.lastAddedTo.isSome
+  if ns.lastAddedTo.isSome:
+    result &= "last added in ns: " & $ns.lastAddedTo
+    case ns.lastAddedTo.get
+    of NamespaceParts.Classes:
+      let c = ns.getLastClass.get
+      result &= "class is: " & c.name
+      if c.lastAddedTo.isSome:
+        result &= "class added something:" & $c.lastAddedTo.isSome
+        result &= "it was: " & $c.lastAddedTo.get & "  "
+        case c.lastAddedTo.get
+        of ClassParts.Properties: result &= c.properties.last.name
+        of ClassParts.Ctors: result &= c.ctors.last.name
+        of ClassParts.Indexer: result &= c.indexer.varName
+        of ClassParts.Methods: result &= c.methods.last.name
+        of ClassParts.Enums: result &= c.enums.last.name
+        of ClassParts.Fields: result &= c.fields.last.name
+
+    of NamespaceParts.Interfaces:
+      result &= ns.interfaces.last.name
+    of NamespaceParts.Enums:
+      let e = ns.enums.last
+      result &= "enum is " & e.name
+
 
 proc getLastProperty(c: CsClass): Option[CsProperty] =
   assert c.lastAddedTo.isSome

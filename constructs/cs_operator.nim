@@ -1,11 +1,14 @@
-import ../types
+import ../types, uuids, options
 type CsOperator* = ref object of CsObject #TODO(type:CsOperator)
 
 proc newCs*(t: typedesc[CsOperator]; name: string): CsOperator =
-  new result #TODO(create:CsOperator)
+  new result
+  result.id = uuids.genUUID #TODO(create:CsOperator)
 
 proc extract*(t: typedesc[CsOperator]; info: Info): CsOperator = discard #TODO(extract:CsOperator)
 
-proc add*(parent: var CsOperator; item: Dummy) = discard # TODO(add:CsOperator)
+proc add*(parent: var CsOperator; item: Dummy) =
+  discard # TODO(add:CsOperator)
+  # item.parentId = parent.id
 
 proc gen*(c: var CsOperator): string = discard #TODO(gen:CsOperator)

@@ -1,14 +1,14 @@
-import ../types
+import ../types, uuids, options
 import cs_parameterlist
 import sequtils, strutils
 type CsConstructor* = ref object of CsObject
-  name*: string
   parentClass*: string
   parameterList*: CsParameterList # seq[CsParameter]
   body*: seq[BodyExpr]
 
 proc newCs*(t: typedesc[CsConstructor]; name: string): CsConstructor =
   new result
+  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsConstructor]; info: Info): CsConstructor =
@@ -17,11 +17,9 @@ proc extract*(t: typedesc[CsConstructor]; info: Info): CsConstructor =
   result = m
 
 proc add*(parent: var CsConstructor; item: CsParameterList) =
+  item.parentId = parent.id
   parent.parameterList = item
 
-# proc add*(parent: var CsConstructor; item: ABCD) = discard # TODO(add:CsConstructor)
-# proc add*(parent: var CsConstructor; item: ABCD) = discard # TODO(add:CsConstructor)
-# proc add*(parent: var CsConstructor; item: ABCD) = discard # TODO(add:CsConstructor)
 
 
 

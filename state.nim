@@ -1,16 +1,17 @@
 # common.nim
-import stacks, sets
+import stacks, sets, uuids
 # import json
-
+# import constructs/cs_root
 import types
 
 type Block* = object
+  id*: UUID
   name*: string
   info*: Info
 
 var blocks* = newStack[Block]()
-
 proc resetBlocks*() = blocks.clear()
+
 
 
 import algorithm, hashes
@@ -36,19 +37,18 @@ proc previousConstruct*: Block =
       return c
 
 # declaration string as received from cs side.
-let blockTypesTxt* = [
-  "BlockStarts",
+let blockTypesTxt* = [ # everything in C# that has an opening { brace
+  "BlockStarts",       # needed!!
   "NamespaceDeclaration",
   "ClassDeclaration",
   "EnumDeclaration",
   "MethodDeclaration",
-  "ReturnStatement",
   "PropertyDeclaration",
-  "ExpressionStatement",
-
-    # todo: ... add more, and sync with CsDisplay side.
-      # note: if endblock raises an assert, it means a previous construct was not recorded here.
-  ].toHashSet
+  # "ReturnStatement", # nope
+  # "ExpressionStatement", # nope
+  # "LocalDeclarationStatement" # not sure why. # nope
+].toHashSet
+# note: if endblock raises an assert, it means a previous construct was not recorded here.
 
 proc currentPath*(): seq[Block] = blocks.toSeq()
 

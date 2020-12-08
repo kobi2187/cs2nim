@@ -1,11 +1,14 @@
-import ../types
+import ../types, uuids, options
 type CsBaseList* = ref object of CsObject #TODO(type:CsBaseList)
 
 proc newCs*(t: typedesc[CsBaseList]; name: string): CsBaseList =
-  new result #TODO(create:CsBaseList)
+  new result
+  result.id = uuids.genUUID #TODO(create:CsBaseList)
 
 proc extract*(t: typedesc[CsBaseList]; info: Info): CsBaseList = discard #TODO(extract:CsBaseList)
 
-proc add*(parent: var CsBaseList; item: Dummy) = discard # TODO(add:CsBaseList)
+proc add*(parent: var CsBaseList; item: Dummy) =
+  discard # TODO(add:CsBaseList)
+  # item.parentId = parent.id
 
 proc gen*(c: var CsBaseList): string = discard #TODO(gen:CsBaseList)

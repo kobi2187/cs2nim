@@ -1,12 +1,12 @@
 import constructs/constructs
 import state_utils, state, types
-import strutils, stacks, options, sets
-import typeinfo
+import strutils, stacks, options, sets, uuids
+import root_handles_all
 const urgent = true
 
 var gotStartBlock = false
 
-var debugWantSomeWork = false
+var debugWantSomeWork = true
 # var debugWantSomeWork = true
 
 proc previousBlock*(a: int = 2): Option[Block] =
@@ -15,7 +15,7 @@ proc previousBlock*(a: int = 2): Option[Block] =
   result = prev
 
 
-
+import constructs/cs_root
 proc getLastEnumMember(root: CsRoot): CsEnumMember =
   let (_, ns) = getCurrentNs(root)
   var e = ns.enums.last
@@ -58,16 +58,23 @@ proc addIfBodyExpr(root: CsRoot; item: BodyExpr) =
   else: assert false, "Unforeseen! or not yet implemented"
 
 
-proc addToRoot*(root: var CsRoot; src: string; info: Info) =
+proc addToRoot*(root: var CsRoot; src: string; info: Info, id: UUID) =
   when false:
     echo "blocks info:"
     echo "============"
     echo "last construct: " & $currentConstruct.last
     echo "previous construct: " & $previousConstruct()
     echo $currentPath()
+  when true:
+    if src.strip().len > 0: echo "C# source code was: " & src
+  when true:
+    if root.ns.len > 0:
+      let lb = currentPath().last.name
+      echo "last block was " & lb
+      echo root.lastAddedInfo
 
-  if src.strip().len > 0: echo "C# source code was: " & src
-  if gotStartBlock:
+
+  if gotStartBlock: # previous was a start block, but could it belong to VisitBlock?
     if not (info.declName in state.blockTypesTxt):
       echo "!!! `" & info.declName & "` should be in `state.blockTypesTxt`"
     gotStartBlock = false
@@ -82,12 +89,12 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   # declaration names:
 
   of "CompilationUnit":
-    echo "got CompilationUnit"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CompilationUnit)
+    discard
 
   of "BlockStarts":
-    echo "START OF NEW BLOCK: " & $currentConstruct.last
-    gotStartBlock = true
+    if info.essentials.len > 0 and info.essentials[0] != "VisitBlock":
+      echo "START OF NEW BLOCK: " & $currentConstruct.last
+      gotStartBlock = true
     # note: the construct that comes immediately after, should be added to blocks (in proc modifyPosition), but has to be explicitly enabled on CsDisplay side.
     # sometimes it is an empty block {}, for example an empty method body. which means we don't yet support method body.
     # in that case, we may get an assertion because blocks stack len will be odd.
@@ -102,7 +109,8 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       let prevNsName = extract(CsNamespace, prev.get.info).name
       if prevNsName != newns.name:
         newns.name = prevNsName & "." & newns.name
-
+      else: echo "here1"
+    else: echo "here2"
     root.add(newns)
 
   of "ClassDeclaration":
@@ -119,8 +127,52 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     let c = root.getLastClass().get
     let m = c.getLastMethod().get
     var es = m.body.last
-    assert es.ttype == "CsExpressionStatement"
-    cast[CsExpressionStatement](es).args = arglist
+    echo es.ttype
+    case es.ttype
+    of "CsExpressionStatement":
+      CsExpressionStatement(es).args = arglist
+    of "CsObjectCreationExpression":
+      CsObjectCreationExpression(es).args = arglist
+    else:
+      assert false, "got " & es.ttype
+
+
+
+  of "FieldDeclaration": #BLOCKS
+    echo "got FieldDeclaration"
+    if debugWantSomeWork:
+      assert false, "Unimplemented: FieldDeclaration" #TODO
+
+  of "ObjectCreationExpression":
+    echo "got ObjectCreationExpression"
+    echo info
+    let obj = extract(CsObjectCreationExpression, info)
+    # root.add obj # maybe this way will be easier to fathom, root passes those down, to where it belongs. !! a way of refactoring this file's mess.
+    # are we in class or method? ask blocks
+    let lb = previousConstruct().name
+    echo currentPath()
+    echo lb
+    case lb
+    # of "MethodDeclaration":
+    #   # get last method
+    #   var m = root.getLastClass.get.getLastMethod()
+    #   assert m.isSome
+    #   m.get.add(obj)
+    of "ReturnStatement": assert false
+      # get last return. where did it come from?
+      # ideally:
+      # let r = root.returnlist.last
+      # r.add(obj)
+      # let whobefore = prevprevConstruct().name
+      # case whobefore
+      # of "MethodDeclaration":
+      #   # get last method
+      #   var m = root.getLastClass.get.getLastMethod()
+      #   assert m.isSome
+      #   m.get.add(obj)
+      # else: assert false, whobefore
+    else:
+      assert false, "last block was " & lb
 
   of "UsingDirective":
     echo "got UsingDirective"
@@ -156,7 +208,6 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
   of "IndexerDeclaration":
     echo "got IndexerDeclaration"
     echo info
-    # if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IndexerDeclaration)
     let indexer = extract(CsIndexer, info)
     var (name, ns) = root.getCurrentNs()
     assert ns.lastAddedTo.isSome
@@ -189,6 +240,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
       add(indexer.get, t)
 
     of "Parameter": discard
+    of "IdentifierName": discard
     else:
       assert false, prev
   of "ParameterList":
@@ -238,7 +290,6 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
 
   of "LiteralExpression":
     echo "got LiteralExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LiteralExpression)
     # just extract and add to last construct seen.
     let r = extract(typedesc(CsLiteralExpression), info)
     var prev = previousConstruct()
@@ -276,25 +327,23 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     # for method/ctor body: addIfBodyExpr(root, r)
   # =============================================================================
   of "QualifiedName":
-    # echo "got QualifiedName"
     discard
-    # if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: QualifiedName)
 
   of "IdentifierName":
-    # echo "got IdentifierName"
     discard
-    # if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IdentifierName)
 
   of "SimpleBaseType":
     when not urgent:
       echo "got SimpleBaseType"
-      if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SimpleBaseType)
+      if debugWantSomeWork:
+        assert false, "Unimplemented: SimpleBaseType" #TODO
     discard
 
   of "BaseList": # TODO: Can implement this instead of 2nd essential in class. but not really crucial for now.
     when not urgent:
       echo "got BaseList"
-      if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BaseList)
+      if debugWantSomeWork:
+        assert false, "Unimplemented: BaseList" #TODO
     discard
 
   of "PropertyDeclaration":
@@ -337,622 +386,634 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info) =
     # when we get this, extract and
     let ie = extract(CsInvocationExpression, info)
     # now add to last method.
-    let c = root.getLastClass().get
-    let m = c.getLastMethod().get
-    var es = m.body.last
+    let c = root.getLastClass()
+    assert c.isSome
+
+    let m = c.get.getLastMethod()
+    assert m.isSome
+
+    var es = m.get.body.last
     assert es.ttype == "CsExpressionStatement"
     cast[CsExpressionStatement](es).call = ie
 
   of "BinaryExpression":
     echo "got BinaryExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BinaryExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: BinaryExpression" #TODO
   of "AssignmentExpression":
     echo "got AssignmentExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AssignmentExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AssignmentExpression" #TODO
   of "EqualsValueClause":
     echo "got EqualsValueClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: EqualsValueClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: EqualsValueClause" #TODO
   of "LocalDeclarationStatement":
     echo "got LocalDeclarationStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LocalDeclarationStatement)
-  of "ObjectCreationExpression":
-    echo "got ObjectCreationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ObjectCreationExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: LocalDeclarationStatement" #TODO
+
   of "IfStatement":
     echo "got IfStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IfStatement)
-  of "Attribute":
-    echo "got Attribute"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: Attribute)
-  of "AttributeList":
-    echo "got AttributeList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AttributeList)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: IfStatement" #TODO
+
+
   of "ThisExpression":
     echo "got ThisExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ThisExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ThisExpression" #TODO
   of "TypeArgumentList":
     echo "got TypeArgumentList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypeArgumentList)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TypeArgumentList" #TODO
   of "GenericName":
     echo "got GenericName"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: GenericName)
-  of "AttributeArgument":
-    echo "got AttributeArgument"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AttributeArgument)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: GenericName" #TODO
   of "AccessorDeclaration":
     echo "got AccessorDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AccessorDeclaration)
-  of "FieldDeclaration":
-    echo "got FieldDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: FieldDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AccessorDeclaration" #TODO
+
   of "BracketedArgumentList":
     echo "got BracketedArgumentList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BracketedArgumentList)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: BracketedArgumentList" #TODO
   of "ElementAccessExpression":
     echo "got ElementAccessExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ElementAccessExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ElementAccessExpression" #TODO
 
   of "AccessorList":
     echo "got AccessorList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AccessorList)
-  of "AttributeArgumentList":
-    echo "got AttributeArgumentList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AttributeArgumentList)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AccessorList" #TODO
+
+
   of "ParenthesizedExpression":
     echo "got ParenthesizedExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ParenthesizedExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ParenthesizedExpression" #TODO
   of "CastExpression":
     echo "got CastExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CastExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CastExpression" #TODO
   of "ArrayRankSpecifier":
     echo "got ArrayRankSpecifier"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ArrayRankSpecifier)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ArrayRankSpecifier" #TODO
   of "ArrayType":
     echo "got ArrayType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ArrayType)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ArrayType" #TODO
   of "PrefixUnaryExpression":
     echo "got PrefixUnaryExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PrefixUnaryExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: PrefixUnaryExpression" #TODO
   of "OmittedArraySizeExpression":
     echo "got OmittedArraySizeExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: OmittedArraySizeExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: OmittedArraySizeExpression" #TODO
   of "InitializerExpression":
     echo "got InitializerExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: InitializerExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: InitializerExpression" #TODO
   of "NameEquals":
     echo "got NameEquals"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: NameEquals)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: NameEquals" #TODO
   of "ThrowStatement":
     echo "got ThrowStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ThrowStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ThrowStatement" #TODO
   of "TypeOfExpression":
     echo "got TypeOfExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypeOfExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TypeOfExpression" #TODO
   of "ElseClause":
     echo "got ElseClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ElseClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ElseClause" #TODO
   of "CaseSwitchLabel":
     echo "got CaseSwitchLabel"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CaseSwitchLabel)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CaseSwitchLabel" #TODO
 
   of "SwitchSection":
     echo "got SwitchSection"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SwitchSection)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: SwitchSection" #TODO
   of "SimpleLambdaExpression":
     echo "got SimpleLambdaExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SimpleLambdaExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: SimpleLambdaExpression" #TODO
   of "PostfixUnaryExpression":
     echo "got PostfixUnaryExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PostfixUnaryExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: PostfixUnaryExpression" #TODO
   of "ArrayCreationExpression":
     echo "got ArrayCreationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ArrayCreationExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ArrayCreationExpression" #TODO
   of "ArrowExpressionClause":
     echo "got ArrowExpressionClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ArrowExpressionClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ArrowExpressionClause" #TODO
   of "BreakStatement":
     echo "got BreakStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BreakStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: BreakStatement" #TODO
   of "AliasQualifiedName":
     echo "got AliasQualifiedName"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AliasQualifiedName)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AliasQualifiedName" #TODO
   of "TypeParameter":
     echo "got TypeParameter"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypeParameter)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TypeParameter" #TODO
   of "AwaitExpression":
     echo "got AwaitExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AwaitExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AwaitExpression" #TODO
   of "ConditionalExpression":
     echo "got ConditionalExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConditionalExpression)
-  of "AttributeTargetSpecifier":
-    echo "got AttributeTargetSpecifier"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AttributeTargetSpecifier)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ConditionalExpression" #TODO
+
   of "TypeParameterList":
     echo "got TypeParameterList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypeParameterList)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TypeParameterList" #TODO
   of "ForEachStatement":
     echo "got ForEachStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ForEachStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ForEachStatement" #TODO
   of "ForStatement":
     echo "got ForStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ForStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ForStatement" #TODO
   of "InterpolatedStringText":
     echo "got InterpolatedStringText"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: InterpolatedStringText)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: InterpolatedStringText" #TODO
   of "ParenthesizedLambdaExpression":
     echo "got ParenthesizedLambdaExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ParenthesizedLambdaExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ParenthesizedLambdaExpression" #TODO
   of "TryStatement":
     echo "got TryStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TryStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TryStatement" #TODO
   of "NullableType":
     echo "got NullableType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: NullableType)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: NullableType" #TODO
   of "BaseExpression":
     echo "got BaseExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BaseExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: BaseExpression" #TODO
   of "CatchClause":
     echo "got CatchClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CatchClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CatchClause" #TODO
   of "ConstructorInitializer":
     echo "got ConstructorInitializer"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConstructorInitializer)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ConstructorInitializer" #TODO
   of "Interpolation":
     echo "got Interpolation"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: Interpolation)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: Interpolation" #TODO
   of "CatchDeclaration":
     echo "got CatchDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CatchDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CatchDeclaration" #TODO
   of "NameColon":
     echo "got NameColon"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: NameColon)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: NameColon" #TODO
   of "UsingStatement":
     echo "got UsingStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: UsingStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: UsingStatement" #TODO
   of "TypeParameterConstraintClause":
     echo "got TypeParameterConstraintClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypeParameterConstraintClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TypeParameterConstraintClause" #TODO
   of "TypeConstraint":
     echo "got TypeConstraint"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypeConstraint)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TypeConstraint" #TODO
   of "SingleVariableDesignation":
     echo "got SingleVariableDesignation"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SingleVariableDesignation)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: SingleVariableDesignation" #TODO
   of "InterpolatedStringExpression":
     echo "got InterpolatedStringExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: InterpolatedStringExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: InterpolatedStringExpression" #TODO
   of "ImplicitArrayCreationExpression":
     echo "got ImplicitArrayCreationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ImplicitArrayCreationExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ImplicitArrayCreationExpression" #TODO
   of "WhileStatement":
     echo "got WhileStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: WhileStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: WhileStatement" #TODO
   of "DeclarationExpression":
     echo "got DeclarationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DeclarationExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DeclarationExpression" #TODO
 
   of "ConditionalAccessExpression":
     echo "got ConditionalAccessExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConditionalAccessExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ConditionalAccessExpression" #TODO
   of "SwitchStatement":
     echo "got SwitchStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SwitchStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: SwitchStatement" #TODO
   of "MemberBindingExpression":
     echo "got MemberBindingExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: MemberBindingExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: MemberBindingExpression" #TODO
   of "DefaultExpression":
     echo "got DefaultExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DefaultExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DefaultExpression" #TODO
   of "PointerType":
     echo "got PointerType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PointerType)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: PointerType" #TODO
   of "InterfaceDeclaration":
     echo "got InterfaceDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: InterfaceDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: InterfaceDeclaration" #TODO
   of "ContinueStatement":
     echo "got ContinueStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ContinueStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ContinueStatement" #TODO
   of "FinallyClause":
     echo "got FinallyClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: FinallyClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: FinallyClause" #TODO
   of "DefaultSwitchLabel":
     echo "got DefaultSwitchLabel"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DefaultSwitchLabel)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DefaultSwitchLabel" #TODO
   of "YieldStatement":
     echo "got YieldStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: YieldStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: YieldStatement" #TODO
   of "AnonymousObjectMemberDeclarator":
     echo "got AnonymousObjectMemberDeclarator"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AnonymousObjectMemberDeclarator)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AnonymousObjectMemberDeclarator" #TODO
   of "CheckedExpression":
     echo "got CheckedExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CheckedExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CheckedExpression" #TODO
   of "StructDeclaration":
     echo "got StructDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: StructDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: StructDeclaration" #TODO
   of "IsPatternExpression":
     echo "got IsPatternExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IsPatternExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: IsPatternExpression" #TODO
   of "LockStatement":
     echo "got LockStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LockStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: LockStatement" #TODO
   of "DeclarationPattern":
     echo "got DeclarationPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DeclarationPattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DeclarationPattern" #TODO
   of "ThrowExpression":
     echo "got ThrowExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ThrowExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ThrowExpression" #TODO
   of "ConstantPattern":
     echo "got ConstantPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConstantPattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ConstantPattern" #TODO
   of "RefType":
     echo "got RefType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RefType)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RefType" #TODO
   of "RefExpression":
     echo "got RefExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RefExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RefExpression" #TODO
   of "ClassOrStructConstraint":
     echo "got ClassOrStructConstraint"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ClassOrStructConstraint)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ClassOrStructConstraint" #TODO
   of "OmittedTypeArgument":
     echo "got OmittedTypeArgument"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: OmittedTypeArgument)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: OmittedTypeArgument" #TODO
   of "TupleElement":
     echo "got TupleElement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TupleElement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TupleElement" #TODO
   of "OperatorDeclaration":
     echo "got OperatorDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: OperatorDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: OperatorDeclaration" #TODO
   of "EventFieldDeclaration":
     echo "got EventFieldDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: EventFieldDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: EventFieldDeclaration" #TODO
   of "DelegateDeclaration":
     echo "got DelegateDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DelegateDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DelegateDeclaration" #TODO
   of "ImplicitElementAccess":
     echo "got ImplicitElementAccess"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ImplicitElementAccess)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ImplicitElementAccess" #TODO
   of "AnonymousMethodExpression":
     echo "got AnonymousMethodExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AnonymousMethodExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AnonymousMethodExpression" #TODO
   of "TupleExpression":
     echo "got TupleExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TupleExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TupleExpression" #TODO
   of "AnonymousObjectCreationExpression":
     echo "got AnonymousObjectCreationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: AnonymousObjectCreationExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: AnonymousObjectCreationExpression" #TODO
   of "BracketedParameterList":
     echo "got BracketedParameterList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BracketedParameterList)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: BracketedParameterList" #TODO
   of "EventDeclaration":
     echo "got EventDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: EventDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: EventDeclaration" #TODO
   of "GotoStatement":
     echo "got GotoStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: GotoStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: GotoStatement" #TODO
   of "DoStatement":
     echo "got DoStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DoStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DoStatement" #TODO
   of "GlobalStatement":
     echo "got GlobalStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: GlobalStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: GlobalStatement" #TODO
   of "IncompleteMember":
     echo "got IncompleteMember"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IncompleteMember)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: IncompleteMember" #TODO
   of "LocalFunctionStatement":
     echo "got LocalFunctionStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LocalFunctionStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: LocalFunctionStatement" #TODO
   of "ConversionOperatorDeclaration":
     echo "got ConversionOperatorDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConversionOperatorDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ConversionOperatorDeclaration" #TODO
   of "TupleType":
     echo "got TupleType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TupleType)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TupleType" #TODO
   of "FixedStatement":
     echo "got FixedStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: FixedStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: FixedStatement" #TODO
   of "EmptyStatement":
     echo "got EmptyStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: EmptyStatement)
-  of "FromClause":
-    echo "got FromClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: FromClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: EmptyStatement" #TODO
+
+
   of "SizeOfExpression":
     echo "got SizeOfExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SizeOfExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: SizeOfExpression" #TODO
   of "QueryBody":
     echo "got QueryBody"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: QueryBody)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: QueryBody" #TODO
   of "CheckedStatement":
     echo "got CheckedStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CheckedStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CheckedStatement" #TODO
   of "QueryExpression":
     echo "got QueryExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: QueryExpression)
-  of "SelectClause":
-    echo "got SelectClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SelectClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: QueryExpression" #TODO
+
   of "CasePatternSwitchLabel":
     echo "got CasePatternSwitchLabel"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CasePatternSwitchLabel)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CasePatternSwitchLabel" #TODO
   of "LabeledStatement":
     echo "got LabeledStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LabeledStatement)
-  of "WhereClause":
-    echo "got WhereClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: WhereClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: LabeledStatement" #TODO
+
   of "ConstructorConstraint":
     echo "got ConstructorConstraint"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConstructorConstraint)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ConstructorConstraint" #TODO
   of "UnsafeStatement":
     echo "got UnsafeStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: UnsafeStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: UnsafeStatement" #TODO
   of "ParenthesizedVariableDesignation":
     echo "got ParenthesizedVariableDesignation"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ParenthesizedVariableDesignation)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ParenthesizedVariableDesignation" #TODO
   of "InterpolationFormatClause":
     echo "got InterpolationFormatClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: InterpolationFormatClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: InterpolationFormatClause" #TODO
   of "DestructorDeclaration":
     echo "got DestructorDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DestructorDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DestructorDeclaration" #TODO
   of "DiscardDesignation":
     echo "got DiscardDesignation"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DiscardDesignation)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DiscardDesignation" #TODO
   of "StackAllocArrayCreationExpression":
     echo "got StackAllocArrayCreationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: StackAllocArrayCreationExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: StackAllocArrayCreationExpression" #TODO
   of "WhenClause":
     echo "got WhenClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: WhenClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: WhenClause" #TODO
   of "ForEachVariableStatement":
     echo "got ForEachVariableStatement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ForEachVariableStatement)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ForEachVariableStatement" #TODO
   of "LetClause":
     echo "got LetClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LetClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: LetClause" #TODO
   of "ElementBindingExpression":
     echo "got ElementBindingExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ElementBindingExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ElementBindingExpression" #TODO
   of "CatchFilterClause":
     echo "got CatchFilterClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CatchFilterClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: CatchFilterClause" #TODO
   of "Ordering":
     echo "got Ordering"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: Ordering)
-  of "OrderByClause":
-    echo "got OrderByClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: OrderByClause)
-  of "JoinClause":
-    echo "got JoinClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: JoinClause)
-  of "GroupClause":
-    echo "got GroupClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: GroupClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: Ordering" #TODO
+
   of "InterpolationAlignmentClause":
     echo "got InterpolationAlignmentClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: InterpolationAlignmentClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: InterpolationAlignmentClause" #TODO
   of "QueryContinuation":
     echo "got QueryContinuation"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: QueryContinuation)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: QueryContinuation" #TODO
   of "ExternAliasDirective":
     echo "got ExternAliasDirective"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ExternAliasDirective)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ExternAliasDirective" #TODO
   of "MakeRefExpression":
     echo "got MakeRefExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: MakeRefExpression)
-  of "JoinIntoClause":
-    echo "got JoinIntoClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: JoinIntoClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: MakeRefExpression" #TODO
+
   of "RefValueExpression":
     echo "got RefValueExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RefValueExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RefValueExpression" #TODO
   of "RefTypeExpression":
     echo "got RefTypeExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RefTypeExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RefTypeExpression" #TODO
   of "Block":
     echo "got Block"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: Block)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: Block" #TODO
   of "VariableDeclaration":
     echo "got VariableDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: VariableDeclaration)
-  of "BadDirectiveTrivia":
-    echo "got BadDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BadDirectiveTrivia)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: VariableDeclaration" #TODO
   of "BinaryPattern":
     echo "got BinaryPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: BinaryPattern)
-  of "ConversionOperatorMemberCref":
-    echo "got ConversionOperatorMemberCref"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ConversionOperatorMemberCref)
-  of "CrefBracketedParameterList":
-    echo "got CrefBracketedParameterList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CrefBracketedParameterList)
-  of "CrefParameter":
-    echo "got CrefParameter"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CrefParameter)
-  of "CrefParameterList":
-    echo "got CrefParameterList"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: CrefParameterList)
-  of "DefineDirectiveTrivia":
-    echo "got DefineDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DefineDirectiveTrivia)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: BinaryPattern" #TODO
   of "DiscardPattern":
     echo "got DiscardPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DiscardPattern)
-  of "DocumentationCommentTrivia":
-    echo "got DocumentationCommentTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: DocumentationCommentTrivia)
-  of "ElifDirectiveTrivia":
-    echo "got ElifDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ElifDirectiveTrivia)
-  of "ElseDirectiveTrivia":
-    echo "got ElseDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ElseDirectiveTrivia)
-  of "EndIfDirectiveTrivia":
-    echo "got EndIfDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: EndIfDirectiveTrivia)
-  of "EndRegionDirectiveTrivia":
-    echo "got EndRegionDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: EndRegionDirectiveTrivia)
-  of "ErrorDirectiveTrivia":
-    echo "got ErrorDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ErrorDirectiveTrivia)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: DiscardPattern" #TODO
   of "FunctionPointerType":
     echo "got FunctionPointerType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: FunctionPointerType)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: FunctionPointerType" #TODO
 
   of "ImplicitObjectCreationExpression":
     echo "got ImplicitObjectCreationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ImplicitObjectCreationExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ImplicitObjectCreationExpression" #TODO
   of "MemberAccessExpression":
     echo "got MemberAccessExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: MemberAccessExpression)
-  of "NullableDirectiveTrivia":
-    echo "got NullableDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: NullableDirectiveTrivia)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: MemberAccessExpression" #TODO
   of "ParenthesizedPattern":
     echo "got ParenthesizedPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ParenthesizedPattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ParenthesizedPattern" #TODO
   of "PositionalPatternClause":
     echo "got PositionalPatternClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PositionalPatternClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: PositionalPatternClause" #TODO
   of "PrimaryConstructorBaseType":
     echo "got PrimaryConstructorBaseType"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PrimaryConstructorBaseType)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: PrimaryConstructorBaseType" #TODO
   of "PropertyPatternClause":
     echo "got PropertyPatternClause"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PropertyPatternClause)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: PropertyPatternClause" #TODO
   of "RangeExpression":
     echo "got RangeExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RangeExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RangeExpression" #TODO
   of "RecordDeclaration":
     echo "got RecordDeclaration"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RecordDeclaration)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RecordDeclaration" #TODO
   of "RecursivePattern":
     echo "got RecursivePattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RecursivePattern)
-  of "RegionDirectiveTrivia":
-    echo "got RegionDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RegionDirectiveTrivia)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RecursivePattern" #TODO
   of "RelationalPattern":
     echo "got RelationalPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: RelationalPattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: RelationalPattern" #TODO
   of "Subpattern":
     echo "got Subpattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: Subpattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: Subpattern" #TODO
   of "SwitchExpression":
     echo "got SwitchExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SwitchExpression)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: SwitchExpression" #TODO
   of "SwitchExpressionArm":
     echo "got SwitchExpressionArm"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SwitchExpressionArm)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: SwitchExpressionArm" #TODO
   of "TypePattern":
     echo "got TypePattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypePattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: TypePattern" #TODO
   of "UnaryPattern":
     echo "got UnaryPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: UnaryPattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: UnaryPattern" #TODO
   of "VariableDeclarator":
     echo "got VariableDeclarator"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: VariableDeclarator)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: VariableDeclarator" #TODO
   of "VarPattern":
     echo "got VarPattern"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: VarPattern)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: VarPattern" #TODO
   of "WithExpression":
     echo "got WithExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: WithExpression)
-  of "XmlCDataSection":
-    echo "got XmlCDataSection"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlCDataSection)
-  of "XmlComment":
-    echo "got XmlComment"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlComment)
-  of "XmlCrefAttribute":
-    echo "got XmlCrefAttribute"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlCrefAttribute)
-  of "XmlElement":
-    echo "got XmlElement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlElement)
-  of "XmlElementEndTag":
-    echo "got XmlElementEndTag"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlElementEndTag)
-  of "XmlElementStartTag":
-    echo "got XmlElementStartTag"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlElementStartTag)
-  of "XmlEmptyElement":
-    echo "got XmlEmptyElement"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlEmptyElement)
-  of "XmlName":
-    echo "got XmlName"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlName)
-  of "XmlNameAttribute":
-    echo "got XmlNameAttribute"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlNameAttribute)
-  of "XmlPrefix":
-    echo "got XmlPrefix"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlPrefix)
-  of "XmlProcessingInstruction":
-    echo "got XmlProcessingInstruction"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlProcessingInstruction)
-  of "XmlText":
-    echo "got XmlText"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlText)
-  of "XmlTextAttribute":
-    echo "got XmlTextAttribute"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: XmlTextAttribute)
-  of "IfDirectiveTrivia":
-    echo "got IfDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IfDirectiveTrivia)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: WithExpression" #TODO
+
   of "ImplicitStackAllocArrayCreationExpression":
     echo "got ImplicitStackAllocArrayCreationExpression"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ImplicitStackAllocArrayCreationExpression)
-  of "IndexerMemberCref":
-    echo "got IndexerMemberCref"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: IndexerMemberCref)
-  of "LineDirectiveTrivia":
-    echo "got LineDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LineDirectiveTrivia)
-  of "LoadDirectiveTrivia":
-    echo "got LoadDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: LoadDirectiveTrivia)
-  of "NameMemberCref":
-    echo "got NameMemberCref"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: NameMemberCref)
-  of "OperatorMemberCref":
-    echo "got OperatorMemberCref"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: OperatorMemberCref)
-  of "PragmaChecksumDirectiveTrivia":
-    echo "got PragmaChecksumDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PragmaChecksumDirectiveTrivia)
-  of "PragmaWarningDirectiveTrivia":
-    echo "got PragmaWarningDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: PragmaWarningDirectiveTrivia)
-  of "QualifiedCref":
-    echo "got QualifiedCref"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: QualifiedCref)
-  of "ReferenceDirectiveTrivia":
-    echo "got ReferenceDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ReferenceDirectiveTrivia)
-  of "ShebangDirectiveTrivia":
-    echo "got ShebangDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: ShebangDirectiveTrivia)
-  of "SkippedTokensTrivia":
-    echo "got SkippedTokensTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: SkippedTokensTrivia)
-  of "TypeCref":
-    echo "got TypeCref"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: TypeCref)
-  of "UndefDirectiveTrivia":
-    echo "got UndefDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: UndefDirectiveTrivia)
-  of "WarningDirectiveTrivia":
-    echo "got WarningDirectiveTrivia"
-    if debugWantSomeWork: assert false, "implement me plz" #TODO(handle: WarningDirectiveTrivia)
+    if debugWantSomeWork:
+      assert false, "Unimplemented: ImplicitStackAllocArrayCreationExpression" #TODO
 
 
-
+  
+  # ## unsupported by choice, or implement last.  
+  # not interested in supporting attributes
+  of["AttributeTargetSpecifier", "Attribute", "AttributeList", "AttributeArgument", "AttributeArgumentList"]:
+    discard
+  # not interested in supporting xml attributes comments etc.
+  of ["XmlCDataSection", "XmlComment", "XmlCrefAttribute", "XmlElement", "XmlElementEndTag", "XmlElementStartTag", "XmlEmptyElement", "XmlName", "XmlNameAttribute", "XmlPrefix", "XmlProcessingInstruction", "XmlText", "XmlTextAttribute"]:
+    discard
+  # not interested in supporting Trivia at the moment, some have nim equivalents though.
+  of ["BadDirectiveTrivia", "DefineDirectiveTrivia", "DocumentationCommentTrivia", "ElifDirectiveTrivia", "ElseDirectiveTrivia", "EndIfDirectiveTrivia", "EndRegionDirectiveTrivia", "ErrorDirectiveTrivia", "NullableDirectiveTrivia", "RegionDirectiveTrivia", "IfDirectiveTrivia", "LineDirectiveTrivia", "LoadDirectiveTrivia", "PragmaChecksumDirectiveTrivia", "PragmaWarningDirectiveTrivia",
+      "ReferenceDirectiveTrivia", "ShebangDirectiveTrivia", "SkippedTokensTrivia", "UndefDirectiveTrivia", "WarningDirectiveTrivia"]:
+    discard
+  # hmmm, what is Cref ?
+  of ["ConversionOperatorMemberCref", "CrefBracketedParameterList", "CrefParameter", "CrefParameterList", "IndexerMemberCref", "NameMemberCref", "OperatorMemberCref", "QualifiedCref", "TypeCref"]:
+    discard
+  # linq stuff, we should support it, but perhaps there are shortcuts. (program that replaces linq with normal c#) or we'll make equivalent nim procs to handle it.
+  of ["OrderByClause", "GroupClause", "JoinClause", "FromClause", "SelectClause", "WhereClause", "JoinIntoClause"]:
+    discard #linq
   else:
     raise newException(Exception, "unsupported! Please add to the switch case above: `" &
         info.declName & "`")

@@ -1,4 +1,4 @@
-import ../types
+import ../types, uuids, options
 import cs_method, cs_field, cs_enum, cs_constructor, cs_property, cs_indexer
 import tables
 
@@ -8,7 +8,6 @@ type ClassParts* {.pure.} = enum
 
 import options
 type CsClass* = ref object of CsObject
-  name*: string
   nsParent*: string
   extends*: string
   implements*: seq[string]
@@ -27,6 +26,7 @@ proc hasIndexer*(c: CsClass): bool = not c.indexer.isNil
 
 proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[string] = @[]): CsClass =
   new result
+  result.id = genUUID().some
   result.name = name
   result.extends = base
   result.implements = impls
@@ -78,11 +78,13 @@ proc add*(parent: var CsClass; m: CsMethod) =
   m.parentClass = parent.name
 
 proc add*(parent: var CsClass; item: CsProperty) =
+  item.parentId = parent.id
   parent.properties.add item
   parent.lastAddedTo = some(Properties)
   item.parentClass = parent.name
 
 proc add*(parent: var CsClass; item: CsIndexer) =
+  item.parentId = parent.id
   parent.indexer = item
   parent.lastAddedTo = some(Indexer)
   # item.parentName = parent.name

@@ -1,8 +1,8 @@
-import ../types, cs_parameterlist, cs_parameter, cs_predefinedtype
+import ../types, uuids, options
+import cs_parameterlist, cs_parameter, cs_predefinedtype, cs_objectcreationexpression
 
 
 type CsMethod* = ref object of CsObject
-  name*: string
   isStatic*: bool
   parentClass*: string
   parameterList*: CsParameterList # seq[CsParameter]
@@ -12,6 +12,7 @@ type CsMethod* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   new result
+  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsMethod]; info: Info): CsMethod =
@@ -30,8 +31,13 @@ proc add*(parent: var CsMethod; t: CsPredefinedType) =
 proc add*(parent: var CsMethod; p: CsParameterList) =
   parent.parameterList = p
 
+proc add*(parent: var CsMethod; item: CsObjectCreationExpression) =
+  item.parentId = parent.id
+  parent.body.add item
+
 import cs_returnstatement
 proc add*(parent: var CsMethod; item: CsReturnStatement) =
+  item.parentId = parent.id
   parent.body.add item
 
 import sequtils, strutils

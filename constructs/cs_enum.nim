@@ -1,12 +1,12 @@
-import ../types, cs_enummember
+import ../types, uuids, options, cs_enummember
 import sequtils, strutils
 
 type CsEnum* = ref object of CsObject
-  name*: string
   items*: seq[CsEnumMember]
 
 proc newCs*(t: typedesc[CsEnum]; name: string): CsEnum =
   new result
+  result.id = genUUID().some
   result.name = name
 
 
@@ -17,6 +17,7 @@ proc extract*(t: typedesc[CsEnum]; info: Info): CsEnum =
   result = newCs(CsEnum, name)
 
 proc add*(parent: var CsEnum; item: CsEnumMember) =
+  item.parentId = parent.id
   parent.items.add item
 
 proc gen*(e: CsEnum): string =

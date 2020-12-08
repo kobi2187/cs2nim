@@ -1,9 +1,9 @@
-import ../types
+import ../types, uuids, options
 type CsUsingDirective* = ref object of CsObject
-  name*: string
 
 proc newCs*(t: typedesc[CsUsingDirective]; name: string): CsUsingDirective =
   new result
+  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsUsingDirective]; info: Info): CsUsingDirective =
@@ -11,6 +11,7 @@ proc extract*(t: typedesc[CsUsingDirective]; info: Info): CsUsingDirective =
   result = newCs(CsUsingDirective, name)
 
 # proc add*(parent: var CsUsingDirective; item: Dummy) =
+  # item.parentId = parent.id
   # discard # TODO(add:CsUsingDirective)
 import strutils
 proc gen*(c: CsUsingDirective): string =
