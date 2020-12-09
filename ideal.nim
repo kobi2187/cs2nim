@@ -43,7 +43,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   var parent: Construct = p.get
   assert parent.cfits(obj, allData)
   parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
-  # obj.parentId = parent.id # connect them after adding.
+  obj.unwrap.parentId = parent.unwrap.id # connect them after adding.
 
 
 
