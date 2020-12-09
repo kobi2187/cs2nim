@@ -10,6 +10,7 @@ proc extract*(t: typedesc[CsInterface]; info: Info): CsInterface = discard #TODO
 proc add*(parent: var CsInterface; item: CsProperty) =
   discard # TODO(add:CsInterface)
   # item.parentId = parent.id
+proc add*(parent: var CsInterface; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
 
 

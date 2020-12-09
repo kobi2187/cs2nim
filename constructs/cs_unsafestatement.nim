@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsUnsafeStatement]; name: string): CsUnsafeStatement =
 
 proc extract*(t: typedesc[CsUnsafeStatement]; info: Info): CsUnsafeStatement = discard #TODO(extract:CsUnsafeStatement)
 
+proc add*(parent: var CsUnsafeStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsUnsafeStatement; item: Dummy) =
   discard # TODO(add:CsUnsafeStatement)
   # item.parentId = parent.id

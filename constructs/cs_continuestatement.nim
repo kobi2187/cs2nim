@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement
 
 proc extract*(t: typedesc[CsContinueStatement]; info: Info): CsContinueStatement = discard #TODO(extract:CsContinueStatement)
 
+proc add*(parent: var CsContinueStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsContinueStatement; item: Dummy) =
   discard # TODO(add:CsContinueStatement)
   # item.parentId = parent.id

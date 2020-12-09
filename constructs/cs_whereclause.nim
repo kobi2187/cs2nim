@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =
 
 proc extract*(t: typedesc[CsWhereClause]; info: Info): CsWhereClause = discard #TODO(extract:CsWhereClause)
 
+proc add*(parent: var CsWhereClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsWhereClause; item: Dummy) =
   discard # TODO(add:CsWhereClause)
   # item.parentId = parent.id

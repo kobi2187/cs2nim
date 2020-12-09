@@ -10,5 +10,6 @@ proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument = discard #TODO(e
 proc add*(parent: var CsArgument; item: Dummy) =
   discard # TODO(add:CsArgument)
   # item.parentId = parent.id
+proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsArgument): string = discard #TODO(gen:CsArgument)

@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsClassOrStructConstraint]; name: string): CsClassOrStru
 
 proc extract*(t: typedesc[CsClassOrStructConstraint]; info: Info): CsClassOrStructConstraint = discard #TODO(extract:CsClassOrStructConstraint)
 
+proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsClassOrStructConstraint; item: Dummy) =
   discard # TODO(add:CsClassOrStructConstraint)
   # item.parentId = parent.id

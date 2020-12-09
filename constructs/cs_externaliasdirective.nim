@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDir
 
 proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective = discard #TODO(extract:CsExternAliasDirective)
 
+proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsExternAliasDirective; item: Dummy) =
   discard # TODO(add:CsExternAliasDirective)
   # item.parentId = parent.id

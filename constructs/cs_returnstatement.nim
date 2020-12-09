@@ -13,7 +13,8 @@ proc extract*(t: typedesc[CsReturnStatement]; info: Info): CsReturnStatement =
   echo "From C# side -- expected to follow after return: " & expectedFollowupAsString
 
 
-# proc add*(parent: var CsReturnStatement; item: BodyExpr) ?? = discard # (add:CsReturnStatement)
+proc add*(parent: var CsReturnStatement; item: BodyExpr) = discard # (add:CsReturnStatement)
+proc add*(parent: var CsReturnStatement; item: BodyExpr; data: AllNeededData) = parent.add(item) # TODO
 
 method gen*(c: CsReturnStatement): string =
   result = if c.expr.isNil: "return"

@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; name: string): CsParen
 
 proc extract*(t: typedesc[CsParenthesizedLambdaExpression]; info: Info): CsParenthesizedLambdaExpression = discard #TODO(extract:CsParenthesizedLambdaExpression)
 
+proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy) =
   discard # TODO(add:CsParenthesizedLambdaExpression)
   # item.parentId = parent.id

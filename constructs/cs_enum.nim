@@ -19,6 +19,7 @@ proc extract*(t: typedesc[CsEnum]; info: Info): CsEnum =
 proc add*(parent: var CsEnum; item: CsEnumMember) =
   item.parentId = parent.id
   parent.items.add item
+proc add*(parent: var CsEnum; item: CsEnumMember; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(e: CsEnum): string =
   echo "members count:" & $e.items.len

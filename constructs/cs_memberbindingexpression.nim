@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsMemberBindingExpression]; name: string): CsMemberBindi
 
 proc extract*(t: typedesc[CsMemberBindingExpression]; info: Info): CsMemberBindingExpression = discard #TODO(extract:CsMemberBindingExpression)
 
+proc add*(parent: var CsMemberBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsMemberBindingExpression; item: Dummy) =
   discard # TODO(add:CsMemberBindingExpression)
   # item.parentId = parent.id

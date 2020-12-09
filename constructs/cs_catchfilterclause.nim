@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause
 
 proc extract*(t: typedesc[CsCatchFilterClause]; info: Info): CsCatchFilterClause = discard #TODO(extract:CsCatchFilterClause)
 
+proc add*(parent: var CsCatchFilterClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsCatchFilterClause; item: Dummy) =
   discard # TODO(add:CsCatchFilterClause)
   # item.parentId = parent.id

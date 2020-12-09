@@ -18,10 +18,12 @@ proc extract*(t: typedesc[CsExpressionStatement]; info: Info): CsExpressionState
 proc add*(parent: var CsExpressionStatement; item: CsArgumentList) =
   item.parentId = parent.id
   parent.args = item
+proc add*(parent: var CsExpressionStatement; item: CsArgumentList; data: AllNeededData) = parent.add(item) # TODO
 
 proc add*(parent: var CsExpressionStatement; item: CsInvocationExpression) =
   item.parentId = parent.id
   parent.call = item
+proc add*(parent: var CsExpressionStatement; item: CsInvocationExpression; data: AllNeededData) = parent.add(item) # TODO
 
 
 method gen*(c: CsExpressionStatement): string =

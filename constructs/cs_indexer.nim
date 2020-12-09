@@ -22,14 +22,17 @@ proc add*(parent: var CsIndexer; item: CsParameter) =
   item.parentId = parent.id
   parent.varName = item.name
   parent.varType = item.ptype
+proc add*(parent: var CsIndexer; item: CsParameter; data: AllNeededData) = parent.add(item) # TODO
 
 proc add*(parent: var CsIndexer; item: CsPredefinedType) =
   item.parentId = parent.id
   parent.retType = item.name
+proc add*(parent: var CsIndexer; item: CsPredefinedType; data: AllNeededData) = parent.add(item) # TODO
 
 proc add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
   item.parentId = parent.id
   parent.firstVarType = item.name
+proc add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier; data: AllNeededData) = parent.add(item) # TODO
 
 import strutils
 

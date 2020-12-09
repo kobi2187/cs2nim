@@ -12,7 +12,8 @@ proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
 proc extract*(t: typedesc[CsArgumentList]; info: Info): CsArgumentList =
   result = newCs(CsArgumentList, info.essentials[0].split(","))
 
-# proc add*(parent: var CsArgumentList; item: Dummy) =
+# proc add*(parent: var CsArgumentList; item: Dummy, data:AllNeededData) = parent.add(item) # TODO
+proc add*(parent: var CsArgumentList; item: Dummy) =
 #   item.parentId = parent.id
   discard
 

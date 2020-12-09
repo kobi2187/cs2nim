@@ -49,6 +49,7 @@ method gen*(e: BodyExpr): string {.base.} =
 
 # possibly redundant. haven't yet used:
 type CConstruct* = concept T, Parent
+  proc add*(parent: var Parent; item: T; data: AllNeededData)
   proc add*(parent: var Parent; item: T)
   proc extract*(t: typedesc[T]; info: Info): T
   proc newCs*(t: typedesc[T]; a, b, c, d: auto): T

@@ -15,7 +15,9 @@ type CsRoot* = object
   # quickFetchClass*: TableRef[UUID, CsClass]
   infoCenter*: InfoCenter
   quickFetch*: TableRef[UUID, Variant]
+  quickFetch2*: TableRef[UUID, CsObject]
   regList*: seq[UUID]
+
 
 proc register*(r: var CsRoot; id: UUID; obj: Construct) =
   r.infoCenter.register(id, obj)
@@ -48,10 +50,13 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
   # result.quickFetchMethod = newTable[UUID, CsMethod]()
   # result.quickFetchClass = newTable[UUID, CsClass]()
   result.quickFetch = newTable[UUID, Variant]()
+  result.quickFetch2 = newTable[UUID, CsObject]()
 
   let defaultNs = newCs(CsNamespace, "default")
   result.global = defaultNs
   result.nsTables["default"] = defaultNs
+
+
 import ../state
 
 proc register(r: var CsRoot; c: Variant) =

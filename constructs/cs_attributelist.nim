@@ -12,4 +12,5 @@ proc add*(parent: var CsAttributeList; item: Dummy) =
   discard # TODO(add:CsAttributeList)
   # item.parentId = parent.id
 
+proc add*(parent: var CsAttributeList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc gen*(c: var CsAttributeList): string = discard #TODO(gen:CsAttributeList)

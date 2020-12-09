@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsYieldStatement]; name: string): CsYieldStatement =
 
 proc extract*(t: typedesc[CsYieldStatement]; info: Info): CsYieldStatement = discard #TODO(extract:CsYieldStatement)
 
+proc add*(parent: var CsYieldStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsYieldStatement; item: Dummy) =
   discard # TODO(add:CsYieldStatement)
   # item.parentId = parent.id

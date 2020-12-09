@@ -10,6 +10,7 @@ proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicit
   let name = info.essentials[0]
   result = newCs(CsExplicitInterfaceSpecifier, name)
 
-# proc add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) = discard # TODO(add:CsExplicitInterfaceSpecifier)
+# proc add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy, data:AllNeededData) = parent.add(item) # TODO
+proc add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) = discard # TODO(add:CsExplicitInterfaceSpecifier)
 
 # proc gen*(c: var CsExplicitInterfaceSpecifier): string = discard #TODO(gen:CsExplicitInterfaceSpecifier)

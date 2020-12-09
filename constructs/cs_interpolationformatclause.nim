@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpola
 
 proc extract*(t: typedesc[CsInterpolationFormatClause]; info: Info): CsInterpolationFormatClause = discard #TODO(extract:CsInterpolationFormatClause)
 
+proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsInterpolationFormatClause; item: Dummy) =
   discard # TODO(add:CsInterpolationFormatClause)
   # item.parentId = parent.id

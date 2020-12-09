@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsForEachVariableStatement]; name: string): CsForEachVar
 
 proc extract*(t: typedesc[CsForEachVariableStatement]; info: Info): CsForEachVariableStatement = discard #TODO(extract:CsForEachVariableStatement)
 
+proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsForEachVariableStatement; item: Dummy) =
   discard # TODO(add:CsForEachVariableStatement)
   # item.parentId = parent.id

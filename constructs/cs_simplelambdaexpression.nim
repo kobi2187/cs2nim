@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsSimpleLambdaExpression]; name: string): CsSimpleLambda
 
 proc extract*(t: typedesc[CsSimpleLambdaExpression]; info: Info): CsSimpleLambdaExpression = discard #TODO(extract:CsSimpleLambdaExpression)
 
+proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsSimpleLambdaExpression; item: Dummy) =
   discard # TODO(add:CsSimpleLambdaExpression)
   # item.parentId = parent.id

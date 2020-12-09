@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
 
 proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = discard #TODO(extract:CsWhenClause)
 
+proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsWhenClause; item: Dummy) =
   discard # TODO(add:CsWhenClause)
   # item.parentId = parent.id

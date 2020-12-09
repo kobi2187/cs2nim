@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVar
 
 proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVariableDesignation = discard #TODO(extract:CsSingleVariableDesignation)
 
+proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsSingleVariableDesignation; item: Dummy) =
   discard # TODO(add:CsSingleVariableDesignation)
   # item.parentId = parent.id

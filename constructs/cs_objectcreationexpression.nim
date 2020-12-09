@@ -17,6 +17,10 @@ proc extract*(t: typedesc[CsObjectCreationExpression]; info: Info): CsObjectCrea
 proc add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
   item.parentId = parent.id
   parent.args = item
-# proc add*(parent: var CsObjectCreationExpression; item: CsParameterList) =
+
+proc add*(parent: var CsObjectCreationExpression; item: CsArgumentList; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsObjectCreationExpression; item: CsParameterList, data:AllNeededData) = parent.add(item) # TODO
+
+# proc add*(parent: var CsObjectCreationExpression; item: CsParameterList) = discard
 
 method gen*(c: var CsObjectCreationExpression): string = discard #TODO(gen:CsObjectCreationExpression)

@@ -23,6 +23,12 @@ proc processTreeForData(root: var CsRoot; info: Info): AllNeededData =
     lastBlock = root.fetch(path[^1].id) # TODO......
 
 
+proc add*(parent, child: Construct; data: AllNeededData) =
+  var p = parent.unwrap
+  let c = child.unwrap
+  add(p, c)
+  # add(p, c, data)
+
 # alternative addToRoot
 # here we get the info. the object type, info for its fields
 # we want to

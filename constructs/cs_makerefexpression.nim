@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsMakeRefExpression]; name: string): CsMakeRefExpression
 
 proc extract*(t: typedesc[CsMakeRefExpression]; info: Info): CsMakeRefExpression = discard #TODO(extract:CsMakeRefExpression)
 
+proc add*(parent: var CsMakeRefExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsMakeRefExpression; item: Dummy) =
   discard # TODO(add:CsMakeRefExpression)
   # item.parentId = parent.id

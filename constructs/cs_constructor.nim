@@ -20,6 +20,7 @@ proc add*(parent: var CsConstructor; item: CsParameterList) =
   item.parentId = parent.id
   parent.parameterList = item
 
+proc add*(parent: var CsConstructor; item: CsParameterList; data: AllNeededData) = parent.add(item) # TODO
 
 
 

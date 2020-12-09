@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsConversionOperator]; name: string): CsConversionOperat
 
 proc extract*(t: typedesc[CsConversionOperator]; info: Info): CsConversionOperator = discard #TODO(extract:CsConversionOperator)
 
+proc add*(parent: var CsConversionOperator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsConversionOperator; item: Dummy) =
   discard # TODO(add:CsConversionOperator)
   # item.parentId = parent.id

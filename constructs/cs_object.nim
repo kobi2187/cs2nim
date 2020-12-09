@@ -7,7 +7,8 @@
 
 # proc extract*(t: typedesc[CsObject]; info: Info): CsObject = discard #TODO(extract:CsObject)
 
-# proc add*(parent: var CsObject; item: Dummy) =
+# proc add*(parent: var CsObject; item: Dummy, data:AllNeededData) = parent.add(item) # TODO
+proc add*(parent: var CsObject; item: Dummy) =
   # discard # TODO(add:CsObject)
   # item.parentId = parent.id
 

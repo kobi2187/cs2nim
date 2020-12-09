@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsInterpolatedStringExpression]; name: string): CsInterp
 
 proc extract*(t: typedesc[CsInterpolatedStringExpression]; info: Info): CsInterpolatedStringExpression = discard #TODO(extract:CsInterpolatedStringExpression)
 
+proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsInterpolatedStringExpression; item: Dummy) =
   discard # TODO(add:CsInterpolatedStringExpression)
   # item.parentId = parent.id

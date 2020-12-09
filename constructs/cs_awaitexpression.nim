@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =
 
 proc extract*(t: typedesc[CsAwaitExpression]; info: Info): CsAwaitExpression = discard #TODO(extract:CsAwaitExpression)
 
+proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsAwaitExpression; item: Dummy) =
   discard # TODO(add:CsAwaitExpression)
   # item.parentId = parent.id

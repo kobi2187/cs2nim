@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; name: string): CsAttributeT
 
 proc extract*(t: typedesc[CsAttributeTargetSpecifier]; info: Info): CsAttributeTargetSpecifier = discard #TODO(extract:CsAttributeTargetSpecifier)
 
+proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy) =
   discard # TODO(add:CsAttributeTargetSpecifier)
   # item.parentId = parent.id

@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsDelegate]; name: string): CsDelegate =
 
 proc extract*(t: typedesc[CsDelegate]; info: Info): CsDelegate = discard #TODO(extract:CsDelegate)
 
+proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsDelegate; item: Dummy) =
   discard # TODO(add:CsDelegate)
   # item.parentId = parent.id

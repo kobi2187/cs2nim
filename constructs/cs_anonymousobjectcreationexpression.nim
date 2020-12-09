@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsAnonymousObjectCreationExpression]; name: string): CsA
 
 proc extract*(t: typedesc[CsAnonymousObjectCreationExpression]; info: Info): CsAnonymousObjectCreationExpression = discard #TODO(extract:CsAnonymousObjectCreationExpression)
 
+proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy) =
   discard # TODO(add:CsAnonymousObjectCreationExpression)
   # item.parentId = parent.id

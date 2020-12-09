@@ -10,9 +10,12 @@ proc extract*(t: typedesc[CsUsingDirective]; info: Info): CsUsingDirective =
   let name = info.essentials[0]
   result = newCs(CsUsingDirective, name)
 
-# proc add*(parent: var CsUsingDirective; item: Dummy) =
+proc add*(parent: var CsUsingDirective; item: Dummy) =
   # item.parentId = parent.id
-  # discard # TODO(add:CsUsingDirective)
+  discard # TODO(add:CsUsingDirective)
+
+proc add*(parent: var CsUsingDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+
 import strutils
 proc gen*(c: CsUsingDirective): string =
   result = "import dotnet/" & c.name.toLowerAscii.replace(".", "/")

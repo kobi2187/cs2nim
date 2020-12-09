@@ -82,9 +82,12 @@ proc add*(parent: var CsClass; item: CsProperty) =
   parent.properties.add item
   parent.lastAddedTo = some(Properties)
   item.parentClass = parent.name
+proc add*(parent: var CsClass; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
 proc add*(parent: var CsClass; item: CsIndexer) =
   item.parentId = parent.id
   parent.indexer = item
   parent.lastAddedTo = some(Indexer)
   # item.parentName = parent.name
+
+proc add*(parent: var CsClass; item: CsIndexer; data: AllNeededData) = parent.add(item) # TODO

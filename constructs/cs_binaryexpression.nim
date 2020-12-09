@@ -9,6 +9,7 @@ proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression =
 
 proc add*(parent: var CsBinaryExpression; item: Dummy) =
   discard # TODO(add:CsBinaryExpression)
+proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
   # item.parentId = parent.id
 
 proc gen*(c: var CsBinaryExpression): string = discard #TODO(gen:CsBinaryExpression)

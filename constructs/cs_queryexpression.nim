@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsQueryExpression]; name: string): CsQueryExpression =
 
 proc extract*(t: typedesc[CsQueryExpression]; info: Info): CsQueryExpression = discard #TODO(extract:CsQueryExpression)
 
+proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsQueryExpression; item: Dummy) =
   discard # TODO(add:CsQueryExpression)
   # item.parentId = parent.id

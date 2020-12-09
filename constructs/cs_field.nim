@@ -14,6 +14,7 @@ proc extract*(t: typedesc[CsField]; info: Info): CsField =
 
 proc add*(parent: var CsField; item: Dummy) =
   discard # TODO(add:CsField)
+proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
   # item.parentId = parent.id
 
 proc gen*(f: CsField): string =

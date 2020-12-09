@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsCastExpression]; name: string): CsCastExpression =
 
 proc extract*(t: typedesc[CsCastExpression]; info: Info): CsCastExpression = discard #TODO(extract:CsCastExpression)
 
+proc add*(parent: var CsCastExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsCastExpression; item: Dummy) =
   discard # TODO(add:CsCastExpression)
   # item.parentId = parent.id

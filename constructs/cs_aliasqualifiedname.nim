@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsAliasQualifiedName]; name: string): CsAliasQualifiedNa
 
 proc extract*(t: typedesc[CsAliasQualifiedName]; info: Info): CsAliasQualifiedName = discard #TODO(extract:CsAliasQualifiedName)
 
+proc add*(parent: var CsAliasQualifiedName; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsAliasQualifiedName; item: Dummy) =
   discard # TODO(add:CsAliasQualifiedName)
   # item.parentId = parent.id

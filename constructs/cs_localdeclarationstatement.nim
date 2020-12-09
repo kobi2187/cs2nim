@@ -10,5 +10,6 @@ proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info): CsLocalDecl
 proc add*(parent: var CsLocalDeclarationStatement; item: Dummy) =
   discard # TODO(add:CsLocalDeclarationStatement)
   # item.parentId = parent.id
+proc add*(parent: var CsLocalDeclarationStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsLocalDeclarationStatement): string = discard #TODO(gen:CsLocalDeclarationStatement)

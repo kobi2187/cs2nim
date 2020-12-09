@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedA
 
 proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedArraySizeExpression = discard #TODO(extract:CsOmittedArraySizeExpression)
 
+proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy) =
   discard # TODO(add:CsOmittedArraySizeExpression)
   # item.parentId = parent.id

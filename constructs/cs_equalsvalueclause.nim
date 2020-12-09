@@ -10,5 +10,6 @@ proc extract*(t: typedesc[CsEqualsValueClause]; info: Info): CsEqualsValueClause
 proc add*(parent: var CsEqualsValueClause; item: Dummy) =
   discard # TODO(add:CsEqualsValueClause)
   # item.parentId = parent.id
+proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsEqualsValueClause): string = discard #TODO(gen:CsEqualsValueClause)

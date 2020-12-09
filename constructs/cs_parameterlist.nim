@@ -12,6 +12,7 @@ proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList =
 proc add*(parent: var CsParameterList; item: CsParameter) =
   item.parentId = parent.id
   parent.parameters.add item
+proc add*(parent: var CsParameterList; item: CsParameter; data: AllNeededData) = parent.add(item) # TODO
 
 import sequtils, strutils
 proc gen*(p: CsParameterList): string =

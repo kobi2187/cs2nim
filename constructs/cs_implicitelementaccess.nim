@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitEleme
 
 proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitElementAccess = discard #TODO(extract:CsImplicitElementAccess)
 
+proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsImplicitElementAccess; item: Dummy) =
   discard # TODO(add:CsImplicitElementAccess)
   # item.parentId = parent.id

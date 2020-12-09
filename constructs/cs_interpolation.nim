@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsInterpolation]; name: string): CsInterpolation =
 
 proc extract*(t: typedesc[CsInterpolation]; info: Info): CsInterpolation = discard #TODO(extract:CsInterpolation)
 
+proc add*(parent: var CsInterpolation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsInterpolation; item: Dummy) =
   discard # TODO(add:CsInterpolation)
   # item.parentId = parent.id

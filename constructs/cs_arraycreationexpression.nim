@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsArrayCreationExpression]; name: string): CsArrayCreati
 
 proc extract*(t: typedesc[CsArrayCreationExpression]; info: Info): CsArrayCreationExpression = discard #TODO(extract:CsArrayCreationExpression)
 
+proc add*(parent: var CsArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsArrayCreationExpression; item: Dummy) =
   discard # TODO(add:CsArrayCreationExpression)
   # item.parentId = parent.id

@@ -7,6 +7,7 @@ proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctio
 
 proc extract*(t: typedesc[CsLocalFunctionStatement]; info: Info): CsLocalFunctionStatement = discard #TODO(extract:CsLocalFunctionStatement)
 
+proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsLocalFunctionStatement; item: Dummy) =
   discard # TODO(add:CsLocalFunctionStatement)
   # item.parentId = parent.id
