@@ -1,4 +1,4 @@
-import ../types,uuids,options
+import ../types, uuids, options
 
 type CsParameter* = ref object of CsObject
   ptype*: string
@@ -7,6 +7,7 @@ type CsParameter* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsParameter]; a, b: string): CsParameter =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = a
   result.ptype = b

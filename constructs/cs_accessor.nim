@@ -3,6 +3,8 @@ type CsAccessor* = ref object of CsObject #TODO(type:CsAccessor)
 
 proc newCs*(t: typedesc[CsAccessor]; name: string): CsAccessor =
   new result
+  result.typ = $typeof(t)
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAccessor)
 
 proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor = discard #TODO(extract:CsAccessor)

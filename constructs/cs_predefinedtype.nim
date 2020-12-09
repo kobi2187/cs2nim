@@ -3,6 +3,7 @@ type CsPredefinedType* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
 

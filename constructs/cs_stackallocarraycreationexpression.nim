@@ -3,6 +3,7 @@ type CsStackAllocArrayCreationExpression* = ref object of CsObject #TODO(type:Cs
 
 proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression]; name: string): CsStackAllocArrayCreationExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsStackAllocArrayCreationExpression)
 
 proc extract*(t: typedesc[CsStackAllocArrayCreationExpression]; info: Info): CsStackAllocArrayCreationExpression = discard #TODO(extract:CsStackAllocArrayCreationExpression)

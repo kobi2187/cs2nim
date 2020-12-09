@@ -3,6 +3,7 @@ type CsSwitchSection* = ref object of CsObject #TODO(type:CsSwitchSection)
 
 proc newCs*(t: typedesc[CsSwitchSection]; name: string): CsSwitchSection =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsSwitchSection)
 
 proc extract*(t: typedesc[CsSwitchSection]; info: Info): CsSwitchSection = discard #TODO(extract:CsSwitchSection)

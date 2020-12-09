@@ -3,6 +3,7 @@ type CsStruct* = ref object of CsObject #TODO(type:CsStruct)
 
 proc newCs*(t: typedesc[CsStruct]; name: string): CsStruct =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsStruct)
 
 proc extract*(t: typedesc[CsStruct]; info: Info): CsStruct = discard #TODO(extract:CsStruct)

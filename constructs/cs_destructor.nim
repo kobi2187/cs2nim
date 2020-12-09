@@ -3,6 +3,7 @@ type CsDestructor* = ref object of CsObject #TODO(type:CsDestructor)
 
 proc newCs*(t: typedesc[CsDestructor]; name: string): CsDestructor =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsDestructor)
 
 proc extract*(t: typedesc[CsDestructor]; info: Info): CsDestructor = discard #TODO(extract:CsDestructor)

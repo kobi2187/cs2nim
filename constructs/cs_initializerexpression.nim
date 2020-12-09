@@ -3,6 +3,7 @@ type CsInitializerExpression* = ref object of CsObject #TODO(type:CsInitializerE
 
 proc newCs*(t: typedesc[CsInitializerExpression]; name: string): CsInitializerExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsInitializerExpression)
 
 proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression = discard #TODO(extract:CsInitializerExpression)

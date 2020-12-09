@@ -3,6 +3,7 @@ type CsMemberBindingExpression* = ref object of CsObject #TODO(type:CsMemberBind
 
 proc newCs*(t: typedesc[CsMemberBindingExpression]; name: string): CsMemberBindingExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsMemberBindingExpression)
 
 proc extract*(t: typedesc[CsMemberBindingExpression]; info: Info): CsMemberBindingExpression = discard #TODO(extract:CsMemberBindingExpression)

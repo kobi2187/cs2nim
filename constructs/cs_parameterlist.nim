@@ -4,6 +4,7 @@ type CsParameterList* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsParameterList]): CsParameterList =
   new result # start empty.
+  result.typ = $typeof(t)
   result.id = uuids.genUUID().some
 
 proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList =

@@ -3,6 +3,7 @@ type CsArrowExpressionClause* = ref object of CsObject #TODO(type:CsArrowExpress
 
 proc newCs*(t: typedesc[CsArrowExpressionClause]; name: string): CsArrowExpressionClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsArrowExpressionClause)
 
 proc extract*(t: typedesc[CsArrowExpressionClause]; info: Info): CsArrowExpressionClause = discard #TODO(extract:CsArrowExpressionClause)

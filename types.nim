@@ -26,6 +26,7 @@ proc `$`*(info: Info): string =
 import uuids, options
 type CsObject* = object of RootRef
   name*: string
+  typ*: string
   id*: Option[UUID]
   parentId*: Option[UUID]
   # line*: JsonNode

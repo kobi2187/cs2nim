@@ -2,8 +2,9 @@ import ../types, uuids, options
 type CsLiteralExpression* = ref object of BodyExpr
   value*: string
 
-proc newCs(_: typedesc[CsLiteralExpression], val: string): CsLiteralExpression =
+proc newCs(t: typedesc[CsLiteralExpression], val: string): CsLiteralExpression =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.ttype = "CsLiteralExpression"
   result.value = val

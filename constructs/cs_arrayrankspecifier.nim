@@ -3,6 +3,7 @@ type CsArrayRankSpecifier* = ref object of CsObject #TODO(type:CsArrayRankSpecif
 
 proc newCs*(t: typedesc[CsArrayRankSpecifier]; name: string): CsArrayRankSpecifier =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsArrayRankSpecifier)
 
 proc extract*(t: typedesc[CsArrayRankSpecifier]; info: Info): CsArrayRankSpecifier = discard #TODO(extract:CsArrayRankSpecifier)

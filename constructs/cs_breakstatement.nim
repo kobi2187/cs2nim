@@ -3,6 +3,7 @@ type CsBreakStatement* = ref object of CsObject #TODO(type:CsBreakStatement)
 
 proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsBreakStatement)
 
 proc extract*(t: typedesc[CsBreakStatement]; info: Info): CsBreakStatement = discard #TODO(extract:CsBreakStatement)

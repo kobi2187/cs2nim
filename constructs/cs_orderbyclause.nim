@@ -3,6 +3,7 @@ type CsOrderByClause* = ref object of CsObject #TODO(type:CsOrderByClause)
 
 proc newCs*(t: typedesc[CsOrderByClause]; name: string): CsOrderByClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsOrderByClause)
 
 proc extract*(t: typedesc[CsOrderByClause]; info: Info): CsOrderByClause = discard #TODO(extract:CsOrderByClause)

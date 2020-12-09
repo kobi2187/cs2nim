@@ -3,6 +3,7 @@ type CsAttributeTargetSpecifier* = ref object of CsObject #TODO(type:CsAttribute
 
 proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; name: string): CsAttributeTargetSpecifier =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAttributeTargetSpecifier)
 
 proc extract*(t: typedesc[CsAttributeTargetSpecifier]; info: Info): CsAttributeTargetSpecifier = discard #TODO(extract:CsAttributeTargetSpecifier)

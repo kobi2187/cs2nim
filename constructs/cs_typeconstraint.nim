@@ -3,6 +3,7 @@ type CsTypeConstraint* = ref object of CsObject #TODO(type:CsTypeConstraint)
 
 proc newCs*(t: typedesc[CsTypeConstraint]; name: string): CsTypeConstraint =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsTypeConstraint)
 
 proc extract*(t: typedesc[CsTypeConstraint]; info: Info): CsTypeConstraint = discard #TODO(extract:CsTypeConstraint)

@@ -8,8 +8,10 @@ type CsExpressionStatement* = ref object of BodyExpr
 
 proc newCs*(t: typedesc[CsExpressionStatement]): CsExpressionStatement =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.ttype = "CsExpressionStatement"
+  result.typ = $typeof(t)
   result.id = genUUID().some
 
 proc extract*(t: typedesc[CsExpressionStatement]; info: Info): CsExpressionStatement =

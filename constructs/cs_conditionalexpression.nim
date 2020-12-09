@@ -3,6 +3,7 @@ type CsConditionalExpression* = ref object of CsObject #TODO(type:CsConditionalE
 
 proc newCs*(t: typedesc[CsConditionalExpression]; name: string): CsConditionalExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsConditionalExpression)
 
 proc extract*(t: typedesc[CsConditionalExpression]; info: Info): CsConditionalExpression = discard #TODO(extract:CsConditionalExpression)

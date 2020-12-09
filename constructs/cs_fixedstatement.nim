@@ -3,6 +3,7 @@ type CsFixedStatement* = ref object of CsObject #TODO(type:CsFixedStatement)
 
 proc newCs*(t: typedesc[CsFixedStatement]; name: string): CsFixedStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsFixedStatement)
 
 proc extract*(t: typedesc[CsFixedStatement]; info: Info): CsFixedStatement = discard #TODO(extract:CsFixedStatement)

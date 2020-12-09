@@ -3,6 +3,7 @@ type CsSizeOfExpression* = ref object of CsObject #TODO(type:CsSizeOfExpression)
 
 proc newCs*(t: typedesc[CsSizeOfExpression]; name: string): CsSizeOfExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsSizeOfExpression)
 
 proc extract*(t: typedesc[CsSizeOfExpression]; info: Info): CsSizeOfExpression = discard #TODO(extract:CsSizeOfExpression)

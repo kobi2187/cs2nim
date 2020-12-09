@@ -3,6 +3,7 @@ type CsCastExpression* = ref object of CsObject #TODO(type:CsCastExpression)
 
 proc newCs*(t: typedesc[CsCastExpression]; name: string): CsCastExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsCastExpression)
 
 proc extract*(t: typedesc[CsCastExpression]; info: Info): CsCastExpression = discard #TODO(extract:CsCastExpression)

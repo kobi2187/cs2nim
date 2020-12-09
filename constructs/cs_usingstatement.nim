@@ -3,6 +3,7 @@ type CsUsingStatement* = ref object of CsObject #TODO(type:CsUsingStatement)
 
 proc newCs*(t: typedesc[CsUsingStatement]; name: string): CsUsingStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsUsingStatement)
 
 proc extract*(t: typedesc[CsUsingStatement]; info: Info): CsUsingStatement = discard #TODO(extract:CsUsingStatement)

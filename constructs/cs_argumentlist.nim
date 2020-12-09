@@ -6,6 +6,7 @@ type CsArgumentList* = ref object of CsObject
 import sequtils, strutils
 proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.args = args.mapIt(it.strip)
 

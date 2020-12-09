@@ -7,6 +7,7 @@ type CsField* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsField]; name: string): CsField =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsField)
 
 proc extract*(t: typedesc[CsField]; info: Info): CsField =

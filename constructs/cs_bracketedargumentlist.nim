@@ -3,6 +3,7 @@ type CsBracketedArgumentList* = ref object of CsObject #TODO(type:CsBracketedArg
 
 proc newCs*(t: typedesc[CsBracketedArgumentList]; name: string): CsBracketedArgumentList =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsBracketedArgumentList)
 
 proc extract*(t: typedesc[CsBracketedArgumentList]; info: Info): CsBracketedArgumentList = discard #TODO(extract:CsBracketedArgumentList)

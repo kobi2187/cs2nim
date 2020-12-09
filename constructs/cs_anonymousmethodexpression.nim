@@ -3,6 +3,7 @@ type CsAnonymousMethodExpression* = ref object of CsObject #TODO(type:CsAnonymou
 
 proc newCs*(t: typedesc[CsAnonymousMethodExpression]; name: string): CsAnonymousMethodExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAnonymousMethodExpression)
 
 proc extract*(t: typedesc[CsAnonymousMethodExpression]; info: Info): CsAnonymousMethodExpression = discard #TODO(extract:CsAnonymousMethodExpression)

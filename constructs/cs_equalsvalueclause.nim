@@ -3,6 +3,7 @@ type CsEqualsValueClause* = ref object of CsObject #TODO(type:CsEqualsValueClaus
 
 proc newCs*(t: typedesc[CsEqualsValueClause]; name: string): CsEqualsValueClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsEqualsValueClause)
 
 proc extract*(t: typedesc[CsEqualsValueClause]; info: Info): CsEqualsValueClause = discard #TODO(extract:CsEqualsValueClause)

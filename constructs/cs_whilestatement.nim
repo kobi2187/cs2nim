@@ -3,6 +3,7 @@ type CsWhileStatement* = ref object of CsObject #TODO(type:CsWhileStatement)
 
 proc newCs*(t: typedesc[CsWhileStatement]; name: string): CsWhileStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsWhileStatement)
 
 proc extract*(t: typedesc[CsWhileStatement]; info: Info): CsWhileStatement = discard #TODO(extract:CsWhileStatement)

@@ -3,6 +3,7 @@ type CsIsPatternExpression* = ref object of CsObject #TODO(type:CsIsPatternExpre
 
 proc newCs*(t: typedesc[CsIsPatternExpression]; name: string): CsIsPatternExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsIsPatternExpression)
 
 proc extract*(t: typedesc[CsIsPatternExpression]; info: Info): CsIsPatternExpression = discard #TODO(extract:CsIsPatternExpression)

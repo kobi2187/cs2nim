@@ -3,6 +3,7 @@ type CsParenthesizedVariableDesignation* = ref object of CsObject #TODO(type:CsP
 
 proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; name: string): CsParenthesizedVariableDesignation =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsParenthesizedVariableDesignation)
 
 proc extract*(t: typedesc[CsParenthesizedVariableDesignation]; info: Info): CsParenthesizedVariableDesignation = discard #TODO(extract:CsParenthesizedVariableDesignation)

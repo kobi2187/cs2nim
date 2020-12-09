@@ -3,6 +3,7 @@ type CsInterpolationFormatClause* = ref object of CsObject #TODO(type:CsInterpol
 
 proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpolationFormatClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsInterpolationFormatClause)
 
 proc extract*(t: typedesc[CsInterpolationFormatClause]; info: Info): CsInterpolationFormatClause = discard #TODO(extract:CsInterpolationFormatClause)

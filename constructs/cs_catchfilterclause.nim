@@ -3,6 +3,7 @@ type CsCatchFilterClause* = ref object of CsObject #TODO(type:CsCatchFilterClaus
 
 proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsCatchFilterClause)
 
 proc extract*(t: typedesc[CsCatchFilterClause]; info: Info): CsCatchFilterClause = discard #TODO(extract:CsCatchFilterClause)

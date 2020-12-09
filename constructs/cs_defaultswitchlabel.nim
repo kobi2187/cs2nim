@@ -3,6 +3,7 @@ type CsDefaultSwitchLabel* = ref object of CsObject #TODO(type:CsDefaultSwitchLa
 
 proc newCs*(t: typedesc[CsDefaultSwitchLabel]; name: string): CsDefaultSwitchLabel =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsDefaultSwitchLabel)
 
 proc extract*(t: typedesc[CsDefaultSwitchLabel]; info: Info): CsDefaultSwitchLabel = discard #TODO(extract:CsDefaultSwitchLabel)

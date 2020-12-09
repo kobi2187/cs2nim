@@ -3,6 +3,7 @@ type CsOrdering* = ref object of CsObject #TODO(type:CsOrdering)
 
 proc newCs*(t: typedesc[CsOrdering]; name: string): CsOrdering =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsOrdering)
 
 proc extract*(t: typedesc[CsOrdering]; info: Info): CsOrdering = discard #TODO(extract:CsOrdering)

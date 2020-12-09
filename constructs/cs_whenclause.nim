@@ -3,6 +3,7 @@ type CsWhenClause* = ref object of CsObject #TODO(type:CsWhenClause)
 
 proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsWhenClause)
 
 proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = discard #TODO(extract:CsWhenClause)

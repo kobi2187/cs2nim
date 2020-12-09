@@ -3,6 +3,7 @@ type CsInterpolationAlignmentClause* = ref object of CsObject #TODO(type:CsInter
 
 proc newCs*(t: typedesc[CsInterpolationAlignmentClause]; name: string): CsInterpolationAlignmentClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsInterpolationAlignmentClause)
 
 proc extract*(t: typedesc[CsInterpolationAlignmentClause]; info: Info): CsInterpolationAlignmentClause = discard #TODO(extract:CsInterpolationAlignmentClause)

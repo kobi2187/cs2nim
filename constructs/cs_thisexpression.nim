@@ -4,6 +4,7 @@ type CsThisExpression* = ref object of CsObject #TODO(type:CsThisExpression)
 
 proc newCs*(t: typedesc[CsThisExpression]; name: string): CsThisExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsThisExpression)
 
 proc extract*(t: typedesc[CsThisExpression]; info: Info): CsThisExpression = discard #TODO(extract:CsThisExpression)

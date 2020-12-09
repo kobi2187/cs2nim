@@ -3,6 +3,7 @@ type CsThrowExpression* = ref object of CsObject #TODO(type:CsThrowExpression)
 
 proc newCs*(t: typedesc[CsThrowExpression]; name: string): CsThrowExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsThrowExpression)
 
 proc extract*(t: typedesc[CsThrowExpression]; info: Info): CsThrowExpression = discard #TODO(extract:CsThrowExpression)

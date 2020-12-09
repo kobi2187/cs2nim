@@ -3,6 +3,7 @@ type CsRefTypeExpression* = ref object of CsObject #TODO(type:CsRefTypeExpressio
 
 proc newCs*(t: typedesc[CsRefTypeExpression]; name: string): CsRefTypeExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsRefTypeExpression)
 
 proc extract*(t: typedesc[CsRefTypeExpression]; info: Info): CsRefTypeExpression = discard #TODO(extract:CsRefTypeExpression)

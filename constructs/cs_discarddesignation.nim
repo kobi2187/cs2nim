@@ -3,6 +3,7 @@ type CsDiscardDesignation* = ref object of CsObject #TODO(type:CsDiscardDesignat
 
 proc newCs*(t: typedesc[CsDiscardDesignation]; name: string): CsDiscardDesignation =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsDiscardDesignation)
 
 proc extract*(t: typedesc[CsDiscardDesignation]; info: Info): CsDiscardDesignation = discard #TODO(extract:CsDiscardDesignation)

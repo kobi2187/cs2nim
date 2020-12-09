@@ -3,6 +3,7 @@ type CsTupleExpression* = ref object of CsObject #TODO(type:CsTupleExpression)
 
 proc newCs*(t: typedesc[CsTupleExpression]; name: string): CsTupleExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsTupleExpression)
 
 proc extract*(t: typedesc[CsTupleExpression]; info: Info): CsTupleExpression = discard #TODO(extract:CsTupleExpression)

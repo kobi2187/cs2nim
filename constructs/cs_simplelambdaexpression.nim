@@ -3,6 +3,7 @@ type CsSimpleLambdaExpression* = ref object of CsObject #TODO(type:CsSimpleLambd
 
 proc newCs*(t: typedesc[CsSimpleLambdaExpression]; name: string): CsSimpleLambdaExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsSimpleLambdaExpression)
 
 proc extract*(t: typedesc[CsSimpleLambdaExpression]; info: Info): CsSimpleLambdaExpression = discard #TODO(extract:CsSimpleLambdaExpression)

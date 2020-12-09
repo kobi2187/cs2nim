@@ -5,6 +5,7 @@ type CsEnumMember* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
   result.value = value

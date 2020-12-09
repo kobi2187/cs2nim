@@ -24,7 +24,7 @@ proc processTreeForData(root: var CsRoot; info: Info): AllNeededData =
 
 
 proc add*(parent, child: Construct; data: AllNeededData) =
-  discard
+  discard #parent.unwrap.add(child.unwrap, data)
 
 # alternative addToRoot
 # here we get the info. the object type, info for its fields

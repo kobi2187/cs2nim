@@ -5,6 +5,7 @@ type CsObjectCreationExpression* = ref object of BodyExpr
 
 proc newCs*(t: typedesc[CsObjectCreationExpression]; name: string): CsObjectCreationExpression =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
   result.ttype = "CsObjectCreationExpression"

@@ -3,6 +3,7 @@ type CsExplicitInterfaceSpecifier* = ref object of CsObject #TODO(type:CsExplici
 
 proc newCs*(t: typedesc[CsExplicitInterfaceSpecifier]; name: string): CsExplicitInterfaceSpecifier =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
 

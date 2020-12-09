@@ -3,6 +3,7 @@ type CsQueryContinuation* = ref object of CsObject #TODO(type:CsQueryContinuatio
 
 proc newCs*(t: typedesc[CsQueryContinuation]; name: string): CsQueryContinuation =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsQueryContinuation)
 
 proc extract*(t: typedesc[CsQueryContinuation]; info: Info): CsQueryContinuation = discard #TODO(extract:CsQueryContinuation)

@@ -3,6 +3,7 @@ type CsForEachStatement* = ref object of CsObject #TODO(type:CsForEachStatement)
 
 proc newCs*(t: typedesc[CsForEachStatement]; name: string): CsForEachStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsForEachStatement)
 
 proc extract*(t: typedesc[CsForEachStatement]; info: Info): CsForEachStatement = discard #TODO(extract:CsForEachStatement)

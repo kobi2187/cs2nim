@@ -3,6 +3,7 @@ type CsTupleType* = ref object of CsObject #TODO(type:CsTupleType)
 
 proc newCs*(t: typedesc[CsTupleType]; name: string): CsTupleType =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsTupleType)
 
 proc extract*(t: typedesc[CsTupleType]; info: Info): CsTupleType = discard #TODO(extract:CsTupleType)

@@ -3,6 +3,7 @@ type CsContinueStatement* = ref object of CsObject #TODO(type:CsContinueStatemen
 
 proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsContinueStatement)
 
 proc extract*(t: typedesc[CsContinueStatement]; info: Info): CsContinueStatement = discard #TODO(extract:CsContinueStatement)

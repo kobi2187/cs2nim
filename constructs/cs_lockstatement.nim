@@ -3,6 +3,7 @@ type CsLockStatement* = ref object of CsObject #TODO(type:CsLockStatement)
 
 proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsLockStatement)
 
 proc extract*(t: typedesc[CsLockStatement]; info: Info): CsLockStatement = discard #TODO(extract:CsLockStatement)

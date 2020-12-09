@@ -3,6 +3,7 @@ type CsIncompleteMember* = ref object of CsObject #TODO(type:CsIncompleteMember)
 
 proc newCs*(t: typedesc[CsIncompleteMember]; name: string): CsIncompleteMember =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsIncompleteMember)
 
 proc extract*(t: typedesc[CsIncompleteMember]; info: Info): CsIncompleteMember = discard #TODO(extract:CsIncompleteMember)

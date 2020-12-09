@@ -3,6 +3,7 @@ type CsArrayType* = ref object of CsObject #TODO(type:CsArrayType)
 
 proc newCs*(t: typedesc[CsArrayType]; name: string): CsArrayType =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsArrayType)
 
 proc extract*(t: typedesc[CsArrayType]; info: Info): CsArrayType = discard #TODO(extract:CsArrayType)

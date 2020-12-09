@@ -3,6 +3,7 @@ type CsExternAliasDirective* = ref object of CsObject #TODO(type:CsExternAliasDi
 
 proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDirective =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsExternAliasDirective)
 
 proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective = discard #TODO(extract:CsExternAliasDirective)

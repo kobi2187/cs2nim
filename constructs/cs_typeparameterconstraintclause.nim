@@ -3,6 +3,7 @@ type CsTypeParameterConstraintClause* = ref object of CsObject #TODO(type:CsType
 
 proc newCs*(t: typedesc[CsTypeParameterConstraintClause]; name: string): CsTypeParameterConstraintClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsTypeParameterConstraintClause)
 
 proc extract*(t: typedesc[CsTypeParameterConstraintClause]; info: Info): CsTypeParameterConstraintClause = discard #TODO(extract:CsTypeParameterConstraintClause)

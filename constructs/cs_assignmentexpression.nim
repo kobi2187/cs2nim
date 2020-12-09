@@ -3,6 +3,7 @@ type CsAssignmentExpression* = ref object of CsObject #TODO(type:CsAssignmentExp
 
 proc newCs*(t: typedesc[CsAssignmentExpression]; name: string): CsAssignmentExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAssignmentExpression)
 
 proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression = discard #TODO(extract:CsAssignmentExpression)

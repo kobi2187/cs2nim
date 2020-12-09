@@ -3,6 +3,7 @@ type CsWhereClause* = ref object of CsObject #TODO(type:CsWhereClause)
 
 proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsWhereClause)
 
 proc extract*(t: typedesc[CsWhereClause]; info: Info): CsWhereClause = discard #TODO(extract:CsWhereClause)

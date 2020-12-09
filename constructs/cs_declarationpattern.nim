@@ -3,6 +3,7 @@ type CsDeclarationPattern* = ref object of CsObject #TODO(type:CsDeclarationPatt
 
 proc newCs*(t: typedesc[CsDeclarationPattern]; name: string): CsDeclarationPattern =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsDeclarationPattern)
 
 proc extract*(t: typedesc[CsDeclarationPattern]; info: Info): CsDeclarationPattern = discard #TODO(extract:CsDeclarationPattern)

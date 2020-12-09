@@ -3,6 +3,7 @@ type CsPostfixUnaryExpression* = ref object of CsObject #TODO(type:CsPostfixUnar
 
 proc newCs*(t: typedesc[CsPostfixUnaryExpression]; name: string): CsPostfixUnaryExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsPostfixUnaryExpression)
 
 proc extract*(t: typedesc[CsPostfixUnaryExpression]; info: Info): CsPostfixUnaryExpression = discard #TODO(extract:CsPostfixUnaryExpression)

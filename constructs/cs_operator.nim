@@ -3,6 +3,7 @@ type CsOperator* = ref object of CsObject #TODO(type:CsOperator)
 
 proc newCs*(t: typedesc[CsOperator]; name: string): CsOperator =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsOperator)
 
 proc extract*(t: typedesc[CsOperator]; info: Info): CsOperator = discard #TODO(extract:CsOperator)

@@ -3,6 +3,7 @@ type CsTypeParameterList* = ref object of CsObject #TODO(type:CsTypeParameterLis
 
 proc newCs*(t: typedesc[CsTypeParameterList]; name: string): CsTypeParameterList =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsTypeParameterList)
 
 proc extract*(t: typedesc[CsTypeParameterList]; info: Info): CsTypeParameterList = discard #TODO(extract:CsTypeParameterList)

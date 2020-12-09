@@ -3,6 +3,7 @@ type CsGroupClause* = ref object of CsObject #TODO(type:CsGroupClause)
 
 proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsGroupClause)
 
 proc extract*(t: typedesc[CsGroupClause]; info: Info): CsGroupClause = discard #TODO(extract:CsGroupClause)

@@ -3,6 +3,7 @@ type CsEventField* = ref object of CsObject #TODO(type:CsEventField)
 
 proc newCs*(t: typedesc[CsEventField]; name: string): CsEventField =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsEventField)
 
 proc extract*(t: typedesc[CsEventField]; info: Info): CsEventField = discard #TODO(extract:CsEventField)

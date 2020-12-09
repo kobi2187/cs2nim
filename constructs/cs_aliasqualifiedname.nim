@@ -3,6 +3,7 @@ type CsAliasQualifiedName* = ref object of CsObject #TODO(type:CsAliasQualifiedN
 
 proc newCs*(t: typedesc[CsAliasQualifiedName]; name: string): CsAliasQualifiedName =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAliasQualifiedName)
 
 proc extract*(t: typedesc[CsAliasQualifiedName]; info: Info): CsAliasQualifiedName = discard #TODO(extract:CsAliasQualifiedName)

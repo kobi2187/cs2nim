@@ -3,6 +3,7 @@ type CsJoinClause* = ref object of CsObject #TODO(type:CsJoinClause)
 
 proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsJoinClause)
 
 proc extract*(t: typedesc[CsJoinClause]; info: Info): CsJoinClause = discard #TODO(extract:CsJoinClause)

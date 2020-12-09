@@ -11,6 +11,7 @@ type CsProperty* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
 

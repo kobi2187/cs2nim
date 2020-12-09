@@ -3,6 +3,7 @@ type CsUsingDirective* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsUsingDirective]; name: string): CsUsingDirective =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
 

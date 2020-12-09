@@ -3,6 +3,7 @@ type CsFinallyClause* = ref object of CsObject #TODO(type:CsFinallyClause)
 
 proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsFinallyClause)
 
 proc extract*(t: typedesc[CsFinallyClause]; info: Info): CsFinallyClause = discard #TODO(extract:CsFinallyClause)

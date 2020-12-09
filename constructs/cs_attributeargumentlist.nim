@@ -3,6 +3,7 @@ type CsAttributeArgumentList* = ref object of CsObject #TODO(type:CsAttributeArg
 
 proc newCs*(t: typedesc[CsAttributeArgumentList]; name: string): CsAttributeArgumentList =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAttributeArgumentList)
 
 proc extract*(t: typedesc[CsAttributeArgumentList]; info: Info): CsAttributeArgumentList = discard #TODO(extract:CsAttributeArgumentList)

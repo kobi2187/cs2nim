@@ -3,6 +3,7 @@ type CsParenthesizedExpression* = ref object of CsObject #TODO(type:CsParenthesi
 
 proc newCs*(t: typedesc[CsParenthesizedExpression]; name: string): CsParenthesizedExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsParenthesizedExpression)
 
 proc extract*(t: typedesc[CsParenthesizedExpression]; info: Info): CsParenthesizedExpression = discard #TODO(extract:CsParenthesizedExpression)

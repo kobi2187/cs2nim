@@ -3,6 +3,7 @@ type CsSingleVariableDesignation* = ref object of CsObject #TODO(type:CsSingleVa
 
 proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVariableDesignation =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsSingleVariableDesignation)
 
 proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVariableDesignation = discard #TODO(extract:CsSingleVariableDesignation)

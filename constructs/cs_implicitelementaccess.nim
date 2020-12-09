@@ -3,6 +3,7 @@ type CsImplicitElementAccess* = ref object of CsObject #TODO(type:CsImplicitElem
 
 proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitElementAccess =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsImplicitElementAccess)
 
 proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitElementAccess = discard #TODO(extract:CsImplicitElementAccess)

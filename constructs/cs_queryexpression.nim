@@ -3,6 +3,7 @@ type CsQueryExpression* = ref object of CsObject #TODO(type:CsQueryExpression)
 
 proc newCs*(t: typedesc[CsQueryExpression]; name: string): CsQueryExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsQueryExpression)
 
 proc extract*(t: typedesc[CsQueryExpression]; info: Info): CsQueryExpression = discard #TODO(extract:CsQueryExpression)

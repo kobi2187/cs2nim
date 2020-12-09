@@ -3,6 +3,7 @@ type CsPointerType* = ref object of CsObject #TODO(type:CsPointerType)
 
 proc newCs*(t: typedesc[CsPointerType]; name: string): CsPointerType =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsPointerType)
 
 proc extract*(t: typedesc[CsPointerType]; info: Info): CsPointerType = discard #TODO(extract:CsPointerType)

@@ -3,6 +3,7 @@ type CsIfStatement* = ref object of CsObject #TODO(type:CsIfStatement)
 
 proc newCs*(t: typedesc[CsIfStatement]; name: string): CsIfStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsIfStatement)
 
 proc extract*(t: typedesc[CsIfStatement]; info: Info): CsIfStatement = discard #TODO(extract:CsIfStatement)

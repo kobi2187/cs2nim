@@ -5,7 +5,6 @@ import constructs/constructs
 
 proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
   case info.declName #theType
-
   of "NamespaceDeclaration": # etc etc
     var a = extract(CsNamespace, info, data)
     a.id = some(id)

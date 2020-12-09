@@ -4,6 +4,7 @@ type CsReturnStatement* = ref object of BodyExpr # type:CsReturnStatement
 
 proc newCs*(t: typedesc[CsReturnStatement]): CsReturnStatement =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.ttype = "CsReturnStatement"
 

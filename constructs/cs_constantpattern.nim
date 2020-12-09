@@ -3,6 +3,7 @@ type CsConstantPattern* = ref object of CsObject #TODO(type:CsConstantPattern)
 
 proc newCs*(t: typedesc[CsConstantPattern]; name: string): CsConstantPattern =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsConstantPattern)
 
 proc extract*(t: typedesc[CsConstantPattern]; info: Info): CsConstantPattern = discard #TODO(extract:CsConstantPattern)

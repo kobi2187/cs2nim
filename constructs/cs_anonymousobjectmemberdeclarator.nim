@@ -3,6 +3,7 @@ type CsAnonymousObjectMemberDeclarator* = ref object of CsObject #TODO(type:CsAn
 
 proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAnonymousObjectMemberDeclarator =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAnonymousObjectMemberDeclarator)
 
 proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAnonymousObjectMemberDeclarator = discard #TODO(extract:CsAnonymousObjectMemberDeclarator)

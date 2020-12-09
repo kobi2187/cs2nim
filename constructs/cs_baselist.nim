@@ -3,6 +3,7 @@ type CsBaseList* = ref object of CsObject #TODO(type:CsBaseList)
 
 proc newCs*(t: typedesc[CsBaseList]; name: string): CsBaseList =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsBaseList)
 
 proc extract*(t: typedesc[CsBaseList]; info: Info): CsBaseList = discard #TODO(extract:CsBaseList)

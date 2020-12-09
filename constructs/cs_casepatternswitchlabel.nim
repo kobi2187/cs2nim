@@ -3,6 +3,7 @@ type CsCasePatternSwitchLabel* = ref object of CsObject #TODO(type:CsCasePattern
 
 proc newCs*(t: typedesc[CsCasePatternSwitchLabel]; name: string): CsCasePatternSwitchLabel =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsCasePatternSwitchLabel)
 
 proc extract*(t: typedesc[CsCasePatternSwitchLabel]; info: Info): CsCasePatternSwitchLabel = discard #TODO(extract:CsCasePatternSwitchLabel)

@@ -36,6 +36,7 @@ proc `$`*(n: CsNamespace): string =
 
 proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
   result.classes = @[]

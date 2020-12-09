@@ -8,6 +8,7 @@ type CsConstructor* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsConstructor]; name: string): CsConstructor =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
 

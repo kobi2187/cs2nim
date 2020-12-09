@@ -3,6 +3,7 @@ type CsConditionalAccessExpression* = ref object of CsObject #TODO(type:CsCondit
 
 proc newCs*(t: typedesc[CsConditionalAccessExpression]; name: string): CsConditionalAccessExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsConditionalAccessExpression)
 
 proc extract*(t: typedesc[CsConditionalAccessExpression]; info: Info): CsConditionalAccessExpression = discard #TODO(extract:CsConditionalAccessExpression)

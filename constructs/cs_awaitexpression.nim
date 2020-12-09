@@ -3,6 +3,7 @@ type CsAwaitExpression* = ref object of CsObject #TODO(type:CsAwaitExpression)
 
 proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsAwaitExpression)
 
 proc extract*(t: typedesc[CsAwaitExpression]; info: Info): CsAwaitExpression = discard #TODO(extract:CsAwaitExpression)

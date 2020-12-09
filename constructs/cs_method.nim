@@ -12,6 +12,7 @@ type CsMethod* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
 

@@ -3,6 +3,7 @@ type CsCatch* = ref object of CsObject #TODO(type:CsCatch)
 
 proc newCs*(t: typedesc[CsCatch]; name: string): CsCatch =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsCatch)
 
 proc extract*(t: typedesc[CsCatch]; info: Info): CsCatch = discard #TODO(extract:CsCatch)

@@ -3,6 +3,7 @@ type CsBinaryExpression* = ref object of CsObject #TODO(type:CsBinaryExpression)
 
 proc newCs*(t: typedesc[CsBinaryExpression]; name: string): CsBinaryExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsBinaryExpression)
 
 proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression = discard #TODO(extract:CsBinaryExpression)

@@ -2,6 +2,7 @@ import ../types, uuids, options, cs_property
 type CsInterface* = ref object of CsObject #TODO(type:CsInterface)
 proc newCs*(t: typedesc[CsInterface]; name: string): CsInterface =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsInterface)
 
 proc extract*(t: typedesc[CsInterface]; info: Info): CsInterface = discard #TODO(extract:CsInterface)

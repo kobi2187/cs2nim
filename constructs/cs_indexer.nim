@@ -11,6 +11,7 @@ type CsIndexer* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsIndexer]): CsIndexer =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.hasGet = true
   result.hasSet = true

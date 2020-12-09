@@ -3,6 +3,7 @@ type CsLocalFunctionStatement* = ref object of CsObject #TODO(type:CsLocalFuncti
 
 proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctionStatement =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsLocalFunctionStatement)
 
 proc extract*(t: typedesc[CsLocalFunctionStatement]; info: Info): CsLocalFunctionStatement = discard #TODO(extract:CsLocalFunctionStatement)

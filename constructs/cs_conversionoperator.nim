@@ -3,6 +3,7 @@ type CsConversionOperator* = ref object of CsObject #TODO(type:CsConversionOpera
 
 proc newCs*(t: typedesc[CsConversionOperator]; name: string): CsConversionOperator =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsConversionOperator)
 
 proc extract*(t: typedesc[CsConversionOperator]; info: Info): CsConversionOperator = discard #TODO(extract:CsConversionOperator)

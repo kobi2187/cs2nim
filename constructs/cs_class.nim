@@ -26,6 +26,7 @@ proc hasIndexer*(c: CsClass): bool = not c.indexer.isNil
 
 proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[string] = @[]): CsClass =
   new result
+  result.typ = $typeof(t)
   result.id = genUUID().some
   result.name = name
   result.extends = base

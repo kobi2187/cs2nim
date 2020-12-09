@@ -3,6 +3,7 @@ type CsOmittedArraySizeExpression* = ref object of CsObject #TODO(type:CsOmitted
 
 proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedArraySizeExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsOmittedArraySizeExpression)
 
 proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedArraySizeExpression = discard #TODO(extract:CsOmittedArraySizeExpression)

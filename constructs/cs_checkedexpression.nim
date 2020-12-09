@@ -3,6 +3,7 @@ type CsCheckedExpression* = ref object of CsObject #TODO(type:CsCheckedExpressio
 
 proc newCs*(t: typedesc[CsCheckedExpression]; name: string): CsCheckedExpression =
   new result
+  result.typ = $typeof(t)
   result.id = uuids.genUUID #TODO(create:CsCheckedExpression)
 
 proc extract*(t: typedesc[CsCheckedExpression]; info: Info): CsCheckedExpression = discard #TODO(extract:CsCheckedExpression)
