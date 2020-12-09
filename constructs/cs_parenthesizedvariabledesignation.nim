@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; name: string): CsPa
 
 proc extract*(t: typedesc[CsParenthesizedVariableDesignation]; info: Info): CsParenthesizedVariableDesignation = discard #TODO(extract:CsParenthesizedVariableDesignation)
 
-proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy) =
   discard # TODO(add:CsParenthesizedVariableDesignation)
   # item.parentId = parent.id
+proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsParenthesizedVariableDesignation): string = discard #TODO(gen:CsParenthesizedVariableDesignation)

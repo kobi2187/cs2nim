@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsPrefixUnaryExpression]; name: string): CsPrefixUnaryEx
 
 proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryExpression = discard #TODO(extract:CsPrefixUnaryExpression)
 
-proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsPrefixUnaryExpression; item: Dummy) =
   discard # TODO(add:CsPrefixUnaryExpression)
   # item.parentId = parent.id
+proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsPrefixUnaryExpression): string = discard #TODO(gen:CsPrefixUnaryExpression)

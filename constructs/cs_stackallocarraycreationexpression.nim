@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression]; name: string): CsS
 
 proc extract*(t: typedesc[CsStackAllocArrayCreationExpression]; info: Info): CsStackAllocArrayCreationExpression = discard #TODO(extract:CsStackAllocArrayCreationExpression)
 
-proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy) =
   discard # TODO(add:CsStackAllocArrayCreationExpression)
   # item.parentId = parent.id
+proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsStackAllocArrayCreationExpression): string = discard #TODO(gen:CsStackAllocArrayCreationExpression)

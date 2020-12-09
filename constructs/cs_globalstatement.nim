@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsGlobalStatement]; name: string): CsGlobalStatement =
 
 proc extract*(t: typedesc[CsGlobalStatement]; info: Info): CsGlobalStatement = discard #TODO(extract:CsGlobalStatement)
 
-proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsGlobalStatement; item: Dummy) =
   discard # TODO(add:CsGlobalStatement)
   # item.parentId = parent.id
+proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsGlobalStatement): string = discard #TODO(gen:CsGlobalStatement)

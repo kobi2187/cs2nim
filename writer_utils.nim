@@ -4,7 +4,7 @@ import lineparser
 import os, system, times
 import strutils, os, json
 import constructs/cs_root
-var currentRoot*: CsRoot
+# var currentRoot*: CsRoot
 
 
 proc getCsastFiles*(folder: string): seq[string] =

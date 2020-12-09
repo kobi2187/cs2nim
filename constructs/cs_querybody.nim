@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsQueryBody]; name: string): CsQueryBody =
 
 proc extract*(t: typedesc[CsQueryBody]; info: Info): CsQueryBody = discard #TODO(extract:CsQueryBody)
 
-proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsQueryBody; item: Dummy) =
   discard # TODO(add:CsQueryBody)
   # item.parentId = parent.id
+proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsQueryBody): string = discard #TODO(gen:CsQueryBody)

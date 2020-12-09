@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsTypeParameterConstraintClause]; name: string): CsTypeP
 
 proc extract*(t: typedesc[CsTypeParameterConstraintClause]; info: Info): CsTypeParameterConstraintClause = discard #TODO(extract:CsTypeParameterConstraintClause)
 
-proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy) =
   discard # TODO(add:CsTypeParameterConstraintClause)
   # item.parentId = parent.id
+proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsTypeParameterConstraintClause): string = discard #TODO(gen:CsTypeParameterConstraintClause)

@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =
 
 proc extract*(t: typedesc[CsGroupClause]; info: Info): CsGroupClause = discard #TODO(extract:CsGroupClause)
 
-proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsGroupClause; item: Dummy) =
   discard # TODO(add:CsGroupClause)
   # item.parentId = parent.id
+proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsGroupClause): string = discard #TODO(gen:CsGroupClause)

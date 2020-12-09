@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsElementBindingExpression]; name: string): CsElementBin
 
 proc extract*(t: typedesc[CsElementBindingExpression]; info: Info): CsElementBindingExpression = discard #TODO(extract:CsElementBindingExpression)
 
-proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsElementBindingExpression; item: Dummy) =
   discard # TODO(add:CsElementBindingExpression)
   # item.parentId = parent.id
+proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsElementBindingExpression): string = discard #TODO(gen:CsElementBindingExpression)

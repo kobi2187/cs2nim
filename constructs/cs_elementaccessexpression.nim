@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsElementAccessExpression]; name: string): CsElementAcce
 
 proc extract*(t: typedesc[CsElementAccessExpression]; info: Info): CsElementAccessExpression = discard #TODO(extract:CsElementAccessExpression)
 
-proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsElementAccessExpression; item: Dummy) =
   discard # TODO(add:CsElementAccessExpression)
   # item.parentId = parent.id
+proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsElementAccessExpression): string = discard #TODO(gen:CsElementAccessExpression)

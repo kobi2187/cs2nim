@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsNameEquals]; name: string): CsNameEquals =
 
 proc extract*(t: typedesc[CsNameEquals]; info: Info): CsNameEquals = discard #TODO(extract:CsNameEquals)
 
-proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsNameEquals; item: Dummy) =
   discard # TODO(add:CsNameEquals)
   # item.parentId = parent.id
+proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsNameEquals): string = discard #TODO(gen:CsNameEquals)

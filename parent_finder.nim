@@ -2,16 +2,9 @@
 import options
 import info_center
 import types, construct, constructs/constructs
-proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
-  let p1 = unwrap(parent, parent.type)
-  let c1 = unwrap(item, item.type)
-  # result = p1.fits(c1)
-  result = false #TODO
 
-  # result = case parent.type
-  # of ckNamespace:
-  #   case item.type
-  #     of ckClass: fits(
+proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
+  result = false #TODO
 
 proc getFittingParent(obj: Construct): Option[Construct] = discard # not sure i need this.
 

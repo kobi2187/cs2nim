@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsForStatement]; name: string): CsForStatement =
 
 proc extract*(t: typedesc[CsForStatement]; info: Info): CsForStatement = discard #TODO(extract:CsForStatement)
 
-proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsForStatement; item: Dummy) =
   discard # TODO(add:CsForStatement)
   # item.parentId = parent.id
+proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsForStatement): string = discard #TODO(gen:CsForStatement)

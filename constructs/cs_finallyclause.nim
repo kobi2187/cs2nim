@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =
 
 proc extract*(t: typedesc[CsFinallyClause]; info: Info): CsFinallyClause = discard #TODO(extract:CsFinallyClause)
 
-proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsFinallyClause; item: Dummy) =
   discard # TODO(add:CsFinallyClause)
   # item.parentId = parent.id
+proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsFinallyClause): string = discard #TODO(gen:CsFinallyClause)

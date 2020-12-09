@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsDefaultSwitchLabel]; name: string): CsDefaultSwitchLab
 
 proc extract*(t: typedesc[CsDefaultSwitchLabel]; info: Info): CsDefaultSwitchLabel = discard #TODO(extract:CsDefaultSwitchLabel)
 
-proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsDefaultSwitchLabel; item: Dummy) =
   discard # TODO(add:CsDefaultSwitchLabel)
   # item.parentId = parent.id
+proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsDefaultSwitchLabel): string = discard #TODO(gen:CsDefaultSwitchLabel)

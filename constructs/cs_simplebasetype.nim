@@ -8,9 +8,9 @@ proc newCs*(t: typedesc[CsSimpleBaseType]; name: string): CsSimpleBaseType =
 
 proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType = discard #TODO(extract:CsSimpleBaseType)
 
-proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsSimpleBaseType; item: Dummy) =
   discard # TODO(add:CsSimpleBaseType)
   # item.parentId = parent.id
+proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsSimpleBaseType): string = discard #TODO(gen:CsSimpleBaseType)

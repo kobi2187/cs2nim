@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsInitializerExpression]; name: string): CsInitializerEx
 
 proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression = discard #TODO(extract:CsInitializerExpression)
 
-proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsInitializerExpression; item: Dummy) =
   discard # TODO(add:CsInitializerExpression)
   # item.parentId = parent.id
+proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsInitializerExpression): string = discard #TODO(gen:CsInitializerExpression)

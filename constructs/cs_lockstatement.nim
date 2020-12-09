@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =
 
 proc extract*(t: typedesc[CsLockStatement]; info: Info): CsLockStatement = discard #TODO(extract:CsLockStatement)
 
-proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsLockStatement; item: Dummy) =
   discard # TODO(add:CsLockStatement)
   # item.parentId = parent.id
+proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsLockStatement): string = discard #TODO(gen:CsLockStatement)

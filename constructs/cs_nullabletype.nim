@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsNullableType]; name: string): CsNullableType =
 
 proc extract*(t: typedesc[CsNullableType]; info: Info): CsNullableType = discard #TODO(extract:CsNullableType)
 
-proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsNullableType; item: Dummy) =
   discard # TODO(add:CsNullableType)
   # item.parentId = parent.id
+proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsNullableType): string = discard #TODO(gen:CsNullableType)

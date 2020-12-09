@@ -7,9 +7,9 @@ proc newCs*(t: typedesc[CsDeclarationExpression]; name: string): CsDeclarationEx
 
 proc extract*(t: typedesc[CsDeclarationExpression]; info: Info): CsDeclarationExpression = discard #TODO(extract:CsDeclarationExpression)
 
-proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 proc add*(parent: var CsDeclarationExpression; item: Dummy) =
   discard # TODO(add:CsDeclarationExpression)
   # item.parentId = parent.id
+proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsDeclarationExpression): string = discard #TODO(gen:CsDeclarationExpression)
