@@ -74,7 +74,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info, id: UUID) =
       echo root.lastAddedInfo
 
 
-  if gotStartBlock: # previous was a start block, but could it belong to VisitBlock?
+  if gotStartBlock and info.declName != "VisitBlock": # previous was a start block, but could it belong to VisitBlock?
     if not (info.declName in state.blockTypesTxt):
       echo "!!! `" & info.declName & "` should be in `state.blockTypesTxt`"
     gotStartBlock = false
@@ -92,7 +92,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info, id: UUID) =
     discard
 
   of "BlockStarts":
-    if info.essentials.len > 0 and info.essentials[0] != "VisitBlock":
+    if info.extras.len > 0 and info.extras[0] != "VisitBlock":
       echo "START OF NEW BLOCK: " & $currentConstruct.last
       gotStartBlock = true
     # note: the construct that comes immediately after, should be added to blocks (in proc modifyPosition), but has to be explicitly enabled on CsDisplay side.
