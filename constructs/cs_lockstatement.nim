@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsLockStatement* = ref object of CsObject #TODO(type:CsLockStatement)
 
 proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsLockStatement]; info: Info): CsLockStatement = disca
 proc add*(parent: var CsLockStatement; item: Dummy) =
   discard # TODO(add:CsLockStatement)
   # item.parentId = parent.id
-proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsLockStatement): string = discard #TODO(gen:CsLockStatement)

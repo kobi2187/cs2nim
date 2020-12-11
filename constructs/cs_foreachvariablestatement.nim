@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsForEachVariableStatement* = ref object of CsObject #TODO(type:CsForEachVariableStatement)
 
 proc newCs*(t: typedesc[CsForEachVariableStatement]; name: string): CsForEachVariableStatement =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsForEachVariableStatement]; info: Info): CsForEachVar
 proc add*(parent: var CsForEachVariableStatement; item: Dummy) =
   discard # TODO(add:CsForEachVariableStatement)
   # item.parentId = parent.id
-proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsForEachVariableStatement): string = discard #TODO(gen:CsForEachVariableStatement)

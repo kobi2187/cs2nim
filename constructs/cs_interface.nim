@@ -1,4 +1,4 @@
-import ../types, uuids, options, cs_property
+import ../types, ../state_utils, uuids, options, cs_property
 type CsInterface* = ref object of CsObject #TODO(type:CsInterface)
 proc newCs*(t: typedesc[CsInterface]; name: string): CsInterface =
   new result
@@ -11,7 +11,7 @@ proc extract*(t: typedesc[CsInterface]; info: Info): CsInterface = discard #TODO
 proc add*(parent: var CsInterface; item: CsProperty) =
   discard # TODO(add:CsInterface)
   # item.parentId = parent.id
-proc add*(parent: var CsInterface; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterface; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
 
 

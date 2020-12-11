@@ -1,6 +1,6 @@
 # lineparser.nim
 import uuids
-import state, types, handle_construct, state_utils
+import state, types, handle_construct, state_utils, block_utils
 import constructs/cs_root
 type LineKind* = enum
   Decl, EndBlock
@@ -15,7 +15,7 @@ import ideal
 # and all their results added to that root. a "global" namespace contains all the valid top level constructs (not within a namespace)
 # so the resulting Nim modules (as files), may need to "import global" to have access to these parts.
 proc modifyPosition(thetype: string; info: Info; id: UUID) =
-  let c = Block(name: thetype, info: info, id: id)
+  let c = newBlock(thetype, info, id)
   currentConstruct.add(c)
 
   if thetype in blockTypesTxt:

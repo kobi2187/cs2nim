@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsIfStatement* = ref object of CsObject #TODO(type:CsIfStatement)
 
 proc newCs*(t: typedesc[CsIfStatement]; name: string): CsIfStatement =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsIfStatement]; info: Info): CsIfStatement = discard #
 proc add*(parent: var CsIfStatement; item: Dummy) =
   discard # TODO(add:CsIfStatement)
   # item.parentId = parent.id
-proc add*(parent: var CsIfStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsIfStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsIfStatement): string = discard #TODO(gen:CsIfStatement)

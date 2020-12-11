@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsArrayRankSpecifier* = ref object of CsObject #TODO(type:CsArrayRankSpecifier)
 
 proc newCs*(t: typedesc[CsArrayRankSpecifier]; name: string): CsArrayRankSpecifier =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsArrayRankSpecifier]; info: Info): CsArrayRankSpecifi
 proc add*(parent: var CsArrayRankSpecifier; item: Dummy) =
   discard # TODO(add:CsArrayRankSpecifier)
   # item.parentId = parent.id
-proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsArrayRankSpecifier): string = discard #TODO(gen:CsArrayRankSpecifier)

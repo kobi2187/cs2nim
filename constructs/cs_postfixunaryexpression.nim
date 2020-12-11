@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsPostfixUnaryExpression* = ref object of CsObject #TODO(type:CsPostfixUnaryExpression)
 
 proc newCs*(t: typedesc[CsPostfixUnaryExpression]; name: string): CsPostfixUnaryExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsPostfixUnaryExpression]; info: Info): CsPostfixUnary
 proc add*(parent: var CsPostfixUnaryExpression; item: Dummy) =
   discard # TODO(add:CsPostfixUnaryExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsPostfixUnaryExpression): string = discard #TODO(gen:CsPostfixUnaryExpression)

@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsAttributeArgumentList* = ref object of CsObject #TODO(type:CsAttributeArgumentList)
 
 proc newCs*(t: typedesc[CsAttributeArgumentList]; name: string): CsAttributeArgumentList =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsAttributeArgumentList]; info: Info): CsAttributeArgu
 proc add*(parent: var CsAttributeArgumentList; item: Dummy) =
   discard # TODO(add:CsAttributeArgumentList)
   # item.parentId = parent.id
-proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsAttributeArgumentList): string = discard #TODO(gen:CsAttributeArgumentList)

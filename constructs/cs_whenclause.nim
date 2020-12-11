@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsWhenClause* = ref object of CsObject #TODO(type:CsWhenClause)
 
 proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = discard #TO
 proc add*(parent: var CsWhenClause; item: Dummy) =
   discard # TODO(add:CsWhenClause)
   # item.parentId = parent.id
-proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsWhenClause): string = discard #TODO(gen:CsWhenClause)

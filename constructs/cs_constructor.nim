@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 import cs_parameterlist
 import sequtils, strutils
 type CsConstructor* = ref object of CsObject
@@ -21,7 +21,7 @@ proc add*(parent: var CsConstructor; item: CsParameterList) =
   item.parentId = parent.id
   parent.parameterList = item
 
-proc add*(parent: var CsConstructor; item: CsParameterList; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConstructor; item: CsParameterList; data: AllNeededData) = parent.add(item) # TODO
 
 
 

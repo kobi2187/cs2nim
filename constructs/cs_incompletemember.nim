@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsIncompleteMember* = ref object of CsObject #TODO(type:CsIncompleteMember)
 
 proc newCs*(t: typedesc[CsIncompleteMember]; name: string): CsIncompleteMember =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsIncompleteMember]; info: Info): CsIncompleteMember =
 proc add*(parent: var CsIncompleteMember; item: Dummy) =
   discard # TODO(add:CsIncompleteMember)
   # item.parentId = parent.id
-proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsIncompleteMember): string = discard #TODO(gen:CsIncompleteMember)

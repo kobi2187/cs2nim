@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsInterpolationFormatClause* = ref object of CsObject #TODO(type:CsInterpolationFormatClause)
 
 proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpolationFormatClause =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsInterpolationFormatClause]; info: Info): CsInterpola
 proc add*(parent: var CsInterpolationFormatClause; item: Dummy) =
   discard # TODO(add:CsInterpolationFormatClause)
   # item.parentId = parent.id
-proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsInterpolationFormatClause): string = discard #TODO(gen:CsInterpolationFormatClause)

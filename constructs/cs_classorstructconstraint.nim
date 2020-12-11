@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsClassOrStructConstraint* = ref object of CsObject #TODO(type:CsClassOrStructConstraint)
 
 proc newCs*(t: typedesc[CsClassOrStructConstraint]; name: string): CsClassOrStructConstraint =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsClassOrStructConstraint]; info: Info): CsClassOrStru
 proc add*(parent: var CsClassOrStructConstraint; item: Dummy) =
   discard # TODO(add:CsClassOrStructConstraint)
   # item.parentId = parent.id
-proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsClassOrStructConstraint): string = discard #TODO(gen:CsClassOrStructConstraint)

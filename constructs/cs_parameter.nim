@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 
 type CsParameter* = ref object of CsObject
   ptype*: string

@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 
 type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
 
@@ -12,6 +12,6 @@ proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType = dis
 proc add*(parent: var CsSimpleBaseType; item: Dummy) =
   discard # TODO(add:CsSimpleBaseType)
   # item.parentId = parent.id
-proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsSimpleBaseType): string = discard #TODO(gen:CsSimpleBaseType)

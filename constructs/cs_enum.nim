@@ -1,4 +1,4 @@
-import ../types, uuids, options, cs_enummember
+import ../types, ../state_utils, uuids, options, cs_enummember
 import sequtils, strutils
 
 type CsEnum* = ref object of CsObject
@@ -20,7 +20,7 @@ proc extract*(t: typedesc[CsEnum]; info: Info): CsEnum =
 proc add*(parent: var CsEnum; item: CsEnumMember) =
   item.parentId = parent.id
   parent.items.add item
-proc add*(parent: var CsEnum; item: CsEnumMember; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsEnum; item: CsEnumMember; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(e: CsEnum): string =
   echo "members count:" & $e.items.len

@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 import cs_predefinedtype
 
 type CsProperty* = ref object of CsObject

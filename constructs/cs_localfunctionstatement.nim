@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsLocalFunctionStatement* = ref object of CsObject #TODO(type:CsLocalFunctionStatement)
 
 proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctionStatement =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsLocalFunctionStatement]; info: Info): CsLocalFunctio
 proc add*(parent: var CsLocalFunctionStatement; item: Dummy) =
   discard # TODO(add:CsLocalFunctionStatement)
   # item.parentId = parent.id
-proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsLocalFunctionStatement): string = discard #TODO(gen:CsLocalFunctionStatement)

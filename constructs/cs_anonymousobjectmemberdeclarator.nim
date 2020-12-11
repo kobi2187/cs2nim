@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsAnonymousObjectMemberDeclarator* = ref object of CsObject #TODO(type:CsAnonymousObjectMemberDeclarator)
 
 proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAnonymousObjectMemberDeclarator =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAno
 proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy) =
   discard # TODO(add:CsAnonymousObjectMemberDeclarator)
   # item.parentId = parent.id
-proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsAnonymousObjectMemberDeclarator): string = discard #TODO(gen:CsAnonymousObjectMemberDeclarator)

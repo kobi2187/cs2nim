@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsSimpleLambdaExpression* = ref object of CsObject #TODO(type:CsSimpleLambdaExpression)
 
 proc newCs*(t: typedesc[CsSimpleLambdaExpression]; name: string): CsSimpleLambdaExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsSimpleLambdaExpression]; info: Info): CsSimpleLambda
 proc add*(parent: var CsSimpleLambdaExpression; item: Dummy) =
   discard # TODO(add:CsSimpleLambdaExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsSimpleLambdaExpression): string = discard #TODO(gen:CsSimpleLambdaExpression)

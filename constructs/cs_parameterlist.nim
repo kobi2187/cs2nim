@@ -1,4 +1,6 @@
 import ../types, uuids, options, cs_parameter
+# from ../state_utils import AllNeededData
+
 type CsParameterList* = ref object of CsObject
   parameters*: seq[CsParameter]
 
@@ -13,7 +15,8 @@ proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList =
 proc add*(parent: var CsParameterList; item: CsParameter) =
   item.parentId = parent.id
   parent.parameters.add item
-proc add*(parent: var CsParameterList; item: CsParameter; data: AllNeededData) = parent.add(item) # TODO
+
+# proc add*(parent: var CsParameterList; item: CsParameter; data: AllNeededData) = parent.add(item) # TODO
 
 import sequtils, strutils
 proc gen*(p: CsParameterList): string =

@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsWhileStatement* = ref object of CsObject #TODO(type:CsWhileStatement)
 
 proc newCs*(t: typedesc[CsWhileStatement]; name: string): CsWhileStatement =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsWhileStatement]; info: Info): CsWhileStatement = dis
 proc add*(parent: var CsWhileStatement; item: Dummy) =
   discard # TODO(add:CsWhileStatement)
   # item.parentId = parent.id
-proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsWhileStatement): string = discard #TODO(gen:CsWhileStatement)

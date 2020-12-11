@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsConditionalAccessExpression* = ref object of CsObject #TODO(type:CsConditionalAccessExpression)
 
 proc newCs*(t: typedesc[CsConditionalAccessExpression]; name: string): CsConditionalAccessExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsConditionalAccessExpression]; info: Info): CsConditi
 proc add*(parent: var CsConditionalAccessExpression; item: Dummy) =
   discard # TODO(add:CsConditionalAccessExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsConditionalAccessExpression): string = discard #TODO(gen:CsConditionalAccessExpression)

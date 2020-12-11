@@ -9,10 +9,6 @@ type Dummy* = object
 # pass this object instead of many arguments
 # to create the same api.
 
-type AllNeededData* = object
-  tbd: string
-
-
 type Info* = ref object
   declName*: string
   essentials*: seq[string]
@@ -48,13 +44,13 @@ type BodyExpr* = ref object of CsObject # RootObj
 method gen*(e: BodyExpr): string {.base.} =
   raise newException(Exception, "Not Implemented for " & e.ttype) #& " " & e.name)
 
-# possibly redundant. haven't yet used:
-type CConstruct* = concept T, Parent
-  proc add*(parent: var Parent; item: T; data: AllNeededData)
-  proc add*(parent: var Parent; item: T)
-  proc extract*(t: typedesc[T]; info: Info): T
-  proc newCs*(t: typedesc[T]; a, b, c, d: auto): T
-  # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
-  # will it create a circular dependency? maybe. try.
+# # possibly redundant. haven't yet used:
+# type CConstruct* = concept T, Parent
+#   proc add*(parent: var Parent; item: T; data: AllNeededData)
+#   proc add*(parent: var Parent; item: T)
+#   proc extract*(t: typedesc[T]; info: Info): T
+#   proc newCs*(t: typedesc[T]; a, b, c, d: auto): T
+#   # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
+#   # will it create a circular dependency? maybe. try.
 
 

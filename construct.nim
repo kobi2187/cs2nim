@@ -1,5 +1,5 @@
 # construct.nim
-import constructs/constructs
+import constructs/constructs, uuids
 
 type ConstructKind* = enum
   # ckRoot # nah, too special.
@@ -7,7 +7,7 @@ type ConstructKind* = enum
   ckClass
 
 type CNode {.acyclic.} = object
-  t*: ConstructKind
+  id*: UUID
   case kind*: ConstructKind
   # add types here:
   # of ckRoot: root: CsRoot
@@ -17,7 +17,6 @@ type CNode {.acyclic.} = object
     class*: CsClass
 type Construct* = ref CNode # all the types we support, wrapped in a variant.
 
-proc type*(c: Construct): ConstructKind = c.t
 
 template wrap*(obj: untyped, kind: ConstructKind): Construct =
   result = case kind

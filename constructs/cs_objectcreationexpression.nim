@@ -1,4 +1,4 @@
-import ../types, uuids, options, cs_parameterlist, cs_argumentlist
+import ../types, ../state_utils, uuids, options, cs_parameterlist, cs_argumentlist
 type CsObjectCreationExpression* = ref object of BodyExpr
   # args*: CsParameterList
   args*: CsArgumentList
@@ -19,7 +19,7 @@ proc add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
   item.parentId = parent.id
   parent.args = item
 
-proc add*(parent: var CsObjectCreationExpression; item: CsArgumentList; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsObjectCreationExpression; item: CsArgumentList; data: AllNeededData) = parent.add(item) # TODO
 # proc add*(parent: var CsObjectCreationExpression; item: CsParameterList, data:AllNeededData) = parent.add(item) # TODO
 
 # proc add*(parent: var CsObjectCreationExpression; item: CsParameterList) = discard

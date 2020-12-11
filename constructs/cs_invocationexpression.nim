@@ -1,4 +1,4 @@
-import ../types, uuids, uuids #, cs_root, cs_method, cs_class
+import ../types, ../state_utils, uuids, uuids, cs_root, cs_method, cs_class
 type CsInvocationExpression* = ref object of BodyExpr
   callName*: string
 
@@ -24,16 +24,16 @@ func normalizeCallNameIfStatic(s: string): string =
 # import ../state, ../state_utils, options, ../vnode
 # XXX continue here after adding Ids to everyone, it'd help solve this problem and also avoid all the passing, since we can "quickfetch" the vars.
 # import ../vnode
-# proc isInStatic(c: var CsInvocationExpression): bool = discard
-# proc isInStatic(c: var CsInvocationExpression): bool =
-#   var root = state.currentRoot
-#   var expr: BodyExpr = root.fetch(c.parentId.get).expect(vkBodyExpr).BodyExpr
-#   let m: CsMethod = root.fetch(expr.parentId.get).expect(vkMethod).CsMethod
-#   if m.isStatic: return true
-#   else:
-#     let c: CsClass = root.fetch(m.parentId.get).expect(vkClass).CsClass
-#     if c.isStatic: return true
-#   result = false
+proc isInStatic(c: var CsInvocationExpression): bool = discard
+proc isInStatic(c: var CsInvocationExpression): bool =
+  var root = cs_root.currentRoot
+  var expr: BodyExpr = root.fetch(c.parentId.get).expect(vkBodyExpr).BodyExpr
+  let m: CsMethod = root.fetch(expr.parentId.get).expect(vkMethod).CsMethod
+  if m.isStatic: return true
+  else:
+    let c: CsClass = root.fetch(m.parentId.get).expect(vkClass).CsClass
+    if c.isStatic: return true
+  result = false
 
 # method gen*(c: var CsInvocationExpression): string =
 #   result = if c.callName.contains(".") and c.isInStatic:

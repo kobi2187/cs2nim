@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsLocalDeclarationStatement* = ref object of BodyExpr
 
 proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDeclarationStatement =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info): CsLocalDecl
 proc add*(parent: var CsLocalDeclarationStatement; item: Dummy) =
   discard # TODO(add:CsLocalDeclarationStatement)
   # item.parentId = parent.id
-proc add*(parent: var CsLocalDeclarationStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLocalDeclarationStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsLocalDeclarationStatement): string = discard #TODO(gen:CsLocalDeclarationStatement)

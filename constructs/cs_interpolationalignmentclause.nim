@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsInterpolationAlignmentClause* = ref object of CsObject #TODO(type:CsInterpolationAlignmentClause)
 
 proc newCs*(t: typedesc[CsInterpolationAlignmentClause]; name: string): CsInterpolationAlignmentClause =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsInterpolationAlignmentClause]; info: Info): CsInterp
 proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy) =
   discard # TODO(add:CsInterpolationAlignmentClause)
   # item.parentId = parent.id
-proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsInterpolationAlignmentClause): string = discard #TODO(gen:CsInterpolationAlignmentClause)

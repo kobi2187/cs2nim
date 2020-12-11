@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsInterpolatedStringText* = ref object of CsObject #TODO(type:CsInterpolatedStringText)
 
 proc newCs*(t: typedesc[CsInterpolatedStringText]; name: string): CsInterpolatedStringText =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsInterpolatedStringText]; info: Info): CsInterpolated
 proc add*(parent: var CsInterpolatedStringText; item: Dummy) =
   discard # TODO(add:CsInterpolatedStringText)
   # item.parentId = parent.id
-proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsInterpolatedStringText): string = discard #TODO(gen:CsInterpolatedStringText)

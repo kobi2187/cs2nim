@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsAwaitExpression* = ref object of CsObject #TODO(type:CsAwaitExpression)
 
 proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsAwaitExpression]; info: Info): CsAwaitExpression = d
 proc add*(parent: var CsAwaitExpression; item: Dummy) =
   discard # TODO(add:CsAwaitExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsAwaitExpression): string = discard #TODO(gen:CsAwaitExpression)

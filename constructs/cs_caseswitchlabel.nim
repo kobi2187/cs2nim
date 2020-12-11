@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsCaseSwitchLabel* = ref object of CsObject #TODO(type:CsCaseSwitchLabel)
 
 proc newCs*(t: typedesc[CsCaseSwitchLabel]; name: string): CsCaseSwitchLabel =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsCaseSwitchLabel]; info: Info): CsCaseSwitchLabel = d
 proc add*(parent: var CsCaseSwitchLabel; item: Dummy) =
   discard # TODO(add:CsCaseSwitchLabel)
   # item.parentId = parent.id
-proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsCaseSwitchLabel): string = discard #TODO(gen:CsCaseSwitchLabel)

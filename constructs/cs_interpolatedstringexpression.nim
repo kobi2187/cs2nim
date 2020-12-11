@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsInterpolatedStringExpression* = ref object of CsObject #TODO(type:CsInterpolatedStringExpression)
 
 proc newCs*(t: typedesc[CsInterpolatedStringExpression]; name: string): CsInterpolatedStringExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsInterpolatedStringExpression]; info: Info): CsInterp
 proc add*(parent: var CsInterpolatedStringExpression; item: Dummy) =
   discard # TODO(add:CsInterpolatedStringExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsInterpolatedStringExpression): string = discard #TODO(gen:CsInterpolatedStringExpression)

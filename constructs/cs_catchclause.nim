@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsCatchClause* = ref object of CsObject #TODO(type:CsCatchClause)
 
 proc newCs*(t: typedesc[CsCatchClause]; name: string): CsCatchClause =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsCatchClause]; info: Info): CsCatchClause = discard #
 proc add*(parent: var CsCatchClause; item: Dummy) =
   discard # TODO(add:CsCatchClause)
   # item.parentId = parent.id
-proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsCatchClause): string = discard #TODO(gen:CsCatchClause)

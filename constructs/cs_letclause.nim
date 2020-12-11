@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsLetClause* = ref object of CsObject #TODO(type:CsLetClause)
 
 proc newCs*(t: typedesc[CsLetClause]; name: string): CsLetClause =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsLetClause]; info: Info): CsLetClause = discard #TODO
 proc add*(parent: var CsLetClause; item: Dummy) =
   discard # TODO(add:CsLetClause)
   # item.parentId = parent.id
-proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsLetClause): string = discard #TODO(gen:CsLetClause)

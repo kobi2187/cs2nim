@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsParenthesizedVariableDesignation* = ref object of CsObject #TODO(type:CsParenthesizedVariableDesignation)
 
 proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; name: string): CsParenthesizedVariableDesignation =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsParenthesizedVariableDesignation]; info: Info): CsPa
 proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy) =
   discard # TODO(add:CsParenthesizedVariableDesignation)
   # item.parentId = parent.id
-proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsParenthesizedVariableDesignation): string = discard #TODO(gen:CsParenthesizedVariableDesignation)

@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsElementBindingExpression* = ref object of CsObject #TODO(type:CsElementBindingExpression)
 
 proc newCs*(t: typedesc[CsElementBindingExpression]; name: string): CsElementBindingExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsElementBindingExpression]; info: Info): CsElementBin
 proc add*(parent: var CsElementBindingExpression; item: Dummy) =
   discard # TODO(add:CsElementBindingExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsElementBindingExpression): string = discard #TODO(gen:CsElementBindingExpression)

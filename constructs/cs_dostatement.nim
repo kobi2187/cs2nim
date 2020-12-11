@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsDoStatement* = ref object of CsObject #TODO(type:CsDoStatement)
 
 proc newCs*(t: typedesc[CsDoStatement]; name: string): CsDoStatement =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsDoStatement]; info: Info): CsDoStatement = discard #
 proc add*(parent: var CsDoStatement; item: Dummy) =
   discard # TODO(add:CsDoStatement)
   # item.parentId = parent.id
-proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsDoStatement): string = discard #TODO(gen:CsDoStatement)

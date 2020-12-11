@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsQueryExpression* = ref object of CsObject #TODO(type:CsQueryExpression)
 
 proc newCs*(t: typedesc[CsQueryExpression]; name: string): CsQueryExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsQueryExpression]; info: Info): CsQueryExpression = d
 proc add*(parent: var CsQueryExpression; item: Dummy) =
   discard # TODO(add:CsQueryExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsQueryExpression): string = discard #TODO(gen:CsQueryExpression)

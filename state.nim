@@ -10,7 +10,6 @@ type Block* = object
   info*: Info
 
 var blocks* = newStack[Block]()
-proc resetBlocks*() = blocks.clear()
 
 
 

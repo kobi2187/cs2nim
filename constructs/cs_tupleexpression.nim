@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsTupleExpression* = ref object of CsObject #TODO(type:CsTupleExpression)
 
 proc newCs*(t: typedesc[CsTupleExpression]; name: string): CsTupleExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsTupleExpression]; info: Info): CsTupleExpression = d
 proc add*(parent: var CsTupleExpression; item: Dummy) =
   discard # TODO(add:CsTupleExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsTupleExpression): string = discard #TODO(gen:CsTupleExpression)

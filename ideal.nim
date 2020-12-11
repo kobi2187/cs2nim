@@ -34,8 +34,11 @@ proc add*(parent, child: Construct; data: AllNeededData) =
 #  to the type's create function (which uses extract)
 # 3) add the new item to the correct place.
 import type_creator, parent_finder
+import state_utils, block_utils
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   var allData: AllNeededData = processTreeForData(root, info)
+  if not info.isVisitBlock:
+    blocks.updateBlocks(info)
   var obj: Construct = createType(info, id, allData)
   root.register(id, obj)
   let p = getParent(root, obj, allData)

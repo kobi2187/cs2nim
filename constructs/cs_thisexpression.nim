@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 
 type CsThisExpression* = ref object of CsObject #TODO(type:CsThisExpression)
 
@@ -12,6 +12,6 @@ proc extract*(t: typedesc[CsThisExpression]; info: Info): CsThisExpression = dis
 proc add*(parent: var CsThisExpression; item: Dummy) =
   discard # TODO(add:CsThisExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsThisExpression): string = discard #TODO(gen:CsThisExpression)

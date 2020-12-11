@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsImplicitElementAccess* = ref object of CsObject #TODO(type:CsImplicitElementAccess)
 
 proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitElementAccess =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitEleme
 proc add*(parent: var CsImplicitElementAccess; item: Dummy) =
   discard # TODO(add:CsImplicitElementAccess)
   # item.parentId = parent.id
-proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsImplicitElementAccess): string = discard #TODO(gen:CsImplicitElementAccess)

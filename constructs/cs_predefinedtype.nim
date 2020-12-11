@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsPredefinedType* = ref object of CsObject
 
 proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =

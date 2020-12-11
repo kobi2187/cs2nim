@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsExternAliasDirective* = ref object of CsObject #TODO(type:CsExternAliasDirective)
 
 proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDirective =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDir
 proc add*(parent: var CsExternAliasDirective; item: Dummy) =
   discard # TODO(add:CsExternAliasDirective)
   # item.parentId = parent.id
-proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsExternAliasDirective): string = discard #TODO(gen:CsExternAliasDirective)

@@ -1,4 +1,4 @@
-import ../types, uuids, cs_class, cs_enum, cs_interface, cs_usingdirective
+import ../types, ../state_utils, uuids, cs_class, cs_enum, cs_interface, cs_usingdirective
 import tables, sets, strutils, options
 
 type NamespaceParts* {.pure.} = enum
@@ -57,7 +57,7 @@ proc add*(parent: var CsNamespace; item: CsEnum) =
   parent.enumTable[item.name] = item
   parent.lastAddedTo = some(NamespaceParts.Enums)
   parent.lastAdded = Child(kind: NamespaceParts.Enums, npEnum: item)
-proc add*(parent: var CsNamespace; item: CsEnum; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsNamespace; item: CsEnum; data: AllNeededData) = parent.add(item) # TODO
 
 proc add*(ns: var CsNamespace; class: CsClass) =
   ns.classes.add(class)

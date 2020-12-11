@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsAttributeTargetSpecifier* = ref object of CsObject #TODO(type:CsAttributeTargetSpecifier)
 
 proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; name: string): CsAttributeTargetSpecifier =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsAttributeTargetSpecifier]; info: Info): CsAttributeT
 proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy) =
   discard # TODO(add:CsAttributeTargetSpecifier)
   # item.parentId = parent.id
-proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsAttributeTargetSpecifier): string = discard #TODO(gen:CsAttributeTargetSpecifier)

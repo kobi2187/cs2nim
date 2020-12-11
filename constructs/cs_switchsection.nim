@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsSwitchSection* = ref object of CsObject #TODO(type:CsSwitchSection)
 
 proc newCs*(t: typedesc[CsSwitchSection]; name: string): CsSwitchSection =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsSwitchSection]; info: Info): CsSwitchSection = disca
 proc add*(parent: var CsSwitchSection; item: Dummy) =
   discard # TODO(add:CsSwitchSection)
   # item.parentId = parent.id
-proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsSwitchSection): string = discard #TODO(gen:CsSwitchSection)

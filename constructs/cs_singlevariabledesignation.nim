@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsSingleVariableDesignation* = ref object of CsObject #TODO(type:CsSingleVariableDesignation)
 
 proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVariableDesignation =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVar
 proc add*(parent: var CsSingleVariableDesignation; item: Dummy) =
   discard # TODO(add:CsSingleVariableDesignation)
   # item.parentId = parent.id
-proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsSingleVariableDesignation): string = discard #TODO(gen:CsSingleVariableDesignation)

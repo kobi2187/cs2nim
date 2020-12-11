@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 import cs_parameterlist, cs_parameter, cs_predefinedtype, cs_objectcreationexpression
 
 
@@ -35,13 +35,13 @@ proc add*(parent: var CsMethod; p: CsParameterList) =
 proc add*(parent: var CsMethod; item: CsObjectCreationExpression) =
   item.parentId = parent.id
   parent.body.add item
-proc add*(parent: var CsMethod; item: CsObjectCreationExpression; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsMethod; item: CsObjectCreationExpression; data: AllNeededData) = parent.add(item) # TODO
 
 import cs_returnstatement
 proc add*(parent: var CsMethod; item: CsReturnStatement) =
   item.parentId = parent.id
   parent.body.add item
-proc add*(parent: var CsMethod; item: CsReturnStatement; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsMethod; item: CsReturnStatement; data: AllNeededData) = parent.add(item) # TODO
 
 import sequtils, strutils
 

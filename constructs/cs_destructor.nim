@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsDestructor* = ref object of CsObject #TODO(type:CsDestructor)
 
 proc newCs*(t: typedesc[CsDestructor]; name: string): CsDestructor =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsDestructor]; info: Info): CsDestructor = discard #TO
 proc add*(parent: var CsDestructor; item: Dummy) =
   discard # TODO(add:CsDestructor)
   # item.parentId = parent.id
-proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsDestructor): string = discard #TODO(gen:CsDestructor)

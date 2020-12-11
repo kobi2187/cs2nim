@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsBracketedParameterList* = ref object of CsObject #TODO(type:CsBracketedParameterList)
 
 proc newCs*(t: typedesc[CsBracketedParameterList]; name: string): CsBracketedParameterList =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsBracketedParameterList]; info: Info): CsBracketedPar
 proc add*(parent: var CsBracketedParameterList; item: Dummy) =
   discard # TODO(add:CsBracketedParameterList)
   # item.parentId = parent.id
-proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsBracketedParameterList): string = discard #TODO(gen:CsBracketedParameterList)

@@ -1,7 +1,6 @@
 import constructs/constructs
 import state_utils, state, types
 import strutils, stacks, options, sets, uuids
-import root_handles_all
 const urgent = true
 
 var gotStartBlock = false
@@ -9,17 +8,12 @@ var gotStartBlock = false
 var debugWantSomeWork = true
 # var debugWantSomeWork = true
 
-proc previousBlock*(a: int = 2): Option[Block] =
-  let idx = -2 * a + 1
-  let prev = blocks.peek(idx) # -2*2+1 = -3
-  result = prev
-
-
 import constructs/cs_root
 proc getLastEnumMember(root: CsRoot): CsEnumMember =
   let (_, ns) = getCurrentNs(root)
   var e = ns.enums.last
   result = e.items.last
+
 
 
 proc addToLastMethodOrCtor(root: CsRoot, p: CsParameterList) =
@@ -92,7 +86,7 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info, id: UUID) =
     discard
 
   of "BlockStarts":
-    if info.extras.len > 0 and info.extras[0] != "VisitBlock":
+    if not info.isVisitBlock:
       echo "START OF NEW BLOCK: " & $currentConstruct.last
       gotStartBlock = true
     # note: the construct that comes immediately after, should be added to blocks (in proc modifyPosition), but has to be explicitly enabled on CsDisplay side.

@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsFinallyClause* = ref object of CsObject #TODO(type:CsFinallyClause)
 
 proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsFinallyClause]; info: Info): CsFinallyClause = disca
 proc add*(parent: var CsFinallyClause; item: Dummy) =
   discard # TODO(add:CsFinallyClause)
   # item.parentId = parent.id
-proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsFinallyClause): string = discard #TODO(gen:CsFinallyClause)

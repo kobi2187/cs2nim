@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 import cs_namespace, cs_class, cs_method, cs_returnstatement
 import sets, tables, sequtils
 
@@ -21,6 +21,7 @@ type CsRoot* = object
 
 proc register*(r: var CsRoot; id: UUID; obj: Construct) =
   r.infoCenter.register(id, obj)
+  obj.id = id
 
 proc fetch*(r: var CsRoot; id: UUID): Option[Construct] =
   result = r.infoCenter.fetch(id)

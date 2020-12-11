@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsDelegate* = ref object of CsObject #TODO(type:CsDelegate)
 
 proc newCs*(t: typedesc[CsDelegate]; name: string): CsDelegate =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsDelegate]; info: Info): CsDelegate = discard #TODO(e
 proc add*(parent: var CsDelegate; item: Dummy) =
   discard # TODO(add:CsDelegate)
   # item.parentId = parent.id
-proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsDelegate): string = discard #TODO(gen:CsDelegate)

@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 type CsOmittedArraySizeExpression* = ref object of CsObject #TODO(type:CsOmittedArraySizeExpression)
 
 proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedArraySizeExpression =
@@ -11,6 +11,6 @@ proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedA
 proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy) =
   discard # TODO(add:CsOmittedArraySizeExpression)
   # item.parentId = parent.id
-proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsOmittedArraySizeExpression): string = discard #TODO(gen:CsOmittedArraySizeExpression)

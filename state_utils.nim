@@ -1,48 +1,9 @@
-import constructs / [cs_root, cs_class, cs_method, cs_constructor, cs_property, cs_indexer]
+import constructs / constructs # [cs_root, cs_class, cs_method, cs_constructor, cs_property, cs_indexer]
 import stacks, tables, json, sequtils, options
-import state, types
-
-
-proc `$`*(it: Block): string =
-  if not it.info.isNil and it.info.essentials.len > 0:
-    result = it.name & ": `" & it.info.essentials[0] & "`"
-    if it.info.extras.len > 0:
-      result &= " " & it.info.extras[0]
-  else: result = it.name
-
-proc `$`*(blocks: Stack[Block]): string =
-  let x = blocks.toSeq.mapIt($it)
-  result = $x
-
-proc nameFromCsast(b: Block): string =
-  result = ""
-  if b.info.extras.len > 0: result = b.info.extras[0]
+import state, types, block_utils
 
 
 import strutils, options
-proc endBlock*(info: Info) =
-  echo blocks
-  assert(blocks.len > 0, "blocks is empty! but we got EndBlock")
-  assert info.declName == "EndBlock"
-  let blockCount = parseInt(info.essentials[0])
-  echo "before: " & $blocks.len
-
-  # on endBlock we now always expect to see an even number of items.
-  if (blocks.len mod 2 != 0):
-    echo blocks.pop
-    return
-  var last = blocks.pop # we do it twice now.
-  let bs = blocks.pop
-  assert bs.name == "BlockStarts"
-
-  echo "block count, according to csast:" & $blockCount
-  echo "block count, according to our count:" & $(blocks.len div 2)
-  assert blocks.len == blockCount*2, $blocks
-
-  echo "removed " & $last & " from blocks tracking. (assumes we finished with it)"
-
-
-  echo "-- End of block: " & $last
 
 import tables
 import constructs/[cs_namespace, cs_root]
@@ -161,6 +122,8 @@ proc getLastProperty(c: CsClass): Option[CsProperty] =
 
   else: assert false, "Unsupported"
 
+
+
 proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
   assert ns.lastAddedTo.isSome
   case ns.lastAddedTo.get
@@ -201,3 +164,58 @@ proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
 proc getLastIndexer*(root: CsRoot): Option[CsIndexer] =
   var (_, ns) = root.getCurrentNs
   result = ns.getLastIndexer()
+
+
+proc previousBlock*(a: int = 2): Option[Block] =
+  let idx = -2 * a + 1
+  let prev = blocks.peek(idx) # -2*2+1 = -3
+  result = prev
+
+proc isVisitBlock*(info: Info): bool =
+  result = info.extras.len > 0 and info.extras[0] == "VisitBlock"
+
+type AllNeededData* = object
+  sourceCode: string
+  constructDeclName: string
+  currentNamespace: CsNamespace
+  isNsEmpty: bool
+  nsLastAdded: NamespaceParts
+  lastEnum: CsEnum
+  lastEnumMember: CsEnumMember
+  classLastAdded: ClassParts
+  lastClass: CsClass
+  lastMethod: CsMethod
+  lastProp: CsProperty
+  lastCtor: CsConstructor
+  inBlock: Block
+  prevBlock: Block
+
+proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData =
+  result.sourceCode = src
+  result.constructDeclName = info.declName
+  if not state.currentConstruct.isEmpty and not state.currentConstruct.last.info.isVisitBlock():
+    result.inBlock = state.currentConstruct.last
+
+  if previousBlock().isSome:
+    result.prevBlock = previousBlock().get
+
+  var (_, ns) = getCurrentNs(root)
+  result.currentNamespace = ns
+  result.isNsEmpty = ns.lastAddedTo.isSome
+  if not result.isNsEmpty:
+    result.nsLastAdded = ns.lastAddedTo.get
+
+    if not result.lastClass.enums.isEmpty:
+      result.lastEnum = result.lastClass.enums.last
+      if result.lastEnum != nil:
+        result.lastEnumMember = result.lastEnum.items.last
+    if not ns.classes.isEmpty:
+      result.lastClass = ns.classes.last
+      if result.lastClass.lastAddedTo.isSome():
+        result.classLastAdded = result.lastClass.lastAddedTo.get
+        if not result.lastClass.methods.isEmpty:
+          result.lastMethod = result.lastClass.methods.last
+        if not result.lastClass.properties.isEmpty:
+          result.lastProp = result.lastClass.properties.last
+        if not result.lastClass.ctors.isEmpty:
+          result.lastCtor = result.lastClass.ctors.last

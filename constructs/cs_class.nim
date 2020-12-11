@@ -1,4 +1,4 @@
-import ../types, uuids, options
+import ../types, ../state_utils, uuids, options
 import cs_method, cs_field, cs_enum, cs_constructor, cs_property, cs_indexer
 import tables
 
@@ -83,7 +83,7 @@ proc add*(parent: var CsClass; item: CsProperty) =
   parent.properties.add item
   parent.lastAddedTo = some(Properties)
   item.parentClass = parent.name
-proc add*(parent: var CsClass; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsClass; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
 proc add*(parent: var CsClass; item: CsIndexer) =
   item.parentId = parent.id
@@ -91,4 +91,4 @@ proc add*(parent: var CsClass; item: CsIndexer) =
   parent.lastAddedTo = some(Indexer)
   # item.parentName = parent.name
 
-proc add*(parent: var CsClass; item: CsIndexer; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsClass; item: CsIndexer; data: AllNeededData) = parent.add(item) # TODO
