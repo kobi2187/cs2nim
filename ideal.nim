@@ -1,4 +1,5 @@
-import types, constructs/cs_root, construct, parent_finder
+import constructs/cs_all_constructs
+import types, state, constructs/cs_root, construct, parent_finder, block_utils
 import uuids, options
 # ideal flow
 # the api that we want.
@@ -37,9 +38,10 @@ import type_creator, parent_finder
 import state_utils, block_utils
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   var allData: AllNeededData = processTreeForData(root, info)
-  if not info.isVisitBlock:
-    blocks.updateBlocks(info)
+  # if not info.isVisitBlock: # no need, lineparser.modifyPosition does that already.
+  #   blocks.updateBlocks(info)
   var obj: Construct = createType(info, id, allData)
+  obj.id = id
   root.register(id, obj)
   let p = getParent(root, obj, allData)
   assert p.isSome, "Failed assertion that all constructs should have a parent"

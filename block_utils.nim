@@ -20,7 +20,7 @@ proc nameFromCsast(b: Block): string =
   result = ""
   if b.info.extras.len > 0: result = b.info.extras[0]
 proc endBlock*(info: Info) =
-  echo blocks
+  echo state.blocks
   assert(blocks.len > 0, "blocks is empty! but we got EndBlock")
   assert info.declName == "EndBlock"
   let blockCount = parseInt(info.essentials[0])

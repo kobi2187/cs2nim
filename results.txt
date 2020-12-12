@@ -1,0 +1,208 @@
+actual.todo
+Hello world!
+could not find matching or existing file or directory
+constructs
+Hello world!
+0
+generating namespace: default
+default
+writing to filename:constructs/nim_code/dotnet/default.nim
+finished
+constructs.tar.xz
+Hello world!
+could not find matching or existing file or directory
+gitadd.sh
+Hello world!
+could not find matching or existing file or directory
+handle_construct
+Hello world!
+could not find matching or existing file or directory
+handle_construct.nim
+Hello world!
+could not find matching or existing file or directory
+impl.todo
+Hello world!
+could not find matching or existing file or directory
+lineparser.nim
+Hello world!
+could not find matching or existing file or directory
+module_test
+Hello world!
+0
+generating namespace: default
+default
+writing to filename:module_test/nim_code/dotnet/default.nim
+finished
+nim_code
+Hello world!
+0
+generating namespace: default
+default
+writing to filename:nim_code/nim_code/dotnet/default.nim
+finished
+nim_syntax_playground
+Hello world!
+0
+generating namespace: default
+default
+writing to filename:nim_syntax_playground/nim_code/dotnet/default.nim
+finished
+notes.txt
+Hello world!
+could not find matching or existing file or directory
+plan.todo
+Hello world!
+could not find matching or existing file or directory
+README.md
+Hello world!
+could not find matching or existing file or directory
+report.txt
+Hello world!
+could not find matching or existing file or directory
+  results.txt
+Hello world!
+could not find matching or existing file or directory
+root_handles_all.nim
+Hello world!
+could not find matching or existing file or directory
+state
+Hello world!
+could not find matching or existing file or directory
+state.nim
+Hello world!
+could not find matching or existing file or directory
+state_utils
+Hello world!
+could not find matching or existing file or directory
+state_utils.nim
+Hello world!
+could not find matching or existing file or directory
+tests
+Hello world!
+17
+working on: tests/samples/Path.csast
+5.88%	1 / 17	0.000 s	file: Path.cs
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+got UsingDirective
+default
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+default
+current ns: defaultnamespace added something: false
+START OF NEW BLOCK: BlockStarts: `1` NamespaceDeclaration
+/home/kobi7/currentWork/cs2nim/writer.nim(36) writer
+/home/kobi7/currentWork/cs2nim/writer.nim(32) main
+/home/kobi7/currentWork/cs2nim/writer_utils.nim(114) handleMany
+/home/kobi7/currentWork/cs2nim/lineparser.nim(69) parseExecFile
+/home/kobi7/currentWork/cs2nim/lineparser.nim(52) updateState
+/home/kobi7/currentWork/cs2nim/handle_construct.nim(72) addToRoot
+/home/kobi7/currentWork/cs2nim/state_utils.nim(121) lastAddedInfo
+/home/kobi7/currentWork/cs2nim/state_utils.nim(112) getCurrentNs
+/home/kobi7/currentWork/cs2nim/state_utils.nim(66) nsPath
+/home/kobi7/currentWork/cs2nim/state_utils.nim(57) nsPathNS
+/home/kobi7/apps/Nim/lib/pure/collections/tables.nim(858) []
+/home/kobi7/apps/Nim/lib/pure/collections/tables.nim(262) []
+Error: unhandled exception: key not found: System.IO [KeyError]
+types.nim
+Hello world!
+could not find matching or existing file or directory
+writer
+Hello world!
+could not find matching or existing file or directory
+writer.nim
+Hello world!
+could not find matching or existing file or directory
+writer_utils.nim
+Hello world!
+could not find matching or existing file or directory

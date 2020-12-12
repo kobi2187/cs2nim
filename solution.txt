@@ -1,0 +1,33 @@
+The problem is essentially:
+a seq of constructs -> becomes a tree of constructs.
+we have very specific domain knowledge for the constructs, we build the semantics.
+Roslyn supplies the parsed constructs. In cases of ambiguity we can request more info from Roslyn, such as parent, or expected followup constructs.
+
+The solution I designed is as such:
+we know where we are in the code, by tracking a list of blocks, the opening brace and closing brace.
+we have domain knowledge and know which constructs can serve as such.
+type BlockType = variant object
+since it's consecutive, we simply take the last opened block, and add to it.
+There is a problem. an item can be added to a seq within the block, but sometimes the item we add is just another piece of that last item in the seq.
+We should have a query mechanism to know if the last item expects more info.
+sometimes we need info about the parent to decide which behaviour we want, for example when generating,
+we add uuid to each construct.
+adding the generated uuid should happen in the main focal point.
+both the blocks and the new object will get that id.
+registering can start at the focal point, knowing the id and the type,
+but we want the reference to the object to be stored in the table -- this happens after the object is created.
+and we can assert to ensure the registering has finished.
+each object knows how to create itself from the info.
+We should either have shortcuts based on id,
+or a procedure that traverses the tree according to the blocks.
+
+we use regular objects instead of general Node type objects, because we want to build the tree in a specific way.
+But we can wrap these regular objects when needed in a variant type, so that we can have a seq or a table that holds them, even though their inner types are different.
+
+we want general functions immediately when adding to the tree, that can give us all the data we need.
+that data is likely to be the same many times, so just query all this info in a general way.
+The specific types can implement how exactly to add to the parent, but if we can do it before, do it before.
+because there are more than a hundred such types, so it can be easy to forget and then time is lost in debugging.
+
+deprecate unused procs and procs that were not designed with that thinking.
+

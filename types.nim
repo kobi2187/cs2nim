@@ -27,6 +27,7 @@ type CsObject* = object of RootRef
   parentId*: Option[UUID]
   # line*: JsonNode
   src*: string
+  isComplete*: bool
 
 type Module* = object
   name*: string

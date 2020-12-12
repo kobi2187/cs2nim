@@ -1,7 +1,7 @@
 # parent_finder.nim
 import options
 import info_center
-import types, construct, constructs/constructs
+import types, construct, constructs/cs_all_constructs
 
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = false #TODO

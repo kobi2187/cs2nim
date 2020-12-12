@@ -1,5 +1,5 @@
 # construct.nim
-import constructs/constructs, uuids
+import constructs/cs_all_constructs, uuids
 
 type ConstructKind* = enum
   # ckRoot # nah, too special.

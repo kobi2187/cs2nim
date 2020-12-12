@@ -1,6 +1,6 @@
 #### experimental. test this!
 # experiment: different objects in table based on id, wrapped in a variant object
-import constructs/[cs_method, cs_class]
+import constructs/[cs_all_constructs]
 import types, uuids
 type
   VKind* = enum

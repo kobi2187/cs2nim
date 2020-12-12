@@ -15,11 +15,12 @@ import ideal
 # and all their results added to that root. a "global" namespace contains all the valid top level constructs (not within a namespace)
 # so the resulting Nim modules (as files), may need to "import global" to have access to these parts.
 proc modifyPosition(thetype: string; info: Info; id: UUID) =
-  let c = newBlock(thetype, info, id)
-  currentConstruct.add(c)
+  if not info.isVisitBlock:
+    let c = newBlock(thetype, info, id)
+    currentConstruct.add(c)
 
-  if thetype in blockTypesTxt:
-    blocks.push c
+    if thetype in blockTypesTxt:
+      blocks.push c
 
 proc getInfo(line: JsonNode): (seq[string], seq[string]) =
   var main, extras: seq[string]

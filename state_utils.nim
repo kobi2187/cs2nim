@@ -1,12 +1,11 @@
-import constructs / constructs # [cs_root, cs_class, cs_method, cs_constructor, cs_property, cs_indexer]
+import constructs / cs_all_constructs # [cs_root, cs_class, cs_method, cs_constructor, cs_property, cs_indexer]
 import stacks, tables, json, sequtils, options
 import state, types, block_utils
 
 
 import strutils, options
-
+import constructs/cs_root
 import tables
-import constructs/[cs_namespace, cs_root]
 proc nsPathNS(r: CsRoot): seq[CsNamespace] =
   var started = false
  # we assume blocks starts with namespaces.
@@ -174,48 +173,3 @@ proc previousBlock*(a: int = 2): Option[Block] =
 proc isVisitBlock*(info: Info): bool =
   result = info.extras.len > 0 and info.extras[0] == "VisitBlock"
 
-type AllNeededData* = object
-  sourceCode: string
-  constructDeclName: string
-  currentNamespace: CsNamespace
-  isNsEmpty: bool
-  nsLastAdded: NamespaceParts
-  lastEnum: CsEnum
-  lastEnumMember: CsEnumMember
-  classLastAdded: ClassParts
-  lastClass: CsClass
-  lastMethod: CsMethod
-  lastProp: CsProperty
-  lastCtor: CsConstructor
-  inBlock: Block
-  prevBlock: Block
-
-proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData =
-  result.sourceCode = src
-  result.constructDeclName = info.declName
-  if not state.currentConstruct.isEmpty and not state.currentConstruct.last.info.isVisitBlock():
-    result.inBlock = state.currentConstruct.last
-
-  if previousBlock().isSome:
-    result.prevBlock = previousBlock().get
-
-  var (_, ns) = getCurrentNs(root)
-  result.currentNamespace = ns
-  result.isNsEmpty = ns.lastAddedTo.isSome
-  if not result.isNsEmpty:
-    result.nsLastAdded = ns.lastAddedTo.get
-
-    if not result.lastClass.enums.isEmpty:
-      result.lastEnum = result.lastClass.enums.last
-      if result.lastEnum != nil:
-        result.lastEnumMember = result.lastEnum.items.last
-    if not ns.classes.isEmpty:
-      result.lastClass = ns.classes.last
-      if result.lastClass.lastAddedTo.isSome():
-        result.classLastAdded = result.lastClass.lastAddedTo.get
-        if not result.lastClass.methods.isEmpty:
-          result.lastMethod = result.lastClass.methods.last
-        if not result.lastClass.properties.isEmpty:
-          result.lastProp = result.lastClass.properties.last
-        if not result.lastClass.ctors.isEmpty:
-          result.lastCtor = result.lastClass.ctors.last

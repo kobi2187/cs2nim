@@ -1,10 +1,7 @@
-import ../types, ../state_utils, uuids, options
-import cs_namespace, cs_class, cs_method, cs_returnstatement
-import sets, tables, sequtils
+import cs_all_constructs, ../info_center, ../types, ../vnode, ../construct
+import sets, sequtils, tables, uuids, options, strutils
+# ============= CsRoot ========
 
-import ../vnode #deprecate later.
-import ../construct
-import ../info_center
 type CsRoot* = object
   global*: CsNamespace
   ns*: HashSet[CsNamespace]
@@ -21,7 +18,6 @@ type CsRoot* = object
 
 proc register*(r: var CsRoot; id: UUID; obj: Construct) =
   r.infoCenter.register(id, obj)
-  obj.id = id
 
 proc fetch*(r: var CsRoot; id: UUID): Option[Construct] =
   result = r.infoCenter.fetch(id)
@@ -36,7 +32,6 @@ proc fetch*(r: var CsRoot; id: UUID): Option[Construct] =
 # proc fetchBody*(r: var CsRoot; id: UUID): CsObject =
 #   result = r.quickFetchBodyExpr[id]
 
-import strutils
 proc `$`*(r: CsRoot): string =
   result = "I am the CsRoot object:\n"
   if not r.global.isNil:
@@ -58,7 +53,6 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
   result.nsTables["default"] = defaultNs
 
 
-import ../state
 
 proc register(r: var CsRoot; c: Variant) =
   r.quickFetch[c.id] = c
@@ -112,4 +106,3 @@ proc add*(root: var CsRoot; csn: CsNamespace) =
   # assert false
   # root.ns.add(csn)
   root.nsTables[name] = csn
-

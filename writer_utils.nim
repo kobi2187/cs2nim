@@ -1,9 +1,8 @@
-import types, constructs/constructs
+import types, constructs/cs_all_constructs
 import lineparser
 
 import os, system, times
 import strutils, os, json
-import constructs/cs_root
 # var currentRoot*: CsRoot
 
 
@@ -12,7 +11,7 @@ proc getCsastFiles*(folder: string): seq[string] =
     if file.fileExists and file.endsWith(".csast"):
       result.add file
 
-
+import constructs/cs_root
 proc processFiles*(root: var CsRoot; files: seq[string]) =
   echo "processing files"
   for f in files:

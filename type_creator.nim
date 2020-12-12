@@ -1,7 +1,7 @@
 import uuids, options
 import types
 import construct
-import constructs/constructs
+import constructs/cs_all_constructs
 
 proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
   case info.declName #theType
