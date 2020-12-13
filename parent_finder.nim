@@ -4,8 +4,9 @@ import info_center
 import types, construct, constructs/cs_all_constructs
 
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
-  case $parent.kind & ", " & $item.kind
-  of "ckNamespace, ckClass": result = true
+  result = case $parent.kind & ", " & $item.kind
+  of "ckNamespace, ckClass": true
+  of "ckClass, ckMethod": true
   else: raise newException(Exception, "cfits is missing " & $parent.kind & ", " & $item.kind)
 
 # get parent checks that the types fit each other, and decides whether parent is a block type or one of its last added items, that expects to store that object. if cannot decide, we'll need to add more information from the C# side.
