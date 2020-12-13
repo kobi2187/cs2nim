@@ -1,7 +1,10 @@
-import tables, construct, uuids, options
+import tables, construct, uuids, options, sequtils
 # the idea here is a global uuid to Construct, it should be a single instance, stored within csroot.
 type InfoCenter* = ref object
   table: TableRef[UUID, Construct]
+proc keys*(x: InfoCenter): seq[UUID] =
+  for k in x.table.keys:
+    result.add k
 
 proc register*(ic: InfoCenter; id: UUID; obj: Construct) =
   echo "registering Construct of type " & $obj.kind & " with id: " & $id

@@ -14,18 +14,24 @@ import constructs/cs_root, uuids
 # this happens before we add to the parent.
 proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
   if obj.parentId.isSome:
+    echo "obj already has parent id, returning that."
     return obj.parentId
 
   echo obj.kind
   case obj.kind
   of ckClass:
+    echo "obj is a class, returning the current namespace id"
     result = data.currentNamespace.id
     assert result.isSome and not result.get.isZero
-  of ckNamespace: result = none(UUID) # namespaces don't have a parentID, since we have just one root.
+  of ckNamespace:
+    echo "obj is a namespace, returning None"
+    result = none(UUID) # namespaces don't have a parentID, since we have just one root.
   of ckMethod:
-    echo data.nsLastAdded
+    echo "object is a method"
+    echo "last added in namespace", data.nsLastAdded
     assert data.nsLastAdded != NamespaceParts.Unset
     assert data.nsLastAdded == NamespaceParts.Classes # methods are in classes.
+    echo "last class has id:", data.lastClass.id
     return data.lastClass.id
 
 
@@ -36,7 +42,9 @@ proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): Op
   assert pid.isSome and not pid.get.isZero
   echo "parent id found: ", $pid
   result = root.infoCenter.fetch(pid.get)
-  if result.isNone: echo "couldn't find registered object for this id"
+  if result.isNone:
+    echo "couldn't find registered object for this id"
+    echo root.infoCenter.keys
 
 # gets last open block,
 # asks last block's last item whether it expects more data, check if last item fits newobj

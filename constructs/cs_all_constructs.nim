@@ -153,7 +153,6 @@ import sequtils, strutils
 proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
   result.args = args.mapIt(it.strip)
 
 proc extract*(t: typedesc[CsArgumentList]; info: Info): CsArgumentList =
@@ -709,7 +708,7 @@ proc hasIndexer*(c: CsClass): bool = not c.indexer.isNil
 proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[string] = @[]): CsClass =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.name = name
   result.extends = base
   result.implements = impls
@@ -719,7 +718,7 @@ proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[string] = 
 proc newCs*(t: typedesc[CsParameter]; a, b: string): CsParameter =
   new result
   result.typ = $typeof(t)
-  # result.id = genUUID().some
+  #
   result.name = a
   result.ptype = b
 
@@ -952,7 +951,7 @@ proc gen*(c: var CsConstructorInitializer): string = discard #TODO(gen:CsConstru
 proc newCs*(t: typedesc[CsConstructor]; name: string): CsConstructor =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.name = name
 
 proc extract*(t: typedesc[CsConstructor]; info: Info): CsConstructor =
@@ -1224,7 +1223,7 @@ proc gen*(c: var CsEmptyStatement): string = discard #TODO(gen:CsEmptyStatement)
 proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.name = name
   result.value = value
 
@@ -1250,7 +1249,7 @@ proc gen*(e: CsEnumMember): string =
 proc newCs*(t: typedesc[CsEnum]; name: string): CsEnum =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.name = name
 
 
@@ -1336,7 +1335,7 @@ type CsExplicitInterfaceSpecifier* = ref object of CsObject #TODO(type:CsExplici
 proc newCs*(t: typedesc[CsExplicitInterfaceSpecifier]; name: string): CsExplicitInterfaceSpecifier =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.name = name
 
 proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicitInterfaceSpecifier = #TODO(extract:CsExplicitInterfaceSpecifier)
@@ -1361,10 +1360,10 @@ type CsExpressionStatement* = ref object of BodyExpr
 proc newCs*(t: typedesc[CsExpressionStatement]): CsExpressionStatement =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.ttype = "CsExpressionStatement"
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
 
 proc extract*(t: typedesc[CsExpressionStatement]; info: Info): CsExpressionStatement =
   result = newCs(CsExpressionStatement)
@@ -1666,7 +1665,7 @@ proc gen*(c: var CsIncompleteMember): string = discard #TODO(gen:CsIncompleteMem
 proc newCs*(t: typedesc[CsIndexer]): CsIndexer =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.hasGet = true
   result.hasSet = true
 
@@ -1825,7 +1824,7 @@ proc gen*(c: var CsInterpolation): string = discard #TODO(gen:CsInterpolation)
 proc newCs*(t: typedesc[CsInvocationExpression]; name: string): CsInvocationExpression =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.callName = name
 
 proc extract*(t: typedesc[CsInvocationExpression]; info: Info): CsInvocationExpression =
@@ -1970,7 +1969,7 @@ type CsLiteralExpression* = ref object of BodyExpr
 proc newCs(t: typedesc[CsLiteralExpression]; val: string): CsLiteralExpression =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.ttype = "CsLiteralExpression"
   result.value = val
 
@@ -1988,7 +1987,7 @@ type CsLocalDeclarationStatement* = ref object of BodyExpr
 proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDeclarationStatement =
   new result
   result.typ = $typeof(t)
-  result.id = uuids.genUUID().some
+
 
 proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info): CsLocalDeclarationStatement = discard #TODO(extract:CsLocalDeclarationStatement)
 
@@ -2077,7 +2076,7 @@ proc gen*(c: var CsMemberBindingExpression): string = discard #TODO(gen:CsMember
 proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.name = name
 
 
@@ -2182,7 +2181,6 @@ proc `$`*(n: CsNamespace): string =
 proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   new result
   result.typ = $typeof(t)
-  result.id = some(genUUID())
   result.name = name
   result.classes = @[]
   result.classTable = newTable[string, CsClass]()
@@ -2294,7 +2292,7 @@ proc gen*(c: var CsNullableType): string = discard #TODO(gen:CsNullableType)
 proc newCs*(t: typedesc[CsObjectCreationExpression]; name: string): CsObjectCreationExpression =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
+
   result.name = name
   result.ttype = "CsObjectCreationExpression"
 
@@ -2409,7 +2407,7 @@ proc gen*(c: var CsOrdering): string = discard #TODO(gen:CsOrdering)
 proc newCs*(t: typedesc[CsParameterList]): CsParameterList =
   new result # start empty.
   result.typ = $typeof(t)
-  result.id = uuids.genUUID().some
+
 
 proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList =
   result = newCs(CsParameterList)
@@ -2527,7 +2525,6 @@ proc gen*(c: var CsPostfixUnaryExpression): string = discard #TODO(gen:CsPostfix
 proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsPredefinedType]; info: Info): CsPredefinedType =
@@ -2560,7 +2557,6 @@ proc gen*(c: var CsPrefixUnaryExpression): string = discard #TODO(gen:CsPrefixUn
 proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsProperty]; info: Info): CsProperty =
@@ -2712,7 +2708,6 @@ proc gen*(c: var CsRefValueExpression): string = discard #TODO(gen:CsRefValueExp
 proc newCs*(t: typedesc[CsReturnStatement]): CsReturnStatement =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
   result.ttype = "CsReturnStatement"
 
 proc extract*(t: typedesc[CsReturnStatement]; info: Info): CsReturnStatement =
@@ -3143,7 +3138,6 @@ proc gen*(c: var CsUnsafeStatement): string = discard #TODO(gen:CsUnsafeStatemen
 proc newCs*(t: typedesc[CsUsingDirective]; name: string): CsUsingDirective =
   new result
   result.typ = $typeof(t)
-  result.id = genUUID().some
   result.name = name
 
 proc extract*(t: typedesc[CsUsingDirective]; info: Info): CsUsingDirective =
