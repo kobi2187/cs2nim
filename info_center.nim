@@ -4,6 +4,7 @@ type InfoCenter* = ref object
   table: TableRef[UUID, Construct]
 
 proc register*(ic: InfoCenter; id: UUID; obj: Construct) =
+  echo "registering Construct of type " & $obj.kind & " with id: " & $id
   ic.table[id] = obj
 
 proc fetch*(ic: InfoCenter; id: UUID): Option[Construct] =

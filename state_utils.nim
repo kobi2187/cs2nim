@@ -1,6 +1,6 @@
 import constructs / cs_all_constructs # [cs_root, cs_class, cs_method, cs_constructor, cs_property, cs_indexer]
 import stacks, tables, json, sequtils, options
-import state, types, block_utils
+import state, types #, block_utils
 
 
 import strutils, options
@@ -79,13 +79,14 @@ proc getCurrentNs*(root: CsRoot): (string, CsNamespace) =
   result = (p, ns)
 
 import options
-proc lastAddedInfo*(root: var CsRoot): string =
+proc lastAddedInfo(root: var CsRoot): string =
   var (p, ns) = state_utils.getCurrentNs(root)
   result = "current ns: " & p
   result &= " namespace added something: " & $ns.lastAddedTo.isSome
   if ns.lastAddedTo.isSome:
     result &= "last added in ns: " & $ns.lastAddedTo
     case ns.lastAddedTo.get
+    of Unset: discard
     of NamespaceParts.Classes:
       let c = ns.getLastClass.get
       result &= "class is: " & c.name
@@ -132,7 +133,7 @@ proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
     if c.isNone: result = none(CsProperty)
     else:
       result = c.get.getLastProperty()
-  of [NamespaceParts.Enums]: discard
+  of [NamespaceParts.Enums, NamespaceParts.Unset]: discard
 
 proc getLastProperty*(root: CsRoot): Option[CsProperty] =
   var (_, ns) = root.getCurrentNs
@@ -150,7 +151,6 @@ proc getIndexer(c: CsClass): Option[CsIndexer] =
 proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
   assert ns.lastAddedTo.isSome
   case ns.lastAddedTo.get
-  of NamespaceParts.Interfaces: discard # TODO
   of NamespaceParts.Classes:
     let c = ns.getLastClass()
     if c.isNone:
@@ -158,7 +158,7 @@ proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
       result = none(CsIndexer)
     else:
       result = c.get.getIndexer()
-  of [NamespaceParts.Enums]: discard
+  of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums]: discard
 
 proc getLastIndexer*(root: CsRoot): Option[CsIndexer] =
   var (_, ns) = root.getCurrentNs

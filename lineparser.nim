@@ -1,6 +1,7 @@
 # lineparser.nim
 import uuids
-import state, types, handle_construct, state_utils, block_utils
+import state, types, state_utils, block_utils
+#, handle_construct
 import constructs/cs_root
 type LineKind* = enum
   Decl, EndBlock
@@ -52,9 +53,10 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
 
     let info = Info(declName: decl, essentials: main, extras: extras)
     let id = genUUID()
+    echo "generated id for the next object ", decl, " ", id
     modifyPosition(decl, info, id)
-    when true: addToRoot(root, src, info, id)
-    when false: addToRoot2(root, src, info, id) # slowly switch to new system, while making sure it compiles.
+    # addToRoot(root, src, info, id)
+    addToRoot2(root, src, info, id) # slowly switch to new system, while making sure it compiles.
 
   of EndBlock:
     assert kindstr == "EndBlock"

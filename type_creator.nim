@@ -21,11 +21,15 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
 
   of "NamespaceDeclaration": # etc etc
     var a = extract(CsNamespace, info, data)
-    a.id = some(id)
     result = Construct(kind: ckNamespace, namespace: a)
+  of "ClassDeclaration":
+    var a = extract(CsClass, info, data)
+    result = Construct(kind: ckClass, class: a)
     # Construct(t: ckNamespace, namespace: a) #.wrap(ckNamespace)
-
+  of "MethodDeclaration":
+    var a = extract(CsMethod, info, data)
+    result = Construct(kind: ckMethod, `method`: a)
   # still unsupported
-  of []: discard # TODO
+  of ["... add here."]: discard # TODO
   else: assert false, "still unsupported " & info.declName
 

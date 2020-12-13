@@ -1,4 +1,4 @@
-import cs_all_constructs, ../info_center, ../types, ../vnode, ../construct
+import cs_all_constructs, ../info_center, ../types, ../construct
 import sets, sequtils, tables, uuids, options, strutils
 # ============= CsRoot ========
 
@@ -11,12 +11,13 @@ type CsRoot* = object
   # quickFetchMethod*: TableRef[UUID, CsMethod]
   # quickFetchClass*: TableRef[UUID, CsClass]
   infoCenter*: InfoCenter
-  quickFetch*: TableRef[UUID, Variant]
-  quickFetch2*: TableRef[UUID, CsObject]
-  regList*: seq[UUID]
+  # quickFetch*: TableRef[UUID, Variant]
+  # quickFetch2*: TableRef[UUID, CsObject]
+  # regList*: seq[UUID]
 
 
 proc register*(r: var CsRoot; id: UUID; obj: Construct) =
+  assert not id.isZero
   r.infoCenter.register(id, obj)
 
 proc fetch*(r: var CsRoot; id: UUID): Option[Construct] =
@@ -45,30 +46,18 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
   # result.quickFetchBodyExpr = newTable[UUID, CsObject]()
   # result.quickFetchMethod = newTable[UUID, CsMethod]()
   # result.quickFetchClass = newTable[UUID, CsClass]()
-  result.quickFetch = newTable[UUID, Variant]()
-  result.quickFetch2 = newTable[UUID, CsObject]()
-
+  # result.quickFetch = newTable[UUID, Variant]()
+  # result.quickFetch2 = newTable[UUID, CsObject]()
+  result.infoCenter = newInfoCenter()
   let defaultNs = newCs(CsNamespace, "default")
+  defaultNs.id = some(genUUID()) # default gets a special assignment here because it is built in and doesn't go thru lineparser.
+  echo $defaultNs.id.get
   result.global = defaultNs
   result.nsTables["default"] = defaultNs
+  result.register(defaultNs.id.get, Construct(kind: ckNamespace, namespace: defaultNs))
 
-
-
-proc register(r: var CsRoot; c: Variant) =
-  r.quickFetch[c.id] = c
-  r.regList.add c.id
-  # if c is CsClass:
-  #   r.quickFetchClass[c.id.get] = c
-  # elif c is CsMethod:
-  #   r.quickFetchMethod[c.id.get] = c
-  # elif c is BodyExpr:
-  #   r.quickFetchBodyExpr[c.id.get] = c
-  # else: assert false, "unsupported"
 
 var currentRoot*: CsRoot
-proc register(c: Variant) =
-  var r = currentRoot
-  r.register(c)
 
 proc makeModule*(ns: CsNamespace): Module =
   var name: string

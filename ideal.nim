@@ -16,39 +16,49 @@ type B = object
 
 proc pathOfBlocks(): seq[B] = discard # TODO
 
-proc processTreeForData(root: var CsRoot; info: Info): AllNeededData =
-  # make heavy use of the Construct variant kind, to build the needed Data.
-  var lastBlock, lastItem: Option[Construct]
-  let path = pathOfBlocks()
-  if path.len > 0:
-    lastBlock = root.fetch(path[^1].id) # TODO......
+# proc processTreeForData(root: var CsRoot; info: Info): AllNeededData =
+#   # make heavy use of the Construct variant kind, to build the needed Data.
+#   var lastBlock: Option[Construct]
+#   # lastItem
+#   let path = pathOfBlocks()
+#   if path.len > 0:
+#     lastBlock = root.fetch(path[^1].id) # TODO......
+
+method add*(parent, child: Construct; data: AllNeededData) =
+  case parent.kind
+  of ckNamespace:
+    var p = parent.namespace
+    case child.kind
+    of ckClass:
+      var c = child.class
+      p.add(c)
+    else: discard
+  else: discard
 
 
-proc add*(parent, child: Construct; data: AllNeededData) =
-  discard #parent.unwrap.add(child.unwrap, data)
-
-# alternative addToRoot
-# here we get the info. the object type, info for its fields
-# we want to
-# 1) know where to add. who is the parent.
-# 2) create the object, by passing info and allNeededData
-#  to the type's create function (which uses extract)
-# 3) add the new item to the correct place.
 import type_creator, parent_finder
-import state_utils, block_utils
+import state_utils, block_utils, all_needed_data
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
-  var allData: AllNeededData = processTreeForData(root, info)
-  # if not info.isVisitBlock: # no need, lineparser.modifyPosition does that already.
+  echo "in addToRoot2"
+  var allData: AllNeededData = makeNeededData(root, info, src)
+  # processTreeForData(root, info)
+  # no need, lineparser.modifyPosition does that already.
+  # if not info.isVisitBlock:
   #   blocks.updateBlocks(info)
-  var obj: Construct = createType(info, id, allData)
-  obj.id = id
-  root.register(id, obj)
-  let p = getParent(root, obj, allData)
-  assert p.isSome, "Failed assertion that all constructs should have a parent"
-  var parent: Construct = p.get
-  assert parent.cfits(obj, allData)
-  parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
-  obj.unwrap.parentId = parent.unwrap.id # connect them after adding.
+  if info.declName == "BlockStarts":
+    discard
+  else:
+    echo "creating the construct object"
+    var obj: Construct = createType(info, id, allData)
+    obj.id = some(id)
+    root.register(id, obj)
+    let p = getParent(root, obj, allData)
+    assert p.isSome, "Failed assertion that all constructs should have a parent"
+    var parent: Construct = p.get
+    assert parent.cfits(obj, allData)
+    parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
+    # obj.unwrap.parentId = parent.unwrap.id # connect them after adding.
+    obj.parentId = parent.id # connect them after adding.
 
 
 
