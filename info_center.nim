@@ -8,6 +8,8 @@ proc keys*(x: InfoCenter): seq[UUID] =
 
 proc register*(ic: InfoCenter; id: UUID; obj: Construct) =
   echo "registering Construct of type " & $obj.kind & " with id: " & $id
+  if obj.id.isNone: obj.id = some(id)
+
   ic.table[id] = obj
 
 proc fetch*(ic: InfoCenter; id: UUID): Option[Construct] =

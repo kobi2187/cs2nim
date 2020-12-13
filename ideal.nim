@@ -52,11 +52,13 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
     var obj: Construct = createType(info, id, allData)
     obj.id = some(id)
     root.register(id, obj)
+    # allData = makeNeededData(root, info, src) # try to make it again.
     let p = getParent(root, obj, allData)
     assert p.isSome, "Failed assertion that all constructs should have a parent"
     var parent: Construct = p.get
     assert parent.cfits(obj, allData)
     parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
+    
     # obj.unwrap.parentId = parent.unwrap.id # connect them after adding.
     obj.parentId = parent.id # connect them after adding.
 
