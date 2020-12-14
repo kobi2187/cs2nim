@@ -1,4 +1,4 @@
-import tables, construct, uuids, options, sequtils
+import tables, construct, uuids, options#, sequtils
 # the idea here is a global uuid to Construct, it should be a single instance, stored within csroot.
 type InfoCenter* = ref object
   table: TableRef[UUID, Construct]

@@ -34,6 +34,10 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     result = Construct(kind: ckMethod, `method`: a)
   # still unsupported
   of ["... add here."]: discard # TODO
+  of "PredefinedType":
+    var a = extract(CsPredefinedType, info, data)
+    a.id = some(id)
+    result = Construct(kind: ckPredefinedType, predefinedType: a)
   else: assert false, "still unsupported " & info.declName
 
   result.id = some(id)

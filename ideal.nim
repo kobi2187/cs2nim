@@ -45,7 +45,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   # no need, lineparser.modifyPosition does that already.
   # if not info.isVisitBlock:
   #   blocks.updateBlocks(info)
-  if info.declName == "BlockStarts":
+  if info.declName in ["BlockStarts", "CompilationUnit"]:
     discard
   else:
     echo "creating the construct object"

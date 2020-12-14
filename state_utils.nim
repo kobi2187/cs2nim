@@ -79,7 +79,7 @@ proc getCurrentNs*(root: CsRoot): (string, CsNamespace) =
   result = (p, ns)
 
 import options
-proc lastAddedInfo(root: var CsRoot): string =
+#[ proc lastAddedInfo(root: var CsRoot): string =
   var (p, ns) = state_utils.getCurrentNs(root)
   result = "current ns: " & p
   result &= " namespace added something: " & $ns.lastAddedTo.isSome
@@ -98,14 +98,14 @@ proc lastAddedInfo(root: var CsRoot): string =
         of ClassParts.Ctors: result &= c.ctors.last.name
         of ClassParts.Indexer: result &= c.indexer.varName
         of ClassParts.Methods: result &= c.methods.last.name
-        of ClassParts.Enums: result &= c.enums.last.name
-        of ClassParts.Fields: result &= c.fields.last.name
-
+        # of ClassParts.Enums: result &= c.enums.last.name
+        # of ClassParts.Fields: result &= c.fields.last.name
     of NamespaceParts.Interfaces:
       result &= ns.interfaces.last.name
     of NamespaceParts.Enums:
       let e = ns.enums.last
       result &= "enum is " & e.name
+]#
 
 
 proc getLastProperty(c: CsClass): Option[CsProperty] =

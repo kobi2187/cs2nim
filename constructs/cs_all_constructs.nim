@@ -637,16 +637,18 @@ proc gen*(c: var CsCheckedStatement): string = discard #TODO(gen:CsCheckedStatem
 
 
 type ClassParts* {.pure.} = enum
-  Fields, Methods, Ctors, Enums, Properties, Indexer
+  Methods, Ctors, Properties, Indexer
 
+type PropertyParts* = enum Getter, Setter
 
 type CsProperty* = ref object of CsObject
+  lastAddedTo* : PropertyParts
   retType*: string
   hasGet*: bool
   hasSet*: bool
   parentClass*: string
-  bodySet*: string # dunno.
-  bodyGet*: string # NOTE: don't know yet what type to put here. maybe something like a method body or a list of expr ?
+  bodySet*: seq[BodyExpr] # dunno.
+  bodyGet*: seq[BodyExpr] # NOTE: don't know yet what type to put here. maybe something like a method body or a list of expr ?
 
 
 type CsParameter* = ref object of CsObject
@@ -663,8 +665,11 @@ type CsMethod* = ref object of CsObject
   parentClass*: string
   parameterList*: CsParameterList # seq[CsParameter]
   returnType*: string
+  # TODO: method body can change to Construct, but limited only to the constructs applicable. (type constraints with distinct or runtime asserts)
+  # TODO: or we check with case ttype string, as before. runtime dispatch etc.
   body*: seq[BodyExpr]            # use here inheritance and methods (runtime dispatch).
                                   # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
+
 type CsConstructor* = ref object of CsObject
   parentClass*: string
   parameterList*: CsParameterList # seq[CsParameter]
@@ -2147,6 +2152,7 @@ proc gen*(c: var CsNameEquals): string = discard #TODO(gen:CsNameEquals)
 type NamespaceParts* {.pure.} = enum
   Unset, Interfaces, Enums, Classes
 
+
 # type Child = object
 #   name: string
 #   case kind: NamespaceParts
@@ -2192,18 +2198,28 @@ proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
 type AllNeededData* = object
   sourceCode*: string
   constructDeclName*: string
+  
   currentNamespace*: CsNamespace
-  isNsEmpty*: bool
   nsLastAdded*: NamespaceParts
+  classLastAdded*: ClassParts
+  
   lastEnum*: CsEnum
   lastEnumMember*: CsEnumMember
-  classLastAdded*: ClassParts
+  lastInterface*:CsInterface
   lastClass*: CsClass
   lastMethod*: CsMethod
   lastProp*: CsProperty
   lastCtor*: CsConstructor
+
+  lastMethodBodyExpr*: BodyExpr
+  lastBodyExprId*:Option[UUID]
+  lastBodyExpr* : Option[BodyExpr]
+
   inBlock*: Block
   prevBlock*: Block
+  currentConstruct*: Option[Block]
+  previousConstruct*: Option[Block]
+  previousPreviousConstruct*: Option[Block]
 
 proc extract*(t: typedesc[CsMethod]; info: Info; data: AllNeededData): CsMethod =
   let name = info.essentials[0]
@@ -2248,6 +2264,8 @@ method add*(ns: var CsNamespace; class: CsClass) =
 
 method add*(ns: var CsNamespace; use: CsUsingDirective) =
   ns.imports.add use
+  
+
 
 proc gen*(c: CsUsingDirective): string =
   result = "import dotnet/" & c.name.toLowerAscii.replace(".", "/")
@@ -2527,7 +2545,7 @@ proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
   result.typ = $typeof(t)
   result.name = name
 
-proc extract*(t: typedesc[CsPredefinedType]; info: Info): CsPredefinedType =
+proc extract*(t: typedesc[CsPredefinedType]; info: Info; data: AllNeededData): CsPredefinedType =
   var name: string
   if info.essentials.len > 0:
     name = info.essentials[0]
