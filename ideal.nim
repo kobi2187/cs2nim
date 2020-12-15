@@ -42,7 +42,17 @@ method add*(parent, child: Construct; data: AllNeededData) =
       var m = child.`method`
       c.add m
     else: assert false, "plz impl for child: " & $child.kind
-
+  of ckMethod:
+    var m = parent.`method`
+    case child.kind
+    of ckPredefinedType:
+      var pt = child.predefinedType
+      m.add pt
+    of ckParameterList:
+      m.add child.parameterlist
+    of ckLocalDeclarationStatement:
+      m.add child.localDeclarationStatement
+    else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
 
 

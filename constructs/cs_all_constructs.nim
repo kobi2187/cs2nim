@@ -2000,14 +2000,18 @@ method gen*(lit: CsLiteralExpression): string =
 
 # ============= CsLocalDeclarationStatement ========
 
+type CsVariableDeclarator* = ref object of BodyExpr
+
 type CsLocalDeclarationStatement* = ref object of BodyExpr
+  names*: seq[string]
+  vartype*: string
 
 proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDeclarationStatement =
   new result
   result.typ = $typeof(t)
 
 
-proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info): CsLocalDeclarationStatement = discard #TODO(extract:CsLocalDeclarationStatement)
+  
 
 method add*(parent: var CsLocalDeclarationStatement; item: Dummy) =
   discard # TODO(add:CsLocalDeclarationStatement)
@@ -2098,8 +2102,12 @@ proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   result.name = name
 
 
+method add*(parent: var CsMethod; t: CsLocalDeclarationStatement) =
+  parent.body.add t
 method add*(parent: var CsMethod; t: CsPredefinedType) =
   parent.returnType = t.name
+
+
 
 method add*(parent: var CsMethod; p: CsParameterList) =
   parent.parameterList = p
@@ -2239,6 +2247,13 @@ type AllNeededData* = object
   currentConstruct*: Option[Block]
   previousConstruct*: Option[Block]
   previousPreviousConstruct*: Option[Block]
+
+
+proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info; data:AllNeededData): CsLocalDeclarationStatement =
+  new result
+  echo info
+  result.vartype = info.essentials[1]
+  result.names = info.essentials[0].split(",").mapIt(it.strip)
 
 proc extract*(t: typedesc[CsMethod]; info: Info; data: AllNeededData): CsMethod =
   let name = info.essentials[0]
@@ -2447,7 +2462,7 @@ proc newCs*(t: typedesc[CsParameterList]): CsParameterList =
   result.typ = $typeof(t)
 
 
-proc extract*(t: typedesc[CsParameterList]; info: Info): CsParameterList =
+proc extract*(t: typedesc[CsParameterList]; info: Info; data: AllNeededData): CsParameterList =
   result = newCs(CsParameterList)
 
 method add*(parent: var CsParameterList; item: CsParameter) =

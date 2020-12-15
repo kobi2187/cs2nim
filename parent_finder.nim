@@ -7,8 +7,11 @@ import constructs/cs_root, uuids
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
   of "ckNamespace, ckClass": true
+  of "ckMethod, ckParameterList": true
   of "ckClass, ckMethod": true
-  else: raise newException(Exception, "cfits is missing " & $parent.kind & ", " & $item.kind)
+  of "ckMethod, ckPredefinedType": true
+  of "ckMethod, ckLocalDeclarationStatement": true
+  else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
   echo "obj is LiteralExpression"
@@ -35,7 +38,6 @@ proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
 # the bulk of the work shifts to here.
 # this happens before we add to the parent.
 proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
-  
   echo "source code was: " & data.sourceCode
   if obj.parentId.isSome:
     echo "obj already has parent id, returning that."
@@ -43,6 +45,17 @@ proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
 
   echo obj.kind
   case obj.kind
+  # of ckVariableDeclarator: # TODO
+  #   echo "obj is a variable declarator"
+  #   # hmm, can be in multiple parts (instance var, or local var). we have to know the last added construct.
+      # I think the local declaration is a wrapper for this object.
+      # i think this object can also be wrapped in an instance var. don't know yet.
+  #   assert false
+  of ckLocalDeclarationStatement:
+    echo "obj is a local declaration"
+    # exists in methods, ctors, properties.
+    assert data.classLastAdded in [Methods,Properties, Ctors]
+    result = data.idLastClassPart
   of ckClass:
     echo "obj is a class, returning the current namespace id"
     result = data.currentNamespace.id

@@ -10,16 +10,17 @@ type ConstructKind* = enum
   # to be added.
   ckPredefinedType
   ckArgumentList, ckObjectCreationExpression, ckUsingDirective, ckEnum, ckEnumMember, ckIndexer, ckParameterList, ckParameter, ckArgument, ckConstructor, ckReturnStatement, ckLiteralExpression, ckSimpleBaseType, ckBaseList, ckProperty, ckExplicitInterfaceSpecifier, ckExpressionStatement, ckInvocationExpression,
+  ckLocalDeclarationStatement,ckVariableDeclarator
 
  # unsupported:
-   # ckBinaryExpression, ckAssignmentExpression, ckEqualsValueClause, ckLocalDeclarationStatement, ckIfStatement, ckThisExpression, ckTypeArgumentList, ckGenericName, ckAccessor, ckBracketedArgumentList, ckElementAccessExpression, ckAccessorList, ckParenthesizedExpression, ckCastExpression, ckArrayRankSpecifier, ckArrayType, ckPrefixUnaryExpression, ckOmittedArraySizeExpression,
+   # ckBinaryExpression, ckAssignmentExpression, ckEqualsValueClause, , ckIfStatement, ckThisExpression, ckTypeArgumentList, ckGenericName, ckAccessor, ckBracketedArgumentList, ckElementAccessExpression, ckAccessorList, ckParenthesizedExpression, ckCastExpression, ckArrayRankSpecifier, ckArrayType, ckPrefixUnaryExpression, ckOmittedArraySizeExpression,
    # ckInitializerExpression, ckNameEquals, ckThrowStatement, ckTypeOfExpression, ckElseClause, ckCaseSwitchLabel, ckSwitchSection, ckSimpleLambdaExpression, ckPostfixUnaryExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckBreakStatement, ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression, ckConditionalExpression, ckTypeParameterList, ckForEachStatement, ckForStatement,
    # ckInterpolatedStringText, ckParenthesizedLambdaExpression, ckTryStatement, ckNullableType, ckBaseExpression, ckCatchClause, ckConstructorInitializer, ckInterpolation, ckCatch, ckNameColon, ckUsingStatement, ckTypeParameterConstraintClause, ckTypeConstraint, ckSingleVariableDesignation, ckInterpolatedStringExpression, ckImplicitArrayCreationExpression, ckWhileStatement,
    # ckDeclarationExpression, ckConditionalAccessExpression, ckSwitchStatement, ckMemberBindingExpression, ckDefaultExpression, ckPointerType, ckInterface, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel, ckYieldStatement, ckAnonymousObjectMemberDeclarator, ckCheckedExpression, ckStruct, ckIsPatternExpression, ckLockStatement, ckDeclarationPattern, ckThrowExpression, ckConstantPattern,
    # ckRefType, ckRefExpression, ckClassOrStructConstraint, ckOmittedTypeArgument, ckTupleElement, ckOperator, ckEventField, ckDelegate, ckImplicitElementAccess, ckAnonymousMethodExpression, ckTupleExpression, ckAnonymousObjectCreationExpression, ckBracketedParameterList, ckEvent, ckGotoStatement, ckDoStatement, ckGlobalStatement, ckIncompleteMember, ckLocalFunctionStatement,
    # ckConversionOperator, ckTupleType, ckFixedStatement, ckEmptyStatement, ckSizeOfExpression, ckQueryBody, ckCheckedStatement, ckQueryExpression, ckCasePatternSwitchLabel, ckLabeledStatement, ckConstructorConstraint, ckUnsafeStatement, ckParenthesizedVariableDesignation, ckInterpolationFormatClause, ckDestructor, ckDiscardDesignation, ckStackAllocArrayCreationExpression, ckWhenClause,
    # ckForEachVariableStatement, ckLetClause, ckElementBindingExpression, ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause, ckQueryContinuation, ckExternAliasDirective, ckMakeRefExpression, ckRefValueExpression, ckRefTypeExpression, ckBlock, ckVariable, ckBinaryPattern, ckDiscardPattern, ckFunctionPointerType, ckImplicitObjectCreationExpression, ckMemberAccessExpression,
-   # ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord, ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, ckVariableDeclarator, ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression
+   # ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord, ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, , ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression
 import options
 type CNode {.acyclic.} = object
   id*: Option[UUID]
@@ -53,7 +54,8 @@ type CNode {.acyclic.} = object
   of ckExplicitInterfaceSpecifier: explicitInterfaceSpecifier*: CsExplicitInterfaceSpecifier
   of ckExpressionStatement: expressionStatement*: CsExpressionStatement
   of ckInvocationExpression: invocationExpression*: CsInvocationExpression
-
+  of ckLocalDeclarationStatement: localDeclarationStatement*: CsLocalDeclarationStatement
+  of ckVariableDeclarator: variableDeclarator*:CsVariableDeclarator
 type Construct* = ref CNode # all the types we support, wrapped in a variant.
 
 
