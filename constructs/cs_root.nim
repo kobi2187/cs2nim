@@ -34,11 +34,12 @@ proc fetch*(r: var CsRoot; id: UUID): Option[Construct] =
 #   result = r.quickFetchBodyExpr[id]
 
 proc `$`*(r: CsRoot): string =
-  result = "I am the CsRoot object:\n"
+  result = "root: ("
   if not r.global.isNil:
-    result &= "global is set\n"
-  result &= "ns count: " & $r.ns.len
-  result &= "\n" & r.ns.mapIt(it.name).join(" ")
+    result &= $r.global
+  for n in r.ns:
+    result &= $n
+  result &= ")"
 
 proc newCs*(t: typedesc[CsRoot]): CsRoot =
   result.ns = initHashSet[CsNamespace]()

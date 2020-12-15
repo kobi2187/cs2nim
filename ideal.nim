@@ -24,22 +24,34 @@ proc pathOfBlocks(): seq[B] = discard # TODO
 #   if path.len > 0:
 #     lastBlock = root.fetch(path[^1].id) # TODO......
 
+
 method add*(parent, child: Construct; data: AllNeededData) =
+  echo "in add <Construct>"
   case parent.kind
   of ckNamespace:
     var p = parent.namespace
     case child.kind
-    of ckClass:
+    of ckClass: # ns, class
       var c = child.class
       p.add(c)
-    else: discard
-  else: discard
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckClass:
+    var c = parent.class
+    case child.kind
+    of ckMethod: # class, method
+      var m = child.`method`
+      c.add m
+    else: assert false, "plz impl for child: " & $child.kind
+
+  else: assert false, "plz impl for parent: " & $parent.kind
 
 
 import type_creator, parent_finder
 import state_utils, block_utils, all_needed_data
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   echo "in addToRoot2"
+  echo " ==START== " , root
+
   var allData: AllNeededData = makeNeededData(root, info, src)
   # processTreeForData(root, info)
   # no need, lineparser.modifyPosition does that already.
@@ -53,15 +65,19 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
     obj.id = some(id)
     root.register(id, obj)
     # allData = makeNeededData(root, info, src) # try to make it again.
+    allData.refresh(root,info,src)
     let p = getParent(root, obj, allData)
     assert p.isSome, "Failed assertion that all constructs should have a parent"
     var parent: Construct = p.get
     assert parent.cfits(obj, allData)
+    echo "parent fits object: " , parent.kind , " --will add-- " , obj.kind
+    echo "attempting to add to parent..."
     parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
     
     # obj.unwrap.parentId = parent.unwrap.id # connect them after adding.
     obj.parentId = parent.id # connect them after adding.
-
+    echo " ==END== " , root
+    echo "NOTE: if didn't add, go to ideal::add method."
 
 
 ### the construct types will now have such api: extract, fits, add, gen. newCs also exists but we don't call it from outside, so doesn't matter.

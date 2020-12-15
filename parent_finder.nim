@@ -35,7 +35,7 @@ proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
 # the bulk of the work shifts to here.
 # this happens before we add to the parent.
 proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
-
+  
   echo "source code was: " & data.sourceCode
   if obj.parentId.isSome:
     echo "obj already has parent id, returning that."
@@ -52,7 +52,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
     result = none(UUID) # namespaces don't have a parentID, since we have just one root.
   of ckMethod:
     echo "object is a method"
-    echo "last added in namespace", data.nsLastAdded
+    echo "last added in namespace: ", data.nsLastAdded
     assert data.nsLastAdded != NamespaceParts.Unset
     assert data.nsLastAdded == NamespaceParts.Classes # methods are in classes.
     assert data.lastClass != nil
@@ -62,6 +62,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
   of ckPredefinedType:
     echo "object is a predefined type"
     echo data.previousConstruct.get.name
+    
     case data.previousConstruct.get.name
     of "MethodDeclaration":
       echo data.lastClass.name
@@ -150,9 +151,17 @@ proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
   of ckLiteralExpression:
     result = handleLiteralExpression(data)
 
-  of [ ckObjectCreationExpression,  ckSimpleBaseType, ckBaseList,  ckExplicitInterfaceSpecifier]:
+  of ckExplicitInterfaceSpecifier:
+    echo "obj is ExplicitInterfaceSpecifier"
+    if data.previousPreviousConstruct.get.name == "IndexerDeclaration":
+      if data.lastClass.hasIndexer:
+        result = data.lastClass.indexer.id
+      else : result = none(UUID)
+
+  of [ ckObjectCreationExpression,  ckSimpleBaseType, ckBaseList ]:
     assert false
     # raise notimplementedException
+
 
 proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): Option[Construct] =
   echo "in getParent"

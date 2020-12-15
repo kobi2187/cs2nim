@@ -133,7 +133,7 @@ proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
     if c.isNone: result = none(CsProperty)
     else:
       result = c.get.getLastProperty()
-  of [NamespaceParts.Enums, NamespaceParts.Unset]: discard
+  of [NamespaceParts.Enums, NamespaceParts.Unset, NamespaceParts.Using]: discard
 
 proc getLastProperty*(root: CsRoot): Option[CsProperty] =
   var (_, ns) = root.getCurrentNs
@@ -158,7 +158,7 @@ proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
       result = none(CsIndexer)
     else:
       result = c.get.getIndexer()
-  of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums]: discard
+  of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums,NamespaceParts.Using]: discard
 
 proc getLastIndexer*(root: CsRoot): Option[CsIndexer] =
   var (_, ns) = root.getCurrentNs

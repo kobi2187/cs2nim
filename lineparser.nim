@@ -67,6 +67,7 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
 
 import system, os
 proc parseExecFile*(root: var CsRoot; file: JsonNode) = # , root: var CsRoot) =
+
   let filename = file["File"].getStr
   # echo "working on file: " & filename
   echo "file: " & filename.extractFilename

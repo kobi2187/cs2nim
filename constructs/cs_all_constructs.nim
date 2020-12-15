@@ -5,7 +5,7 @@ import ../state
 import uuids, options, sets, tables, sequtils, hashes
 
 
-method add*(a: var ref CsObject, b: ref CsObject) {.base.} =
+method add*(a: var ref CsObject, b: CsObject) {.base.} =
   raise newException(Exception, "missing implementation for " & a.typ & ", " & b.typ)
 
 
@@ -682,6 +682,10 @@ type CsEnumMember* = ref object of CsObject
 type CsEnum* = ref object of CsObject
   items*: seq[CsEnumMember]
 
+proc `$`*(e:CsEnum):string=
+  result = "enum: (" & e.name
+  result &= "items: " & $e.items.len
+  result &= " )"
 type CsIndexer* = ref object of CsObject
   retType*: string
   varName*: string
@@ -693,20 +697,26 @@ type CsIndexer* = ref object of CsObject
 
 # ============= CsClass ========
 
+
 type CsClass* = ref object of CsObject
   nsParent*: string
   extends*: string
   implements*: seq[string]
-  fields*: seq[CsField]
+  # fields*: seq[CsField]
   properties*: seq[CsProperty]
   methods*: seq[CsMethod]
   ctors*: seq[CsConstructor]
-  enums*: seq[CsEnum]
-  enumTable*: TableRef[string, CsEnum]
+  # enums*: seq[CsEnum]
+  # enumTable*: TableRef[string, CsEnum]
   lastAddedTo*: Option[ClassParts]
   isStatic*: bool
   indexer*: CsIndexer
   # hasIndexer*: bool
+proc `$`*(c:CsClass) :string=
+  result = "class: (name: " & c.name
+  result &= "; methods: " & $c.methods.len
+  result &= "; properties: " & $c.properties.len
+  result &= ")"
 
 proc hasIndexer*(c: CsClass): bool = not c.indexer.isNil
 
@@ -797,7 +807,7 @@ proc gen*(c: CsClass): string =
   if c.isNil: result = "" else: result &= "type " & c.name & "* = ref object"
   if c.extends != "": result &= " of " & c.extends
   result &= "\r\n\r\n"
-  for f in c.fields:
+  for f in c.properties:
     result &= "\t" & f.gen() & "\r\n"
   echo "methods count: " & $c.methods.len
   for m in c.methods.mitems:
@@ -815,11 +825,14 @@ proc gen*(c: CsClass): string =
     result &= p.gen()
 
 method add*(parent: var CsClass; m: CsConstructor) =
+  echo "adding ctor to class"
+
   parent.ctors.add m
   parent.lastAddedTo = some(Ctors)
   m.parentClass = parent.name
 
 method add*(parent: var CsClass; m: CsMethod) =
+  echo "adding method to class"
   parent.methods.add m
   parent.lastAddedTo = some(Methods)
   m.parentClass = parent.name
@@ -2150,7 +2163,7 @@ proc gen*(c: var CsNameEquals): string = discard #TODO(gen:CsNameEquals)
 
 
 type NamespaceParts* {.pure.} = enum
-  Unset, Interfaces, Enums, Classes
+  Unset, Interfaces, Enums, Classes, Using
 
 
 # type Child = object
@@ -2163,6 +2176,10 @@ type NamespaceParts* {.pure.} = enum
 #   of NamespaceParts.Enums:
 #     npEnum: CsEnum
 type CsUsingDirective* = ref object of CsObject
+proc `$`*(c:CsUsingDirective):string=
+  result = "import: (" 
+  result &= "name: " & c.name 
+  result &= ")"
 
 type CsNamespace* = ref object of CsObject
   # id*: UUID
@@ -2179,10 +2196,11 @@ type CsNamespace* = ref object of CsObject
 
 import sequtils, strutils
 proc `$`*(n: CsNamespace): string =
-  result = "name:" & n.name
-  result &= "\nparent" & n.parent
-  result &= "\nclasses:" & n.classes.mapIt(it.name).join(" ")
-  result &= "\nenums:" & n.enums.mapIt(it.name).join(" ")
+  result = "namespace: ("
+  result &= "name: " & n.name
+  result &= "; imports: [" & n.imports.mapIt($it).join(", ") & "]"
+  result &= "; classes: [" & n.classes.mapIt($it).join(", ") & "]"
+  result &= "; enums: [" & n.enums.mapIt($it).join(", ") & "]"
 
 proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   new result
@@ -2203,6 +2221,7 @@ type AllNeededData* = object
   nsLastAdded*: NamespaceParts
   classLastAdded*: ClassParts
   
+  lastUsing*:CsUsingDirective
   lastEnum*: CsEnum
   lastEnumMember*: CsEnumMember
   lastInterface*:CsInterface
@@ -2264,6 +2283,7 @@ method add*(ns: var CsNamespace; class: CsClass) =
 
 method add*(ns: var CsNamespace; use: CsUsingDirective) =
   ns.imports.add use
+  ns.lastAddedTo = some(NamespaceParts.Using)
   
 
 

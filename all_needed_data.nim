@@ -17,13 +17,14 @@ proc idLastClassPart*(data:AllNeededData):Option[UUID]=
 
 proc idLastNsPart*(data:AllNeededData):Option[UUID]=
   case data.nsLastAdded
-  of Unset: return none(UUID)
   of Interfaces:
     result = data.lastInterface.id
   of Enums:
     result = data.lastEnum.id
   of Classes: 
     result = data.lastClass.id
+  of Using: result = data.lastUsing.id
+  else: return none(UUID)
 
 proc isNsEmpty*(data:AllNeededData) : bool=
   result = not data.currentNamespace.lastAddedTo.isSome()
@@ -73,9 +74,11 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData
   # ns info
   result.currentNamespace = ns
   
-  if not result.isNsEmpty and ns.lastAddedTo.isSome():
+  if not result.isNsEmpty:
     result.nsLastAdded = ns.lastAddedTo.get
-    if result.nsLastAdded != NamespaceParts.Unset:
+    if not result.currentNamespace.imports.isEmpty:
+      result.lastUsing = ns.imports.last
+    if true: #result.nsLastAdded != NamespaceParts.Unset:
       #interfaces info
       if not result.currentNamespace.interfaces.isEmpty:
         result.lastInterface = ns.interfaces.last
@@ -85,31 +88,30 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData
         if result.lastEnum != nil:
           result.lastEnumMember = result.lastEnum.items.last
       # class info
-        if not ns.classes.isEmpty:
-          result.lastClass = ns.classes.last
-          if result.lastClass.lastAddedTo.isSome():
-            result.classLastAdded = result.lastClass.lastAddedTo.get
-            if not result.lastClass.methods.isEmpty:
-              result.lastMethod = result.lastClass.methods.last
-              # if result.lastMethod.body.len > 0 :
-              #   result.lastMethodBodyExpr = result.lastMethod.body[^1]
-            if not result.lastClass.properties.isEmpty:
-              result.lastProp = result.lastClass.properties.last
-            if not result.lastClass.ctors.isEmpty:
-              result.lastCtor = result.lastClass.ctors.last
-            if result.classLastAdded in [ ClassParts.Methods, ClassParts.Properties, ClassParts.Ctors]:
-              case result.classLastAdded
-                of  ClassParts.Methods:
-                  result.lastBodyExpr = lastBodyExpr(result.lastMethod)
-                  result.lastBodyExprId = lastBodyExprId(result.lastMethod)
-                of  ClassParts.Ctors:
-                  result.lastBodyExpr = lastBodyExpr(result.lastCtor)
-                  result.lastBodyExprId = lastBodyExprId(result.lastCtor)
-                of ClassParts.Properties:
-                  result.lastBodyExpr = lastBodyExpr(result.lastProp)
-                  result.lastBodyExprId = lastBodyExprId(result.lastProp)
-                else: discard
-import uuids
+      if not ns.classes.isEmpty:
+        result.lastClass = ns.classes.last
+        if result.lastClass.lastAddedTo.isSome():
+          result.classLastAdded = result.lastClass.lastAddedTo.get
+          if not result.lastClass.methods.isEmpty:
+            result.lastMethod = result.lastClass.methods.last
+            # if result.lastMethod.body.len > 0 :
+            #   result.lastMethodBodyExpr = result.lastMethod.body[^1]
+          if not result.lastClass.properties.isEmpty:
+            result.lastProp = result.lastClass.properties.last
+          if not result.lastClass.ctors.isEmpty:
+            result.lastCtor = result.lastClass.ctors.last
+          if result.classLastAdded in [ ClassParts.Methods, ClassParts.Properties, ClassParts.Ctors]:
+            case result.classLastAdded
+              of  ClassParts.Methods:
+                result.lastBodyExpr = lastBodyExpr(result.lastMethod)
+                result.lastBodyExprId = lastBodyExprId(result.lastMethod)
+              of  ClassParts.Ctors:
+                result.lastBodyExpr = lastBodyExpr(result.lastCtor)
+                result.lastBodyExprId = lastBodyExprId(result.lastCtor)
+              of ClassParts.Properties:
+                result.lastBodyExpr = lastBodyExpr(result.lastProp)
+                result.lastBodyExprId = lastBodyExprId(result.lastProp)
+              else: discard
 proc refresh*(d: var AllNeededData; root: var CsRoot; info: Info; src: string) =
   d = makeNeededData(root, info, src)
 
