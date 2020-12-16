@@ -24,7 +24,7 @@ proc pathOfBlocks(): seq[B] = discard # TODO
 #   if path.len > 0:
 #     lastBlock = root.fetch(path[^1].id) # TODO......
 
-
+# TODO: a sprawling giant. how to refactor? is it even possible to refactor this?
 method add*(parent, child: Construct; data: AllNeededData) =
   echo "in add <Construct>"
   case parent.kind
@@ -34,16 +34,19 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckClass: # ns, class
       var c = child.class
       p.add(c)
+    of ckEnum:
+      var c = child.cenum
+      p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckClass:
     var c = parent.class
     case child.kind
     of ckMethod: # class, method
-      var m = child.`method`
+      var m = child.cmethod
       c.add m
     else: assert false, "plz impl for child: " & $child.kind
   of ckMethod:
-    var m = parent.`method`
+    var m = parent.cmethod
     case child.kind
     of ckPredefinedType:
       var pt = child.predefinedType
@@ -53,11 +56,31 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckLocalDeclarationStatement:
       m.add child.localDeclarationStatement
     else: assert false, "plz impl for child: " & $child.kind
+  of ckEnum:
+    var m = parent.cenum
+    case child.kind
+    of ckEnumMember:
+      var c = child.enumMember
+      m.add c
+    else: assert false, "plz impl for child: " & $child.kind
+
+  of ckEnumMember:
+    var p = parent.enumMember
+    case child.kind
+    of ckEqualsValueClause: # the only possibility i think
+      var c = child.equalsValueClause
+      p.add c
+    of ckLiteralExpression:
+      var c = child.literalExpression
+      p.add c
+    else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
 
 
 import type_creator, parent_finder
-import state_utils, block_utils, all_needed_data
+import all_needed_data
+# state_utils, block_utils
+
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   echo "in addToRoot2"
   echo " ==START== " , root

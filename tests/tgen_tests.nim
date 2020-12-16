@@ -8,6 +8,7 @@ suite "code generation tests":
   # these should work:
     test "enums":
       check genTest("enums")
+  #[
     test "a minimal class":
       check genTest("justClass")
     test "sample3":
@@ -28,6 +29,7 @@ suite "code generation tests":
       check genTest("sample1")
     test "return new class":
       check genTest("xwtButtonTests")
+  ]#
   # when true:
     # working on it:
   # when false: # not ready yet.

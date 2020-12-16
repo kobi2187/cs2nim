@@ -7,10 +7,14 @@ import constructs/cs_root, uuids
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
   of "ckNamespace, ckClass": true
+  of "ckNamespace, ckEnum": true
   of "ckMethod, ckParameterList": true
   of "ckClass, ckMethod": true
   of "ckMethod, ckPredefinedType": true
   of "ckMethod, ckLocalDeclarationStatement": true
+  of "ckEnum, ckEnumMember": true
+  of "ckEnumMember, ckEqualsValueClause": true
+  of "ckEnumMember, ckLiteralExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -37,6 +41,7 @@ proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
 # figures out path from blocks. blocks now contain id as well.
 # the bulk of the work shifts to here.
 # this happens before we add to the parent.
+import state_utils
 proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
   echo "source code was: " & data.sourceCode
   if obj.parentId.isSome:
@@ -170,9 +175,16 @@ proc determineParentId(obj: Construct; data: AllNeededData): Option[UUID] =
       if data.lastClass.hasIndexer:
         result = data.lastClass.indexer.id
       else : result = none(UUID)
-
-  of [ ckObjectCreationExpression,  ckSimpleBaseType, ckBaseList ]:
-    assert false
+  of ckEqualsValueClause:
+    echo "obj is EqualsValueClause"
+    # the parent is the previous construct. TODO: some checks needed?
+    assert data.previousConstruct.isSome
+    echo data.previousConstruct
+    result = some(data.previousConstruct.get.id)
+    assert data.previousconstruct.get.name in [ "EnumMemberDeclaration" ], data.previousconstruct.get.name
+    # currentRoot.previousConstructObj()
+  of [ckVariableDeclarator, ckBinaryExpression, ckAssignmentExpression,  ckIfStatement, ckThisExpression, ckTypeArgumentList, ckGenericName, ckAccessor, ckBracketedArgumentList, ckElementAccessExpression, ckAccessorList, ckParenthesizedExpression, ckCastExpression, ckArrayRankSpecifier, ckArrayType, ckPrefixUnaryExpression, ckOmittedArraySizeExpression, ckInitializerExpression, ckNameEquals, ckThrowStatement, ckTypeOfExpression, ckElseClause, ckCaseSwitchLabel, ckSwitchSection, ckSimpleLambdaExpression, ckPostfixUnaryExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckBreakStatement, ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression, ckConditionalExpression, ckTypeParameterList, ckForEachStatement, ckForStatement, ckInterpolatedStringText, ckParenthesizedLambdaExpression, ckTryStatement, ckNullableType, ckBaseExpression, ckCatchClause, ckConstructorInitializer, ckInterpolation, ckCatch, ckNameColon, ckUsingStatement, ckTypeParameterConstraintClause, ckTypeConstraint, ckSingleVariableDesignation, ckInterpolatedStringExpression, ckImplicitArrayCreationExpression, ckWhileStatement, ckDeclarationExpression, ckConditionalAccessExpression, ckSwitchStatement, ckMemberBindingExpression, ckDefaultExpression, ckPointerType, ckInterface, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel, ckYieldStatement, ckAnonymousObjectMemberDeclarator, ckCheckedExpression, ckStruct, ckIsPatternExpression, ckLockStatement, ckDeclarationPattern, ckThrowExpression, ckConstantPattern, ckRefType, ckRefExpression, ckClassOrStructConstraint, ckOmittedTypeArgument, ckTupleElement, ckOperator, ckEventField, ckDelegate, ckImplicitElementAccess, ckAnonymousMethodExpression, ckTupleExpression, ckAnonymousObjectCreationExpression, ckBracketedParameterList, ckEvent, ckGotoStatement, ckDoStatement, ckGlobalStatement, ckIncompleteMember, ckLocalFunctionStatement, ckConversionOperator, ckTupleType, ckFixedStatement, ckEmptyStatement, ckSizeOfExpression, ckQueryBody, ckCheckedStatement, ckQueryExpression, ckCasePatternSwitchLabel, ckLabeledStatement, ckConstructorConstraint, ckUnsafeStatement, ckParenthesizedVariableDesignation, ckInterpolationFormatClause, ckDestructor, ckDiscardDesignation, ckStackAllocArrayCreationExpression, ckWhenClause, ckForEachVariableStatement, ckLetClause, ckElementBindingExpression, ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause, ckQueryContinuation, ckExternAliasDirective, ckMakeRefExpression, ckRefValueExpression, ckRefTypeExpression, ckBlock, ckVariable, ckBinaryPattern, ckDiscardPattern, ckFunctionPointerType, ckImplicitObjectCreationExpression, ckMemberAccessExpression, ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord, ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression, ckObjectCreationExpression,  ckSimpleBaseType, ckBaseList ]:
+    assert false, $obj.kind & " is still unsupported"
     # raise notimplementedException
 
 

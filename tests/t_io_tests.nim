@@ -1,5 +1,5 @@
 import utils, ../writer_utils, ../types
-import ../constructs/constructs
+import ../constructs/[cs_all_constructs, cs_root]
 import unittest, os
 
 proc modulesFromFiles(files: seq[string]): seq[Module] =

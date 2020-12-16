@@ -57,8 +57,9 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData
 
   result.currentConstruct =
     if currentConstruct.len > 0:
-      currentConstruct.last.some
+      currentConstruct.last.some      
     else: none(Block)
+  
 
   if currentConstruct.len >= 2:
     result.previousConstruct = some(previousConstruct())
@@ -85,7 +86,7 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData
       # enum info
       if not result.currentNamespace.enums.isEmpty:
         result.lastEnum = result.currentNamespace.enums.last
-        if result.lastEnum != nil:
+        if result.lastEnum != nil and not result.lastEnum.items.isEmpty:
           result.lastEnumMember = result.lastEnum.items.last
       # class info
       if not ns.classes.isEmpty:

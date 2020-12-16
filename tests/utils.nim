@@ -1,12 +1,12 @@
 import system, os
-import ../types, uuids, options, ../writer_utils, ../constructs/constructs
+import ../types, uuids, options, ../writer_utils, ../constructs/cs_all_constructs
 
 
 import sequtils
 proc nsToFolders*(namespaces: seq[string]): seq[string] =
   result = namespaces.mapIt(".".mkModuleFilename(it))
 
-
+import ../constructs/cs_root
 proc handleFiles(files: seq[string]): string =
   # generates an output string from files processed into tree
   var tree = newCs(CsRoot)

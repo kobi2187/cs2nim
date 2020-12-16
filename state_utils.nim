@@ -173,3 +173,8 @@ proc previousBlock*(a: int = 2): Option[Block] =
 proc isVisitBlock*(info: Info): bool =
   result = info.extras.len > 0 and info.extras[0] == "VisitBlock"
 
+import construct, state
+proc previousConstructObj*(r:var CsRoot) : Option[  Construct ]= 
+  let previd =previousConstruct().id
+  result = r.fetch(previd)
+

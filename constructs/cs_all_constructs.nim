@@ -18,15 +18,15 @@ proc newCs*(t: typedesc[CsAccessorList]; name: string): CsAccessorList =
   result.typ = $typeof(t)
 #TODO(create:CsAccessorList)
 
-proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList = discard #TODO(extract:CsAccessorList)
+proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList = assert false #TODO(extract:CsAccessorList)
 
 method add*(parent: var CsAccessorList; item: Dummy) =
-  discard # TODO(add:CsAccessorList)
+  assert false # TODO(add:CsAccessorList)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAccessorList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 
-proc gen*(c: var CsAccessorList): string = discard #TODO(gen:CsAccessorList)
+proc gen*(c: var CsAccessorList): string = assert false #TODO(gen:CsAccessorList)
 
 # ============= CsAccessor ========
 
@@ -38,14 +38,14 @@ proc newCs*(t: typedesc[CsAccessor]; name: string): CsAccessor =
   result.typ = $typeof(t)
 #TODO(create:CsAccessor)
 
-proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor = discard #TODO(extract:CsAccessor)
+proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor = assert false #TODO(extract:CsAccessor)
 
 method add*(parent: var CsAccessor; item: Dummy) =
-  discard # TODO(add:CsAccessor)
+  assert false # TODO(add:CsAccessor)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAccessor; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAccessor): string = discard #TODO(gen:CsAccessor)
+proc gen*(c: var CsAccessor): string = assert false #TODO(gen:CsAccessor)
 
 # ============= CsAliasQualifiedName ========
 
@@ -56,14 +56,14 @@ proc newCs*(t: typedesc[CsAliasQualifiedName]; name: string): CsAliasQualifiedNa
   result.typ = $typeof(t)
 #TODO(create:CsAliasQualifiedName)
 
-proc extract*(t: typedesc[CsAliasQualifiedName]; info: Info): CsAliasQualifiedName = discard #TODO(extract:CsAliasQualifiedName)
+proc extract*(t: typedesc[CsAliasQualifiedName]; info: Info): CsAliasQualifiedName = assert false #TODO(extract:CsAliasQualifiedName)
 
 method add*(parent: var CsAliasQualifiedName; item: Dummy) =
-  discard # TODO(add:CsAliasQualifiedName)
+  assert false # TODO(add:CsAliasQualifiedName)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAliasQualifiedName; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAliasQualifiedName): string = discard #TODO(gen:CsAliasQualifiedName)
+proc gen*(c: var CsAliasQualifiedName): string = assert false #TODO(gen:CsAliasQualifiedName)
 
 # ============= CsField ========
 
@@ -77,10 +77,10 @@ proc newCs*(t: typedesc[CsField]; name: string): CsField =
 #TODO(create:CsField)
 
 proc extract*(t: typedesc[CsField]; info: Info): CsField =
-  discard #TODO(extract:CsField)
+  assert false #TODO(extract:CsField)
 
 method add*(parent: var CsField; item: Dummy) =
-  discard # TODO(add:CsField)
+  assert false # TODO(add:CsField)
 # proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
   # # item.parentId = parent.id
 
@@ -98,14 +98,14 @@ proc newCs*(t: typedesc[CsAnonymousMethodExpression]; name: string): CsAnonymous
   result.typ = $typeof(t)
 #TODO(create:CsAnonymousMethodExpression)
 
-proc extract*(t: typedesc[CsAnonymousMethodExpression]; info: Info): CsAnonymousMethodExpression = discard #TODO(extract:CsAnonymousMethodExpression)
+proc extract*(t: typedesc[CsAnonymousMethodExpression]; info: Info): CsAnonymousMethodExpression = assert false #TODO(extract:CsAnonymousMethodExpression)
 
 method add*(parent: var CsAnonymousMethodExpression; item: Dummy) =
-  discard # TODO(add:CsAnonymousMethodExpression)
+  assert false # TODO(add:CsAnonymousMethodExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAnonymousMethodExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAnonymousMethodExpression): string = discard #TODO(gen:CsAnonymousMethodExpression)
+proc gen*(c: var CsAnonymousMethodExpression): string = assert false #TODO(gen:CsAnonymousMethodExpression)
 
 # ============= CsAnonymousObjectCreationExpression ========
 
@@ -116,14 +116,14 @@ proc newCs*(t: typedesc[CsAnonymousObjectCreationExpression]; name: string): CsA
   result.typ = $typeof(t)
 #TODO(create:CsAnonymousObjectCreationExpression)
 
-proc extract*(t: typedesc[CsAnonymousObjectCreationExpression]; info: Info): CsAnonymousObjectCreationExpression = discard #TODO(extract:CsAnonymousObjectCreationExpression)
+proc extract*(t: typedesc[CsAnonymousObjectCreationExpression]; info: Info): CsAnonymousObjectCreationExpression = assert false #TODO(extract:CsAnonymousObjectCreationExpression)
 
 method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy) =
-  discard # TODO(add:CsAnonymousObjectCreationExpression)
+  assert false # TODO(add:CsAnonymousObjectCreationExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAnonymousObjectCreationExpression): string = discard #TODO(gen:CsAnonymousObjectCreationExpression)
+proc gen*(c: var CsAnonymousObjectCreationExpression): string = assert false #TODO(gen:CsAnonymousObjectCreationExpression)
 
 # ============= CsAnonymousObjectMemberDeclarator ========
 
@@ -134,14 +134,14 @@ proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAno
   result.typ = $typeof(t)
 #TODO(create:CsAnonymousObjectMemberDeclarator)
 
-proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAnonymousObjectMemberDeclarator = discard #TODO(extract:CsAnonymousObjectMemberDeclarator)
+proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAnonymousObjectMemberDeclarator = assert false #TODO(extract:CsAnonymousObjectMemberDeclarator)
 
 method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy) =
-  discard # TODO(add:CsAnonymousObjectMemberDeclarator)
+  assert false # TODO(add:CsAnonymousObjectMemberDeclarator)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAnonymousObjectMemberDeclarator): string = discard #TODO(gen:CsAnonymousObjectMemberDeclarator)
+proc gen*(c: var CsAnonymousObjectMemberDeclarator): string = assert false #TODO(gen:CsAnonymousObjectMemberDeclarator)
 
 # ============= CsArgumentList ========
 
@@ -161,7 +161,7 @@ proc extract*(t: typedesc[CsArgumentList]; info: Info): CsArgumentList =
 # proc add*(parent: var CsArgumentList; item: Dummy, data:AllNeededData) = parent.add(item) # TODO
 method add*(parent: var CsArgumentList; item: Dummy) =
 #   # item.parentId = parent.id
-  discard
+  assert false
 
 proc gen*(c: var CsArgumentList): string =
   result = c.args.join(", ")
@@ -175,14 +175,14 @@ proc newCs*(t: typedesc[CsArgument]; name: string): CsArgument =
   result.typ = $typeof(t)
 #TODO(create:CsArgument)
 
-proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument = discard #TODO(extract:CsArgument)
+proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument = assert false #TODO(extract:CsArgument)
 
 method add*(parent: var CsArgument; item: Dummy) =
-  discard # TODO(add:CsArgument)
+  assert false # TODO(add:CsArgument)
   # # item.parentId = parent.id
 # proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsArgument): string = discard #TODO(gen:CsArgument)
+proc gen*(c: var CsArgument): string = assert false #TODO(gen:CsArgument)
 
 # ============= CsArrayCreationExpression ========
 
@@ -193,14 +193,14 @@ proc newCs*(t: typedesc[CsArrayCreationExpression]; name: string): CsArrayCreati
   result.typ = $typeof(t)
 #TODO(create:CsArrayCreationExpression)
 
-proc extract*(t: typedesc[CsArrayCreationExpression]; info: Info): CsArrayCreationExpression = discard #TODO(extract:CsArrayCreationExpression)
+proc extract*(t: typedesc[CsArrayCreationExpression]; info: Info): CsArrayCreationExpression = assert false #TODO(extract:CsArrayCreationExpression)
 
 method add*(parent: var CsArrayCreationExpression; item: Dummy) =
-  discard # TODO(add:CsArrayCreationExpression)
+  assert false # TODO(add:CsArrayCreationExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsArrayCreationExpression): string = discard #TODO(gen:CsArrayCreationExpression)
+proc gen*(c: var CsArrayCreationExpression): string = assert false #TODO(gen:CsArrayCreationExpression)
 
 # ============= CsArrayRankSpecifier ========
 
@@ -211,14 +211,14 @@ proc newCs*(t: typedesc[CsArrayRankSpecifier]; name: string): CsArrayRankSpecifi
   result.typ = $typeof(t)
 #TODO(create:CsArrayRankSpecifier)
 
-proc extract*(t: typedesc[CsArrayRankSpecifier]; info: Info): CsArrayRankSpecifier = discard #TODO(extract:CsArrayRankSpecifier)
+proc extract*(t: typedesc[CsArrayRankSpecifier]; info: Info): CsArrayRankSpecifier = assert false #TODO(extract:CsArrayRankSpecifier)
 
 method add*(parent: var CsArrayRankSpecifier; item: Dummy) =
-  discard # TODO(add:CsArrayRankSpecifier)
+  assert false # TODO(add:CsArrayRankSpecifier)
   # # item.parentId = parent.id
 # proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsArrayRankSpecifier): string = discard #TODO(gen:CsArrayRankSpecifier)
+proc gen*(c: var CsArrayRankSpecifier): string = assert false #TODO(gen:CsArrayRankSpecifier)
 
 # ============= CsArrayType ========
 
@@ -229,14 +229,14 @@ proc newCs*(t: typedesc[CsArrayType]; name: string): CsArrayType =
   result.typ = $typeof(t)
 #TODO(create:CsArrayType)
 
-proc extract*(t: typedesc[CsArrayType]; info: Info): CsArrayType = discard #TODO(extract:CsArrayType)
+proc extract*(t: typedesc[CsArrayType]; info: Info): CsArrayType = assert false #TODO(extract:CsArrayType)
 
 method add*(parent: var CsArrayType; item: Dummy) =
-  discard # TODO(add:CsArrayType)
+  assert false # TODO(add:CsArrayType)
   # # item.parentId = parent.id
 # proc add*(parent: var CsArrayType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsArrayType): string = discard #TODO(gen:CsArrayType)
+proc gen*(c: var CsArrayType): string = assert false #TODO(gen:CsArrayType)
 
 # ============= CsArrowExpressionClause ========
 
@@ -247,14 +247,14 @@ proc newCs*(t: typedesc[CsArrowExpressionClause]; name: string): CsArrowExpressi
   result.typ = $typeof(t)
 #TODO(create:CsArrowExpressionClause)
 
-proc extract*(t: typedesc[CsArrowExpressionClause]; info: Info): CsArrowExpressionClause = discard #TODO(extract:CsArrowExpressionClause)
+proc extract*(t: typedesc[CsArrowExpressionClause]; info: Info): CsArrowExpressionClause = assert false #TODO(extract:CsArrowExpressionClause)
 
 method add*(parent: var CsArrowExpressionClause; item: Dummy) =
-  discard # TODO(add:CsArrowExpressionClause)
+  assert false # TODO(add:CsArrowExpressionClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsArrowExpressionClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsArrowExpressionClause): string = discard #TODO(gen:CsArrowExpressionClause)
+proc gen*(c: var CsArrowExpressionClause): string = assert false #TODO(gen:CsArrowExpressionClause)
 
 # ============= CsAssignmentExpression ========
 
@@ -265,14 +265,14 @@ proc newCs*(t: typedesc[CsAssignmentExpression]; name: string): CsAssignmentExpr
   result.typ = $typeof(t)
 #TODO(create:CsAssignmentExpression)
 
-proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression = discard #TODO(extract:CsAssignmentExpression)
+proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression = assert false #TODO(extract:CsAssignmentExpression)
 
 method add*(parent: var CsAssignmentExpression; item: Dummy) =
-  discard # TODO(add:CsAssignmentExpression)
+  assert false # TODO(add:CsAssignmentExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAssignmentExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAssignmentExpression): string = discard #TODO(gen:CsAssignmentExpression)
+proc gen*(c: var CsAssignmentExpression): string = assert false #TODO(gen:CsAssignmentExpression)
 
 # ============= CsAttributeArgumentList ========
 
@@ -283,14 +283,14 @@ proc newCs*(t: typedesc[CsAttributeArgumentList]; name: string): CsAttributeArgu
   result.typ = $typeof(t)
 #TODO(create:CsAttributeArgumentList)
 
-proc extract*(t: typedesc[CsAttributeArgumentList]; info: Info): CsAttributeArgumentList = discard #TODO(extract:CsAttributeArgumentList)
+proc extract*(t: typedesc[CsAttributeArgumentList]; info: Info): CsAttributeArgumentList = assert false #TODO(extract:CsAttributeArgumentList)
 
 method add*(parent: var CsAttributeArgumentList; item: Dummy) =
-  discard # TODO(add:CsAttributeArgumentList)
+  assert false # TODO(add:CsAttributeArgumentList)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAttributeArgumentList): string = discard #TODO(gen:CsAttributeArgumentList)
+proc gen*(c: var CsAttributeArgumentList): string = assert false #TODO(gen:CsAttributeArgumentList)
 
 # ============= CsAttributeArgument ========
 
@@ -301,14 +301,14 @@ proc newCs*(t: typedesc[CsAttributeArgument]; name: string): CsAttributeArgument
   result.typ = $typeof(t)
 #TODO(create:CsAttributeArgument)
 
-proc extract*(t: typedesc[CsAttributeArgument]; info: Info): CsAttributeArgument = discard #TODO(extract:CsAttributeArgument)
+proc extract*(t: typedesc[CsAttributeArgument]; info: Info): CsAttributeArgument = assert false #TODO(extract:CsAttributeArgument)
 
 method add*(parent: var CsAttributeArgument; item: Dummy) =
-  discard # TODO(add:CsAttributeArgument)
+  assert false # TODO(add:CsAttributeArgument)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAttributeArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAttributeArgument): string = discard #TODO(gen:CsAttributeArgument)
+proc gen*(c: var CsAttributeArgument): string = assert false #TODO(gen:CsAttributeArgument)
 
 type CsAttributeList* = ref object of CsObject #TODO(type:CsAttributeList)
 
@@ -317,14 +317,14 @@ proc newCs*(t: typedesc[CsAttributeList]; name: string): CsAttributeList =
   result.typ = $typeof(t)
 #TODO(create:CsAttributeList)
 
-proc extract*(t: typedesc[CsAttributeList]; info: Info): CsAttributeList = discard #TODO(extract:CsAttributeList)
+proc extract*(t: typedesc[CsAttributeList]; info: Info): CsAttributeList = assert false #TODO(extract:CsAttributeList)
 
 method add*(parent: var CsAttributeList; item: Dummy) =
-  discard # TODO(add:CsAttributeList)
+  assert false # TODO(add:CsAttributeList)
   # # item.parentId = parent.id
 
 # proc add*(parent: var CsAttributeList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
-proc gen*(c: var CsAttributeList): string = discard #TODO(gen:CsAttributeList)
+proc gen*(c: var CsAttributeList): string = assert false #TODO(gen:CsAttributeList)
 
 # ============= CsAttribute ========
 
@@ -335,14 +335,14 @@ proc newCs*(t: typedesc[CsAttribute]; name: string): CsAttribute =
   result.typ = $typeof(t)
 #TODO(create:CsAttribute)
 
-proc extract*(t: typedesc[CsAttribute]; info: Info): CsAttribute = discard #TODO(extract:CsAttribute)
+proc extract*(t: typedesc[CsAttribute]; info: Info): CsAttribute = assert false #TODO(extract:CsAttribute)
 
 method add*(parent: var CsAttribute; item: Dummy) =
-  discard # TODO(add:CsAttribute)
+  assert false # TODO(add:CsAttribute)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAttribute; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAttribute): string = discard #TODO(gen:CsAttribute)
+proc gen*(c: var CsAttribute): string = assert false #TODO(gen:CsAttribute)
 
 # ============= CsAttributeTargetSpecifier ========
 
@@ -353,14 +353,14 @@ proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; name: string): CsAttributeT
   result.typ = $typeof(t)
 #TODO(create:CsAttributeTargetSpecifier)
 
-proc extract*(t: typedesc[CsAttributeTargetSpecifier]; info: Info): CsAttributeTargetSpecifier = discard #TODO(extract:CsAttributeTargetSpecifier)
+proc extract*(t: typedesc[CsAttributeTargetSpecifier]; info: Info): CsAttributeTargetSpecifier = assert false #TODO(extract:CsAttributeTargetSpecifier)
 
 method add*(parent: var CsAttributeTargetSpecifier; item: Dummy) =
-  discard # TODO(add:CsAttributeTargetSpecifier)
+  assert false # TODO(add:CsAttributeTargetSpecifier)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAttributeTargetSpecifier): string = discard #TODO(gen:CsAttributeTargetSpecifier)
+proc gen*(c: var CsAttributeTargetSpecifier): string = assert false #TODO(gen:CsAttributeTargetSpecifier)
 
 # ============= CsAwaitExpression ========
 
@@ -371,14 +371,14 @@ proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =
   result.typ = $typeof(t)
 #TODO(create:CsAwaitExpression)
 
-proc extract*(t: typedesc[CsAwaitExpression]; info: Info): CsAwaitExpression = discard #TODO(extract:CsAwaitExpression)
+proc extract*(t: typedesc[CsAwaitExpression]; info: Info): CsAwaitExpression = assert false #TODO(extract:CsAwaitExpression)
 
 method add*(parent: var CsAwaitExpression; item: Dummy) =
-  discard # TODO(add:CsAwaitExpression)
+  assert false # TODO(add:CsAwaitExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsAwaitExpression): string = discard #TODO(gen:CsAwaitExpression)
+proc gen*(c: var CsAwaitExpression): string = assert false #TODO(gen:CsAwaitExpression)
 
 # ============= CsBaseExpression ========
 
@@ -389,14 +389,14 @@ proc newCs*(t: typedesc[CsBaseExpression]; name: string): CsBaseExpression =
   result.typ = $typeof(t)
 #TODO(create:CsBaseExpression)
 
-proc extract*(t: typedesc[CsBaseExpression]; info: Info): CsBaseExpression = discard #TODO(extract:CsBaseExpression)
+proc extract*(t: typedesc[CsBaseExpression]; info: Info): CsBaseExpression = assert false #TODO(extract:CsBaseExpression)
 
 method add*(parent: var CsBaseExpression; item: Dummy) =
-  discard # TODO(add:CsBaseExpression)
+  assert false # TODO(add:CsBaseExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsBaseExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsBaseExpression): string = discard #TODO(gen:CsBaseExpression)
+proc gen*(c: var CsBaseExpression): string = assert false #TODO(gen:CsBaseExpression)
 
 # ============= CsBaseList ========
 
@@ -407,14 +407,14 @@ proc newCs*(t: typedesc[CsBaseList]; name: string): CsBaseList =
   result.typ = $typeof(t)
 #TODO(create:CsBaseList)
 
-proc extract*(t: typedesc[CsBaseList]; info: Info): CsBaseList = discard #TODO(extract:CsBaseList)
+proc extract*(t: typedesc[CsBaseList]; info: Info): CsBaseList = assert false #TODO(extract:CsBaseList)
 
 method add*(parent: var CsBaseList; item: Dummy) =
-  discard # TODO(add:CsBaseList)
+  assert false # TODO(add:CsBaseList)
   # # item.parentId = parent.id
 # proc add*(parent: var CsBaseList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsBaseList): string = discard #TODO(gen:CsBaseList)
+proc gen*(c: var CsBaseList): string = assert false #TODO(gen:CsBaseList)
 
 # ============= CsBinaryExpression ========
 
@@ -425,14 +425,14 @@ proc newCs*(t: typedesc[CsBinaryExpression]; name: string): CsBinaryExpression =
   result.typ = $typeof(t)
 #TODO(create:CsBinaryExpression)
 
-proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression = discard #TODO(extract:CsBinaryExpression)
+proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression = assert false #TODO(extract:CsBinaryExpression)
 
 method add*(parent: var CsBinaryExpression; item: Dummy) =
-  discard # TODO(add:CsBinaryExpression)
+  assert false # TODO(add:CsBinaryExpression)
 # proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
   # # item.parentId = parent.id
 
-proc gen*(c: var CsBinaryExpression): string = discard #TODO(gen:CsBinaryExpression)
+proc gen*(c: var CsBinaryExpression): string = assert false #TODO(gen:CsBinaryExpression)
 
 # ============= CsBracketedArgumentList ========
 
@@ -443,14 +443,14 @@ proc newCs*(t: typedesc[CsBracketedArgumentList]; name: string): CsBracketedArgu
   result.typ = $typeof(t)
 #TODO(create:CsBracketedArgumentList)
 
-proc extract*(t: typedesc[CsBracketedArgumentList]; info: Info): CsBracketedArgumentList = discard #TODO(extract:CsBracketedArgumentList)
+proc extract*(t: typedesc[CsBracketedArgumentList]; info: Info): CsBracketedArgumentList = assert false #TODO(extract:CsBracketedArgumentList)
 
 method add*(parent: var CsBracketedArgumentList; item: Dummy) =
-  discard # TODO(add:CsBracketedArgumentList)
+  assert false # TODO(add:CsBracketedArgumentList)
   # # item.parentId = parent.id
 # proc add*(parent: var CsBracketedArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsBracketedArgumentList): string = discard #TODO(gen:CsBracketedArgumentList)
+proc gen*(c: var CsBracketedArgumentList): string = assert false #TODO(gen:CsBracketedArgumentList)
 
 # ============= CsBracketedParameterList ========
 
@@ -461,14 +461,14 @@ proc newCs*(t: typedesc[CsBracketedParameterList]; name: string): CsBracketedPar
   result.typ = $typeof(t)
 #TODO(create:CsBracketedParameterList)
 
-proc extract*(t: typedesc[CsBracketedParameterList]; info: Info): CsBracketedParameterList = discard #TODO(extract:CsBracketedParameterList)
+proc extract*(t: typedesc[CsBracketedParameterList]; info: Info): CsBracketedParameterList = assert false #TODO(extract:CsBracketedParameterList)
 
 method add*(parent: var CsBracketedParameterList; item: Dummy) =
-  discard # TODO(add:CsBracketedParameterList)
+  assert false # TODO(add:CsBracketedParameterList)
   # # item.parentId = parent.id
 # proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsBracketedParameterList): string = discard #TODO(gen:CsBracketedParameterList)
+proc gen*(c: var CsBracketedParameterList): string = assert false #TODO(gen:CsBracketedParameterList)
 
 # ============= CsBreakStatement ========
 
@@ -479,14 +479,14 @@ proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =
   result.typ = $typeof(t)
 #TODO(create:CsBreakStatement)
 
-proc extract*(t: typedesc[CsBreakStatement]; info: Info): CsBreakStatement = discard #TODO(extract:CsBreakStatement)
+proc extract*(t: typedesc[CsBreakStatement]; info: Info): CsBreakStatement = assert false #TODO(extract:CsBreakStatement)
 
 method add*(parent: var CsBreakStatement; item: Dummy) =
-  discard # TODO(add:CsBreakStatement)
+  assert false # TODO(add:CsBreakStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsBreakStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsBreakStatement): string = discard #TODO(gen:CsBreakStatement)
+proc gen*(c: var CsBreakStatement): string = assert false #TODO(gen:CsBreakStatement)
 
 # ============= CsCasePatternSwitchLabel ========
 
@@ -497,14 +497,14 @@ proc newCs*(t: typedesc[CsCasePatternSwitchLabel]; name: string): CsCasePatternS
   result.typ = $typeof(t)
 #TODO(create:CsCasePatternSwitchLabel)
 
-proc extract*(t: typedesc[CsCasePatternSwitchLabel]; info: Info): CsCasePatternSwitchLabel = discard #TODO(extract:CsCasePatternSwitchLabel)
+proc extract*(t: typedesc[CsCasePatternSwitchLabel]; info: Info): CsCasePatternSwitchLabel = assert false #TODO(extract:CsCasePatternSwitchLabel)
 
 method add*(parent: var CsCasePatternSwitchLabel; item: Dummy) =
-  discard # TODO(add:CsCasePatternSwitchLabel)
+  assert false # TODO(add:CsCasePatternSwitchLabel)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCasePatternSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCasePatternSwitchLabel): string = discard #TODO(gen:CsCasePatternSwitchLabel)
+proc gen*(c: var CsCasePatternSwitchLabel): string = assert false #TODO(gen:CsCasePatternSwitchLabel)
 
 # ============= CsCaseSwitchLabel ========
 
@@ -515,14 +515,14 @@ proc newCs*(t: typedesc[CsCaseSwitchLabel]; name: string): CsCaseSwitchLabel =
   result.typ = $typeof(t)
 #TODO(create:CsCaseSwitchLabel)
 
-proc extract*(t: typedesc[CsCaseSwitchLabel]; info: Info): CsCaseSwitchLabel = discard #TODO(extract:CsCaseSwitchLabel)
+proc extract*(t: typedesc[CsCaseSwitchLabel]; info: Info): CsCaseSwitchLabel = assert false #TODO(extract:CsCaseSwitchLabel)
 
 method add*(parent: var CsCaseSwitchLabel; item: Dummy) =
-  discard # TODO(add:CsCaseSwitchLabel)
+  assert false # TODO(add:CsCaseSwitchLabel)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCaseSwitchLabel): string = discard #TODO(gen:CsCaseSwitchLabel)
+proc gen*(c: var CsCaseSwitchLabel): string = assert false #TODO(gen:CsCaseSwitchLabel)
 
 # ============= CsCastExpression ========
 
@@ -533,14 +533,14 @@ proc newCs*(t: typedesc[CsCastExpression]; name: string): CsCastExpression =
   result.typ = $typeof(t)
 #TODO(create:CsCastExpression)
 
-proc extract*(t: typedesc[CsCastExpression]; info: Info): CsCastExpression = discard #TODO(extract:CsCastExpression)
+proc extract*(t: typedesc[CsCastExpression]; info: Info): CsCastExpression = assert false #TODO(extract:CsCastExpression)
 
 method add*(parent: var CsCastExpression; item: Dummy) =
-  discard # TODO(add:CsCastExpression)
+  assert false # TODO(add:CsCastExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCastExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCastExpression): string = discard #TODO(gen:CsCastExpression)
+proc gen*(c: var CsCastExpression): string = assert false #TODO(gen:CsCastExpression)
 
 # ============= CsCatchClause ========
 
@@ -551,14 +551,14 @@ proc newCs*(t: typedesc[CsCatchClause]; name: string): CsCatchClause =
   result.typ = $typeof(t)
 #TODO(create:CsCatchClause)
 
-proc extract*(t: typedesc[CsCatchClause]; info: Info): CsCatchClause = discard #TODO(extract:CsCatchClause)
+proc extract*(t: typedesc[CsCatchClause]; info: Info): CsCatchClause = assert false #TODO(extract:CsCatchClause)
 
 method add*(parent: var CsCatchClause; item: Dummy) =
-  discard # TODO(add:CsCatchClause)
+  assert false # TODO(add:CsCatchClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCatchClause): string = discard #TODO(gen:CsCatchClause)
+proc gen*(c: var CsCatchClause): string = assert false #TODO(gen:CsCatchClause)
 
 # ============= CsCatchFilterClause ========
 
@@ -569,14 +569,14 @@ proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause
   result.typ = $typeof(t)
 #TODO(create:CsCatchFilterClause)
 
-proc extract*(t: typedesc[CsCatchFilterClause]; info: Info): CsCatchFilterClause = discard #TODO(extract:CsCatchFilterClause)
+proc extract*(t: typedesc[CsCatchFilterClause]; info: Info): CsCatchFilterClause = assert false #TODO(extract:CsCatchFilterClause)
 
 method add*(parent: var CsCatchFilterClause; item: Dummy) =
-  discard # TODO(add:CsCatchFilterClause)
+  assert false # TODO(add:CsCatchFilterClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCatchFilterClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCatchFilterClause): string = discard #TODO(gen:CsCatchFilterClause)
+proc gen*(c: var CsCatchFilterClause): string = assert false #TODO(gen:CsCatchFilterClause)
 
 # ============= CsCatch ========
 
@@ -587,14 +587,14 @@ proc newCs*(t: typedesc[CsCatch]; name: string): CsCatch =
   result.typ = $typeof(t)
 #TODO(create:CsCatch)
 
-proc extract*(t: typedesc[CsCatch]; info: Info): CsCatch = discard #TODO(extract:CsCatch)
+proc extract*(t: typedesc[CsCatch]; info: Info): CsCatch = assert false #TODO(extract:CsCatch)
 
 method add*(parent: var CsCatch; item: Dummy) =
-  discard # TODO(add:CsCatch)
+  assert false # TODO(add:CsCatch)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCatch; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCatch): string = discard #TODO(gen:CsCatch)
+proc gen*(c: var CsCatch): string = assert false #TODO(gen:CsCatch)
 
 # ============= CsCheckedExpression ========
 
@@ -605,14 +605,14 @@ proc newCs*(t: typedesc[CsCheckedExpression]; name: string): CsCheckedExpression
   result.typ = $typeof(t)
 #TODO(create:CsCheckedExpression)
 
-proc extract*(t: typedesc[CsCheckedExpression]; info: Info): CsCheckedExpression = discard #TODO(extract:CsCheckedExpression)
+proc extract*(t: typedesc[CsCheckedExpression]; info: Info): CsCheckedExpression = assert false #TODO(extract:CsCheckedExpression)
 
 method add*(parent: var CsCheckedExpression; item: Dummy) =
-  discard # TODO(add:CsCheckedExpression)
+  assert false # TODO(add:CsCheckedExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCheckedExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCheckedExpression): string = discard #TODO(gen:CsCheckedExpression)
+proc gen*(c: var CsCheckedExpression): string = assert false #TODO(gen:CsCheckedExpression)
 
 # ============= CsCheckedStatement ========
 
@@ -623,14 +623,14 @@ proc newCs*(t: typedesc[CsCheckedStatement]; name: string): CsCheckedStatement =
   result.typ = $typeof(t)
 #TODO(create:CsCheckedStatement)
 
-proc extract*(t: typedesc[CsCheckedStatement]; info: Info): CsCheckedStatement = discard #TODO(extract:CsCheckedStatement)
+proc extract*(t: typedesc[CsCheckedStatement]; info: Info): CsCheckedStatement = assert false #TODO(extract:CsCheckedStatement)
 
 method add*(parent: var CsCheckedStatement; item: Dummy) =
-  discard # TODO(add:CsCheckedStatement)
+  assert false # TODO(add:CsCheckedStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsCheckedStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsCheckedStatement): string = discard #TODO(gen:CsCheckedStatement)
+proc gen*(c: var CsCheckedStatement): string = assert false #TODO(gen:CsCheckedStatement)
 
 
 
@@ -648,7 +648,7 @@ type CsProperty* = ref object of CsObject
   hasSet*: bool
   parentClass*: string
   bodySet*: seq[BodyExpr] # dunno.
-  bodyGet*: seq[BodyExpr] # NOTE: don't know yet what type to put here. maybe something like a method body or a list of expr ?
+  bodyGet*: seq[BodyExpr] # NOTE: don't know yet what type to* put here. maybe something like a method body or a list of expr ?
 
 
 type CsParameter* = ref object of CsObject
@@ -665,7 +665,7 @@ type CsMethod* = ref object of CsObject
   parentClass*: string
   parameterList*: CsParameterList # seq[CsParameter]
   returnType*: string
-  # TODO: method body can change to Construct, but limited only to the constructs applicable. (type constraints with distinct or runtime asserts)
+  # TODO: method body can change to Construct, but limited only to the constructs applicable. (type constraints* with distinct or runtime asserts)
   # TODO: or we check with case ttype string, as before. runtime dispatch etc.
   body*: seq[BodyExpr]            # use here inheritance and methods (runtime dispatch).
                                   # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
@@ -683,8 +683,8 @@ type CsEnum* = ref object of CsObject
   items*: seq[CsEnumMember]
 
 proc `$`*(e:CsEnum):string=
-  result = "enum: (" & e.name
-  result &= "items: " & $e.items.len
+  result = "enum: (name: " & e.name
+  result &= "; items: " & $e.items.len
   result &= " )"
 type CsIndexer* = ref object of CsObject
   retType*: string
@@ -794,9 +794,9 @@ proc gen*(c: var CsIndexer): string =
   let x = c.firstVarType.rsplit(".", 1)[^1]
   echo x
   if c.hasGet:
-    result &= "proc `[]`*(this: var " & x & "; " & c.varName & ": " & c.varType & "): " & c.retType & " = discard"
+    result &= "proc `[]`*(this: var " & x & "; " & c.varName & ": " & c.varType & "): " & c.retType & " = assert false"
   if c.hasSet:
-    result &= "\nproc `[]=`*(this: var " & x & "; " & c.varName & ": " & c.varType & "; value: " & c.retType & ") = discard"
+    result &= "\nproc `[]=`*(this: var " & x & "; " & c.varName & ": " & c.varType & "; value: " & c.retType & ") = assert false"
 
 proc gen*(c: CsProperty): string =
   result = "method " & c.name[0].toLowerAscii & c.name[1..^1] & "*(this: " & c.parentClass & "): " & c.retType & " = " &
@@ -861,14 +861,14 @@ proc newCs*(t: typedesc[CsClassOrStructConstraint]; name: string): CsClassOrStru
   result.typ = $typeof(t)
 #TODO(create:CsClassOrStructConstraint)
 
-proc extract*(t: typedesc[CsClassOrStructConstraint]; info: Info): CsClassOrStructConstraint = discard #TODO(extract:CsClassOrStructConstraint)
+proc extract*(t: typedesc[CsClassOrStructConstraint]; info: Info): CsClassOrStructConstraint = assert false #TODO(extract:CsClassOrStructConstraint)
 
 method add*(parent: var CsClassOrStructConstraint; item: Dummy) =
-  discard # TODO(add:CsClassOrStructConstraint)
+  assert false # TODO(add:CsClassOrStructConstraint)
   # # item.parentId = parent.id
 # proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsClassOrStructConstraint): string = discard #TODO(gen:CsClassOrStructConstraint)
+proc gen*(c: var CsClassOrStructConstraint): string = assert false #TODO(gen:CsClassOrStructConstraint)
 
 # ============= CsConditionalAccessExpression ========
 
@@ -879,14 +879,14 @@ proc newCs*(t: typedesc[CsConditionalAccessExpression]; name: string): CsConditi
   result.typ = $typeof(t)
 #TODO(create:CsConditionalAccessExpression)
 
-proc extract*(t: typedesc[CsConditionalAccessExpression]; info: Info): CsConditionalAccessExpression = discard #TODO(extract:CsConditionalAccessExpression)
+proc extract*(t: typedesc[CsConditionalAccessExpression]; info: Info): CsConditionalAccessExpression = assert false #TODO(extract:CsConditionalAccessExpression)
 
 method add*(parent: var CsConditionalAccessExpression; item: Dummy) =
-  discard # TODO(add:CsConditionalAccessExpression)
+  assert false # TODO(add:CsConditionalAccessExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsConditionalAccessExpression): string = discard #TODO(gen:CsConditionalAccessExpression)
+proc gen*(c: var CsConditionalAccessExpression): string = assert false #TODO(gen:CsConditionalAccessExpression)
 
 # ============= CsConditionalExpression ========
 
@@ -897,14 +897,14 @@ proc newCs*(t: typedesc[CsConditionalExpression]; name: string): CsConditionalEx
   result.typ = $typeof(t)
 #TODO(create:CsConditionalExpression)
 
-proc extract*(t: typedesc[CsConditionalExpression]; info: Info): CsConditionalExpression = discard #TODO(extract:CsConditionalExpression)
+proc extract*(t: typedesc[CsConditionalExpression]; info: Info): CsConditionalExpression = assert false #TODO(extract:CsConditionalExpression)
 
 method add*(parent: var CsConditionalExpression; item: Dummy) =
-  discard # TODO(add:CsConditionalExpression)
+  assert false # TODO(add:CsConditionalExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsConditionalExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsConditionalExpression): string = discard #TODO(gen:CsConditionalExpression)
+proc gen*(c: var CsConditionalExpression): string = assert false #TODO(gen:CsConditionalExpression)
 
 # ============= CsConstantPattern ========
 
@@ -915,14 +915,14 @@ proc newCs*(t: typedesc[CsConstantPattern]; name: string): CsConstantPattern =
   result.typ = $typeof(t)
 #TODO(create:CsConstantPattern)
 
-proc extract*(t: typedesc[CsConstantPattern]; info: Info): CsConstantPattern = discard #TODO(extract:CsConstantPattern)
+proc extract*(t: typedesc[CsConstantPattern]; info: Info): CsConstantPattern = assert false #TODO(extract:CsConstantPattern)
 
 method add*(parent: var CsConstantPattern; item: Dummy) =
-  discard # TODO(add:CsConstantPattern)
+  assert false # TODO(add:CsConstantPattern)
   # # item.parentId = parent.id
 # proc add*(parent: var CsConstantPattern; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsConstantPattern): string = discard #TODO(gen:CsConstantPattern)
+proc gen*(c: var CsConstantPattern): string = assert false #TODO(gen:CsConstantPattern)
 
 # ============= CsConstructorConstraint ========
 
@@ -933,14 +933,14 @@ proc newCs*(t: typedesc[CsConstructorConstraint]; name: string): CsConstructorCo
   result.typ = $typeof(t)
 #TODO(create:CsConstructorConstraint)
 
-proc extract*(t: typedesc[CsConstructorConstraint]; info: Info): CsConstructorConstraint = discard #TODO(extract:CsConstructorConstraint)
+proc extract*(t: typedesc[CsConstructorConstraint]; info: Info): CsConstructorConstraint = assert false #TODO(extract:CsConstructorConstraint)
 
 method add*(parent: var CsConstructorConstraint; item: Dummy) =
-  discard # TODO(add:CsConstructorConstraint)
+  assert false # TODO(add:CsConstructorConstraint)
   # # item.parentId = parent.id
 # proc add*(parent: var CsConstructorConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsConstructorConstraint): string = discard #TODO(gen:CsConstructorConstraint)
+proc gen*(c: var CsConstructorConstraint): string = assert false #TODO(gen:CsConstructorConstraint)
 
 # ============= CsConstructorInitializer ========
 
@@ -951,14 +951,14 @@ proc newCs*(t: typedesc[CsConstructorInitializer]; name: string): CsConstructorI
   result.typ = $typeof(t)
 #TODO(create:CsConstructorInitializer)
 
-proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorInitializer = discard #TODO(extract:CsConstructorInitializer)
+proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorInitializer = assert false #TODO(extract:CsConstructorInitializer)
 
 method add*(parent: var CsConstructorInitializer; item: Dummy) =
-  discard # TODO(add:CsConstructorInitializer)
+  assert false # TODO(add:CsConstructorInitializer)
   # # item.parentId = parent.id
 # proc add*(parent: var CsConstructorInitializer; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsConstructorInitializer): string = discard #TODO(gen:CsConstructorInitializer)
+proc gen*(c: var CsConstructorInitializer): string = assert false #TODO(gen:CsConstructorInitializer)
 
 
 
@@ -995,14 +995,14 @@ proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement
   result.typ = $typeof(t)
 #TODO(create:CsContinueStatement)
 
-proc extract*(t: typedesc[CsContinueStatement]; info: Info): CsContinueStatement = discard #TODO(extract:CsContinueStatement)
+proc extract*(t: typedesc[CsContinueStatement]; info: Info): CsContinueStatement = assert false #TODO(extract:CsContinueStatement)
 
 method add*(parent: var CsContinueStatement; item: Dummy) =
-  discard # TODO(add:CsContinueStatement)
+  assert false # TODO(add:CsContinueStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsContinueStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsContinueStatement): string = discard #TODO(gen:CsContinueStatement)
+proc gen*(c: var CsContinueStatement): string = assert false #TODO(gen:CsContinueStatement)
 
 # ============= CsConversionOperator ========
 
@@ -1013,14 +1013,14 @@ proc newCs*(t: typedesc[CsConversionOperator]; name: string): CsConversionOperat
   result.typ = $typeof(t)
 #TODO(create:CsConversionOperator)
 
-proc extract*(t: typedesc[CsConversionOperator]; info: Info): CsConversionOperator = discard #TODO(extract:CsConversionOperator)
+proc extract*(t: typedesc[CsConversionOperator]; info: Info): CsConversionOperator = assert false #TODO(extract:CsConversionOperator)
 
 method add*(parent: var CsConversionOperator; item: Dummy) =
-  discard # TODO(add:CsConversionOperator)
+  assert false # TODO(add:CsConversionOperator)
   # # item.parentId = parent.id
 # proc add*(parent: var CsConversionOperator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsConversionOperator): string = discard #TODO(gen:CsConversionOperator)
+proc gen*(c: var CsConversionOperator): string = assert false #TODO(gen:CsConversionOperator)
 
 # ============= CsDeclarationExpression ========
 
@@ -1031,14 +1031,14 @@ proc newCs*(t: typedesc[CsDeclarationExpression]; name: string): CsDeclarationEx
   result.typ = $typeof(t)
 #TODO(create:CsDeclarationExpression)
 
-proc extract*(t: typedesc[CsDeclarationExpression]; info: Info): CsDeclarationExpression = discard #TODO(extract:CsDeclarationExpression)
+proc extract*(t: typedesc[CsDeclarationExpression]; info: Info): CsDeclarationExpression = assert false #TODO(extract:CsDeclarationExpression)
 
 method add*(parent: var CsDeclarationExpression; item: Dummy) =
-  discard # TODO(add:CsDeclarationExpression)
+  assert false # TODO(add:CsDeclarationExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDeclarationExpression): string = discard #TODO(gen:CsDeclarationExpression)
+proc gen*(c: var CsDeclarationExpression): string = assert false #TODO(gen:CsDeclarationExpression)
 
 # ============= CsDeclarationPattern ========
 
@@ -1049,14 +1049,14 @@ proc newCs*(t: typedesc[CsDeclarationPattern]; name: string): CsDeclarationPatte
   result.typ = $typeof(t)
 #TODO(create:CsDeclarationPattern)
 
-proc extract*(t: typedesc[CsDeclarationPattern]; info: Info): CsDeclarationPattern = discard #TODO(extract:CsDeclarationPattern)
+proc extract*(t: typedesc[CsDeclarationPattern]; info: Info): CsDeclarationPattern = assert false #TODO(extract:CsDeclarationPattern)
 
 method add*(parent: var CsDeclarationPattern; item: Dummy) =
-  discard # TODO(add:CsDeclarationPattern)
+  assert false # TODO(add:CsDeclarationPattern)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDeclarationPattern; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDeclarationPattern): string = discard #TODO(gen:CsDeclarationPattern)
+proc gen*(c: var CsDeclarationPattern): string = assert false #TODO(gen:CsDeclarationPattern)
 
 # ============= CsDefaultExpression ========
 
@@ -1067,14 +1067,14 @@ proc newCs*(t: typedesc[CsDefaultExpression]; name: string): CsDefaultExpression
   result.typ = $typeof(t)
 #TODO(create:CsDefaultExpression)
 
-proc extract*(t: typedesc[CsDefaultExpression]; info: Info): CsDefaultExpression = discard #TODO(extract:CsDefaultExpression)
+proc extract*(t: typedesc[CsDefaultExpression]; info: Info): CsDefaultExpression = assert false #TODO(extract:CsDefaultExpression)
 
 method add*(parent: var CsDefaultExpression; item: Dummy) =
-  discard # TODO(add:CsDefaultExpression)
+  assert false # TODO(add:CsDefaultExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDefaultExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDefaultExpression): string = discard #TODO(gen:CsDefaultExpression)
+proc gen*(c: var CsDefaultExpression): string = assert false #TODO(gen:CsDefaultExpression)
 
 # ============= CsDefaultSwitchLabel ========
 
@@ -1085,14 +1085,14 @@ proc newCs*(t: typedesc[CsDefaultSwitchLabel]; name: string): CsDefaultSwitchLab
   result.typ = $typeof(t)
 #TODO(create:CsDefaultSwitchLabel)
 
-proc extract*(t: typedesc[CsDefaultSwitchLabel]; info: Info): CsDefaultSwitchLabel = discard #TODO(extract:CsDefaultSwitchLabel)
+proc extract*(t: typedesc[CsDefaultSwitchLabel]; info: Info): CsDefaultSwitchLabel = assert false #TODO(extract:CsDefaultSwitchLabel)
 
 method add*(parent: var CsDefaultSwitchLabel; item: Dummy) =
-  discard # TODO(add:CsDefaultSwitchLabel)
+  assert false # TODO(add:CsDefaultSwitchLabel)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDefaultSwitchLabel): string = discard #TODO(gen:CsDefaultSwitchLabel)
+proc gen*(c: var CsDefaultSwitchLabel): string = assert false #TODO(gen:CsDefaultSwitchLabel)
 
 # ============= CsDelegate ========
 
@@ -1103,14 +1103,14 @@ proc newCs*(t: typedesc[CsDelegate]; name: string): CsDelegate =
   result.typ = $typeof(t)
 #TODO(create:CsDelegate)
 
-proc extract*(t: typedesc[CsDelegate]; info: Info): CsDelegate = discard #TODO(extract:CsDelegate)
+proc extract*(t: typedesc[CsDelegate]; info: Info): CsDelegate = assert false #TODO(extract:CsDelegate)
 
 method add*(parent: var CsDelegate; item: Dummy) =
-  discard # TODO(add:CsDelegate)
+  assert false # TODO(add:CsDelegate)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDelegate): string = discard #TODO(gen:CsDelegate)
+proc gen*(c: var CsDelegate): string = assert false #TODO(gen:CsDelegate)
 
 # ============= CsDestructor ========
 
@@ -1121,14 +1121,14 @@ proc newCs*(t: typedesc[CsDestructor]; name: string): CsDestructor =
   result.typ = $typeof(t)
 #TODO(create:CsDestructor)
 
-proc extract*(t: typedesc[CsDestructor]; info: Info): CsDestructor = discard #TODO(extract:CsDestructor)
+proc extract*(t: typedesc[CsDestructor]; info: Info): CsDestructor = assert false #TODO(extract:CsDestructor)
 
 method add*(parent: var CsDestructor; item: Dummy) =
-  discard # TODO(add:CsDestructor)
+  assert false # TODO(add:CsDestructor)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDestructor): string = discard #TODO(gen:CsDestructor)
+proc gen*(c: var CsDestructor): string = assert false #TODO(gen:CsDestructor)
 
 # ============= CsDiscardDesignation ========
 
@@ -1139,14 +1139,14 @@ proc newCs*(t: typedesc[CsDiscardDesignation]; name: string): CsDiscardDesignati
   result.typ = $typeof(t)
 #TODO(create:CsDiscardDesignation)
 
-proc extract*(t: typedesc[CsDiscardDesignation]; info: Info): CsDiscardDesignation = discard #TODO(extract:CsDiscardDesignation)
+proc extract*(t: typedesc[CsDiscardDesignation]; info: Info): CsDiscardDesignation = assert false #TODO(extract:CsDiscardDesignation)
 
 method add*(parent: var CsDiscardDesignation; item: Dummy) =
-  discard # TODO(add:CsDiscardDesignation)
+  assert false # TODO(add:CsDiscardDesignation)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDiscardDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDiscardDesignation): string = discard #TODO(gen:CsDiscardDesignation)
+proc gen*(c: var CsDiscardDesignation): string = assert false #TODO(gen:CsDiscardDesignation)
 
 # ============= CsDoStatement ========
 
@@ -1157,14 +1157,14 @@ proc newCs*(t: typedesc[CsDoStatement]; name: string): CsDoStatement =
   result.typ = $typeof(t)
 #TODO(create:CsDoStatement)
 
-proc extract*(t: typedesc[CsDoStatement]; info: Info): CsDoStatement = discard #TODO(extract:CsDoStatement)
+proc extract*(t: typedesc[CsDoStatement]; info: Info): CsDoStatement = assert false #TODO(extract:CsDoStatement)
 
 method add*(parent: var CsDoStatement; item: Dummy) =
-  discard # TODO(add:CsDoStatement)
+  assert false # TODO(add:CsDoStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsDoStatement): string = discard #TODO(gen:CsDoStatement)
+proc gen*(c: var CsDoStatement): string = assert false #TODO(gen:CsDoStatement)
 
 # ============= CsElementAccessExpression ========
 
@@ -1175,14 +1175,14 @@ proc newCs*(t: typedesc[CsElementAccessExpression]; name: string): CsElementAcce
   result.typ = $typeof(t)
 #TODO(create:CsElementAccessExpression)
 
-proc extract*(t: typedesc[CsElementAccessExpression]; info: Info): CsElementAccessExpression = discard #TODO(extract:CsElementAccessExpression)
+proc extract*(t: typedesc[CsElementAccessExpression]; info: Info): CsElementAccessExpression = assert false #TODO(extract:CsElementAccessExpression)
 
 method add*(parent: var CsElementAccessExpression; item: Dummy) =
-  discard # TODO(add:CsElementAccessExpression)
+  assert false # TODO(add:CsElementAccessExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsElementAccessExpression): string = discard #TODO(gen:CsElementAccessExpression)
+proc gen*(c: var CsElementAccessExpression): string = assert false #TODO(gen:CsElementAccessExpression)
 
 # ============= CsElementBindingExpression ========
 
@@ -1193,14 +1193,14 @@ proc newCs*(t: typedesc[CsElementBindingExpression]; name: string): CsElementBin
   result.typ = $typeof(t)
 #TODO(create:CsElementBindingExpression)
 
-proc extract*(t: typedesc[CsElementBindingExpression]; info: Info): CsElementBindingExpression = discard #TODO(extract:CsElementBindingExpression)
+proc extract*(t: typedesc[CsElementBindingExpression]; info: Info): CsElementBindingExpression = assert false #TODO(extract:CsElementBindingExpression)
 
 method add*(parent: var CsElementBindingExpression; item: Dummy) =
-  discard # TODO(add:CsElementBindingExpression)
+  assert false # TODO(add:CsElementBindingExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsElementBindingExpression): string = discard #TODO(gen:CsElementBindingExpression)
+proc gen*(c: var CsElementBindingExpression): string = assert false #TODO(gen:CsElementBindingExpression)
 
 # ============= CsElseClause ========
 
@@ -1211,14 +1211,14 @@ proc newCs*(t: typedesc[CsElseClause]; name: string): CsElseClause =
   result.typ = $typeof(t)
 #TODO(create:CsElseClause)
 
-proc extract*(t: typedesc[CsElseClause]; info: Info): CsElseClause = discard #TODO(extract:CsElseClause)
+proc extract*(t: typedesc[CsElseClause]; info: Info): CsElseClause = assert false #TODO(extract:CsElseClause)
 
 method add*(parent: var CsElseClause; item: Dummy) =
-  discard # TODO(add:CsElseClause)
+  assert false # TODO(add:CsElseClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsElseClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsElseClause): string = discard #TODO(gen:CsElseClause)
+proc gen*(c: var CsElseClause): string = assert false #TODO(gen:CsElseClause)
 
 # ============= CsEmptyStatement ========
 
@@ -1229,14 +1229,14 @@ proc newCs*(t: typedesc[CsEmptyStatement]; name: string): CsEmptyStatement =
   result.typ = $typeof(t)
 #TODO(create:CsEmptyStatement)
 
-proc extract*(t: typedesc[CsEmptyStatement]; info: Info): CsEmptyStatement = discard #TODO(extract:CsEmptyStatement)
+proc extract*(t: typedesc[CsEmptyStatement]; info: Info): CsEmptyStatement = assert false #TODO(extract:CsEmptyStatement)
 
 method add*(parent: var CsEmptyStatement; item: Dummy) =
-  discard # TODO(add:CsEmptyStatement)
+  assert false # TODO(add:CsEmptyStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsEmptyStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsEmptyStatement): string = discard #TODO(gen:CsEmptyStatement)
+proc gen*(c: var CsEmptyStatement): string = assert false #TODO(gen:CsEmptyStatement)
 
 proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   new result
@@ -1256,7 +1256,10 @@ proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
   result = newCs(CsEnumMember, name, value)
 
 method add*(em: CsEnumMember; val: string) =
-  em.value = val
+  if em.value.isEmptyOrWhitespace:
+    em.value = val.strip
+  else: echo "value is already set:`", em.value, "`. got `",val ,"`;"
+
 
 
 proc gen*(e: CsEnumMember): string =
@@ -1294,21 +1297,32 @@ proc gen*(e: CsEnum): string =
 
 # ============= CsEqualsValueClause ========
 
-type CsEqualsValueClause* = ref object of CsObject #TODO(type:CsEqualsValueClause)
+type CsEqualsValueClause* = ref object of CsObject
+  value*: string
+
+
+method add*(em: var CsEnumMember; item: CsEqualsValueClause) =
+  em.add(item.value)
+
+
 
 proc newCs*(t: typedesc[CsEqualsValueClause]; name: string): CsEqualsValueClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsEqualsValueClause)
 
-proc extract*(t: typedesc[CsEqualsValueClause]; info: Info): CsEqualsValueClause = discard #TODO(extract:CsEqualsValueClause)
+proc extract*(t: typedesc[CsEqualsValueClause]; info: Info): CsEqualsValueClause = 
+  echo info
+  let val = info.essentials[0]
+  result = newCs(CsEqualsValueClause, val)
+
 
 method add*(parent: var CsEqualsValueClause; item: Dummy) =
-  discard # TODO(add:CsEqualsValueClause)
+  assert false # TODO(add:CsEqualsValueClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsEqualsValueClause): string = discard #TODO(gen:CsEqualsValueClause)
+proc gen*(c: var CsEqualsValueClause): string = assert false #TODO(gen:CsEqualsValueClause)
 
 # ============= CsEventField ========
 
@@ -1319,14 +1333,14 @@ proc newCs*(t: typedesc[CsEventField]; name: string): CsEventField =
   result.typ = $typeof(t)
 #TODO(create:CsEventField)
 
-proc extract*(t: typedesc[CsEventField]; info: Info): CsEventField = discard #TODO(extract:CsEventField)
+proc extract*(t: typedesc[CsEventField]; info: Info): CsEventField = assert false #TODO(extract:CsEventField)
 
 method add*(parent: var CsEventField; item: Dummy) =
-  discard # TODO(add:CsEventField)
+  assert false # TODO(add:CsEventField)
   # # item.parentId = parent.id
 # proc add*(parent: var CsEventField; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsEventField): string = discard #TODO(gen:CsEventField)
+proc gen*(c: var CsEventField): string = assert false #TODO(gen:CsEventField)
 
 # ============= CsEvent ========
 
@@ -1337,14 +1351,14 @@ proc newCs*(t: typedesc[CsEvent]; name: string): CsEvent =
   result.typ = $typeof(t)
 #TODO(create:CsEvent)
 
-proc extract*(t: typedesc[CsEvent]; info: Info): CsEvent = discard #TODO(extract:CsEvent)
+proc extract*(t: typedesc[CsEvent]; info: Info): CsEvent = assert false #TODO(extract:CsEvent)
 
 method add*(parent: var CsEvent; item: Dummy) =
-  discard # TODO(add:CsEvent)
+  assert false # TODO(add:CsEvent)
   # # item.parentId = parent.id
 # proc add*(parent: var CsEvent; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsEvent): string = discard #TODO(gen:CsEvent)
+proc gen*(c: var CsEvent): string = assert false #TODO(gen:CsEvent)
 
 # ============= CsExplicitInterfaceSpecifier ========
 
@@ -1361,9 +1375,9 @@ proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicit
   result = newCs(CsExplicitInterfaceSpecifier, name)
 
 # proc add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy, data:AllNeededData) = parent.add(item) # TODO
-method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) = discard # TODO(add:CsExplicitInterfaceSpecifier)
+method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) = assert false # TODO(add:CsExplicitInterfaceSpecifier)
 
-# proc gen*(c: var CsExplicitInterfaceSpecifier): string = discard #TODO(gen:CsExplicitInterfaceSpecifier)
+# proc gen*(c: var CsExplicitInterfaceSpecifier): string = assert false #TODO(gen:CsExplicitInterfaceSpecifier)
 
 
 type CsInvocationExpression* = ref object of BodyExpr
@@ -1413,14 +1427,14 @@ proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDir
   result.typ = $typeof(t)
 #TODO(create:CsExternAliasDirective)
 
-proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective = discard #TODO(extract:CsExternAliasDirective)
+proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective = assert false #TODO(extract:CsExternAliasDirective)
 
 method add*(parent: var CsExternAliasDirective; item: Dummy) =
-  discard # TODO(add:CsExternAliasDirective)
+  assert false # TODO(add:CsExternAliasDirective)
   # # item.parentId = parent.id
 # proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsExternAliasDirective): string = discard #TODO(gen:CsExternAliasDirective)
+proc gen*(c: var CsExternAliasDirective): string = assert false #TODO(gen:CsExternAliasDirective)
 # hmm, it's actually called a property.
 
 
@@ -1434,14 +1448,14 @@ proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =
   result.typ = $typeof(t)
 #TODO(create:CsFinallyClause)
 
-proc extract*(t: typedesc[CsFinallyClause]; info: Info): CsFinallyClause = discard #TODO(extract:CsFinallyClause)
+proc extract*(t: typedesc[CsFinallyClause]; info: Info): CsFinallyClause = assert false #TODO(extract:CsFinallyClause)
 
 method add*(parent: var CsFinallyClause; item: Dummy) =
-  discard # TODO(add:CsFinallyClause)
+  assert false # TODO(add:CsFinallyClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsFinallyClause): string = discard #TODO(gen:CsFinallyClause)
+proc gen*(c: var CsFinallyClause): string = assert false #TODO(gen:CsFinallyClause)
 
 # ============= CsFixedStatement ========
 
@@ -1452,14 +1466,14 @@ proc newCs*(t: typedesc[CsFixedStatement]; name: string): CsFixedStatement =
   result.typ = $typeof(t)
 #TODO(create:CsFixedStatement)
 
-proc extract*(t: typedesc[CsFixedStatement]; info: Info): CsFixedStatement = discard #TODO(extract:CsFixedStatement)
+proc extract*(t: typedesc[CsFixedStatement]; info: Info): CsFixedStatement = assert false #TODO(extract:CsFixedStatement)
 
 method add*(parent: var CsFixedStatement; item: Dummy) =
-  discard # TODO(add:CsFixedStatement)
+  assert false # TODO(add:CsFixedStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsFixedStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsFixedStatement): string = discard #TODO(gen:CsFixedStatement)
+proc gen*(c: var CsFixedStatement): string = assert false #TODO(gen:CsFixedStatement)
 
 # ============= CsForEachStatement ========
 
@@ -1470,14 +1484,14 @@ proc newCs*(t: typedesc[CsForEachStatement]; name: string): CsForEachStatement =
   result.typ = $typeof(t)
 #TODO(create:CsForEachStatement)
 
-proc extract*(t: typedesc[CsForEachStatement]; info: Info): CsForEachStatement = discard #TODO(extract:CsForEachStatement)
+proc extract*(t: typedesc[CsForEachStatement]; info: Info): CsForEachStatement = assert false #TODO(extract:CsForEachStatement)
 
 method add*(parent: var CsForEachStatement; item: Dummy) =
-  discard # TODO(add:CsForEachStatement)
+  assert false # TODO(add:CsForEachStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsForEachStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsForEachStatement): string = discard #TODO(gen:CsForEachStatement)
+proc gen*(c: var CsForEachStatement): string = assert false #TODO(gen:CsForEachStatement)
 
 # ============= CsForEachVariableStatement ========
 
@@ -1488,14 +1502,14 @@ proc newCs*(t: typedesc[CsForEachVariableStatement]; name: string): CsForEachVar
   result.typ = $typeof(t)
 #TODO(create:CsForEachVariableStatement)
 
-proc extract*(t: typedesc[CsForEachVariableStatement]; info: Info): CsForEachVariableStatement = discard #TODO(extract:CsForEachVariableStatement)
+proc extract*(t: typedesc[CsForEachVariableStatement]; info: Info): CsForEachVariableStatement = assert false #TODO(extract:CsForEachVariableStatement)
 
 method add*(parent: var CsForEachVariableStatement; item: Dummy) =
-  discard # TODO(add:CsForEachVariableStatement)
+  assert false # TODO(add:CsForEachVariableStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsForEachVariableStatement): string = discard #TODO(gen:CsForEachVariableStatement)
+proc gen*(c: var CsForEachVariableStatement): string = assert false #TODO(gen:CsForEachVariableStatement)
 
 # ============= CsForStatement ========
 
@@ -1506,14 +1520,14 @@ proc newCs*(t: typedesc[CsForStatement]; name: string): CsForStatement =
   result.typ = $typeof(t)
 #TODO(create:CsForStatement)
 
-proc extract*(t: typedesc[CsForStatement]; info: Info): CsForStatement = discard #TODO(extract:CsForStatement)
+proc extract*(t: typedesc[CsForStatement]; info: Info): CsForStatement = assert false #TODO(extract:CsForStatement)
 
 method add*(parent: var CsForStatement; item: Dummy) =
-  discard # TODO(add:CsForStatement)
+  assert false # TODO(add:CsForStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsForStatement): string = discard #TODO(gen:CsForStatement)
+proc gen*(c: var CsForStatement): string = assert false #TODO(gen:CsForStatement)
 
 # ============= CsFromClause ========
 
@@ -1524,14 +1538,14 @@ proc newCs*(t: typedesc[CsFromClause]; name: string): CsFromClause =
   result.typ = $typeof(t)
 #TODO(create:CsFromClause)
 
-proc extract*(t: typedesc[CsFromClause]; info: Info): CsFromClause = discard #TODO(extract:CsFromClause)
+proc extract*(t: typedesc[CsFromClause]; info: Info): CsFromClause = assert false #TODO(extract:CsFromClause)
 
 method add*(parent: var CsFromClause; item: Dummy) =
-  discard # TODO(add:CsFromClause)
+  assert false # TODO(add:CsFromClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsFromClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsFromClause): string = discard #TODO(gen:CsFromClause)
+proc gen*(c: var CsFromClause): string = assert false #TODO(gen:CsFromClause)
 
 # ============= CsGenericName ========
 
@@ -1542,14 +1556,14 @@ proc newCs*(t: typedesc[CsGenericName]; name: string): CsGenericName =
   result.typ = $typeof(t)
 #TODO(create:CsGenericName)
 
-proc extract*(t: typedesc[CsGenericName]; info: Info): CsGenericName = discard #TODO(extract:CsGenericName)
+proc extract*(t: typedesc[CsGenericName]; info: Info): CsGenericName = assert false #TODO(extract:CsGenericName)
 
 method add*(parent: var CsGenericName; item: Dummy) =
-  discard # TODO(add:CsGenericName)
+  assert false # TODO(add:CsGenericName)
   # # item.parentId = parent.id
 # proc add*(parent: var CsGenericName; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsGenericName): string = discard #TODO(gen:CsGenericName)
+proc gen*(c: var CsGenericName): string = assert false #TODO(gen:CsGenericName)
 
 # ============= CsGlobalStatement ========
 
@@ -1560,14 +1574,14 @@ proc newCs*(t: typedesc[CsGlobalStatement]; name: string): CsGlobalStatement =
   result.typ = $typeof(t)
 #TODO(create:CsGlobalStatement)
 
-proc extract*(t: typedesc[CsGlobalStatement]; info: Info): CsGlobalStatement = discard #TODO(extract:CsGlobalStatement)
+proc extract*(t: typedesc[CsGlobalStatement]; info: Info): CsGlobalStatement = assert false #TODO(extract:CsGlobalStatement)
 
 method add*(parent: var CsGlobalStatement; item: Dummy) =
-  discard # TODO(add:CsGlobalStatement)
+  assert false # TODO(add:CsGlobalStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsGlobalStatement): string = discard #TODO(gen:CsGlobalStatement)
+proc gen*(c: var CsGlobalStatement): string = assert false #TODO(gen:CsGlobalStatement)
 
 # ============= CsGotoStatement ========
 
@@ -1578,14 +1592,14 @@ proc newCs*(t: typedesc[CsGotoStatement]; name: string): CsGotoStatement =
   result.typ = $typeof(t)
 #TODO(create:CsGotoStatement)
 
-proc extract*(t: typedesc[CsGotoStatement]; info: Info): CsGotoStatement = discard #TODO(extract:CsGotoStatement)
+proc extract*(t: typedesc[CsGotoStatement]; info: Info): CsGotoStatement = assert false #TODO(extract:CsGotoStatement)
 
 method add*(parent: var CsGotoStatement; item: Dummy) =
-  discard # TODO(add:CsGotoStatement)
+  assert false # TODO(add:CsGotoStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsGotoStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsGotoStatement): string = discard #TODO(gen:CsGotoStatement)
+proc gen*(c: var CsGotoStatement): string = assert false #TODO(gen:CsGotoStatement)
 
 # ============= CsGroupClause ========
 
@@ -1596,14 +1610,14 @@ proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =
   result.typ = $typeof(t)
 #TODO(create:CsGroupClause)
 
-proc extract*(t: typedesc[CsGroupClause]; info: Info): CsGroupClause = discard #TODO(extract:CsGroupClause)
+proc extract*(t: typedesc[CsGroupClause]; info: Info): CsGroupClause = assert false #TODO(extract:CsGroupClause)
 
 method add*(parent: var CsGroupClause; item: Dummy) =
-  discard # TODO(add:CsGroupClause)
+  assert false # TODO(add:CsGroupClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsGroupClause): string = discard #TODO(gen:CsGroupClause)
+proc gen*(c: var CsGroupClause): string = assert false #TODO(gen:CsGroupClause)
 
 # ============= CsIfStatement ========
 
@@ -1614,14 +1628,14 @@ proc newCs*(t: typedesc[CsIfStatement]; name: string): CsIfStatement =
   result.typ = $typeof(t)
 #TODO(create:CsIfStatement)
 
-proc extract*(t: typedesc[CsIfStatement]; info: Info): CsIfStatement = discard #TODO(extract:CsIfStatement)
+proc extract*(t: typedesc[CsIfStatement]; info: Info): CsIfStatement = assert false #TODO(extract:CsIfStatement)
 
 method add*(parent: var CsIfStatement; item: Dummy) =
-  discard # TODO(add:CsIfStatement)
+  assert false # TODO(add:CsIfStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsIfStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsIfStatement): string = discard #TODO(gen:CsIfStatement)
+proc gen*(c: var CsIfStatement): string = assert false #TODO(gen:CsIfStatement)
 
 # ============= CsImplicitArrayCreationExpression ========
 
@@ -1632,14 +1646,14 @@ proc newCs*(t: typedesc[CsImplicitArrayCreationExpression]; name: string): CsImp
   result.typ = $typeof(t)
 #TODO(create:CsImplicitArrayCreationExpression)
 
-proc extract*(t: typedesc[CsImplicitArrayCreationExpression]; info: Info): CsImplicitArrayCreationExpression = discard #TODO(extract:CsImplicitArrayCreationExpression)
+proc extract*(t: typedesc[CsImplicitArrayCreationExpression]; info: Info): CsImplicitArrayCreationExpression = assert false #TODO(extract:CsImplicitArrayCreationExpression)
 
 method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy) =
-  discard # TODO(add:CsImplicitArrayCreationExpression)
+  assert false # TODO(add:CsImplicitArrayCreationExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsImplicitArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsImplicitArrayCreationExpression): string = discard #TODO(gen:CsImplicitArrayCreationExpression)
+proc gen*(c: var CsImplicitArrayCreationExpression): string = assert false #TODO(gen:CsImplicitArrayCreationExpression)
 
 # ============= CsImplicitElementAccess ========
 
@@ -1650,14 +1664,14 @@ proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitEleme
   result.typ = $typeof(t)
 #TODO(create:CsImplicitElementAccess)
 
-proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitElementAccess = discard #TODO(extract:CsImplicitElementAccess)
+proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitElementAccess = assert false #TODO(extract:CsImplicitElementAccess)
 
 method add*(parent: var CsImplicitElementAccess; item: Dummy) =
-  discard # TODO(add:CsImplicitElementAccess)
+  assert false # TODO(add:CsImplicitElementAccess)
   # # item.parentId = parent.id
 # proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsImplicitElementAccess): string = discard #TODO(gen:CsImplicitElementAccess)
+proc gen*(c: var CsImplicitElementAccess): string = assert false #TODO(gen:CsImplicitElementAccess)
 
 # ============= CsIncompleteMember ========
 
@@ -1668,14 +1682,14 @@ proc newCs*(t: typedesc[CsIncompleteMember]; name: string): CsIncompleteMember =
   result.typ = $typeof(t)
 #TODO(create:CsIncompleteMember)
 
-proc extract*(t: typedesc[CsIncompleteMember]; info: Info): CsIncompleteMember = discard #TODO(extract:CsIncompleteMember)
+proc extract*(t: typedesc[CsIncompleteMember]; info: Info): CsIncompleteMember = assert false #TODO(extract:CsIncompleteMember)
 
 method add*(parent: var CsIncompleteMember; item: Dummy) =
-  discard # TODO(add:CsIncompleteMember)
+  assert false # TODO(add:CsIncompleteMember)
   # # item.parentId = parent.id
 # proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsIncompleteMember): string = discard #TODO(gen:CsIncompleteMember)
+proc gen*(c: var CsIncompleteMember): string = assert false #TODO(gen:CsIncompleteMember)
 
 
 # ============= CsIndexer ========
@@ -1718,14 +1732,14 @@ proc newCs*(t: typedesc[CsInitializerExpression]; name: string): CsInitializerEx
   result.typ = $typeof(t)
 #TODO(create:CsInitializerExpression)
 
-proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression = discard #TODO(extract:CsInitializerExpression)
+proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression = assert false #TODO(extract:CsInitializerExpression)
 
 method add*(parent: var CsInitializerExpression; item: Dummy) =
-  discard # TODO(add:CsInitializerExpression)
+  assert false # TODO(add:CsInitializerExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInitializerExpression): string = discard #TODO(gen:CsInitializerExpression)
+proc gen*(c: var CsInitializerExpression): string = assert false #TODO(gen:CsInitializerExpression)
 
 # ============= CsInterface ========
 
@@ -1735,17 +1749,17 @@ proc newCs*(t: typedesc[CsInterface]; name: string): CsInterface =
   result.typ = $typeof(t)
 #TODO(create:CsInterface)
 
-proc extract*(t: typedesc[CsInterface]; info: Info): CsInterface = discard #TODO(extract:CsInterface)
+proc extract*(t: typedesc[CsInterface]; info: Info): CsInterface = assert false #TODO(extract:CsInterface)
 
 
 method add*(parent: var CsInterface; item: CsProperty) =
-  discard # TODO(add:CsInterface)
+  assert false # TODO(add:CsInterface)
   # # item.parentId = parent.id
 # proc add*(parent: var CsInterface; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
 
 
-proc gen*(c: var CsInterface): string = discard #TODO(gen:CsInterface)
+proc gen*(c: var CsInterface): string = assert false #TODO(gen:CsInterface)
 
 # ============= CsInterpolatedStringExpression ========
 
@@ -1756,14 +1770,14 @@ proc newCs*(t: typedesc[CsInterpolatedStringExpression]; name: string): CsInterp
   result.typ = $typeof(t)
 #TODO(create:CsInterpolatedStringExpression)
 
-proc extract*(t: typedesc[CsInterpolatedStringExpression]; info: Info): CsInterpolatedStringExpression = discard #TODO(extract:CsInterpolatedStringExpression)
+proc extract*(t: typedesc[CsInterpolatedStringExpression]; info: Info): CsInterpolatedStringExpression = assert false #TODO(extract:CsInterpolatedStringExpression)
 
 method add*(parent: var CsInterpolatedStringExpression; item: Dummy) =
-  discard # TODO(add:CsInterpolatedStringExpression)
+  assert false # TODO(add:CsInterpolatedStringExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInterpolatedStringExpression): string = discard #TODO(gen:CsInterpolatedStringExpression)
+proc gen*(c: var CsInterpolatedStringExpression): string = assert false #TODO(gen:CsInterpolatedStringExpression)
 
 # ============= CsInterpolatedStringText ========
 
@@ -1774,14 +1788,14 @@ proc newCs*(t: typedesc[CsInterpolatedStringText]; name: string): CsInterpolated
   result.typ = $typeof(t)
 #TODO(create:CsInterpolatedStringText)
 
-proc extract*(t: typedesc[CsInterpolatedStringText]; info: Info): CsInterpolatedStringText = discard #TODO(extract:CsInterpolatedStringText)
+proc extract*(t: typedesc[CsInterpolatedStringText]; info: Info): CsInterpolatedStringText = assert false #TODO(extract:CsInterpolatedStringText)
 
 method add*(parent: var CsInterpolatedStringText; item: Dummy) =
-  discard # TODO(add:CsInterpolatedStringText)
+  assert false # TODO(add:CsInterpolatedStringText)
   # # item.parentId = parent.id
 # proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInterpolatedStringText): string = discard #TODO(gen:CsInterpolatedStringText)
+proc gen*(c: var CsInterpolatedStringText): string = assert false #TODO(gen:CsInterpolatedStringText)
 
 # ============= CsInterpolationAlignmentClause ========
 
@@ -1792,14 +1806,14 @@ proc newCs*(t: typedesc[CsInterpolationAlignmentClause]; name: string): CsInterp
   result.typ = $typeof(t)
 #TODO(create:CsInterpolationAlignmentClause)
 
-proc extract*(t: typedesc[CsInterpolationAlignmentClause]; info: Info): CsInterpolationAlignmentClause = discard #TODO(extract:CsInterpolationAlignmentClause)
+proc extract*(t: typedesc[CsInterpolationAlignmentClause]; info: Info): CsInterpolationAlignmentClause = assert false #TODO(extract:CsInterpolationAlignmentClause)
 
 method add*(parent: var CsInterpolationAlignmentClause; item: Dummy) =
-  discard # TODO(add:CsInterpolationAlignmentClause)
+  assert false # TODO(add:CsInterpolationAlignmentClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInterpolationAlignmentClause): string = discard #TODO(gen:CsInterpolationAlignmentClause)
+proc gen*(c: var CsInterpolationAlignmentClause): string = assert false #TODO(gen:CsInterpolationAlignmentClause)
 
 # ============= CsInterpolationFormatClause ========
 
@@ -1810,14 +1824,14 @@ proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpola
   result.typ = $typeof(t)
 #TODO(create:CsInterpolationFormatClause)
 
-proc extract*(t: typedesc[CsInterpolationFormatClause]; info: Info): CsInterpolationFormatClause = discard #TODO(extract:CsInterpolationFormatClause)
+proc extract*(t: typedesc[CsInterpolationFormatClause]; info: Info): CsInterpolationFormatClause = assert false #TODO(extract:CsInterpolationFormatClause)
 
 method add*(parent: var CsInterpolationFormatClause; item: Dummy) =
-  discard # TODO(add:CsInterpolationFormatClause)
+  assert false # TODO(add:CsInterpolationFormatClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInterpolationFormatClause): string = discard #TODO(gen:CsInterpolationFormatClause)
+proc gen*(c: var CsInterpolationFormatClause): string = assert false #TODO(gen:CsInterpolationFormatClause)
 
 # ============= CsInterpolation ========
 
@@ -1828,14 +1842,14 @@ proc newCs*(t: typedesc[CsInterpolation]; name: string): CsInterpolation =
   result.typ = $typeof(t)
 #TODO(create:CsInterpolation)
 
-proc extract*(t: typedesc[CsInterpolation]; info: Info): CsInterpolation = discard #TODO(extract:CsInterpolation)
+proc extract*(t: typedesc[CsInterpolation]; info: Info): CsInterpolation = assert false #TODO(extract:CsInterpolation)
 
 method add*(parent: var CsInterpolation; item: Dummy) =
-  discard # TODO(add:CsInterpolation)
+  assert false # TODO(add:CsInterpolation)
   # # item.parentId = parent.id
 # proc add*(parent: var CsInterpolation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInterpolation): string = discard #TODO(gen:CsInterpolation)
+proc gen*(c: var CsInterpolation): string = assert false #TODO(gen:CsInterpolation)
 
 # ============= CsInvocationExpression ========
 
@@ -1883,7 +1897,7 @@ func normalizeCallNameIfStatic(s: string): string =
   if assumingMethod.isStatic or assumingMethod.parentClass().isStatic: discard
     # ......  so everyone gets a unique id, and that's how we call back to parent
 
-  # refactor to proc isInStatic(for each type that needs it)
+  # refactor to proc isInStatic(for each type that* needs it)
 
   # for handling c# static calls, we don't need the static class it was defined in.
 
@@ -1898,14 +1912,14 @@ proc newCs*(t: typedesc[CsIsPatternExpression]; name: string): CsIsPatternExpres
   result.typ = $typeof(t)
 #TODO(create:CsIsPatternExpression)
 
-proc extract*(t: typedesc[CsIsPatternExpression]; info: Info): CsIsPatternExpression = discard #TODO(extract:CsIsPatternExpression)
+proc extract*(t: typedesc[CsIsPatternExpression]; info: Info): CsIsPatternExpression = assert false #TODO(extract:CsIsPatternExpression)
 
 method add*(parent: var CsIsPatternExpression; item: Dummy) =
-  discard # TODO(add:CsIsPatternExpression)
+  assert false # TODO(add:CsIsPatternExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsIsPatternExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsIsPatternExpression): string = discard #TODO(gen:CsIsPatternExpression)
+proc gen*(c: var CsIsPatternExpression): string = assert false #TODO(gen:CsIsPatternExpression)
 
 # ============= CsJoinClause ========
 
@@ -1916,14 +1930,14 @@ proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =
   result.typ = $typeof(t)
 #TODO(create:CsJoinClause)
 
-proc extract*(t: typedesc[CsJoinClause]; info: Info): CsJoinClause = discard #TODO(extract:CsJoinClause)
+proc extract*(t: typedesc[CsJoinClause]; info: Info): CsJoinClause = assert false #TODO(extract:CsJoinClause)
 
 method add*(parent: var CsJoinClause; item: Dummy) =
-  discard # TODO(add:CsJoinClause)
+  assert false # TODO(add:CsJoinClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsJoinClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsJoinClause): string = discard #TODO(gen:CsJoinClause)
+proc gen*(c: var CsJoinClause): string = assert false #TODO(gen:CsJoinClause)
 
 # ============= CsJoinIntoClause ========
 
@@ -1934,14 +1948,14 @@ proc newCs*(t: typedesc[CsJoinIntoClause]; name: string): CsJoinIntoClause =
   result.typ = $typeof(t)
 #TODO(create:CsJoinIntoClause)
 
-proc extract*(t: typedesc[CsJoinIntoClause]; info: Info): CsJoinIntoClause = discard #TODO(extract:CsJoinIntoClause)
+proc extract*(t: typedesc[CsJoinIntoClause]; info: Info): CsJoinIntoClause = assert false #TODO(extract:CsJoinIntoClause)
 
 method add*(parent: var CsJoinIntoClause; item: Dummy) =
-  discard # TODO(add:CsJoinIntoClause)
+  assert false # TODO(add:CsJoinIntoClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsJoinIntoClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsJoinIntoClause): string = discard #TODO(gen:CsJoinIntoClause)
+proc gen*(c: var CsJoinIntoClause): string = assert false #TODO(gen:CsJoinIntoClause)
 
 # ============= CsLabeledStatement ========
 
@@ -1952,14 +1966,14 @@ proc newCs*(t: typedesc[CsLabeledStatement]; name: string): CsLabeledStatement =
   result.typ = $typeof(t)
 #TODO(create:CsLabeledStatement)
 
-proc extract*(t: typedesc[CsLabeledStatement]; info: Info): CsLabeledStatement = discard #TODO(extract:CsLabeledStatement)
+proc extract*(t: typedesc[CsLabeledStatement]; info: Info): CsLabeledStatement = assert false #TODO(extract:CsLabeledStatement)
 
 method add*(parent: var CsLabeledStatement; item: Dummy) =
-  discard # TODO(add:CsLabeledStatement)
+  assert false # TODO(add:CsLabeledStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsLabeledStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsLabeledStatement): string = discard #TODO(gen:CsLabeledStatement)
+proc gen*(c: var CsLabeledStatement): string = assert false #TODO(gen:CsLabeledStatement)
 
 # ============= CsLetClause ========
 
@@ -1970,20 +1984,21 @@ proc newCs*(t: typedesc[CsLetClause]; name: string): CsLetClause =
   result.typ = $typeof(t)
 #TODO(create:CsLetClause)
 
-proc extract*(t: typedesc[CsLetClause]; info: Info): CsLetClause = discard #TODO(extract:CsLetClause)
+proc extract*(t: typedesc[CsLetClause]; info: Info): CsLetClause = assert false #TODO(extract:CsLetClause)
 
 method add*(parent: var CsLetClause; item: Dummy) =
-  discard # TODO(add:CsLetClause)
+  assert false # TODO(add:CsLetClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsLetClause): string = discard #TODO(gen:CsLetClause)
+proc gen*(c: var CsLetClause): string = assert false #TODO(gen:CsLetClause)
 
 # ============= CsLiteralExpression ========
 
 type CsLiteralExpression* = ref object of BodyExpr
   value*: string
-
+method add*(em: var CsEnumMember; item: CsLiteralExpression) =
+  em.add(item.value)
 proc newCs(t: typedesc[CsLiteralExpression]; val: string): CsLiteralExpression =
   new result
   result.typ = $typeof(t)
@@ -2014,11 +2029,11 @@ proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDecl
   
 
 method add*(parent: var CsLocalDeclarationStatement; item: Dummy) =
-  discard # TODO(add:CsLocalDeclarationStatement)
+  assert false # TODO(add:CsLocalDeclarationStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsLocalDeclarationStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsLocalDeclarationStatement): string = discard #TODO(gen:CsLocalDeclarationStatement)
+proc gen*(c: var CsLocalDeclarationStatement): string = assert false #TODO(gen:CsLocalDeclarationStatement)
 
 # ============= CsLocalFunctionStatement ========
 
@@ -2029,14 +2044,14 @@ proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctio
   result.typ = $typeof(t)
 #TODO(create:CsLocalFunctionStatement)
 
-proc extract*(t: typedesc[CsLocalFunctionStatement]; info: Info): CsLocalFunctionStatement = discard #TODO(extract:CsLocalFunctionStatement)
+proc extract*(t: typedesc[CsLocalFunctionStatement]; info: Info): CsLocalFunctionStatement = assert false #TODO(extract:CsLocalFunctionStatement)
 
 method add*(parent: var CsLocalFunctionStatement; item: Dummy) =
-  discard # TODO(add:CsLocalFunctionStatement)
+  assert false # TODO(add:CsLocalFunctionStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsLocalFunctionStatement): string = discard #TODO(gen:CsLocalFunctionStatement)
+proc gen*(c: var CsLocalFunctionStatement): string = assert false #TODO(gen:CsLocalFunctionStatement)
 
 # ============= CsLockStatement ========
 
@@ -2047,14 +2062,14 @@ proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =
   result.typ = $typeof(t)
 #TODO(create:CsLockStatement)
 
-proc extract*(t: typedesc[CsLockStatement]; info: Info): CsLockStatement = discard #TODO(extract:CsLockStatement)
+proc extract*(t: typedesc[CsLockStatement]; info: Info): CsLockStatement = assert false #TODO(extract:CsLockStatement)
 
 method add*(parent: var CsLockStatement; item: Dummy) =
-  discard # TODO(add:CsLockStatement)
+  assert false # TODO(add:CsLockStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsLockStatement): string = discard #TODO(gen:CsLockStatement)
+proc gen*(c: var CsLockStatement): string = assert false #TODO(gen:CsLockStatement)
 
 # ============= CsMakeRefExpression ========
 
@@ -2065,14 +2080,14 @@ proc newCs*(t: typedesc[CsMakeRefExpression]; name: string): CsMakeRefExpression
   result.typ = $typeof(t)
 #TODO(create:CsMakeRefExpression)
 
-proc extract*(t: typedesc[CsMakeRefExpression]; info: Info): CsMakeRefExpression = discard #TODO(extract:CsMakeRefExpression)
+proc extract*(t: typedesc[CsMakeRefExpression]; info: Info): CsMakeRefExpression = assert false #TODO(extract:CsMakeRefExpression)
 
 method add*(parent: var CsMakeRefExpression; item: Dummy) =
-  discard # TODO(add:CsMakeRefExpression)
+  assert false # TODO(add:CsMakeRefExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsMakeRefExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsMakeRefExpression): string = discard #TODO(gen:CsMakeRefExpression)
+proc gen*(c: var CsMakeRefExpression): string = assert false #TODO(gen:CsMakeRefExpression)
 
 # ============= CsMemberBindingExpression ========
 
@@ -2083,14 +2098,14 @@ proc newCs*(t: typedesc[CsMemberBindingExpression]; name: string): CsMemberBindi
   result.typ = $typeof(t)
 #TODO(create:CsMemberBindingExpression)
 
-proc extract*(t: typedesc[CsMemberBindingExpression]; info: Info): CsMemberBindingExpression = discard #TODO(extract:CsMemberBindingExpression)
+proc extract*(t: typedesc[CsMemberBindingExpression]; info: Info): CsMemberBindingExpression = assert false #TODO(extract:CsMemberBindingExpression)
 
 method add*(parent: var CsMemberBindingExpression; item: Dummy) =
-  discard # TODO(add:CsMemberBindingExpression)
+  assert false # TODO(add:CsMemberBindingExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsMemberBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsMemberBindingExpression): string = discard #TODO(gen:CsMemberBindingExpression)
+proc gen*(c: var CsMemberBindingExpression): string = assert false #TODO(gen:CsMemberBindingExpression)
 
 
 
@@ -2141,14 +2156,14 @@ proc newCs*(t: typedesc[CsNameColon]; name: string): CsNameColon =
   result.typ = $typeof(t)
 #TODO(create:CsNameColon)
 
-proc extract*(t: typedesc[CsNameColon]; info: Info): CsNameColon = discard #TODO(extract:CsNameColon)
+proc extract*(t: typedesc[CsNameColon]; info: Info): CsNameColon = assert false #TODO(extract:CsNameColon)
 
 method add*(parent: var CsNameColon; item: Dummy) =
-  discard # TODO(add:CsNameColon)
+  assert false # TODO(add:CsNameColon)
   # # item.parentId = parent.id
 # proc add*(parent: var CsNameColon; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsNameColon): string = discard #TODO(gen:CsNameColon)
+proc gen*(c: var CsNameColon): string = assert false #TODO(gen:CsNameColon)
 
 # ============= CsNameEquals ========
 
@@ -2159,14 +2174,14 @@ proc newCs*(t: typedesc[CsNameEquals]; name: string): CsNameEquals =
   result.typ = $typeof(t)
 #TODO(create:CsNameEquals)
 
-proc extract*(t: typedesc[CsNameEquals]; info: Info): CsNameEquals = discard #TODO(extract:CsNameEquals)
+proc extract*(t: typedesc[CsNameEquals]; info: Info): CsNameEquals = assert false #TODO(extract:CsNameEquals)
 
 method add*(parent: var CsNameEquals; item: Dummy) =
-  discard # TODO(add:CsNameEquals)
+  assert false # TODO(add:CsNameEquals)
   # # item.parentId = parent.id
 # proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsNameEquals): string = discard #TODO(gen:CsNameEquals)
+proc gen*(c: var CsNameEquals): string = assert false #TODO(gen:CsNameEquals)
 
 
 
@@ -2174,7 +2189,7 @@ type NamespaceParts* {.pure.} = enum
   Unset, Interfaces, Enums, Classes, Using
 
 
-# type Child = object
+# type Child* = object
 #   name: string
 #   case kind: NamespaceParts
 #   of NamespaceParts.Classes:
@@ -2331,14 +2346,14 @@ proc newCs*(t: typedesc[CsNullableType]; name: string): CsNullableType =
   result.typ = $typeof(t)
 #TODO(create:CsNullableType)
 
-proc extract*(t: typedesc[CsNullableType]; info: Info): CsNullableType = discard #TODO(extract:CsNullableType)
+proc extract*(t: typedesc[CsNullableType]; info: Info): CsNullableType = assert false #TODO(extract:CsNullableType)
 
 method add*(parent: var CsNullableType; item: Dummy) =
-  discard # TODO(add:CsNullableType)
+  assert false # TODO(add:CsNullableType)
   # # item.parentId = parent.id
 # proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsNullableType): string = discard #TODO(gen:CsNullableType)
+proc gen*(c: var CsNullableType): string = assert false #TODO(gen:CsNullableType)
 
 # ============= CsObjectCreationExpression ========
 
@@ -2361,9 +2376,9 @@ method add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
 # proc add*(parent: var CsObjectCreationExpression; item: CsArgumentList; data: AllNeededData) = parent.add(item) # TODO
 # proc add*(parent: var CsObjectCreationExpression; item: CsParameterList, data:AllNeededData) = parent.add(item) # TODO
 
-# proc add*(parent: var CsObjectCreationExpression; item: CsParameterList) = discard
+# proc add*(parent: var CsObjectCreationExpression; item: CsParameterList) = assert false
 
-method gen*(c: var CsObjectCreationExpression): string = discard #TODO(gen:CsObjectCreationExpression)
+method gen*(c: var CsObjectCreationExpression): string = assert false #TODO(gen:CsObjectCreationExpression)
 
 # ============= CsOmittedArraySizeExpression ========
 
@@ -2374,14 +2389,14 @@ proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedA
   result.typ = $typeof(t)
 #TODO(create:CsOmittedArraySizeExpression)
 
-proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedArraySizeExpression = discard #TODO(extract:CsOmittedArraySizeExpression)
+proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedArraySizeExpression = assert false #TODO(extract:CsOmittedArraySizeExpression)
 
 method add*(parent: var CsOmittedArraySizeExpression; item: Dummy) =
-  discard # TODO(add:CsOmittedArraySizeExpression)
+  assert false # TODO(add:CsOmittedArraySizeExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsOmittedArraySizeExpression): string = discard #TODO(gen:CsOmittedArraySizeExpression)
+proc gen*(c: var CsOmittedArraySizeExpression): string = assert false #TODO(gen:CsOmittedArraySizeExpression)
 
 # ============= CsOmittedTypeArgument ========
 
@@ -2392,14 +2407,14 @@ proc newCs*(t: typedesc[CsOmittedTypeArgument]; name: string): CsOmittedTypeArgu
   result.typ = $typeof(t)
 #TODO(create:CsOmittedTypeArgument)
 
-proc extract*(t: typedesc[CsOmittedTypeArgument]; info: Info): CsOmittedTypeArgument = discard #TODO(extract:CsOmittedTypeArgument)
+proc extract*(t: typedesc[CsOmittedTypeArgument]; info: Info): CsOmittedTypeArgument = assert false #TODO(extract:CsOmittedTypeArgument)
 
 method add*(parent: var CsOmittedTypeArgument; item: Dummy) =
-  discard # TODO(add:CsOmittedTypeArgument)
+  assert false # TODO(add:CsOmittedTypeArgument)
   # # item.parentId = parent.id
 # proc add*(parent: var CsOmittedTypeArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsOmittedTypeArgument): string = discard #TODO(gen:CsOmittedTypeArgument)
+proc gen*(c: var CsOmittedTypeArgument): string = assert false #TODO(gen:CsOmittedTypeArgument)
 
 # ============= CsOperator ========
 
@@ -2410,14 +2425,14 @@ proc newCs*(t: typedesc[CsOperator]; name: string): CsOperator =
   result.typ = $typeof(t)
 #TODO(create:CsOperator)
 
-proc extract*(t: typedesc[CsOperator]; info: Info): CsOperator = discard #TODO(extract:CsOperator)
+proc extract*(t: typedesc[CsOperator]; info: Info): CsOperator = assert false #TODO(extract:CsOperator)
 
 method add*(parent: var CsOperator; item: Dummy) =
-  discard # TODO(add:CsOperator)
+  assert false # TODO(add:CsOperator)
   # # item.parentId = parent.id
 # proc add*(parent: var CsOperator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsOperator): string = discard #TODO(gen:CsOperator)
+proc gen*(c: var CsOperator): string = assert false #TODO(gen:CsOperator)
 
 # ============= CsOrderByClause ========
 
@@ -2428,14 +2443,14 @@ proc newCs*(t: typedesc[CsOrderByClause]; name: string): CsOrderByClause =
   result.typ = $typeof(t)
 #TODO(create:CsOrderByClause)
 
-proc extract*(t: typedesc[CsOrderByClause]; info: Info): CsOrderByClause = discard #TODO(extract:CsOrderByClause)
+proc extract*(t: typedesc[CsOrderByClause]; info: Info): CsOrderByClause = assert false #TODO(extract:CsOrderByClause)
 
 method add*(parent: var CsOrderByClause; item: Dummy) =
-  discard # TODO(add:CsOrderByClause)
+  assert false # TODO(add:CsOrderByClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsOrderByClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsOrderByClause): string = discard #TODO(gen:CsOrderByClause)
+proc gen*(c: var CsOrderByClause): string = assert false #TODO(gen:CsOrderByClause)
 
 # ============= CsOrdering ========
 
@@ -2446,14 +2461,14 @@ proc newCs*(t: typedesc[CsOrdering]; name: string): CsOrdering =
   result.typ = $typeof(t)
 #TODO(create:CsOrdering)
 
-proc extract*(t: typedesc[CsOrdering]; info: Info): CsOrdering = discard #TODO(extract:CsOrdering)
+proc extract*(t: typedesc[CsOrdering]; info: Info): CsOrdering = assert false #TODO(extract:CsOrdering)
 
 method add*(parent: var CsOrdering; item: Dummy) =
-  discard # TODO(add:CsOrdering)
+  assert false # TODO(add:CsOrdering)
   # # item.parentId = parent.id
 # proc add*(parent: var CsOrdering; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsOrdering): string = discard #TODO(gen:CsOrdering)
+proc gen*(c: var CsOrdering): string = assert false #TODO(gen:CsOrdering)
 
 # ============ CsParameterList =================
 
@@ -2491,14 +2506,14 @@ proc newCs*(t: typedesc[CsParenthesizedExpression]; name: string): CsParenthesiz
   result.typ = $typeof(t)
 #TODO(create:CsParenthesizedExpression)
 
-proc extract*(t: typedesc[CsParenthesizedExpression]; info: Info): CsParenthesizedExpression = discard #TODO(extract:CsParenthesizedExpression)
+proc extract*(t: typedesc[CsParenthesizedExpression]; info: Info): CsParenthesizedExpression = assert false #TODO(extract:CsParenthesizedExpression)
 
 method add*(parent: var CsParenthesizedExpression; item: Dummy) =
-  discard # TODO(add:CsParenthesizedExpression)
+  assert false # TODO(add:CsParenthesizedExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsParenthesizedExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsParenthesizedExpression): string = discard #TODO(gen:CsParenthesizedExpression)
+proc gen*(c: var CsParenthesizedExpression): string = assert false #TODO(gen:CsParenthesizedExpression)
 
 # ============= CsParenthesizedLambdaExpression ========
 
@@ -2509,14 +2524,14 @@ proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; name: string): CsParen
   result.typ = $typeof(t)
 #TODO(create:CsParenthesizedLambdaExpression)
 
-proc extract*(t: typedesc[CsParenthesizedLambdaExpression]; info: Info): CsParenthesizedLambdaExpression = discard #TODO(extract:CsParenthesizedLambdaExpression)
+proc extract*(t: typedesc[CsParenthesizedLambdaExpression]; info: Info): CsParenthesizedLambdaExpression = assert false #TODO(extract:CsParenthesizedLambdaExpression)
 
 method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy) =
-  discard # TODO(add:CsParenthesizedLambdaExpression)
+  assert false # TODO(add:CsParenthesizedLambdaExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsParenthesizedLambdaExpression): string = discard #TODO(gen:CsParenthesizedLambdaExpression)
+proc gen*(c: var CsParenthesizedLambdaExpression): string = assert false #TODO(gen:CsParenthesizedLambdaExpression)
 
 # ============= CsParenthesizedVariableDesignation ========
 
@@ -2527,14 +2542,14 @@ proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; name: string): CsPa
   result.typ = $typeof(t)
 #TODO(create:CsParenthesizedVariableDesignation)
 
-proc extract*(t: typedesc[CsParenthesizedVariableDesignation]; info: Info): CsParenthesizedVariableDesignation = discard #TODO(extract:CsParenthesizedVariableDesignation)
+proc extract*(t: typedesc[CsParenthesizedVariableDesignation]; info: Info): CsParenthesizedVariableDesignation = assert false #TODO(extract:CsParenthesizedVariableDesignation)
 
 method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy) =
-  discard # TODO(add:CsParenthesizedVariableDesignation)
+  assert false # TODO(add:CsParenthesizedVariableDesignation)
   # # item.parentId = parent.id
 # proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsParenthesizedVariableDesignation): string = discard #TODO(gen:CsParenthesizedVariableDesignation)
+proc gen*(c: var CsParenthesizedVariableDesignation): string = assert false #TODO(gen:CsParenthesizedVariableDesignation)
 
 # ============= CsPointerType ========
 
@@ -2545,14 +2560,14 @@ proc newCs*(t: typedesc[CsPointerType]; name: string): CsPointerType =
   result.typ = $typeof(t)
 #TODO(create:CsPointerType)
 
-proc extract*(t: typedesc[CsPointerType]; info: Info): CsPointerType = discard #TODO(extract:CsPointerType)
+proc extract*(t: typedesc[CsPointerType]; info: Info): CsPointerType = assert false #TODO(extract:CsPointerType)
 
 method add*(parent: var CsPointerType; item: Dummy) =
-  discard # TODO(add:CsPointerType)
+  assert false # TODO(add:CsPointerType)
   # # item.parentId = parent.id
 # proc add*(parent: var CsPointerType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsPointerType): string = discard #TODO(gen:CsPointerType)
+proc gen*(c: var CsPointerType): string = assert false #TODO(gen:CsPointerType)
 
 # ============= CsPostfixUnaryExpression ========
 
@@ -2563,14 +2578,14 @@ proc newCs*(t: typedesc[CsPostfixUnaryExpression]; name: string): CsPostfixUnary
   result.typ = $typeof(t)
 #TODO(create:CsPostfixUnaryExpression)
 
-proc extract*(t: typedesc[CsPostfixUnaryExpression]; info: Info): CsPostfixUnaryExpression = discard #TODO(extract:CsPostfixUnaryExpression)
+proc extract*(t: typedesc[CsPostfixUnaryExpression]; info: Info): CsPostfixUnaryExpression = assert false #TODO(extract:CsPostfixUnaryExpression)
 
 method add*(parent: var CsPostfixUnaryExpression; item: Dummy) =
-  discard # TODO(add:CsPostfixUnaryExpression)
+  assert false # TODO(add:CsPostfixUnaryExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsPostfixUnaryExpression): string = discard #TODO(gen:CsPostfixUnaryExpression)
+proc gen*(c: var CsPostfixUnaryExpression): string = assert false #TODO(gen:CsPostfixUnaryExpression)
 
 # ============= CsPredefinedType ========
 
@@ -2587,7 +2602,7 @@ proc extract*(t: typedesc[CsPredefinedType]; info: Info; data: AllNeededData): C
   else: name = ""
   result = newCs(CsPredefinedType, name)
 
-proc gen*(c: var CsPredefinedType): string = discard #TODO(gen:CsPredefinedType)
+proc gen*(c: var CsPredefinedType): string = assert false #TODO(gen:CsPredefinedType)
 
 # ============= CsPrefixUnaryExpression ========
 
@@ -2598,14 +2613,14 @@ proc newCs*(t: typedesc[CsPrefixUnaryExpression]; name: string): CsPrefixUnaryEx
   result.typ = $typeof(t)
 #TODO(create:CsPrefixUnaryExpression)
 
-proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryExpression = discard #TODO(extract:CsPrefixUnaryExpression)
+proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryExpression = assert false #TODO(extract:CsPrefixUnaryExpression)
 
 method add*(parent: var CsPrefixUnaryExpression; item: Dummy) =
-  discard # TODO(add:CsPrefixUnaryExpression)
+  assert false # TODO(add:CsPrefixUnaryExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsPrefixUnaryExpression): string = discard #TODO(gen:CsPrefixUnaryExpression)
+proc gen*(c: var CsPrefixUnaryExpression): string = assert false #TODO(gen:CsPrefixUnaryExpression)
 
 proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
   new result
@@ -2639,14 +2654,14 @@ proc newCs*(t: typedesc[CsQueryBody]; name: string): CsQueryBody =
   result.typ = $typeof(t)
 #TODO(create:CsQueryBody)
 
-proc extract*(t: typedesc[CsQueryBody]; info: Info): CsQueryBody = discard #TODO(extract:CsQueryBody)
+proc extract*(t: typedesc[CsQueryBody]; info: Info): CsQueryBody = assert false #TODO(extract:CsQueryBody)
 
 method add*(parent: var CsQueryBody; item: Dummy) =
-  discard # TODO(add:CsQueryBody)
+  assert false # TODO(add:CsQueryBody)
   # # item.parentId = parent.id
 # proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsQueryBody): string = discard #TODO(gen:CsQueryBody)
+proc gen*(c: var CsQueryBody): string = assert false #TODO(gen:CsQueryBody)
 
 # ============= CsQueryContinuation ========
 
@@ -2657,14 +2672,14 @@ proc newCs*(t: typedesc[CsQueryContinuation]; name: string): CsQueryContinuation
   result.typ = $typeof(t)
 #TODO(create:CsQueryContinuation)
 
-proc extract*(t: typedesc[CsQueryContinuation]; info: Info): CsQueryContinuation = discard #TODO(extract:CsQueryContinuation)
+proc extract*(t: typedesc[CsQueryContinuation]; info: Info): CsQueryContinuation = assert false #TODO(extract:CsQueryContinuation)
 
 method add*(parent: var CsQueryContinuation; item: Dummy) =
-  discard # TODO(add:CsQueryContinuation)
+  assert false # TODO(add:CsQueryContinuation)
   # # item.parentId = parent.id
 # proc add*(parent: var CsQueryContinuation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsQueryContinuation): string = discard #TODO(gen:CsQueryContinuation)
+proc gen*(c: var CsQueryContinuation): string = assert false #TODO(gen:CsQueryContinuation)
 
 # ============= CsQueryExpression ========
 
@@ -2675,14 +2690,14 @@ proc newCs*(t: typedesc[CsQueryExpression]; name: string): CsQueryExpression =
   result.typ = $typeof(t)
 #TODO(create:CsQueryExpression)
 
-proc extract*(t: typedesc[CsQueryExpression]; info: Info): CsQueryExpression = discard #TODO(extract:CsQueryExpression)
+proc extract*(t: typedesc[CsQueryExpression]; info: Info): CsQueryExpression = assert false #TODO(extract:CsQueryExpression)
 
 method add*(parent: var CsQueryExpression; item: Dummy) =
-  discard # TODO(add:CsQueryExpression)
+  assert false # TODO(add:CsQueryExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsQueryExpression): string = discard #TODO(gen:CsQueryExpression)
+proc gen*(c: var CsQueryExpression): string = assert false #TODO(gen:CsQueryExpression)
 
 # ============= CsRefExpression ========
 
@@ -2693,14 +2708,14 @@ proc newCs*(t: typedesc[CsRefExpression]; name: string): CsRefExpression =
   result.typ = $typeof(t)
 #TODO(create:CsRefExpression)
 
-proc extract*(t: typedesc[CsRefExpression]; info: Info): CsRefExpression = discard #TODO(extract:CsRefExpression)
+proc extract*(t: typedesc[CsRefExpression]; info: Info): CsRefExpression = assert false #TODO(extract:CsRefExpression)
 
 method add*(parent: var CsRefExpression; item: Dummy) =
-  discard # TODO(add:CsRefExpression)
+  assert false # TODO(add:CsRefExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsRefExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsRefExpression): string = discard #TODO(gen:CsRefExpression)
+proc gen*(c: var CsRefExpression): string = assert false #TODO(gen:CsRefExpression)
 
 # ============= CsRefTypeExpression ========
 
@@ -2711,14 +2726,14 @@ proc newCs*(t: typedesc[CsRefTypeExpression]; name: string): CsRefTypeExpression
   result.typ = $typeof(t)
 #TODO(create:CsRefTypeExpression)
 
-proc extract*(t: typedesc[CsRefTypeExpression]; info: Info): CsRefTypeExpression = discard #TODO(extract:CsRefTypeExpression)
+proc extract*(t: typedesc[CsRefTypeExpression]; info: Info): CsRefTypeExpression = assert false #TODO(extract:CsRefTypeExpression)
 
 method add*(parent: var CsRefTypeExpression; item: Dummy) =
-  discard # TODO(add:CsRefTypeExpression)
+  assert false # TODO(add:CsRefTypeExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsRefTypeExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsRefTypeExpression): string = discard #TODO(gen:CsRefTypeExpression)
+proc gen*(c: var CsRefTypeExpression): string = assert false #TODO(gen:CsRefTypeExpression)
 
 # ============= CsRefType ========
 
@@ -2729,14 +2744,14 @@ proc newCs*(t: typedesc[CsRefType]; name: string): CsRefType =
   result.typ = $typeof(t)
 #TODO(create:CsRefType)
 
-proc extract*(t: typedesc[CsRefType]; info: Info): CsRefType = discard #TODO(extract:CsRefType)
+proc extract*(t: typedesc[CsRefType]; info: Info): CsRefType = assert false #TODO(extract:CsRefType)
 
 method add*(parent: var CsRefType; item: Dummy) =
-  discard # TODO(add:CsRefType)
+  assert false # TODO(add:CsRefType)
   # # item.parentId = parent.id
 # proc add*(parent: var CsRefType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsRefType): string = discard #TODO(gen:CsRefType)
+proc gen*(c: var CsRefType): string = assert false #TODO(gen:CsRefType)
 
 # ============= CsRefValueExpression ========
 
@@ -2747,14 +2762,14 @@ proc newCs*(t: typedesc[CsRefValueExpression]; name: string): CsRefValueExpressi
   result.typ = $typeof(t)
 #TODO(create:CsRefValueExpression)
 
-proc extract*(t: typedesc[CsRefValueExpression]; info: Info): CsRefValueExpression = discard #TODO(extract:CsRefValueExpression)
+proc extract*(t: typedesc[CsRefValueExpression]; info: Info): CsRefValueExpression = assert false #TODO(extract:CsRefValueExpression)
 
 method add*(parent: var CsRefValueExpression; item: Dummy) =
-  discard # TODO(add:CsRefValueExpression)
+  assert false # TODO(add:CsRefValueExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsRefValueExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsRefValueExpression): string = discard #TODO(gen:CsRefValueExpression)
+proc gen*(c: var CsRefValueExpression): string = assert false #TODO(gen:CsRefValueExpression)
 
 # ============= CsReturnStatement ========
 
@@ -2769,7 +2784,7 @@ proc extract*(t: typedesc[CsReturnStatement]; info: Info): CsReturnStatement =
   echo "From C# side -- expected to follow after return: " & expectedFollowupAsString
 
 
-method add*(parent: var CsReturnStatement; item: BodyExpr) = discard # (add:CsReturnStatement)
+method add*(parent: var CsReturnStatement; item: BodyExpr) = assert false # (add:CsReturnStatement)
 # proc add*(parent: var CsReturnStatement; item: BodyExpr; data: AllNeededData) = parent.add(item) # TODO
 
 method gen*(c: CsReturnStatement): string =
@@ -2786,14 +2801,14 @@ proc newCs*(t: typedesc[CsSelectClause]; name: string): CsSelectClause =
   result.typ = $typeof(t)
 #TODO(create:CsSelectClause)
 
-proc extract*(t: typedesc[CsSelectClause]; info: Info): CsSelectClause = discard #TODO(extract:CsSelectClause)
+proc extract*(t: typedesc[CsSelectClause]; info: Info): CsSelectClause = assert false #TODO(extract:CsSelectClause)
 
 method add*(parent: var CsSelectClause; item: Dummy) =
-  discard # TODO(add:CsSelectClause)
+  assert false # TODO(add:CsSelectClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsSelectClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsSelectClause): string = discard #TODO(gen:CsSelectClause)
+proc gen*(c: var CsSelectClause): string = assert false #TODO(gen:CsSelectClause)
 
 type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
 
@@ -2802,14 +2817,14 @@ proc newCs*(t: typedesc[CsSimpleBaseType]; name: string): CsSimpleBaseType =
   result.typ = $typeof(t)
 #TODO(create:CsSimpleBaseType)
 
-proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType = discard #TODO(extract:CsSimpleBaseType)
+proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType = assert false #TODO(extract:CsSimpleBaseType)
 
 method add*(parent: var CsSimpleBaseType; item: Dummy) =
-  discard # TODO(add:CsSimpleBaseType)
+  assert false # TODO(add:CsSimpleBaseType)
   # # item.parentId = parent.id
 # proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsSimpleBaseType): string = discard #TODO(gen:CsSimpleBaseType)
+proc gen*(c: var CsSimpleBaseType): string = assert false #TODO(gen:CsSimpleBaseType)
 
 # ============= CsSimpleLambdaExpression ========
 
@@ -2820,14 +2835,14 @@ proc newCs*(t: typedesc[CsSimpleLambdaExpression]; name: string): CsSimpleLambda
   result.typ = $typeof(t)
 #TODO(create:CsSimpleLambdaExpression)
 
-proc extract*(t: typedesc[CsSimpleLambdaExpression]; info: Info): CsSimpleLambdaExpression = discard #TODO(extract:CsSimpleLambdaExpression)
+proc extract*(t: typedesc[CsSimpleLambdaExpression]; info: Info): CsSimpleLambdaExpression = assert false #TODO(extract:CsSimpleLambdaExpression)
 
 method add*(parent: var CsSimpleLambdaExpression; item: Dummy) =
-  discard # TODO(add:CsSimpleLambdaExpression)
+  assert false # TODO(add:CsSimpleLambdaExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsSimpleLambdaExpression): string = discard #TODO(gen:CsSimpleLambdaExpression)
+proc gen*(c: var CsSimpleLambdaExpression): string = assert false #TODO(gen:CsSimpleLambdaExpression)
 
 # ============= CsSingleVariableDesignation ========
 
@@ -2838,14 +2853,14 @@ proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVar
   result.typ = $typeof(t)
 #TODO(create:CsSingleVariableDesignation)
 
-proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVariableDesignation = discard #TODO(extract:CsSingleVariableDesignation)
+proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVariableDesignation = assert false #TODO(extract:CsSingleVariableDesignation)
 
 method add*(parent: var CsSingleVariableDesignation; item: Dummy) =
-  discard # TODO(add:CsSingleVariableDesignation)
+  assert false # TODO(add:CsSingleVariableDesignation)
   # # item.parentId = parent.id
 # proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsSingleVariableDesignation): string = discard #TODO(gen:CsSingleVariableDesignation)
+proc gen*(c: var CsSingleVariableDesignation): string = assert false #TODO(gen:CsSingleVariableDesignation)
 
 # ============= CsSizeOfExpression ========
 
@@ -2856,14 +2871,14 @@ proc newCs*(t: typedesc[CsSizeOfExpression]; name: string): CsSizeOfExpression =
   result.typ = $typeof(t)
 #TODO(create:CsSizeOfExpression)
 
-proc extract*(t: typedesc[CsSizeOfExpression]; info: Info): CsSizeOfExpression = discard #TODO(extract:CsSizeOfExpression)
+proc extract*(t: typedesc[CsSizeOfExpression]; info: Info): CsSizeOfExpression = assert false #TODO(extract:CsSizeOfExpression)
 
 method add*(parent: var CsSizeOfExpression; item: Dummy) =
-  discard # TODO(add:CsSizeOfExpression)
+  assert false # TODO(add:CsSizeOfExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsSizeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsSizeOfExpression): string = discard #TODO(gen:CsSizeOfExpression)
+proc gen*(c: var CsSizeOfExpression): string = assert false #TODO(gen:CsSizeOfExpression)
 
 # ============= CsStackAllocArrayCreationExpression ========
 
@@ -2874,14 +2889,14 @@ proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression]; name: string): CsS
   result.typ = $typeof(t)
 #TODO(create:CsStackAllocArrayCreationExpression)
 
-proc extract*(t: typedesc[CsStackAllocArrayCreationExpression]; info: Info): CsStackAllocArrayCreationExpression = discard #TODO(extract:CsStackAllocArrayCreationExpression)
+proc extract*(t: typedesc[CsStackAllocArrayCreationExpression]; info: Info): CsStackAllocArrayCreationExpression = assert false #TODO(extract:CsStackAllocArrayCreationExpression)
 
 method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy) =
-  discard # TODO(add:CsStackAllocArrayCreationExpression)
+  assert false # TODO(add:CsStackAllocArrayCreationExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsStackAllocArrayCreationExpression): string = discard #TODO(gen:CsStackAllocArrayCreationExpression)
+proc gen*(c: var CsStackAllocArrayCreationExpression): string = assert false #TODO(gen:CsStackAllocArrayCreationExpression)
 
 # ============= CsStruct ========
 
@@ -2892,14 +2907,14 @@ proc newCs*(t: typedesc[CsStruct]; name: string): CsStruct =
   result.typ = $typeof(t)
 #TODO(create:CsStruct)
 
-proc extract*(t: typedesc[CsStruct]; info: Info): CsStruct = discard #TODO(extract:CsStruct)
+proc extract*(t: typedesc[CsStruct]; info: Info): CsStruct = assert false #TODO(extract:CsStruct)
 
 method add*(parent: var CsStruct; item: Dummy) =
-  discard # TODO(add:CsStruct)
+  assert false # TODO(add:CsStruct)
   # # item.parentId = parent.id
 # proc add*(parent: var CsStruct; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsStruct): string = discard #TODO(gen:CsStruct)
+proc gen*(c: var CsStruct): string = assert false #TODO(gen:CsStruct)
 
 # ============= CsSwitchSection ========
 
@@ -2910,14 +2925,14 @@ proc newCs*(t: typedesc[CsSwitchSection]; name: string): CsSwitchSection =
   result.typ = $typeof(t)
 #TODO(create:CsSwitchSection)
 
-proc extract*(t: typedesc[CsSwitchSection]; info: Info): CsSwitchSection = discard #TODO(extract:CsSwitchSection)
+proc extract*(t: typedesc[CsSwitchSection]; info: Info): CsSwitchSection = assert false #TODO(extract:CsSwitchSection)
 
 method add*(parent: var CsSwitchSection; item: Dummy) =
-  discard # TODO(add:CsSwitchSection)
+  assert false # TODO(add:CsSwitchSection)
   # # item.parentId = parent.id
 # proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsSwitchSection): string = discard #TODO(gen:CsSwitchSection)
+proc gen*(c: var CsSwitchSection): string = assert false #TODO(gen:CsSwitchSection)
 
 # ============= CsSwitchStatement ========
 
@@ -2928,14 +2943,14 @@ proc newCs*(t: typedesc[CsSwitchStatement]; name: string): CsSwitchStatement =
   result.typ = $typeof(t)
 #TODO(create:CsSwitchStatement)
 
-proc extract*(t: typedesc[CsSwitchStatement]; info: Info): CsSwitchStatement = discard #TODO(extract:CsSwitchStatement)
+proc extract*(t: typedesc[CsSwitchStatement]; info: Info): CsSwitchStatement = assert false #TODO(extract:CsSwitchStatement)
 
 method add*(parent: var CsSwitchStatement; item: Dummy) =
-  discard # TODO(add:CsSwitchStatement)
+  assert false # TODO(add:CsSwitchStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsSwitchStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsSwitchStatement): string = discard #TODO(gen:CsSwitchStatement)
+proc gen*(c: var CsSwitchStatement): string = assert false #TODO(gen:CsSwitchStatement)
 
 type CsThisExpression* = ref object of CsObject #TODO(type:CsThisExpression)
 
@@ -2944,14 +2959,14 @@ proc newCs*(t: typedesc[CsThisExpression]; name: string): CsThisExpression =
   result.typ = $typeof(t)
 #TODO(create:CsThisExpression)
 
-proc extract*(t: typedesc[CsThisExpression]; info: Info): CsThisExpression = discard #TODO(extract:CsThisExpression)
+proc extract*(t: typedesc[CsThisExpression]; info: Info): CsThisExpression = assert false #TODO(extract:CsThisExpression)
 
 method add*(parent: var CsThisExpression; item: Dummy) =
-  discard # TODO(add:CsThisExpression)
+  assert false # TODO(add:CsThisExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsThisExpression): string = discard #TODO(gen:CsThisExpression)
+proc gen*(c: var CsThisExpression): string = assert false #TODO(gen:CsThisExpression)
 
 # ============= CsThrowExpression ========
 
@@ -2962,14 +2977,14 @@ proc newCs*(t: typedesc[CsThrowExpression]; name: string): CsThrowExpression =
   result.typ = $typeof(t)
 #TODO(create:CsThrowExpression)
 
-proc extract*(t: typedesc[CsThrowExpression]; info: Info): CsThrowExpression = discard #TODO(extract:CsThrowExpression)
+proc extract*(t: typedesc[CsThrowExpression]; info: Info): CsThrowExpression = assert false #TODO(extract:CsThrowExpression)
 
 method add*(parent: var CsThrowExpression; item: Dummy) =
-  discard # TODO(add:CsThrowExpression)
+  assert false # TODO(add:CsThrowExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsThrowExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsThrowExpression): string = discard #TODO(gen:CsThrowExpression)
+proc gen*(c: var CsThrowExpression): string = assert false #TODO(gen:CsThrowExpression)
 
 # ============= CsThrowStatement ========
 
@@ -2980,14 +2995,14 @@ proc newCs*(t: typedesc[CsThrowStatement]; name: string): CsThrowStatement =
   result.typ = $typeof(t)
 #TODO(create:CsThrowStatement)
 
-proc extract*(t: typedesc[CsThrowStatement]; info: Info): CsThrowStatement = discard #TODO(extract:CsThrowStatement)
+proc extract*(t: typedesc[CsThrowStatement]; info: Info): CsThrowStatement = assert false #TODO(extract:CsThrowStatement)
 
 method add*(parent: var CsThrowStatement; item: Dummy) =
-  discard # TODO(add:CsThrowStatement)
+  assert false # TODO(add:CsThrowStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsThrowStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsThrowStatement): string = discard #TODO(gen:CsThrowStatement)
+proc gen*(c: var CsThrowStatement): string = assert false #TODO(gen:CsThrowStatement)
 
 # ============= CsTryStatement ========
 
@@ -2998,14 +3013,14 @@ proc newCs*(t: typedesc[CsTryStatement]; name: string): CsTryStatement =
   result.typ = $typeof(t)
 #TODO(create:CsTryStatement)
 
-proc extract*(t: typedesc[CsTryStatement]; info: Info): CsTryStatement = discard #TODO(extract:CsTryStatement)
+proc extract*(t: typedesc[CsTryStatement]; info: Info): CsTryStatement = assert false #TODO(extract:CsTryStatement)
 
 method add*(parent: var CsTryStatement; item: Dummy) =
-  discard # TODO(add:CsTryStatement)
+  assert false # TODO(add:CsTryStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTryStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTryStatement): string = discard #TODO(gen:CsTryStatement)
+proc gen*(c: var CsTryStatement): string = assert false #TODO(gen:CsTryStatement)
 
 # ============= CsTupleElement ========
 
@@ -3016,14 +3031,14 @@ proc newCs*(t: typedesc[CsTupleElement]; name: string): CsTupleElement =
   result.typ = $typeof(t)
 #TODO(create:CsTupleElement)
 
-proc extract*(t: typedesc[CsTupleElement]; info: Info): CsTupleElement = discard #TODO(extract:CsTupleElement)
+proc extract*(t: typedesc[CsTupleElement]; info: Info): CsTupleElement = assert false #TODO(extract:CsTupleElement)
 
 method add*(parent: var CsTupleElement; item: Dummy) =
-  discard # TODO(add:CsTupleElement)
+  assert false # TODO(add:CsTupleElement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTupleElement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTupleElement): string = discard #TODO(gen:CsTupleElement)
+proc gen*(c: var CsTupleElement): string = assert false #TODO(gen:CsTupleElement)
 
 # ============= CsTupleExpression ========
 
@@ -3034,14 +3049,14 @@ proc newCs*(t: typedesc[CsTupleExpression]; name: string): CsTupleExpression =
   result.typ = $typeof(t)
 #TODO(create:CsTupleExpression)
 
-proc extract*(t: typedesc[CsTupleExpression]; info: Info): CsTupleExpression = discard #TODO(extract:CsTupleExpression)
+proc extract*(t: typedesc[CsTupleExpression]; info: Info): CsTupleExpression = assert false #TODO(extract:CsTupleExpression)
 
 method add*(parent: var CsTupleExpression; item: Dummy) =
-  discard # TODO(add:CsTupleExpression)
+  assert false # TODO(add:CsTupleExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTupleExpression): string = discard #TODO(gen:CsTupleExpression)
+proc gen*(c: var CsTupleExpression): string = assert false #TODO(gen:CsTupleExpression)
 
 # ============= CsTupleType ========
 
@@ -3052,14 +3067,14 @@ proc newCs*(t: typedesc[CsTupleType]; name: string): CsTupleType =
   result.typ = $typeof(t)
 #TODO(create:CsTupleType)
 
-proc extract*(t: typedesc[CsTupleType]; info: Info): CsTupleType = discard #TODO(extract:CsTupleType)
+proc extract*(t: typedesc[CsTupleType]; info: Info): CsTupleType = assert false #TODO(extract:CsTupleType)
 
 method add*(parent: var CsTupleType; item: Dummy) =
-  discard # TODO(add:CsTupleType)
+  assert false # TODO(add:CsTupleType)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTupleType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTupleType): string = discard #TODO(gen:CsTupleType)
+proc gen*(c: var CsTupleType): string = assert false #TODO(gen:CsTupleType)
 
 # ============= CsTypeArgumentList ========
 
@@ -3070,14 +3085,14 @@ proc newCs*(t: typedesc[CsTypeArgumentList]; name: string): CsTypeArgumentList =
   result.typ = $typeof(t)
 #TODO(create:CsTypeArgumentList)
 
-proc extract*(t: typedesc[CsTypeArgumentList]; info: Info): CsTypeArgumentList = discard #TODO(extract:CsTypeArgumentList)
+proc extract*(t: typedesc[CsTypeArgumentList]; info: Info): CsTypeArgumentList = assert false #TODO(extract:CsTypeArgumentList)
 
 method add*(parent: var CsTypeArgumentList; item: Dummy) =
-  discard # TODO(add:CsTypeArgumentList)
+  assert false # TODO(add:CsTypeArgumentList)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTypeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTypeArgumentList): string = discard #TODO(gen:CsTypeArgumentList)
+proc gen*(c: var CsTypeArgumentList): string = assert false #TODO(gen:CsTypeArgumentList)
 
 # ============= CsTypeConstraint ========
 
@@ -3088,14 +3103,14 @@ proc newCs*(t: typedesc[CsTypeConstraint]; name: string): CsTypeConstraint =
   result.typ = $typeof(t)
 #TODO(create:CsTypeConstraint)
 
-proc extract*(t: typedesc[CsTypeConstraint]; info: Info): CsTypeConstraint = discard #TODO(extract:CsTypeConstraint)
+proc extract*(t: typedesc[CsTypeConstraint]; info: Info): CsTypeConstraint = assert false #TODO(extract:CsTypeConstraint)
 
 method add*(parent: var CsTypeConstraint; item: Dummy) =
-  discard # TODO(add:CsTypeConstraint)
+  assert false # TODO(add:CsTypeConstraint)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTypeConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTypeConstraint): string = discard #TODO(gen:CsTypeConstraint)
+proc gen*(c: var CsTypeConstraint): string = assert false #TODO(gen:CsTypeConstraint)
 
 type CsTypeOfExpression* = ref object of CsObject #TODO(type:CsTypeOfExpression)
 
@@ -3104,14 +3119,14 @@ proc newCs*(t: typedesc[CsTypeOfExpression]; name: string): CsTypeOfExpression =
   result.typ = $typeof(t)
 #TODO(create:CsTypeOfExpression)
 
-proc extract*(t: typedesc[CsTypeOfExpression]; info: Info): CsTypeOfExpression = discard #TODO(extract:CsTypeOfExpression)
+proc extract*(t: typedesc[CsTypeOfExpression]; info: Info): CsTypeOfExpression = assert false #TODO(extract:CsTypeOfExpression)
 
 method add*(parent: var CsTypeOfExpression; item: Dummy) =
-  discard # TODO(add:CsTypeOfExpression)
+  assert false # TODO(add:CsTypeOfExpression)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTypeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTypeOfExpression): string = discard #TODO(gen:CsTypeOfExpression)
+proc gen*(c: var CsTypeOfExpression): string = assert false #TODO(gen:CsTypeOfExpression)
 
 # ============= CsTypeParameterConstraintClause ========
 
@@ -3122,14 +3137,14 @@ proc newCs*(t: typedesc[CsTypeParameterConstraintClause]; name: string): CsTypeP
   result.typ = $typeof(t)
 #TODO(create:CsTypeParameterConstraintClause)
 
-proc extract*(t: typedesc[CsTypeParameterConstraintClause]; info: Info): CsTypeParameterConstraintClause = discard #TODO(extract:CsTypeParameterConstraintClause)
+proc extract*(t: typedesc[CsTypeParameterConstraintClause]; info: Info): CsTypeParameterConstraintClause = assert false #TODO(extract:CsTypeParameterConstraintClause)
 
 method add*(parent: var CsTypeParameterConstraintClause; item: Dummy) =
-  discard # TODO(add:CsTypeParameterConstraintClause)
+  assert false # TODO(add:CsTypeParameterConstraintClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTypeParameterConstraintClause): string = discard #TODO(gen:CsTypeParameterConstraintClause)
+proc gen*(c: var CsTypeParameterConstraintClause): string = assert false #TODO(gen:CsTypeParameterConstraintClause)
 
 # ============= CsTypeParameterList ========
 
@@ -3140,14 +3155,14 @@ proc newCs*(t: typedesc[CsTypeParameterList]; name: string): CsTypeParameterList
   result.typ = $typeof(t)
 #TODO(create:CsTypeParameterList)
 
-proc extract*(t: typedesc[CsTypeParameterList]; info: Info): CsTypeParameterList = discard #TODO(extract:CsTypeParameterList)
+proc extract*(t: typedesc[CsTypeParameterList]; info: Info): CsTypeParameterList = assert false #TODO(extract:CsTypeParameterList)
 
 method add*(parent: var CsTypeParameterList; item: Dummy) =
-  discard # TODO(add:CsTypeParameterList)
+  assert false # TODO(add:CsTypeParameterList)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTypeParameterList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTypeParameterList): string = discard #TODO(gen:CsTypeParameterList)
+proc gen*(c: var CsTypeParameterList): string = assert false #TODO(gen:CsTypeParameterList)
 
 # ============= CsTypeParameter ========
 
@@ -3158,14 +3173,14 @@ proc newCs*(t: typedesc[CsTypeParameter]; name: string): CsTypeParameter =
   result.typ = $typeof(t)
 #TODO(create:CsTypeParameter)
 
-proc extract*(t: typedesc[CsTypeParameter]; info: Info): CsTypeParameter = discard #TODO(extract:CsTypeParameter)
+proc extract*(t: typedesc[CsTypeParameter]; info: Info): CsTypeParameter = assert false #TODO(extract:CsTypeParameter)
 
 method add*(parent: var CsTypeParameter; item: Dummy) =
-  discard # TODO(add:CsTypeParameter)
+  assert false # TODO(add:CsTypeParameter)
   # # item.parentId = parent.id
 # proc add*(parent: var CsTypeParameter; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsTypeParameter): string = discard #TODO(gen:CsTypeParameter)
+proc gen*(c: var CsTypeParameter): string = assert false #TODO(gen:CsTypeParameter)
 
 # ============= CsUnsafeStatement ========
 
@@ -3176,14 +3191,14 @@ proc newCs*(t: typedesc[CsUnsafeStatement]; name: string): CsUnsafeStatement =
   result.typ = $typeof(t)
 #TODO(create:CsUnsafeStatement)
 
-proc extract*(t: typedesc[CsUnsafeStatement]; info: Info): CsUnsafeStatement = discard #TODO(extract:CsUnsafeStatement)
+proc extract*(t: typedesc[CsUnsafeStatement]; info: Info): CsUnsafeStatement = assert false #TODO(extract:CsUnsafeStatement)
 
 method add*(parent: var CsUnsafeStatement; item: Dummy) =
-  discard # TODO(add:CsUnsafeStatement)
+  assert false # TODO(add:CsUnsafeStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsUnsafeStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsUnsafeStatement): string = discard #TODO(gen:CsUnsafeStatement)
+proc gen*(c: var CsUnsafeStatement): string = assert false #TODO(gen:CsUnsafeStatement)
 
 # ============= CsUsingDirective ========
 
@@ -3199,7 +3214,7 @@ proc extract*(t: typedesc[CsUsingDirective]; info: Info): CsUsingDirective =
 
 method add*(parent: var CsUsingDirective; item: Dummy) =
   # # item.parentId = parent.id
-  discard # TODO(add:CsUsingDirective)
+  assert false # TODO(add:CsUsingDirective)
 
 # proc add*(parent: var CsUsingDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
@@ -3212,14 +3227,14 @@ proc newCs*(t: typedesc[CsUsingStatement]; name: string): CsUsingStatement =
   result.typ = $typeof(t)
 #TODO(create:CsUsingStatement)
 
-proc extract*(t: typedesc[CsUsingStatement]; info: Info): CsUsingStatement = discard #TODO(extract:CsUsingStatement)
+proc extract*(t: typedesc[CsUsingStatement]; info: Info): CsUsingStatement = assert false #TODO(extract:CsUsingStatement)
 
 method add*(parent: var CsUsingStatement; item: Dummy) =
-  discard # TODO(add:CsUsingStatement)
+  assert false # TODO(add:CsUsingStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsUsingStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsUsingStatement): string = discard #TODO(gen:CsUsingStatement)
+proc gen*(c: var CsUsingStatement): string = assert false #TODO(gen:CsUsingStatement)
 
 # ============= CsWhenClause ========
 
@@ -3230,14 +3245,14 @@ proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
   result.typ = $typeof(t)
 #TODO(create:CsWhenClause)
 
-proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = discard #TODO(extract:CsWhenClause)
+proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = assert false #TODO(extract:CsWhenClause)
 
 method add*(parent: var CsWhenClause; item: Dummy) =
-  discard # TODO(add:CsWhenClause)
+  assert false # TODO(add:CsWhenClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsWhenClause): string = discard #TODO(gen:CsWhenClause)
+proc gen*(c: var CsWhenClause): string = assert false #TODO(gen:CsWhenClause)
 
 # ============= CsWhereClause ========
 
@@ -3248,14 +3263,14 @@ proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =
   result.typ = $typeof(t)
 #TODO(create:CsWhereClause)
 
-proc extract*(t: typedesc[CsWhereClause]; info: Info): CsWhereClause = discard #TODO(extract:CsWhereClause)
+proc extract*(t: typedesc[CsWhereClause]; info: Info): CsWhereClause = assert false #TODO(extract:CsWhereClause)
 
 method add*(parent: var CsWhereClause; item: Dummy) =
-  discard # TODO(add:CsWhereClause)
+  assert false # TODO(add:CsWhereClause)
   # # item.parentId = parent.id
 # proc add*(parent: var CsWhereClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsWhereClause): string = discard #TODO(gen:CsWhereClause)
+proc gen*(c: var CsWhereClause): string = assert false #TODO(gen:CsWhereClause)
 
 # ============= CsWhileStatement ========
 
@@ -3266,14 +3281,14 @@ proc newCs*(t: typedesc[CsWhileStatement]; name: string): CsWhileStatement =
   result.typ = $typeof(t)
 #TODO(create:CsWhileStatement)
 
-proc extract*(t: typedesc[CsWhileStatement]; info: Info): CsWhileStatement = discard #TODO(extract:CsWhileStatement)
+proc extract*(t: typedesc[CsWhileStatement]; info: Info): CsWhileStatement = assert false #TODO(extract:CsWhileStatement)
 
 method add*(parent: var CsWhileStatement; item: Dummy) =
-  discard # TODO(add:CsWhileStatement)
+  assert false # TODO(add:CsWhileStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsWhileStatement): string = discard #TODO(gen:CsWhileStatement)
+proc gen*(c: var CsWhileStatement): string = assert false #TODO(gen:CsWhileStatement)
 
 # ============= CsYieldStatement ========
 
@@ -3284,13 +3299,128 @@ proc newCs*(t: typedesc[CsYieldStatement]; name: string): CsYieldStatement =
   result.typ = $typeof(t)
 #TODO(create:CsYieldStatement)
 
-proc extract*(t: typedesc[CsYieldStatement]; info: Info): CsYieldStatement = discard #TODO(extract:CsYieldStatement)
+proc extract*(t: typedesc[CsYieldStatement]; info: Info): CsYieldStatement = assert false #TODO(extract:CsYieldStatement)
 
 method add*(parent: var CsYieldStatement; item: Dummy) =
-  discard # TODO(add:CsYieldStatement)
+  assert false # TODO(add:CsYieldStatement)
   # # item.parentId = parent.id
 # proc add*(parent: var CsYieldStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsYieldStatement): string = discard #TODO(gen:CsYieldStatement)
+proc gen*(c: var CsYieldStatement): string = assert false #TODO(gen:CsYieldStatement)
 
 # ======================================================
+
+type CsBlock* = ref object of CsObject
+method add*(parent:var CsBlock; item: Dummy) = assert false
+proc extract*(t: typedesc[CsBlock]):CsBlock = assert false
+method gen*(c: var CsBlock):string = assert false
+
+type CsVariable* = ref object of CsObject
+method add*(parent:var CsVariable; item: Dummy) = assert false
+proc extract*(t: typedesc[CsVariable]):CsVariable = assert false
+method gen*(c: var CsVariable):string = assert false
+
+type CsBinaryPattern* = ref object of CsObject
+method add*(parent:var CsBinaryPattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsBinaryPattern]):CsBinaryPattern = assert false
+method gen*(c: var CsBinaryPattern):string = assert false
+
+type CsDiscardPattern* = ref object of CsObject
+method add*(parent:var CsDiscardPattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsDiscardPattern]):CsDiscardPattern = assert false
+method gen*(c: var CsDiscardPattern):string = assert false
+
+type CsFunctionPointerType* = ref object of CsObject
+method add*(parent:var CsFunctionPointerType; item: Dummy) = assert false
+proc extract*(t: typedesc[CsFunctionPointerType]):CsFunctionPointerType = assert false
+method gen*(c: var CsFunctionPointerType):string = assert false
+
+type CsImplicitObjectCreationExpression* = ref object of CsObject
+method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy) = assert false
+proc extract*(t: typedesc[CsImplicitObjectCreationExpression]):CsImplicitObjectCreationExpression = assert false
+method gen*(c: var CsImplicitObjectCreationExpression):string = assert false
+
+type CsMemberAccessExpression* = ref object of CsObject
+method add*(parent:var CsMemberAccessExpression; item: Dummy) = assert false
+proc extract*(t: typedesc[CsMemberAccessExpression]):CsMemberAccessExpression = assert false
+method gen*(c: var CsMemberAccessExpression):string = assert false
+
+type CsParenthesizedPattern* = ref object of CsObject
+method add*(parent:var CsParenthesizedPattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsParenthesizedPattern]):CsParenthesizedPattern = assert false
+method gen*(c: var CsParenthesizedPattern):string = assert false
+
+type CsPositionalPatternClause* = ref object of CsObject
+method add*(parent:var CsPositionalPatternClause; item: Dummy) = assert false
+proc extract*(t: typedesc[CsPositionalPatternClause]):CsPositionalPatternClause = assert false
+method gen*(c: var CsPositionalPatternClause):string = assert false
+
+type CsPrimaryConstructorBaseType* = ref object of CsObject
+method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy) = assert false
+proc extract*(t: typedesc[CsPrimaryConstructorBaseType]):CsPrimaryConstructorBaseType = assert false
+method gen*(c: var CsPrimaryConstructorBaseType):string = assert false
+
+type CsPropertyPatternClause* = ref object of CsObject
+method add*(parent:var CsPropertyPatternClause; item: Dummy) = assert false
+proc extract*(t: typedesc[CsPropertyPatternClause]):CsPropertyPatternClause = assert false
+method gen*(c: var CsPropertyPatternClause):string = assert false
+
+type CsRangeExpression* = ref object of CsObject
+method add*(parent:var CsRangeExpression; item: Dummy) = assert false
+proc extract*(t: typedesc[CsRangeExpression]):CsRangeExpression = assert false
+method gen*(c: var CsRangeExpression):string = assert false
+
+type CsRecord* = ref object of CsObject
+method add*(parent:var CsRecord; item: Dummy) = assert false
+proc extract*(t: typedesc[CsRecord]):CsRecord = assert false
+method gen*(c: var CsRecord):string = assert false
+
+type CsRecursivePattern* = ref object of CsObject
+method add*(parent:var CsRecursivePattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsRecursivePattern]):CsRecursivePattern = assert false
+method gen*(c: var CsRecursivePattern):string = assert false
+
+type CsRelationalPattern* = ref object of CsObject
+method add*(parent:var CsRelationalPattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsRelationalPattern]):CsRelationalPattern = assert false
+method gen*(c: var CsRelationalPattern):string = assert false
+
+type CsSubpattern* = ref object of CsObject
+method add*(parent:var CsSubpattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsSubpattern]):CsSubpattern = assert false
+method gen*(c: var CsSubpattern):string = assert false
+
+type CsSwitchExpression* = ref object of CsObject
+method add*(parent:var CsSwitchExpression; item: Dummy) = assert false
+proc extract*(t: typedesc[CsSwitchExpression]):CsSwitchExpression = assert false
+method gen*(c: var CsSwitchExpression):string = assert false
+
+type CsSwitchExpressionArm* = ref object of CsObject
+method add*(parent:var CsSwitchExpressionArm; item: Dummy) = assert false
+proc extract*(t: typedesc[CsSwitchExpressionArm]):CsSwitchExpressionArm = assert false
+method gen*(c: var CsSwitchExpressionArm):string = assert false
+
+type CsTypePattern* = ref object of CsObject
+method add*(parent:var CsTypePattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsTypePattern]):CsTypePattern = assert false
+method gen*(c: var CsTypePattern):string = assert false
+
+type CsUnaryPattern* = ref object of CsObject
+method add*(parent:var CsUnaryPattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsUnaryPattern]):CsUnaryPattern = assert false
+method gen*(c: var CsUnaryPattern):string = assert false
+
+type CsVarPattern* = ref object of CsObject
+method add*(parent:var CsVarPattern; item: Dummy) = assert false
+proc extract*(t: typedesc[CsVarPattern]):CsVarPattern = assert false
+method gen*(c: var CsVarPattern):string = assert false
+
+type CsWithExpression* = ref object of CsObject
+method add*(parent:var CsWithExpression; item: Dummy) = assert false
+proc extract*(t: typedesc[CsWithExpression]):CsWithExpression = assert false
+method gen*(c: var CsWithExpression):string = assert false
+
+type CsImplicitStackAllocArrayCreationExpression* = ref object of CsObject
+method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy) = assert false
+proc extract*(t: typedesc[CsImplicitStackAllocArrayCreationExpression]):CsImplicitStackAllocArrayCreationExpression = assert false
+method gen*(c: var CsImplicitStackAllocArrayCreationExpression):string = assert false

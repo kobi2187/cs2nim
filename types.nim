@@ -3,7 +3,6 @@
 # import tables
 import json
 
-type Dummy* = object
 
 
 # pass this object instead of many arguments
@@ -28,6 +27,8 @@ type CsObject* = object of RootRef
   # line*: JsonNode
   src*: string
   isComplete*: bool
+
+type Dummy* = ref object of CsObject
 
 type Module* = object
   name*: string

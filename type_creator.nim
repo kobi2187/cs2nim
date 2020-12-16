@@ -31,7 +31,7 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
   of "MethodDeclaration":
     var a = extract(CsMethod, info, data)
     a.id = some(id)
-    result = Construct(kind: ckMethod, `method`: a)
+    result = Construct(kind: ckMethod, cmethod: a)
   # still unsupported
   of "PredefinedType":
     var a = extract(CsPredefinedType, info, data)
@@ -45,8 +45,25 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     var a = extract(CsLocalDeclarationStatement, info,data)
     a.id = some(id)
     result = Construct(kind: ckLocalDeclarationStatement, localDeclarationStatement: a)
-    
+  of "EnumDeclaration":
+    var a = extract(CsEnum, info)
+    a.id = some(id)
+    result = Construct(kind: ckEnum, cenum: a)
+  of "EnumMemberDeclaration":
+    var a = extract(CsEnumMember, info)
+    a.id = some(id)
+    result = Construct(kind: ckEnumMember, enumMember: a)
+  of "EqualsValueClause": # assignment.
+    var a = extract(CsEqualsValueClause, info) #, data); 
+    a.id = some(id)
+    result = Construct(kind: ckEqualsValueClause, equalsValueClause: a)
+
+  of "LiteralExpression":
+    var a = extract(CsLiteralExpression, info) #, data); 
+    a.id = some(id)
+    result = Construct(kind: ckLiteralExpression, literalExpression: a)
+
   of ["... add here."]: discard # TODO
-  else: assert false, "still unsupported " & info.declName & " : maybe in handle_construct.nim"
+  else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
 
   result.id = some(id)
