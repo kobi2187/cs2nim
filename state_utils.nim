@@ -5,8 +5,10 @@ import state, types #, block_utils
 
 import strutils, options
 import constructs/cs_root
-import tables
-proc nsPathNS(r: CsRoot): seq[CsNamespace] =
+import tables,sets
+import construct
+proc nsPathNS(r: var CsRoot): seq[CsNamespace] =
+  echo "in nsPathNS ",  $blocks
   var started = false
  # we assume blocks starts with namespaces.
  # echo blocks
@@ -14,17 +16,25 @@ proc nsPathNS(r: CsRoot): seq[CsNamespace] =
     if b.name == "StartBlock": continue # ignore.
     elif b.name == "NamespaceDeclaration":
       started = true
-      let name = extract(CsNamespace, b.info).name
-      echo "the name: " & name
-      let actualNs = r.nsTables[name]
-      result.add(actualNs)
+      let ns = r.fetch(b.id)
+      if ns.isNone: return
+      else:
+        if ns.get.kind == ckNamespace:
+          echo "the name: " & ns.get.namespace.name
+          result.add(ns.get.namespace)
+      # let name = extract(CsNamespace, b.info).name
+      # # assert r.nsTables.hasKey(name), "r.nsTables doesn't have it:" & $name
+      # let actual = r.ns.toSeq.filterIt(it.name == name)
+      # let actualNs = 
+      # r.nsTables[name]
+
     else:
       if not started:
         continue # ignore the beginning until we find a namespace.
       else: # both started and not ns: stop
         break # stop after last ns.
 
-proc nsPath*(r: CsRoot): string = # SAME?
+proc nsPath*(r: var CsRoot): string = # SAME?
   let ns = nsPathNS(r)
   result = if ns.len > 0:
     ns.mapIt(it.name).join(".")
@@ -54,7 +64,7 @@ proc getLastClass*(ns: CsNamespace): Option[CsClass] =
   else:
     result = some(ns.classes.last)
 
-proc getLastClass*(root: CsRoot): Option[CsClass] =
+proc getLastClass*(root: var CsRoot): Option[CsClass] =
   var ns = nsPathNS(root)
   if ns.len == 0: ns = @[root.global]
   result = ns.last.getLastClass()
@@ -70,7 +80,7 @@ proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
     return some(cls.ctors.last)
 
 import tables
-proc getCurrentNs*(root: CsRoot): (string, CsNamespace) =
+proc getCurrentNs*(root:var CsRoot): (string, CsNamespace) =
   var p = nsPath(root)
   if p == "": p = "default"
   echo p
@@ -135,7 +145,7 @@ proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
       result = c.get.getLastProperty()
   of [NamespaceParts.Enums, NamespaceParts.Unset, NamespaceParts.Using]: discard
 
-proc getLastProperty*(root: CsRoot): Option[CsProperty] =
+proc getLastProperty*(root: var CsRoot): Option[CsProperty] =
   var (_, ns) = root.getCurrentNs
   result = ns.getLastProperty()
 
@@ -160,7 +170,7 @@ proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
       result = c.get.getIndexer()
   of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums,NamespaceParts.Using]: discard
 
-proc getLastIndexer*(root: CsRoot): Option[CsIndexer] =
+proc getLastIndexer*(root: var CsRoot): Option[CsIndexer] =
   var (_, ns) = root.getCurrentNs
   result = ns.getLastIndexer()
 

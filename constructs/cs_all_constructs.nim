@@ -2224,6 +2224,7 @@ proc `$`*(n: CsNamespace): string =
   result &= "; imports: [" & n.imports.mapIt($it).join(", ") & "]"
   result &= "; classes: [" & n.classes.mapIt($it).join(", ") & "]"
   result &= "; enums: [" & n.enums.mapIt($it).join(", ") & "]"
+  result &= ")"
 
 proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   new result
@@ -2292,10 +2293,14 @@ proc extract*(t: typedesc[CsClass]; info: Info; data: AllNeededData): CsClass =
   else:
     result = newCs(CsClass, name)
 
+proc extract*(t: typedesc[CsNamespace]; info: Info; ): CsNamespace =
+  echo "extract CsNamespace"
+  echo info
+  echo info.essentials[0]
+  result = newCs(t, info.essentials[0])
+
 proc extract*(t: typedesc[CsNamespace]; info: Info; data: AllNeededData): CsNamespace =
   extract(t, info)
-proc extract*(t: typedesc[CsNamespace]; info: Info; ): CsNamespace =
-  result = newCs(t, info.essentials[0])
 
 method add*(parent: var CsNamespace; item: CsEnum) =
   # item.parentId = parent.id

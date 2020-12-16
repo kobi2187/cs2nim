@@ -1,6 +1,6 @@
 import constructs/cs_all_constructs
 import types, state, constructs/cs_root, construct, parent_finder, block_utils
-import uuids, options
+import uuids, options,sequtils
 # ideal flow
 # the api that we want.
 
@@ -80,12 +80,33 @@ method add*(parent, child: Construct; data: AllNeededData) =
 import type_creator, parent_finder
 import all_needed_data
 # state_utils, block_utils
+import sets,tables
+proc sameAsExisting(obj:Construct, data:AllNeededData):bool =
+  # for namespaces and partial classes. other uses?
+  var root = currentRoot
+  case obj.kind
+  of ckNamespace:
+    # have to check global name here... TODO: possible place for bugs.
+    let name = obj.namespace.name
+    let res = root.ns.anyIt(it.name == name)
+    return res
+    # return obj.namespace in root.ns # already have it.
+  of ckClass:
+    let c = obj.class
+    # adding class to current namespace. if current already has such class return true.
+    # same if in the same namespace and class name already exists.
+    let res = data.currentNamespace.classes.anyIt(it.name == c.name)
+    return res
+    # class name and namespace
+  else:
+    discard
+    # assert false, $obj.kind
+
 
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   echo "in addToRoot2"
   echo " ==START== " , root
 
-  var allData: AllNeededData = makeNeededData(root, info, src)
   # processTreeForData(root, info)
   # no need, lineparser.modifyPosition does that already.
   # if not info.isVisitBlock:
@@ -94,12 +115,24 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
     discard
   else:
     echo "creating the construct object"
+    # NOTE: could be that blocks has ns but root didn't add it yet.
+    var allData: AllNeededData = makeNeededData(root, info, src)
     var obj: Construct = createType(info, id, allData)
+    if obj.isNil: return
     obj.id = some(id)
+    # allData.refresh(root,info,src)
+    if obj.sameAsExisting(allData): return # for example, don't add a new namespace but fetch it based on name.
     root.register(id, obj)
-    # allData = makeNeededData(root, info, src) # try to make it again.
-    allData.refresh(root,info,src)
+    # special handling for root & ns:
+    if obj.kind == ckNamespace:
+      root.add(obj.namespace) 
+      return
+
+
     let p = getParent(root, obj, allData)
+    # TODO: we got a new id, but we still should examine by name for partial class, or additions to namespace, then ns already exists.
+    # XXX fix this bug.
+
     assert p.isSome, "Failed assertion that all constructs should have a parent"
     var parent: Construct = p.get
     assert parent.cfits(obj, allData)

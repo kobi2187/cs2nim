@@ -192,12 +192,16 @@ proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): Op
   echo "in getParent"
   echo "newobj: ", newobj.kind
   let pid = determineParentId(newobj, allData)
-  assert pid.isSome and not pid.get.isZero
-  echo "parent id found: ", $pid
-  result = root.infoCenter.fetch(pid.get)
-  if result.isNone:
-    echo "couldn't find registered object for this id"
-    echo root.infoCenter.keys
+  if pid.isSome():
+    assert pid.isSome and not pid.get.isZero
+    echo "parent id found: ", $pid
+    result = root.infoCenter.fetch(pid.get)
+    if result.isNone:
+      echo "couldn't find registered object for this id"
+      echo root.infoCenter.keys
+  else: # can happen if namespace is the object.
+    assert newobj.kind == ckNamespace
+    return # none
 
 # gets last open block,
 # asks last block's last item whether it expects more data, check if last item fits newobj

@@ -346,12 +346,12 @@ type CNode {.acyclic.} = object
 type Construct* = ref CNode # all the types we support, wrapped in a variant.
 
 
-proc wrap*[T](obj: ref T, kind: ConstructKind): Construct =
-  case kind
-  # of ckRoot: construct(kind: ckRoot, root: obj)
-  of ckNamespace: result = Construct(kind: ckNamespace, namespace: obj)
-  of ckClass: result = Construct(kind: ckClass, class: obj)
-  of ckMethod: result = Construct(kind: ckMethod, cmethod: obj)
+# proc wrap[T](obj: ref T, kind: ConstructKind): Construct =
+#   case kind
+#   # of ckRoot: construct(kind: ckRoot, root: obj)
+#   of ckNamespace: result = Construct(kind: ckNamespace, namespace: obj)
+#   of ckClass: result = Construct(kind: ckClass, class: obj)
+#   of ckMethod: result = Construct(kind: ckMethod, cmethod: obj)
 # proc newC*[T](c: constructKind, a: typedesc[T], b: t): construct =
 #   case c
 #   of ckClass:

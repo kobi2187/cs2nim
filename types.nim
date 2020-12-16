@@ -16,7 +16,7 @@ type Info* = ref object
 import strutils
 proc `$`*(info: Info): string =
   let x = [info.declName, $info.essentials, $info.extras]
-  result = "Info: " & x.join("\n")
+  result = "Info: " & x.join(";; ")
 
 import uuids, options
 type CsObject* = object of RootRef

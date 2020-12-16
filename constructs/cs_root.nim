@@ -4,13 +4,14 @@ import sets, sequtils, tables, uuids, options, strutils
 
 type CsRoot* = object
   global*: CsNamespace
+  infoCenter*: InfoCenter
   ns*: HashSet[CsNamespace]
-  # ns*: seq[CsNamespace]
   nsTables*: TableRef[string, CsNamespace]
+
+  # ns*: seq[CsNamespace]
   # quickFetchBodyExpr*: TableRef[UUID, CsObject]
   # quickFetchMethod*: TableRef[UUID, CsMethod]
   # quickFetchClass*: TableRef[UUID, CsClass]
-  infoCenter*: InfoCenter
   # quickFetch*: TableRef[UUID, Variant]
   # quickFetch2*: TableRef[UUID, CsObject]
   # regList*: seq[UUID]
@@ -82,17 +83,17 @@ proc gen*(r: CsRoot): seq[Module] =
 
 proc add*(root: var CsRoot; csn: CsNamespace) =
   var name: string
+  echo csn.name
+
   if csn.parent != "":
     name = csn.parent & "." & csn.name
     csn.parent = ""
     csn.name = name
   else: name = csn.name
 
-  let nsnames = root.ns.mapIt(it.name)
-  if not (csn.name in nsnames):
+  if root.ns.allIt(it.name != csn.name):
     root.ns.incl(csn)
+    root.nsTables[csn.name] = csn
 
   echo root.ns.toSeq.mapIt(it.name)
   # assert false
-  # root.ns.add(csn)
-  root.nsTables[name] = csn

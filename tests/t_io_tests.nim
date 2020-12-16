@@ -22,6 +22,7 @@ proc compareNames(a, b: seq[string]): bool =
 suite "module output tests - file naming according to namespace":
   test "one namespace":
     let modules = modulesFromFiles @["tests/samples/one_namespace.csast"]
+    echo "modules",modules
     let expected: seq[string] = @["default", "MyNamespace"]
     assert compareNames(names(modules), expected)
 

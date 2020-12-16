@@ -21,6 +21,9 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
 
   of "NamespaceDeclaration": # etc etc
     var a = extract(CsNamespace, info, data)
+    if data.currentNamespace.name != "default":
+      # modifyNameToGlobal:
+      a.name = data.currentNamespace.name & "." & a.name
     a.id = some(id)
     result = Construct(kind: ckNamespace, namespace: a)
   of "ClassDeclaration":
@@ -62,8 +65,8 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     var a = extract(CsLiteralExpression, info) #, data); 
     a.id = some(id)
     result = Construct(kind: ckLiteralExpression, literalExpression: a)
+  of "IdentifierName":discard
 
   of ["... add here."]: discard # TODO
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
-
-  result.id = some(id)
+  if not result.isNil:  result.id = some(id)
