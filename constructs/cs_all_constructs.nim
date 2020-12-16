@@ -3316,116 +3316,119 @@ proc gen*(c: var CsYieldStatement): string = assert false #TODO(gen:CsYieldState
 # ======================================================
 
 type CsBlock* = ref object of CsObject
+
 method add*(parent:var CsBlock; item: Dummy) = assert false
-proc extract*(t: typedesc[CsBlock]):CsBlock = assert false
+proc extract*(t:typedesc[CsBlock], info:Info,data:AllNeededData):CsBlock = 
+  new result
+  # assert false
 method gen*(c: var CsBlock):string = assert false
 
 type CsVariable* = ref object of CsObject
 method add*(parent:var CsVariable; item: Dummy) = assert false
-proc extract*(t: typedesc[CsVariable]):CsVariable = assert false
+proc extract*(t:typedesc[CsVariable], info:Info,data:AllNeededData):CsVariable = assert false
 method gen*(c: var CsVariable):string = assert false
 
 type CsBinaryPattern* = ref object of CsObject
 method add*(parent:var CsBinaryPattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsBinaryPattern]):CsBinaryPattern = assert false
+proc extract*(t:typedesc[CsBinaryPattern], info:Info,data:AllNeededData):CsBinaryPattern = assert false
 method gen*(c: var CsBinaryPattern):string = assert false
 
 type CsDiscardPattern* = ref object of CsObject
 method add*(parent:var CsDiscardPattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsDiscardPattern]):CsDiscardPattern = assert false
+proc extract*(t:typedesc[CsDiscardPattern], info:Info,data:AllNeededData):CsDiscardPattern = assert false
 method gen*(c: var CsDiscardPattern):string = assert false
 
 type CsFunctionPointerType* = ref object of CsObject
 method add*(parent:var CsFunctionPointerType; item: Dummy) = assert false
-proc extract*(t: typedesc[CsFunctionPointerType]):CsFunctionPointerType = assert false
+proc extract*(t:typedesc[CsFunctionPointerType], info:Info,data:AllNeededData):CsFunctionPointerType = assert false
 method gen*(c: var CsFunctionPointerType):string = assert false
 
 type CsImplicitObjectCreationExpression* = ref object of CsObject
 method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy) = assert false
-proc extract*(t: typedesc[CsImplicitObjectCreationExpression]):CsImplicitObjectCreationExpression = assert false
+proc extract*(t:typedesc[CsImplicitObjectCreationExpression], info:Info,data:AllNeededData):CsImplicitObjectCreationExpression = assert false
 method gen*(c: var CsImplicitObjectCreationExpression):string = assert false
 
 type CsMemberAccessExpression* = ref object of CsObject
 method add*(parent:var CsMemberAccessExpression; item: Dummy) = assert false
-proc extract*(t: typedesc[CsMemberAccessExpression]):CsMemberAccessExpression = assert false
+proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData):CsMemberAccessExpression = assert false
 method gen*(c: var CsMemberAccessExpression):string = assert false
 
 type CsParenthesizedPattern* = ref object of CsObject
 method add*(parent:var CsParenthesizedPattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsParenthesizedPattern]):CsParenthesizedPattern = assert false
+proc extract*(t:typedesc[CsParenthesizedPattern], info:Info,data:AllNeededData):CsParenthesizedPattern = assert false
 method gen*(c: var CsParenthesizedPattern):string = assert false
 
 type CsPositionalPatternClause* = ref object of CsObject
 method add*(parent:var CsPositionalPatternClause; item: Dummy) = assert false
-proc extract*(t: typedesc[CsPositionalPatternClause]):CsPositionalPatternClause = assert false
+proc extract*(t:typedesc[CsPositionalPatternClause], info:Info,data:AllNeededData):CsPositionalPatternClause = assert false
 method gen*(c: var CsPositionalPatternClause):string = assert false
 
 type CsPrimaryConstructorBaseType* = ref object of CsObject
 method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy) = assert false
-proc extract*(t: typedesc[CsPrimaryConstructorBaseType]):CsPrimaryConstructorBaseType = assert false
+proc extract*(t:typedesc[CsPrimaryConstructorBaseType], info:Info,data:AllNeededData):CsPrimaryConstructorBaseType = assert false
 method gen*(c: var CsPrimaryConstructorBaseType):string = assert false
 
 type CsPropertyPatternClause* = ref object of CsObject
 method add*(parent:var CsPropertyPatternClause; item: Dummy) = assert false
-proc extract*(t: typedesc[CsPropertyPatternClause]):CsPropertyPatternClause = assert false
+proc extract*(t:typedesc[CsPropertyPatternClause], info:Info,data:AllNeededData):CsPropertyPatternClause = assert false
 method gen*(c: var CsPropertyPatternClause):string = assert false
 
 type CsRangeExpression* = ref object of CsObject
 method add*(parent:var CsRangeExpression; item: Dummy) = assert false
-proc extract*(t: typedesc[CsRangeExpression]):CsRangeExpression = assert false
+proc extract*(t:typedesc[CsRangeExpression], info:Info,data:AllNeededData):CsRangeExpression = assert false
 method gen*(c: var CsRangeExpression):string = assert false
 
 type CsRecord* = ref object of CsObject
 method add*(parent:var CsRecord; item: Dummy) = assert false
-proc extract*(t: typedesc[CsRecord]):CsRecord = assert false
+proc extract*(t:typedesc[CsRecord], info:Info,data:AllNeededData):CsRecord = assert false
 method gen*(c: var CsRecord):string = assert false
 
 type CsRecursivePattern* = ref object of CsObject
 method add*(parent:var CsRecursivePattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsRecursivePattern]):CsRecursivePattern = assert false
+proc extract*(t:typedesc[CsRecursivePattern], info:Info,data:AllNeededData):CsRecursivePattern = assert false
 method gen*(c: var CsRecursivePattern):string = assert false
 
 type CsRelationalPattern* = ref object of CsObject
 method add*(parent:var CsRelationalPattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsRelationalPattern]):CsRelationalPattern = assert false
+proc extract*(t:typedesc[CsRelationalPattern], info:Info,data:AllNeededData):CsRelationalPattern = assert false
 method gen*(c: var CsRelationalPattern):string = assert false
 
 type CsSubpattern* = ref object of CsObject
 method add*(parent:var CsSubpattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsSubpattern]):CsSubpattern = assert false
+proc extract*(t:typedesc[CsSubpattern], info:Info,data:AllNeededData):CsSubpattern = assert false
 method gen*(c: var CsSubpattern):string = assert false
 
 type CsSwitchExpression* = ref object of CsObject
 method add*(parent:var CsSwitchExpression; item: Dummy) = assert false
-proc extract*(t: typedesc[CsSwitchExpression]):CsSwitchExpression = assert false
+proc extract*(t:typedesc[CsSwitchExpression], info:Info,data:AllNeededData):CsSwitchExpression = assert false
 method gen*(c: var CsSwitchExpression):string = assert false
 
 type CsSwitchExpressionArm* = ref object of CsObject
 method add*(parent:var CsSwitchExpressionArm; item: Dummy) = assert false
-proc extract*(t: typedesc[CsSwitchExpressionArm]):CsSwitchExpressionArm = assert false
+proc extract*(t:typedesc[CsSwitchExpressionArm], info:Info,data:AllNeededData):CsSwitchExpressionArm = assert false
 method gen*(c: var CsSwitchExpressionArm):string = assert false
 
 type CsTypePattern* = ref object of CsObject
 method add*(parent:var CsTypePattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsTypePattern]):CsTypePattern = assert false
+proc extract*(t:typedesc[CsTypePattern], info:Info,data:AllNeededData):CsTypePattern = assert false
 method gen*(c: var CsTypePattern):string = assert false
 
 type CsUnaryPattern* = ref object of CsObject
 method add*(parent:var CsUnaryPattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsUnaryPattern]):CsUnaryPattern = assert false
+proc extract*(t:typedesc[CsUnaryPattern], info:Info,data:AllNeededData):CsUnaryPattern = assert false
 method gen*(c: var CsUnaryPattern):string = assert false
 
 type CsVarPattern* = ref object of CsObject
 method add*(parent:var CsVarPattern; item: Dummy) = assert false
-proc extract*(t: typedesc[CsVarPattern]):CsVarPattern = assert false
+proc extract*(t:typedesc[CsVarPattern], info:Info,data:AllNeededData):CsVarPattern = assert false
 method gen*(c: var CsVarPattern):string = assert false
 
 type CsWithExpression* = ref object of CsObject
 method add*(parent:var CsWithExpression; item: Dummy) = assert false
-proc extract*(t: typedesc[CsWithExpression]):CsWithExpression = assert false
+proc extract*(t:typedesc[CsWithExpression], info:Info,data:AllNeededData):CsWithExpression = assert false
 method gen*(c: var CsWithExpression):string = assert false
 
 type CsImplicitStackAllocArrayCreationExpression* = ref object of CsObject
 method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy) = assert false
-proc extract*(t: typedesc[CsImplicitStackAllocArrayCreationExpression]):CsImplicitStackAllocArrayCreationExpression = assert false
+proc extract*(t:typedesc[CsImplicitStackAllocArrayCreationExpression], info:Info,data:AllNeededData):CsImplicitStackAllocArrayCreationExpression = assert false
 method gen*(c: var CsImplicitStackAllocArrayCreationExpression):string = assert false
