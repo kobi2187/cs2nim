@@ -239,6 +239,7 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
       var a = extract(CsBreakStatement, info)#, data);
       a.id = some(id)
       result = Construct(kind: ckBreakStatement, breakStatement: a)  
+  
   of "AliasQualifiedName":
       var a = extract(CsAliasQualifiedName, info)#, data);
       a.id = some(id)
@@ -697,8 +698,16 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
       var a = extract(CsWithExpression, info, data);
       a.id = some(id)
       result = Construct(kind: ckWithExpression, withExpression: a) 
-# ## end of some regex magic
 
-  of ["... add here."]: discard # TODO
+# ## end of some regex magic
+  of "ConstructorDeclaration":
+    var a = extract(CsConstructor,info)
+    a.id = some(id)
+    result = Construct(kind:ckConstructor, constructor: a)
+  of "IndexerDeclaration":
+    var a = extract(CsIndexer,info)
+    a.id = some(id)
+    result = Construct(kind: ckIndexer, indexer:a)
+  of [ "QualifiedName","... add here."]: discard # TODO
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:  result.id = some(id)

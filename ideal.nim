@@ -44,7 +44,19 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckMethod: # class, method
       var m = child.cmethod
       c.add m
+    of ckConstructor:
+      var m = child.constructor
+      c.add m
+    of ckBaseList:
+      var b = child.baselist
+      c.add b
+    
+    of [ckSimpleBaseType]: discard
+    of ckIndexer: 
+      var i = child.indexer
+      c.add i
     else: assert false, "plz impl for child: " & $child.kind
+
   of ckMethod:
     var m = parent.cmethod
     case child.kind
@@ -55,6 +67,8 @@ method add*(parent, child: Construct; data: AllNeededData) =
       m.add child.parameterlist
     of ckLocalDeclarationStatement:
       m.add child.localDeclarationStatement
+    of ckReturnStatement:
+      m.add child.returnStatement
     else: assert false, "plz impl for child: " & $child.kind
   of ckEnum:
     var m = parent.cenum
@@ -72,6 +86,37 @@ method add*(parent, child: Construct; data: AllNeededData) =
       p.add c
     of ckLiteralExpression:
       var c = child.literalExpression
+      p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckParameterList:
+    var p = parent.parameterList
+    case child.kind
+    of ckParameter:
+      var c = child.parameter
+      p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckReturnStatement:
+    var p = parent.returnStatement
+    case child.kind
+    of ckLiteralExpression:
+      var c = child.literalExpression
+      p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckConstructor:
+    var p = parent.constructor
+    case child.kind
+    of ckParameterList:
+      var c = child.parameterlist
+      p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckIndexer:
+    var p = parent.indexer
+    case child.kind
+    of ckPredefinedType:
+      var c = child.predefinedtype
+      p.add c
+    of ckExplicitInterfaceSpecifier:
+      var c = child.explicitInterfaceSpecifier
       p.add c
     else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
@@ -128,20 +173,16 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
       root.add(obj.namespace) 
       return
 
+    let (discarded, p) = getParent(root, obj, allData)
+    if not discarded:
+      assert p.isSome, "Failed assertion that all constructs should have a parent"
+      var parent: Construct = p.get
+      assert parent.cfits(obj, allData)
+      echo "parent fits object: " , parent.kind , " --will add-- " , obj.kind
+      echo "attempting to add to parent..."
+      parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
+      obj.parentId = parent.id # connect them after adding.
 
-    let p = getParent(root, obj, allData)
-    # TODO: we got a new id, but we still should examine by name for partial class, or additions to namespace, then ns already exists.
-    # XXX fix this bug.
-
-    assert p.isSome, "Failed assertion that all constructs should have a parent"
-    var parent: Construct = p.get
-    assert parent.cfits(obj, allData)
-    echo "parent fits object: " , parent.kind , " --will add-- " , obj.kind
-    echo "attempting to add to parent..."
-    parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
-    
-    # obj.unwrap.parentId = parent.unwrap.id # connect them after adding.
-    obj.parentId = parent.id # connect them after adding.
     echo " ==END== " , root
     echo "NOTE: if didn't add, go to ideal::add method."
 

@@ -14,11 +14,11 @@ suite "code generation tests":
       check genTest("sample3")
     test "sample2":
       check genTest("sample2")
-  #[
     test "sample4":
       check genTest("sample4")
     test "sample5":
       check genTest("sample5")
+  #[
     test "sample6":
       check genTest("sample6")
     test "sample7":
