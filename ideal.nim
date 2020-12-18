@@ -33,13 +33,13 @@ method add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckClass: # ns, class
       var c = child.class
-      p.add(c)
+      c.parentId = p.id; p.add c
     of ckEnum:
       var c = child.cenum
-      p.add c
+      c.parentId = p.id; p.add c
     of ckUsingDirective:
       var c = child.usingDirective
-      p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckClass:
@@ -47,21 +47,21 @@ method add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckMethod: # class, method
       var m = child.cmethod
-      c.add m
+      m.parentId = c.id; c.add m
     of ckConstructor:
       var m = child.constructor
-      c.add m
+      m.parentId = c.id; c.add m
     of ckBaseList:
       var b = child.baselist
-      c.add b
+      b.parentId = c.id; c.add b
     
     of [ckSimpleBaseType]: discard
     of ckIndexer: 
       var i = child.indexer
-      c.add i
+      i.parentId = c.id; c.add i
     of ckProperty:
       var pr = child.property
-      c.add pr
+      pr.parentId = c.id; c.add pr
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckMethod:
@@ -69,24 +69,27 @@ method add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckPredefinedType:
       var pt = child.predefinedType
-      m.add pt
+      pt.parentId = m.id; m.add pt
     of ckParameterList:
-      m.add child.parameterlist
+      var c = child.parameterlist
+      c.parentId = m.id; m.add c
     of ckLocalDeclarationStatement:
-      m.add child.localDeclarationStatement
+      var c = child.localDeclarationStatement
+      c.parentId = m.id; m.add c
     of ckReturnStatement:
-      m.add child.returnStatement
+      var c = child.returnStatement
+      c.parentId = m.id; m.add c
     of ckExpressionStatement:
-      m.add child.expressionStatement
-    of ckInvocationExpression:
-      m.add child.invocationExpression
+      var c = child.expressionStatement
+      c.parentId = m.id; m.add c
+    
     else: assert false, "plz impl for child: " & $child.kind
   of ckEnum:
     var m = parent.cenum
     case child.kind
     of ckEnumMember:
       var c = child.enumMember
-      m.add c
+      c.parentId = m.id; m.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckEnumMember:
@@ -94,50 +97,50 @@ method add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckEqualsValueClause: # the only possibility i think
       var c = child.equalsValueClause
-      p.add c
+      c.parentId = p.id; p.add c
     of ckLiteralExpression:
       var c = child.literalExpression
-      p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckParameterList:
     var p = parent.parameterList
     case child.kind
     of ckParameter:
       var c = child.parameter
-      p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckReturnStatement:
     var p = parent.returnStatement
     case child.kind
     of ckLiteralExpression:
       var c = child.literalExpression
-      p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckConstructor:
     var p = parent.constructor
     case child.kind
     of ckParameterList:
       var c = child.parameterlist
-      p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckIndexer:
     var p = parent.indexer
     case child.kind
     of ckPredefinedType:
       var c = child.predefinedtype
-      p.add c
+      c.parentId = p.id; p.add c
     of ckExplicitInterfaceSpecifier:
       var c = child.explicitInterfaceSpecifier
-      p.add c
+      c.parentId = p.id; p.add c
     of ckBracketedParameterList:
       var c = child.bracketedParameterList
-      p.add c
+      c.parentId = p.id; p.add c
     of ckParameter:
       var c = child.parameter
-      p.add c
+      c.parentId = p.id; p.add c
     of ckAccessorList:
       var c = child.accessorlist
-      p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   
   of ckAccessorList:
@@ -145,21 +148,32 @@ method add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckAccessor:
       var c = child.accessor
-      p.add c
-
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckProperty:
     var p = parent.property
     case child.kind
     of ckPredefinedType:
       var c = child.predefinedType
-      p.add c
+      c.parentId = p.id; p.add c
     of ckAccessorList:
       var c = child.accessorList
-      p.add c
-
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
-    
+
+  of ckExpressionStatement:
+    var p = parent.expressionStatement
+    case child.kind
+    of ckInvocationExpression: 
+      var c = child.invocationExpression
+      c.parentId = p.id; p.add c
+    of ckArgumentList: 
+      var c = child.argumentList
+      c.parentId = p.id; p.add c
+    of ckArgument: 
+      var c = child.argument
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
 
 
@@ -211,7 +225,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
     root.register(id, obj)
     # special handling for root & ns:
     if obj.kind == ckNamespace:
-      root.add(obj.namespace) 
+      root.add(obj.namespace)
       return
 
     let (discarded, p) = getParent(root, obj, allData)

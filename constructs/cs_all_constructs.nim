@@ -187,15 +187,11 @@ import sequtils, strutils
 proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
   new result
   result.typ = $typeof(t)
-  result.args = args.mapIt(it.strip)
+  # result.args = args.mapIt(it.strip) # now handled from CsArgument
 
 proc extract*(t: typedesc[CsArgumentList]; info: Info): CsArgumentList =
   result = newCs(CsArgumentList, info.essentials[0].split(","))
 
-# proc add*(parent: var CsArgumentList; item: Dummy, data:AllNeededData) = parent.add(item) # TODO
-method add*(parent: var CsArgumentList; item: Dummy) =
-
-  assert false
 
 proc gen*(c: var CsArgumentList): string =
   result = c.args.join(", ")
@@ -203,16 +199,15 @@ proc gen*(c: var CsArgumentList): string =
 # ============= CsArgument ========
 
 type CsArgument* = ref object of CsObject #TODO(type:CsArgument)
-
-proc newCs*(t: typedesc[CsArgument]; name: string): CsArgument =
+  value*:string
+proc newCs*(t: typedesc[CsArgument]): CsArgument =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsArgument)
 
-proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument = assert false #TODO(extract:CsArgument)
-
-method add*(parent: var CsArgument; item: Dummy) =
-  assert false # TODO(add:CsArgument)
+proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument =
+  result = newCs(CsArgument)
+  result.value = info.essentials[0]
 
 # proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
@@ -810,7 +805,13 @@ proc gen*(m: var CsMethod): string =
   let returnType = if m.returnType != "void": m.returnType else: ""
   let body =
     if m.body.len == 0: "discard"
-    else: m.body.mapIt(it.gen()).join("\r\n  ")
+    else: 
+      var lines : seq[string]
+      for ln in m.body:
+        echo ln.typ
+        lines.add ln.gen()
+      
+      lines.join("\r\n  ")
 
   result &= m.name & "(" & parameterList & ")"
   if returnType != "": result &= ": " & returnType
@@ -1463,30 +1464,38 @@ type CsExpressionStatement* = ref object of BodyExpr
 proc newCs*(t: typedesc[CsExpressionStatement]): CsExpressionStatement =
   new result
   result.typ = $typeof(t)
-
   result.ttype = "CsExpressionStatement"
-  result.typ = $typeof(t)
+  # result.typ = $typeof(t)
 
 
 proc extract*(t: typedesc[CsExpressionStatement]; info: Info): CsExpressionStatement =
   result = newCs(CsExpressionStatement)
 
 method add*(parent: var CsExpressionStatement; item: CsArgumentList) =
-
   parent.args = item
+
+method add*(parent: var CsArgumentList; item: CsArgument) =
+  parent.args.add item.value
+
+method add*(parent: var CsExpressionStatement; item: CsArgument) =
+  parent.args.add item
+
 # proc add*(parent: var CsExpressionStatement; item: CsArgumentList; data: AllNeededData) = parent.add(item) # TODO
 
 method add*(parent: var CsExpressionStatement; item: CsInvocationExpression) =
-
   parent.call = item
+
 # proc add*(parent: var CsExpressionStatement; item: CsInvocationExpression; data: AllNeededData) = parent.add(item) # TODO
 
-
+import re, strutils
 method gen*(c: CsExpressionStatement): string =
+  echo "generating for expression statement"
   result = c.call.gen() & "("
   if c.args.args.len > 0:
     result &= c.args.gen()
   result &= ")"
+  if c.call.callName.contains(".") and c.call.callName.startsWith(re.re"[A-Z]"):
+    result &= " # " & c.call.callName.rsplit(".",1)[0]
 
 
 # ============= CsExternAliasDirective ========
@@ -1930,7 +1939,7 @@ proc gen*(c: var CsInterpolation): string = assert false #TODO(gen:CsInterpolati
 proc newCs*(t: typedesc[CsInvocationExpression]; name: string): CsInvocationExpression =
   new result
   result.typ = $typeof(t)
-
+  result.ttype = "CsInvocationExpression"
   result.callName = name
 
 proc extract*(t: typedesc[CsInvocationExpression]; info: Info): CsInvocationExpression =
@@ -1939,30 +1948,22 @@ proc extract*(t: typedesc[CsInvocationExpression]; info: Info): CsInvocationExpr
 
 
 
-func normalizeCallNameIfStatic(s: string): string =
-  result = s.rsplit(".", 1)[^1] # last part is the function name that was called.
-  if result.len == 1:
-    result = result.toLowerAscii
+func normalizeCallName(s: string): string =
+  assert s.contains(".")
+  let parts = s.rsplit(".", 1)
+  let lastPart = parts[1] # last part is the function name that was called.
+
+  if lastPart.len == 1:
+    result = lastPart.toLowerAscii
   else:
-    result = result[0].toLowerAscii & result[1..^1]
+    result = lastPart[0].toLowerAscii & lastPart[1..^1]
 
-#
-# XXX continue here after adding Ids to everyone, it'd help solve this problem and also avoid all the passing, since we can "quickfetch" the vars.
-#
-# proc isInStatic(c: var CsInvocationExpression): bool =
-#   var root = cs_root.currentRoot
-#   var expr: BodyExpr = root.fetch(c.parentId.get).expect(vkBodyExpr).BodyExpr
-#   let m: CsMethod = root.fetch(expr.parentId.get).expect(vkMethod).CsMethod
-#   if m.isStatic: return true
-#   else:
-#     let c: CsClass = root.fetch(m.parentId.get).expect(vkClass).CsClass
-#     if c.isStatic: return true
-#   result = false
 
-# method gen*(c: var CsInvocationExpression): string =
-#   result = if c.callName.contains(".") and c.isInStatic:
-#     normalizeCallNameIfStatic(c.callName)
-#   else: c.callName
+method gen*(c: CsInvocationExpression): string =
+  
+  result = if c.callName.contains("."):
+    normalizeCallName(c.callName)
+  else: c.callName
 
 
   #[
@@ -2076,7 +2077,6 @@ method add*(em: var CsEnumMember; item: CsLiteralExpression) =
 proc newCs(t: typedesc[CsLiteralExpression]; val: string): CsLiteralExpression =
   new result
   result.typ = $typeof(t)
-
   result.ttype = "CsLiteralExpression"
   result.value = val
 
@@ -2098,7 +2098,7 @@ type CsLocalDeclarationStatement* = ref object of BodyExpr
 proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDeclarationStatement =
   new result
   result.typ = $typeof(t)
-
+  result.ttype = "CsLocalDeclarationStatement"
 
   
 
@@ -2220,8 +2220,6 @@ method add*(parent: var CsMethod; item: CsReturnStatement) =
 method add*(parent: var CsMethod; item: CsExpressionStatement) =
   parent.body.add item
 
-method add*(parent: var CsMethod; item: CsInvocationExpression) =
-  parent.body.add item
 
 
 # ============= CsNameColon ========
@@ -3442,7 +3440,7 @@ method add*(parent:var CsMemberAccessExpression; item: Dummy) = assert false
 
 
 proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData):CsMemberAccessExpression =
-  assert false
+  new result  # i think we can discard it.
   
 method gen*(c: var CsMemberAccessExpression):string = assert false
 

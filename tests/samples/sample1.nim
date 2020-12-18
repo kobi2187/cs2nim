@@ -4,8 +4,8 @@ import dotnet/system
 type Hi* = ref object
 
 proc hello() =
-  writeLine("Hello1")
-  writeLine("Hello2")
+  writeLine("Hello1") # Console
+  writeLine("Hello2") # Console
 
 type Second* = ref object
 
