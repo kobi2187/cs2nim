@@ -11,17 +11,44 @@ method add*(a: var ref CsObject, b: CsObject) {.base.} =
 
 # ============= CsAccessorList ========
 
-type CsAccessorList* = ref object of CsObject #TODO(type:CsAccessorList)
+type CsAccessor* = ref object of CsObject #TODO(type:CsAccessor)
+  kind*:string # get or set
+  statementsTxt*:string
 
-proc newCs*(t: typedesc[CsAccessorList]; name: string): CsAccessorList =
+type CsAccessorList* = ref object of CsObject #TODO(type:CsAccessorList)
+  hasDefaultGet*:bool
+  hasGetBody*:bool
+  hasDefaultSet*:bool
+  hasSetBody*:bool
+  getPart*:CsAccessor
+  setPart*:CsAccessor
+
+proc newCs*(t: typedesc[CsAccessorList]): CsAccessorList =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsAccessorList)
 
-proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList = assert false #TODO(extract:CsAccessorList)
+import nre,strutils
+proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList = 
+  let val =  info.essentials[0]
+  result = newCs(CsAccessorList)
+  if val.contains("get;"): 
+    result.hasDefaultGet = true
+    # result.hasGetBody = false
+  if val.contains("set;"): 
+    result.hasDefaultSet = true
+    # result.hasSetBody = false
+  if val.contains(re"get\s*{"): echo val; result.hasGetBody = true # TODO: check against real code.
+  if val.contains(re"set\s*{"): echo val; result.hasSetBody = true
 
-method add*(parent: var CsAccessorList; item: Dummy) =
-  assert false # TODO(add:CsAccessorList)
+method add*(parent: var CsAccessorList; item: CsAccessor) =
+  assert item.kind in [ "get","set"]
+  if item.kind == "get":
+    parent.getPart = item
+
+  else:
+    parent.setPart = item
+
+
 
 # proc add*(parent: var CsAccessorList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
@@ -30,15 +57,22 @@ proc gen*(c: var CsAccessorList): string = assert false #TODO(gen:CsAccessorList
 
 # ============= CsAccessor ========
 
-type CsAccessor* = ref object of CsObject #TODO(type:CsAccessor)
-
-proc newCs*(t: typedesc[CsAccessor]; name: string): CsAccessor =
+proc newCs*(t: typedesc[CsAccessor]): CsAccessor =
   new result
   result.typ = $typeof(t)
-  result.typ = $typeof(t)
-#TODO(create:CsAccessor)
 
-proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor = assert false #TODO(extract:CsAccessor)
+proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor = 
+  echo info
+  result = newCs(CsAccessor)
+  # can have kind (get or set) in [0]
+  if info.essentials.len > 0:
+    result.kind = info.essentials[0]
+    # can have body statements! in [1] # maybe they are handled later?
+    if info.essentials.len > 1:
+      result.statementsTxt = info.essentials[1]
+  
+  #todo: should find its parent accessorlist, add this field to AllNeededData ( last accessor list)
+  
 
 method add*(parent: var CsAccessor; item: Dummy) =
   assert false # TODO(add:CsAccessor)
@@ -458,17 +492,15 @@ proc gen*(c: var CsBracketedArgumentList): string = assert false #TODO(gen:CsBra
 # ============= CsBracketedParameterList ========
 
 type CsBracketedParameterList* = ref object of CsObject #TODO(type:CsBracketedParameterList)
-
-proc newCs*(t: typedesc[CsBracketedParameterList]; name: string): CsBracketedParameterList =
+  plist*:string
+proc newCs*(t: typedesc[CsBracketedParameterList]): CsBracketedParameterList =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsBracketedParameterList)
 
 proc extract*(t: typedesc[CsBracketedParameterList]; info: Info): CsBracketedParameterList = 
-  new result # for indexer, and what else?
-  # add info from csdisplay
-  echo info
-  assert false #TODO(extract:CsBracketedParameterList)
+  result = newCs(CsBracketedParameterList) # for indexer, and what else?
+  result.plist = info.essentials[0]
+  # I suspect parameters will come next. most likely unneeded, i can easily parse that text.
 
 method add*(parent: var CsBracketedParameterList; item: Dummy) =
   assert false # TODO(add:CsBracketedParameterList)
@@ -692,18 +724,23 @@ proc `$`*(e:CsEnum):string=
   result = "enum: (name: " & e.name
   result &= "; items: " & $e.items.len
   result &= " )"
+
 type CsIndexer* = ref object of CsObject
   retType*: string
   varName*: string
   varType*: string
   firstVarType*: string
-  hasGet*: bool
-  hasSet*: bool
+  aclist*:CsAccessorList
+  hasDefaultGet*: bool
+  hasDefaultSet*: bool
+  hasBody*:bool
   # name*: string  # no, there is no name, but there is an AccessorList, or Accessor, that provide the function body.
 
+method add*(c:var CsIndexer, item: CsAccessorList) = 
+  c.aclist=item
 # ============= CsClass ========
 
-
+import sets
 type CsClass* = ref object of CsObject
   nsParent*: string
   extends*: string
@@ -716,6 +753,7 @@ type CsClass* = ref object of CsObject
   # enumTable*: TableRef[string, CsEnum]
   lastAddedTo*: Option[ClassParts]
   isStatic*: bool
+  mods*: HashSet[string]
   indexer*: CsIndexer
   # hasIndexer*: bool
 proc `$`*(c:CsClass) :string=
@@ -797,12 +835,16 @@ method gen*(c: var CsConstructor): string =
 
 
 proc gen*(c: var CsIndexer): string =
+  echo "generating indexer"
   let x = c.firstVarType.rsplit(".", 1)[^1]
-  echo x
-  if c.hasGet:
-    result &= "proc `[]`*(this: var " & x & "; " & c.varName & ": " & c.varType & "): " & c.retType & " = assert false"
-  if c.hasSet:
-    result &= "\nproc `[]=`*(this: var " & x & "; " & c.varName & ": " & c.varType & "; value: " & c.retType & ") = assert false"
+  var setPart, getPart : string
+  # let sig = 
+  if c.hasDefaultGet:
+    getPart= "proc `[]`*(this: var " & x & "; " & c.varName & ": " & c.varType & "): " & c.retType & " = discard"
+  if c.hasDefaultSet:
+    setPart= "proc `[]=`*(this: var " & x & "; " & c.varName & ": " & c.varType & "; value: " & c.retType & ") = discard"
+  
+  result &= getPart & "\n" & setPart
 
 proc gen*(c: CsProperty): string =
   result = "method " & c.name[0].toLowerAscii & c.name[1..^1] & "*(this: " & c.parentClass & "): " & c.retType & " = " &
@@ -1711,17 +1753,20 @@ proc newCs*(t: typedesc[CsIndexer]): CsIndexer =
   new result
   result.typ = $typeof(t)
 
-  result.hasGet = true
-  result.hasSet = true
+  result.hasDefaultGet = true
+  result.hasDefaultSet = true
 
 proc extract*(t: typedesc[CsIndexer]; info: Info): CsIndexer =
+  echo "extract info:", info
   result = newCs(CsIndexer)
 
 method add*(parent: var CsIndexer; item: CsParameter) =
-
   parent.varName = item.name
   parent.varType = item.ptype
-# proc add*(parent: var CsIndexer; item: CsParameter; data: AllNeededData) = parent.add(item) # TODO
+
+method add*(parent: var CsIndexer; item: CsBracketedParameterList) =
+  discard # add (csindexer, csparameter) already does what we need. because indexer has just one parameter.
+
 type CsPredefinedType* = ref object of CsObject
 
 method add*(parent: var CsIndexer; item: CsPredefinedType) =
@@ -2305,6 +2350,10 @@ proc extract*(t: typedesc[CsClass]; info: Info; data: AllNeededData): CsClass =
     else: result = newCs(CsClass, name, baseTypes[0])
   else:
     result = newCs(CsClass, name)
+  if info.extras.len > 0:
+    let modifiers = info.extras[0]
+    for m in modifiers.split(" "):
+      result.mods.incl(m)
 
 proc extract*(t: typedesc[CsNamespace]; info: Info; ): CsNamespace =
   echo "extract CsNamespace"

@@ -118,6 +118,24 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckExplicitInterfaceSpecifier:
       var c = child.explicitInterfaceSpecifier
       p.add c
+    of ckBracketedParameterList:
+      var c = child.bracketedParameterList
+      p.add c
+    of ckParameter:
+      var c = child.parameter
+      p.add c
+    of ckAccessorList:
+      var c = child.accessorlist
+      p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  
+  of ckAccessorList:
+    var p = parent.accessorlist
+    case child.kind
+    of ckAccessor:
+      var c = child.accessor
+      p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
 
