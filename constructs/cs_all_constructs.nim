@@ -2215,10 +2215,13 @@ type CsReturnStatement* = ref object of BodyExpr # type:CsReturnStatement
   expr*: BodyExpr                                # can have one expr that can be nil
 
 method add*(parent: var CsMethod; item: CsReturnStatement) =
-
   parent.body.add item
 # proc add*(parent: var CsMethod; item: CsReturnStatement; data: AllNeededData) = parent.add(item) # TODO
+method add*(parent: var CsMethod; item: CsExpressionStatement) =
+  parent.body.add item
 
+method add*(parent: var CsMethod; item: CsInvocationExpression) =
+  parent.body.add item
 
 
 # ============= CsNameColon ========
@@ -3436,7 +3439,11 @@ method gen*(c: var CsImplicitObjectCreationExpression):string = assert false
 
 type CsMemberAccessExpression* = ref object of CsObject
 method add*(parent:var CsMemberAccessExpression; item: Dummy) = assert false
-proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData):CsMemberAccessExpression = assert false
+
+
+proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData):CsMemberAccessExpression =
+  assert false
+  
 method gen*(c: var CsMemberAccessExpression):string = assert false
 
 type CsParenthesizedPattern* = ref object of CsObject

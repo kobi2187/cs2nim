@@ -20,13 +20,13 @@ suite "code generation tests":
       check genTest("sample5")
     test "sample6":
       check genTest("sample6")
-  #[
-    test "sample7":
-      check genTest("sample7")
     test "sample8":
       check genTest("sample8")
+    test "sample7":
+      check genTest("sample7")
     test "sample1":
       check genTest("sample1")
+  #[
     test "return new class":
       check genTest("xwtButtonTests")
   ]#

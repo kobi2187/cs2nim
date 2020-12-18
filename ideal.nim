@@ -37,7 +37,11 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckEnum:
       var c = child.cenum
       p.add c
+    of ckUsingDirective:
+      var c = child.usingDirective
+      p.add c
     else: assert false, "plz impl for child: " & $child.kind
+
   of ckClass:
     var c = parent.class
     case child.kind
@@ -72,6 +76,10 @@ method add*(parent, child: Construct; data: AllNeededData) =
       m.add child.localDeclarationStatement
     of ckReturnStatement:
       m.add child.returnStatement
+    of ckExpressionStatement:
+      m.add child.expressionStatement
+    of ckInvocationExpression:
+      m.add child.invocationExpression
     else: assert false, "plz impl for child: " & $child.kind
   of ckEnum:
     var m = parent.cenum

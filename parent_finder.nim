@@ -32,6 +32,9 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckClass, ckProperty": true 
   of "ckProperty, ckPredefinedType": true
   of "ckProperty, ckAccessorList": true
+  of "ckNamespace, ckUsingDirective": true
+  of "ckMethod, ckExpressionStatement": true
+  of "ckMethod, ckInvocationExpression": true 
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -155,8 +158,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     echo "obj is ExpressionStatement"
     echo "we assume we're in method, but if there are more options change that."
     assert data.classLastAdded in [ ClassParts.Methods ]
-    assert data.lastMethod.body.len > 0
-    res = data.lastMethodBodyExpr.id
+    echo data.lastMethod.name
+    res = data.lastMethod.id
+    # assert data.lastMethod.body.len > 0
+    # res = data.lastMethodBodyExpr.id
 
   of ckIndexer:
     echo "obj is IndexerDeclaration"
@@ -180,7 +185,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
 
   of ckInvocationExpression:
     echo "obj is InvocationExpression"
-    res = data.lastMethodBodyExpr.id
+    res = data.lastMethod.id 
+    # res = data.lastMethodBodyExpr.id
 
   of ckArgument: 
     echo "obj is Argument, older code was discarding -- TODO?"
