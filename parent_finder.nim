@@ -29,6 +29,9 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckIndexer, ckParameter": true
   of "ckIndexer, ckAccessorList": true 
   of "ckAccessorList, ckAccessor": true
+  of "ckClass, ckProperty": true 
+  of "ckProperty, ckPredefinedType": true
+  of "ckProperty, ckAccessorList": true
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -212,7 +215,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckAccessor: # find its parent:AccessorList
     assert data.classLastAdded in [ ClassParts.Properties, ClassParts.Indexer]
     case data.classLastAdded
-    of Properties: assert false # TODO
+    of Properties: 
+      res=data.lastProp.acclist.id
     of Indexer: 
       assert data.lastClass.hasIndexer
       assert data.lastClass.indexer.aclist != nil

@@ -55,6 +55,9 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckIndexer: 
       var i = child.indexer
       c.add i
+    of ckProperty:
+      var pr = child.property
+      c.add pr
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckMethod:
@@ -137,6 +140,18 @@ method add*(parent, child: Construct; data: AllNeededData) =
       p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
+  of ckProperty:
+    var p = parent.property
+    case child.kind
+    of ckPredefinedType:
+      var c = child.predefinedType
+      p.add c
+    of ckAccessorList:
+      var c = child.accessorList
+      p.add c
+
+    else: assert false, "plz impl for child: " & $child.kind
+    
   else: assert false, "plz impl for parent: " & $parent.kind
 
 

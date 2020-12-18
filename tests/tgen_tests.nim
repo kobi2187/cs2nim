@@ -18,9 +18,9 @@ suite "code generation tests":
       check genTest("sample4")
     test "sample5":
       check genTest("sample5")
-  #[
     test "sample6":
       check genTest("sample6")
+  #[
     test "sample7":
       check genTest("sample7")
     test "sample8":

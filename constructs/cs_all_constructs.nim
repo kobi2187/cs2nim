@@ -686,8 +686,12 @@ type CsProperty* = ref object of CsObject
   hasGet*: bool
   hasSet*: bool
   parentClass*: string
-  bodySet*: seq[BodyExpr] # dunno.
+  acclist*:CsAccessorList
+  bodySet*: seq[BodyExpr] # dunno. TODO: this should be strongly connected to acclist (maybe extracted from it?). but lastBodyExpr wants to have constructs readily available like in this seq.
   bodyGet*: seq[BodyExpr] # NOTE: don't know yet what type to* put here. maybe something like a method body or a list of expr ?
+
+method add*(parent:var CsProperty, item:CsAccessorList) = 
+  parent.acclist = item
 
 
 type CsParameter* = ref object of CsObject
@@ -847,18 +851,30 @@ proc gen*(c: var CsIndexer): string =
   result &= getPart & "\n" & setPart
 
 proc gen*(c: CsProperty): string =
-  result = "method " & c.name[0].toLowerAscii & c.name[1..^1] & "*(this: " & c.parentClass & "): " & c.retType & " = " &
-  "this.u_" & c.name
+  result = ""
+  if c.hasGet:  
+    result &= # this is a getter
+      "method " & c.name[0].toLowerAscii & c.name[1..^1] &
+      "*(this: " & c.parentClass & "): " & c.retType & " = " &
+      "this.u_" & c.name
+  if c.hasSet:
+    result &= 
+      "method " & c.name[0].toLowerAscii & c.name[1..^1] &
+      "*(this: " & c.parentClass & ", value: " & c.retType & "): " & c.retType & " = " &
+      "this.u_" & c.name & " = value"
 
 proc gen*(c: CsClass): string =
   echo "generating class:" & c.name
   if c.isNil: result = "" else: result &= "type " & c.name & "* = ref object"
   if c.extends != "": result &= " of " & c.extends
   result &= "\r\n\r\n"
-  for f in c.properties:
-    result &= "\t" & f.gen() & "\r\n"
+
+  
   echo "methods count: " & $c.methods.len
+  echo "generating methods:"
+  
   for m in c.methods.mitems:
+
     result &= m.gen()
     result &= "\r\n"
   echo "ctors count: " & $c.ctors.len
@@ -870,7 +886,7 @@ proc gen*(c: CsClass): string =
     result &= c.indexer.gen()
   echo "has properties: " & $c.properties.len
   for p in c.properties:
-    result &= p.gen()
+    result &= p.gen() & "\r\n"
 
 method add*(parent: var CsClass; m: CsConstructor) =
   echo "adding ctor to class"
@@ -2695,17 +2711,20 @@ proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
   result.name = name
 
 proc extract*(t: typedesc[CsProperty]; info: Info): CsProperty =
-  let name = info.essentials[0]
+  echo info
+  let name = info.essentials[0] #name
   result = newCs(CsProperty, name)
-  let cnt = info.essentials[1].parseInt
+  let cnt = info.essentials[1].parseInt # how many
   if cnt > 0:
-    let acc1 = info.extras[0]
-    if acc1 == "get": result.hasGet = true
-    if acc1 == "set": result.hasSet = true
+    let acc1 = info.extras[0] # get, or set, or both
+    case acc1
+    of "get": result.hasGet = true
+    of "set": result.hasSet = true
     if cnt > 1:
       let acc2 = info.extras[1]
-      if acc2 == "get": result.hasGet = true
-      if acc2 == "set": result.hasSet = true
+      case acc2
+      of "get": result.hasGet = true
+      of "set": result.hasSet = true
 
 
 
