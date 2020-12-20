@@ -1657,15 +1657,21 @@ method add*(parent: var CsFromClause; item: Dummy) =
 proc gen*(c: var CsFromClause): string = assert false #TODO(gen:CsFromClause)
 
 # ============= CsGenericName ========
+type CsTypeArgumentList* = ref object of CsObject #TODO(type:CsTypeArgumentList)
+  # the types a generic has
+  types*:seq[string]
 
-type CsGenericName* = ref object of CsObject #TODO(type:CsGenericName)
+type CsGenericName* = ref object of CsObject 
+  typearglist*:CsTypeArgumentList
 
 proc newCs*(t: typedesc[CsGenericName]; name: string): CsGenericName =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsGenericName)
 
-proc extract*(t: typedesc[CsGenericName]; info: Info): CsGenericName = assert false #TODO(extract:CsGenericName)
+proc extract*(t: typedesc[CsGenericName]; info: Info): CsGenericName = 
+  new result
+  # assert false #TODO(extract:CsGenericName)
 
 method add*(parent: var CsGenericName; item: Dummy) =
   assert false # TODO(add:CsGenericName)
@@ -2119,24 +2125,22 @@ method gen*(lit: CsLiteralExpression): string =
 # ============= CsLocalDeclarationStatement ========
 
 type CsVariableDeclarator* = ref object of BodyExpr
+  ev*:CsEqualsValueClause # so i can get (with its parentid) the expression statement which is the right hand side, afterwards.
+  expr*:BodyExpr # either expressionStatement or objectcreationexpression
 
-type CsLocalDeclarationStatement* = ref object of BodyExpr
-  names*: seq[string]
-  vartype*: string
-
-proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDeclarationStatement =
+proc newCs*(_: typedesc[CsVariableDeclarator]):CsVariableDeclarator = 
   new result
-  result.typ = $typeof(t)
-  result.ttype = "CsLocalDeclarationStatement"
 
-  
+method add*(parent: var CsVariableDeclarator; item: CsEqualsValueClause)=
+  parent.ev = item
 
-method add*(parent: var CsLocalDeclarationStatement; item: Dummy) =
-  assert false # TODO(add:CsLocalDeclarationStatement)
+proc extract*(_: typedesc[CsVariableDeclarator]; info: Info): CsVariableDeclarator =
+  result = newCs(CsVariableDeclarator)
+  result.name = info.essentials[0]
 
 # proc add*(parent: var CsLocalDeclarationStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsLocalDeclarationStatement): string = assert false #TODO(gen:CsLocalDeclarationStatement)
+
 
 # ============= CsLocalFunctionStatement ========
 
@@ -2220,8 +2224,7 @@ proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   result.name = name
 
 
-method add*(parent: var CsMethod; t: CsLocalDeclarationStatement) =
-  parent.body.add t
+
 method add*(parent: var CsMethod; t: CsPredefinedType) =
   parent.returnType = t.name
 
@@ -2234,8 +2237,11 @@ type CsObjectCreationExpression* = ref object of BodyExpr
   # args*: CsParameterList
   args*: CsArgumentList
 
-method add*(parent: var CsMethod; item: CsObjectCreationExpression) =
+method add*(parent: var CsVariableDeclarator; item: CsObjectCreationExpression)=
+  assert parent.expr.isNil
+  parent.expr = item
 
+method add*(parent: var CsMethod; item: CsObjectCreationExpression) =
   parent.body.add item
 # proc add*(parent: var CsMethod; item: CsObjectCreationExpression; data: AllNeededData) = parent.add(item) # TODO
 
@@ -2369,11 +2375,7 @@ type AllNeededData* = object
   previousPreviousConstruct*: Option[Block]
 
 
-proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info; data:AllNeededData): CsLocalDeclarationStatement =
-  new result
-  echo info
-  result.vartype = info.essentials[1]
-  result.names = info.essentials[0].split(",").mapIt(it.strip)
+
 
 proc extract*(t: typedesc[CsMethod]; info: Info; data: AllNeededData): CsMethod =
   let name = info.essentials[0]
@@ -3199,14 +3201,16 @@ proc gen*(c: var CsTupleType): string = assert false #TODO(gen:CsTupleType)
 
 # ============= CsTypeArgumentList ========
 
-type CsTypeArgumentList* = ref object of CsObject #TODO(type:CsTypeArgumentList)
 
-proc newCs*(t: typedesc[CsTypeArgumentList]; name: string): CsTypeArgumentList =
+
+proc newCs*(t: typedesc[CsTypeArgumentList]): CsTypeArgumentList =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsTypeArgumentList)
+  
 
-proc extract*(t: typedesc[CsTypeArgumentList]; info: Info): CsTypeArgumentList = assert false #TODO(extract:CsTypeArgumentList)
+proc extract*(t: typedesc[CsTypeArgumentList]; info: Info): CsTypeArgumentList = 
+  result = newCs(CsTypeArgumentList)
+  result.types= info.essentials[0].split(",").mapIt(it.strip)
 
 method add*(parent: var CsTypeArgumentList; item: Dummy) =
   assert false # TODO(add:CsTypeArgumentList)
@@ -3437,11 +3441,55 @@ method add*(parent:var CsBlock; item: Dummy) = assert false
 proc extract*(t:typedesc[CsBlock], info:Info,data:AllNeededData):CsBlock = 
   new result
   # assert false
+
 method gen*(c: var CsBlock):string = assert false
 
-type CsVariable* = ref object of CsObject
+type CsVariable* = ref object of BodyExpr 
+  # name*:string
+  thetype*:string
+  generic*:CsGenericName
+
+type CsLocalDeclarationStatement* = ref object of BodyExpr
+  names*: seq[string]
+  vartype*: string
+  lhs*: CsVariable # lhs = left hand side, rhs = right hand side.
+  rhs*:CsVariableDeclarator  # which has what's after the equals-value-clause.
+
+proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info; data:AllNeededData): CsLocalDeclarationStatement =
+  new result
+  echo info
+  result.vartype = info.essentials[1]
+  result.names = info.essentials[0].split(",").mapIt(it.strip)
+proc gen*(c: var CsLocalDeclarationStatement): string = assert false #TODO(gen:CsLocalDeclarationStatement)
+method add*(parent: var CsMethod; t: CsLocalDeclarationStatement) =
+  parent.body.add t
+proc newCs*(t: typedesc[CsLocalDeclarationStatement]; name: string): CsLocalDeclarationStatement =
+  new result
+  result.typ = $typeof(t)
+  result.ttype = "CsLocalDeclarationStatement"
+
+method add*(parent: var CsLocalDeclarationStatement; item: CsVariable) =
+  parent.lhs = item
+  
+method add*(parent: var CsLocalDeclarationStatement; item: CsGenericName) =
+  parent.lhs.generic = item
+
+method add*(parent: var CsLocalDeclarationStatement; item: CsTypeArgumentList) =
+  parent.lhs.generic.typearglist = item
+method add*(parent: var CsLocalDeclarationStatement; item: CsVariableDeclarator) =
+  parent.rhs = item
+
 method add*(parent:var CsVariable; item: Dummy) = assert false
-proc extract*(t:typedesc[CsVariable], info:Info,data:AllNeededData):CsVariable = assert false
+
+proc extract*(t:typedesc[CsVariable], info:Info,data:AllNeededData):CsVariable = 
+  new result
+  let p = info.essentials[0].split(":"); 
+  result.thetype = p[1]
+  assert p[0] == "type"
+  let n = info.essentials[1].split(":"); 
+  result.name = n[1]
+  assert n[0] == "name"
+
 method gen*(c: var CsVariable):string = assert false
 
 type CsBinaryPattern* = ref object of CsObject

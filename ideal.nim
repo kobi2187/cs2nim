@@ -189,7 +189,35 @@ method add*(parent, child: Construct; data: AllNeededData) =
       var c = child.argument
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
+  of ckLocalDeclarationStatement:
+    var p = parent.localDeclarationStatement
+    case child.kind
+    of ckVariable:
+      let c = child.variable
+      c.parentId = p.id; p.add c
+    of ckGenericName:
+      let c= child.genericName
+      c.parentId = p.id; p.add c
+    of ckTypeArgumentList:
+      let c= child.typeArgumentList
+      c.parentId = p.id; p.add c
+    of ckVariableDeclarator:
+      let c= child.variableDeclarator
+      c.parentId = p.id; p.add c
+    # of ckArgumentList: # TODO CONTINUE HERE... add needs to drill until reaching rhs, maybe add field arglist. annoying.
+    else: assert false, "plz impl for child: " & $child.kind
 
+  of ckVariableDeclarator:
+    var p = parent.variableDeclarator
+    case child.kind
+    of ckEqualsValueClause:
+      let c = child.equalsValueClause
+      c.parentId = p.id; p.add c
+    of ckObjectCreationExpression:
+      let c = child.objectCreationExpression
+      c.parentId = p.id; p.add c
+
+    else: assert false, "plz impl for child: " & $child.kind
 
   else: assert false, "plz impl for parent: " & $parent.kind
 
