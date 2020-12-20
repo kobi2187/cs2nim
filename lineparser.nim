@@ -55,8 +55,7 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
     let id = genUUID()
     echo "generated id for the next object ", decl, " ", id
     modifyPosition(decl, info, id)
-    # addToRoot(root, src, info, id)
-    addToRoot2(root, src, info, id) # slowly switch to new system, while making sure it compiles.
+    addToRoot2(root, src, info, id) # switched to new system, while making sure it compiles.
 
   of EndBlock:
     assert kindstr == "EndBlock"

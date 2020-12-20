@@ -122,6 +122,16 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckParameterList:
       var c = child.parameterlist
       c.parentId = p.id; p.add c
+    of ckExpressionStatement:
+      var c = child.expressionStatement
+      c.parentId = p.id; p.add c
+    of ckAssignmentExpression:
+      var c = child.assignmentExpression
+      c.parentId = p.id; p.add c
+    of ckConstructorInitializer:
+      var c = child.constructorInitializer
+      c.parentId = p.id; p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
   of ckIndexer:
     var p = parent.indexer
@@ -174,6 +184,15 @@ method add*(parent, child: Construct; data: AllNeededData) =
       var c = child.argument
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
+  of ckConstructorInitializer:
+    var p = parent.constructorInitializer
+    case child.kind
+      of ckArgumentList:
+        var c = child.argumentList
+        c.parentId = p.id; p.add c
+      else: assert false, "plz impl for child: " & $child.kind
+
+
   else: assert false, "plz impl for parent: " & $parent.kind
 
 

@@ -5,6 +5,7 @@ type ConstructKind* = enum
   # ckRoot # nah, too special.
   ckNamespace,
   ckClass,
+  ckField,
   ckMethod,
   ckEnum,
   # to be added.
@@ -39,6 +40,7 @@ type CNode {.acyclic.} = object
   of ckArgumentList: argumentList*: CsArgumentList
   of ckObjectCreationExpression: objectCreationExpression*: CsObjectCreationExpression
   of ckUsingDirective: usingDirective*: CsUsingDirective
+  of ckField: field*:CsField
   of ckEnum: cenum*: CsEnum
   of ckEnumMember: enumMember*: CsEnumMember
   of ckIndexer: indexer*: CsIndexer

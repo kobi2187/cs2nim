@@ -715,6 +715,9 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
   of "PropertyDeclaration":
     var a = extract(CsProperty,info); a.id = some(id)
     result = Construct(kind:ckProperty, property:a)
+  of "FieldDeclaration":
+    var a = extract(CsField, info); a.id = some(id)
+    result = Construct(kind:ckField, field:a)
   of [ "QualifiedName","... add here."]: discard # TODO
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:  result.id = some(id)

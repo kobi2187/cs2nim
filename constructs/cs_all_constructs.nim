@@ -104,14 +104,21 @@ proc gen*(c: var CsAliasQualifiedName): string = assert false #TODO(gen:CsAliasQ
 type CsField* = ref object of CsObject
   ttype*: string
   isPublic*: bool
-
-proc newCs*(t: typedesc[CsField]; name: string): CsField =
+  isStatic*:bool
+  
+proc newCs*(t: typedesc[CsField]): CsField =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsField)
+
 
 proc extract*(t: typedesc[CsField]; info: Info): CsField =
-  assert false #TODO(extract:CsField)
+  result = newCs(CsField)
+  result.name = info.essentials[2]
+  result.ttype = info.essentials[1]
+  result.isStatic = info.essentials[0].contains("static")
+  result.isPublic = info.essentials[0].contains("public") # TODO check what CsDisplay actually provides.
+
+  
 
 method add*(parent: var CsField; item: Dummy) =
   assert false # TODO(add:CsField)
@@ -287,14 +294,21 @@ proc gen*(c: var CsArrowExpressionClause): string = assert false #TODO(gen:CsArr
 
 # ============= CsAssignmentExpression ========
 
-type CsAssignmentExpression* = ref object of CsObject #TODO(type:CsAssignmentExpression)
+type CsAssignmentExpression* =ref object of BodyExpr
+  left*:string # should be some variable
+  right*:string # should be var or statement or literal
+  # probably following fields provide that. if so, can simply store it in body, with placeholders for following.
 
-proc newCs*(t: typedesc[CsAssignmentExpression]; name: string): CsAssignmentExpression =
+proc newCs*(t: typedesc[CsAssignmentExpression]): CsAssignmentExpression =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsAssignmentExpression)
 
-proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression = assert false #TODO(extract:CsAssignmentExpression)
+
+proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression = 
+  result = newCs(CsAssignmentExpression)
+  result.left = info.essentials[0]
+  result.right = info.essentials[1]
+
 
 method add*(parent: var CsAssignmentExpression; item: Dummy) =
   assert false # TODO(add:CsAssignmentExpression)
@@ -708,10 +722,13 @@ type CsMethod* = ref object of CsObject
   body*: seq[BodyExpr]            # use here inheritance and methods (runtime dispatch).
                                   # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
 
+type CsConstructorInitializer* = ref object of CsObject #TODO(type:CsConstructorInitializer)
+
 type CsConstructor* = ref object of CsObject
   parentClass*: string
   parameterList*: CsParameterList # seq[CsParameter]
   body*: seq[BodyExpr]
+  initializer*: CsConstructorInitializer # for example, when C# ctor passes args to base ctor # don't yet know how to generate in Nim.
 
 type CsEnumMember* = ref object of CsObject
   value*: string #Option[int]
@@ -1016,17 +1033,16 @@ proc gen*(c: var CsConstructorConstraint): string = assert false #TODO(gen:CsCon
 
 # ============= CsConstructorInitializer ========
 
-type CsConstructorInitializer* = ref object of CsObject #TODO(type:CsConstructorInitializer)
 
 proc newCs*(t: typedesc[CsConstructorInitializer]; name: string): CsConstructorInitializer =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsConstructorInitializer)
 
-proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorInitializer = assert false #TODO(extract:CsConstructorInitializer)
+proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorInitializer = 
+  echo info
+  new result # TODO?
 
-method add*(parent: var CsConstructorInitializer; item: Dummy) =
-  assert false # TODO(add:CsConstructorInitializer)
 
 # proc add*(parent: var CsConstructorInitializer; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
@@ -1460,6 +1476,14 @@ type CsInvocationExpression* = ref object of BodyExpr
 type CsExpressionStatement* = ref object of BodyExpr
   call*: CsInvocationExpression
   args*: CsArgumentList
+
+
+method add*(c:var CsConstructor; item: CsExpressionStatement) = 
+  c.body.add(item)
+method add*(c:var CsConstructor; item: CsAssignmentExpression) = 
+  c.body.add(item)
+method add*(c:var CsConstructor; item: CsConstructorInitializer) = 
+  c.initializer = item
 
 proc newCs*(t: typedesc[CsExpressionStatement]): CsExpressionStatement =
   new result

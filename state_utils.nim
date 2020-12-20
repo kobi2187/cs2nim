@@ -20,7 +20,7 @@ proc nsPathNS(r: var CsRoot): seq[CsNamespace] =
       if ns.isNone: return
       else:
         if ns.get.kind == ckNamespace:
-          echo "the name: " & ns.get.namespace.name
+          # echo "the name: " & ns.get.namespace.name
           result.add(ns.get.namespace)
       # let name = extract(CsNamespace, b.info).name
       # # assert r.nsTables.hasKey(name), "r.nsTables doesn't have it:" & $name
