@@ -62,6 +62,8 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckProperty:
       var pr = child.property
       pr.parentId = c.id; c.add pr
+    
+
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckMethod:
@@ -131,6 +133,9 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckConstructorInitializer:
       var c = child.constructorInitializer
       c.parentId = p.id; p.add c
+    of ckArgumentList:
+      var c = child.argumentList
+      c.parentId = p.id; p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
   of ckIndexer:
@@ -184,13 +189,6 @@ method add*(parent, child: Construct; data: AllNeededData) =
       var c = child.argument
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
-  of ckConstructorInitializer:
-    var p = parent.constructorInitializer
-    case child.kind
-      of ckArgumentList:
-        var c = child.argumentList
-        c.parentId = p.id; p.add c
-      else: assert false, "plz impl for child: " & $child.kind
 
 
   else: assert false, "plz impl for parent: " & $parent.kind

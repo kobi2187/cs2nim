@@ -729,6 +729,7 @@ type CsConstructor* = ref object of CsObject
   parameterList*: CsParameterList # seq[CsParameter]
   body*: seq[BodyExpr]
   initializer*: CsConstructorInitializer # for example, when C# ctor passes args to base ctor # don't yet know how to generate in Nim.
+  initializerArgList: CsArgumentList
 
 type CsEnumMember* = ref object of CsObject
   value*: string #Option[int]
@@ -1065,8 +1066,12 @@ proc extract*(t: typedesc[CsConstructor]; info: Info): CsConstructor =
   let m = newCs(CsConstructor, name)
   result = m
 
-method add*(parent: var CsConstructor; item: CsParameterList) =
+method add*(parent: var CsConstructor; item: CsArgumentList) =
+  assert (parent.initializer != nil)
+  assert parent.initializerArgList.isNil
+  parent.initializerArgList = item
 
+method add*(parent: var CsConstructor; item: CsParameterList) =
   parent.parameterList = item
 
 # proc add*(parent: var CsConstructor; item: CsParameterList; data: AllNeededData) = parent.add(item) # TODO

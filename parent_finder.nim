@@ -41,7 +41,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckConstructor, ckExpressionStatement": true
   of "ckConstructor, ckAssignmentExpression": true 
   of "ckConstructor, ckConstructorInitializer": true 
-  of "ckConstructorInitializer, ckArgumentList": true 
+  of "ckConstructor, ckArgumentList": true # likely for initializer
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -166,7 +166,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     echo data.classLastAdded
     if data.classLastAdded == Ctors and data.lastCtor.body.isEmpty and data.lastCtor.initializer != nil:
       # then it could belong to initializer -- hmmm... we depend here on order (first ctor, then ctor init). a little fishy.
-      res = data.lastCtor.initializer.id
+      res = data.lastCtor.id
     else:    
       res = data.lastBodyExprId
 
