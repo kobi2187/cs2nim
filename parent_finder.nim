@@ -49,6 +49,10 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckVariableDeclarator, ckEqualsValueClause": true
   of "ckVariableDeclarator, ckObjectCreationExpression": true 
   of "ckLocalDeclarationStatement, ckArgumentList": true
+  of "ckMethod, ckAssignmentExpression": true 
+  of "ckAssignmentExpression, ckObjectCreationExpression": true 
+  of "ckReturnStatement, ckObjectCreationExpression": true 
+  of "ckReturnStatement, ckArgumentList": true
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -185,10 +189,12 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     # echo "we assume we're in method or ctor, but if there are more options change that."
     assert data.classLastAdded in [ ClassParts.Methods, ClassParts.Ctors ], $data.classLastAdded 
     res = data.idLastClassPart
+  
   of ckAssignmentExpression:
     echo "obj is AssignmentExpression"
     assert data.classLastAdded in [ ClassParts.Methods, ClassParts.Ctors ], $data.classLastAdded 
     res = data.idLastClassPart
+
   of ckIndexer:
     echo "obj is IndexerDeclaration"
     res = data.lastClass.id
@@ -302,10 +308,21 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     assert data.classLastAdded == Methods, $data.classLastAdded
     res = data.lastBodyExprId # this will create a few chained adds but we don't care.
     
-  of ckObjectCreationExpression:
-    assert data.previousConstruct.get.name == "EqualsValueClause"
-    assert data.previousPreviousConstruct.get.name == "VariableDeclarator"
-    res = data.previousPreviousConstruct.get.id.some
+  of ckObjectCreationExpression: # store in assignment expression # not variable declarator.
+    case data.previousPreviousConstruct.get.name & ", " & data.previousConstruct.get.name
+    of "VariableDeclarator, EqualsValueClause":
+      # based on last 2 constructs: variableDeclarator equalsvalueclause ...
+      res = data.previousPreviousConstruct.get.id.some
+    of "AssignmentExpression, IdentifierName":
+      res = data.previousPreviousConstruct.get.id.some
+    of "ParameterList, ReturnStatement":
+      res = data.previousConstruct.get.id.some
+
+    else: assert false, data.previousPreviousConstruct.get.name & ", " & data.previousConstruct.get.name
+    
+    # HAVE TO FIGURE THIS OUT, can i just put them all one after another in a body seq?
+  # of [ckInvocationExpression, ckAnonymousMethodExpression, ckAnonymousObjectCreationExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckAssignmentExpression, ckAwaitExpression, ckBaseExpression, ckBinaryExpression, ckBreakStatement, ckCastExpression, ckCheckedExpression, ckCheckedStatement, ckConditionalAccessExpression, ckConditionalExpression, ckContinueStatement, ckDeclarationExpression, ckDefaultExpression, ckDoStatement, ckElementAccessExpression, ckElementBindingExpression, ckEmptyStatement, ckExpressionStatement, ckFixedStatement, ckForEachStatement, ckForEachVariableStatement, ckForStatement, ckGlobalStatement, ckGotoStatement, ckIfStatement, ckImplicitArrayCreationExpression, ckImplicitObjectCreationExpression, ckImplicitStackAllocArrayCreationExpression, ckInitializerExpression, ckInterpolatedStringExpression, ckIsPatternExpression, ckLabeledStatement, ckLiteralExpression, ckLocalDeclarationStatement, ckLocalFunctionStatement, ckLockStatement, ckMakeRefExpression, ckMemberAccessExpression, ckMemberBindingExpression, ckObjectCreationExpression, ckOmittedArraySizeExpression, ckParenthesizedExpression, ckParenthesizedLambdaExpression, ckPostfixUnaryExpression, ckPrefixUnaryExpression, ckQueryExpression, ckRangeExpression, ckRefExpression, ckRefTypeExpression, ckRefValueExpression, ckReturnStatement, ckSimpleLambdaExpression, ckSizeOfExpression, ckStackAllocArrayCreationExpression, ckSwitchExpression, ckSwitchExpressionArm, ckSwitchStatement, ckThisExpression, ckThrowExpression, ckThrowStatement, ckTryStatement, ckTupleExpression, ckTypeOfExpression, ckUnsafeStatement, ckUsingStatement, ckWhileStatement, ckWithExpression, ckYieldStatement]:
+  #   res = data.idLastClassPart
 
   of [ckField, ckBinaryExpression,   ckIfStatement, ckThisExpression,  ckBracketedArgumentList, ckElementAccessExpression,  ckParenthesizedExpression, ckCastExpression, ckArrayRankSpecifier, ckArrayType, ckPrefixUnaryExpression, ckOmittedArraySizeExpression, ckInitializerExpression, ckNameEquals, ckThrowStatement, ckTypeOfExpression, ckElseClause, ckCaseSwitchLabel, ckSwitchSection, ckSimpleLambdaExpression, ckPostfixUnaryExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckBreakStatement, ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression, ckConditionalExpression, ckTypeParameterList, ckForEachStatement, ckForStatement, ckInterpolatedStringText, ckParenthesizedLambdaExpression, ckTryStatement, ckNullableType, ckBaseExpression, ckCatchClause,  ckInterpolation, ckCatch, ckNameColon, ckUsingStatement, ckTypeParameterConstraintClause, ckTypeConstraint, ckSingleVariableDesignation, ckInterpolatedStringExpression, ckImplicitArrayCreationExpression, ckWhileStatement, ckDeclarationExpression, ckConditionalAccessExpression, ckSwitchStatement, ckMemberBindingExpression, ckDefaultExpression, ckPointerType, ckInterface, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel, ckYieldStatement, ckAnonymousObjectMemberDeclarator, ckCheckedExpression, ckStruct, ckIsPatternExpression, ckLockStatement, ckDeclarationPattern, ckThrowExpression, ckConstantPattern, ckRefType, ckRefExpression, ckClassOrStructConstraint, ckOmittedTypeArgument, ckTupleElement, ckOperator, ckEventField, ckDelegate, ckImplicitElementAccess, ckAnonymousMethodExpression, ckTupleExpression, ckAnonymousObjectCreationExpression,  ckEvent, ckGotoStatement, ckDoStatement, ckGlobalStatement, ckIncompleteMember, ckLocalFunctionStatement, ckConversionOperator, ckTupleType, ckFixedStatement, ckEmptyStatement, ckSizeOfExpression, ckQueryBody, ckCheckedStatement, ckQueryExpression, ckCasePatternSwitchLabel, ckLabeledStatement, ckConstructorConstraint, ckUnsafeStatement, ckParenthesizedVariableDesignation, ckInterpolationFormatClause, ckDestructor, ckDiscardDesignation, ckStackAllocArrayCreationExpression, ckWhenClause, ckForEachVariableStatement, ckLetClause, ckElementBindingExpression, ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause, ckQueryContinuation, ckExternAliasDirective, ckMakeRefExpression, ckRefValueExpression, ckRefTypeExpression, ckBlock,  ckBinaryPattern, ckDiscardPattern, ckFunctionPointerType, ckImplicitObjectCreationExpression,  ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord, ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression ]:
     assert false, $obj.kind & " is still unsupported"

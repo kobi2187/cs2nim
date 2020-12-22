@@ -63,7 +63,7 @@ method add*(parent, child: Construct; data: AllNeededData) =
       var pr = child.property
       pr.parentId = c.id; c.add pr
     
-
+    
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckMethod:
@@ -84,7 +84,9 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckExpressionStatement:
       var c = child.expressionStatement
       c.parentId = m.id; m.add c
-    
+    of ckAssignmentExpression:
+      var c = child.assignmentExpression
+      c.parentId = m.id; m.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckEnum:
     var m = parent.cenum
@@ -116,6 +118,12 @@ method add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckLiteralExpression:
       var c = child.literalExpression
+      c.parentId = p.id; p.add c
+    of ckObjectCreationExpression:
+      var c = child.objectCreationExpression
+      c.parentId = p.id; p.add c
+    of ckArgumentList:
+      var c = child.argumentList
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckConstructor:
@@ -188,6 +196,8 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckArgument: 
       var c = child.argument
       c.parentId = p.id; p.add c
+
+
     else: assert false, "plz impl for child: " & $child.kind
   of ckLocalDeclarationStatement:
     var p = parent.localDeclarationStatement
@@ -204,7 +214,10 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckVariableDeclarator:
       let c= child.variableDeclarator
       c.parentId = p.id; p.add c
-    # of ckArgumentList: # TODO CONTINUE HERE... add needs to drill until reaching rhs, maybe add field arglist. annoying.
+    of ckArgumentList: # TODO CONTINUE HERE... add needs to drill until reaching rhs, maybe add field arglist. annoying.
+      let c = child.argumentList
+      c.parentId = p.id; p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckVariableDeclarator:
@@ -219,6 +232,13 @@ method add*(parent, child: Construct; data: AllNeededData) =
 
     else: assert false, "plz impl for child: " & $child.kind
 
+  of ckAssignmentExpression:
+    var p = parent.assignmentExpression
+    case child.kind
+    of ckObjectCreationExpression:
+      var c = child.objectCreationExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
 
 

@@ -19,9 +19,12 @@ proc processFiles*(root: var CsRoot; files: seq[string]) =
     let linesJson = parseFile(f)
     parseExecFile(root, linesJson)
 
+import re,strutils
 proc concatModulesOutput*(mods: seq[Module]): string =
   for m in mods:
     result &= m.output & "\n\n"
+  var x  = result.replace(re"((\r\n)|(\n)){2,}","\n\n")
+  result = x.strip(chars={'\n'})
 
 let safer* = true
 const suffixOutputDir = "nim_code/dotnet"

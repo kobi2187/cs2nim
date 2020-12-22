@@ -62,14 +62,16 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
 
 
 var currentRoot*: CsRoot
-
+import nre
 proc makeModule*(ns: CsNamespace): Module =
   var name: string
   if ns.parent.len > 0:
     name = ns.parent & "." & ns.name
   else:
     name = ns.name
-  let output = ns.gen() & "\n\n"
+  var output = ns.gen() & "\n\n"
+  output = output.replace(re"\n{2,}","\n\n")
+
   result = Module(name: name, output: output)
 
 proc gen*(r: CsRoot): seq[Module] =
