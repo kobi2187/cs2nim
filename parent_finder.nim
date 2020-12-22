@@ -53,6 +53,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckAssignmentExpression, ckObjectCreationExpression": true 
   of "ckReturnStatement, ckObjectCreationExpression": true 
   of "ckReturnStatement, ckArgumentList": true
+  of "ckLocalDeclarationStatement, ckLiteralExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -65,6 +66,8 @@ proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
     case prevprevName
       of "EnumMemberDeclaration":
         result = data.lastEnumMember.id
+      of "VariableDeclarator":
+        result = data.lastBodyExprId
       else: assert false, prevprevName
 
   of ["IdentifierName","Argument"]: discard # TODO?

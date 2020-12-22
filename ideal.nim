@@ -217,6 +217,9 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckArgumentList: # TODO CONTINUE HERE... add needs to drill until reaching rhs, maybe add field arglist. annoying.
       let c = child.argumentList
       c.parentId = p.id; p.add c
+    of ckLiteralExpression:
+      let c = child.literalExpression
+      c.parentId = p.id; p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
 
@@ -267,7 +270,7 @@ proc sameAsExisting(obj:Construct, data:AllNeededData):bool =
     discard
     # assert false, $obj.kind
 
-
+import strutils
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   echo "in addToRoot2"
   echo " ==START== " , root

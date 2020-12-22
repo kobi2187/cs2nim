@@ -28,6 +28,9 @@ suite "code generation tests":
       check genTest("sample1")
     test "return new class":
       check genTest("xwtButtonTests")
+    test "assign":
+      check genTest("sample10")
+      
   #[
   ]#
   # when true:
