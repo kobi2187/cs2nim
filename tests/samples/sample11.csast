@@ -1,1 +1,462 @@
-{"File":"./tests/samples/sample11.cs","Lines":[]}
+{
+  "File": "./tests/samples/sample11.cs",
+  "Lines": [
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "1"
+        ],
+        "Extras": [
+          "ClassDeclaration"
+        ]
+      },
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ClassDeclaration",
+      "Info": {
+        "Essentials": [
+          "AVLTreeTest"
+        ],
+        "Extras": [
+          "public static"
+        ]
+      },
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "2"
+        ],
+        "Extras": [
+          "MethodDeclaration"
+        ]
+      },
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "MethodDeclaration",
+      "Info": {
+        "Essentials": [
+          "DoTest",
+          "void"
+        ],
+        "Extras": [
+          "public static"
+        ]
+      },
+      "Source": "  [Fact]\n  public static void DoTest()\n  {\n    AVLTree<int> avlTree = new AVLTree<int>();\n    avlTree.Insert(4); // insert\n    AssertCase_2(avlTree);\n  }\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "Fact"
+        ],
+        "Extras": []
+      },
+      "Source": "Fact"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PredefinedType",
+      "Info": {
+        "Essentials": [
+          "void"
+        ],
+        "Extras": []
+      },
+      "Source": "void "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ParameterList",
+      "Info": null,
+      "Source": "()\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "LocalDeclarationStatement",
+      "Info": {
+        "Essentials": [
+          "avlTree",
+          "AVLTree<int>"
+        ],
+        "Extras": []
+      },
+      "Source": "    AVLTree<int> avlTree = new AVLTree<int>();\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "VariableDeclaration",
+      "Info": {
+        "Essentials": [
+          "type:AVLTree<int>",
+          "name:avlTree"
+        ],
+        "Extras": []
+      },
+      "Source": "    AVLTree<int> avlTree = new AVLTree<int>()"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "GenericName",
+      "Info": null,
+      "Source": "    AVLTree<int> "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "TypeArgumentList",
+      "Info": {
+        "Essentials": [
+          "int"
+        ],
+        "Extras": []
+      },
+      "Source": "<int> "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PredefinedType",
+      "Info": {
+        "Essentials": [
+          "int"
+        ],
+        "Extras": []
+      },
+      "Source": "int"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "VariableDeclarator",
+      "Info": {
+        "Essentials": [
+          "avlTree"
+        ],
+        "Extras": []
+      },
+      "Source": "avlTree = new AVLTree<int>()"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EqualsValueClause",
+      "Info": {
+        "Essentials": [
+          "new AVLTree<int>()"
+        ],
+        "Extras": []
+      },
+      "Source": "= new AVLTree<int>()"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ObjectCreationExpression",
+      "Info": {
+        "Essentials": [
+          "AVLTree<int>"
+        ],
+        "Extras": []
+      },
+      "Source": "new AVLTree<int>()"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "GenericName",
+      "Info": null,
+      "Source": "AVLTree<int>"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "TypeArgumentList",
+      "Info": {
+        "Essentials": [
+          "int"
+        ],
+        "Extras": []
+      },
+      "Source": "<int>"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PredefinedType",
+      "Info": {
+        "Essentials": [
+          "int"
+        ],
+        "Extras": []
+      },
+      "Source": "int"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ArgumentList",
+      "Info": {
+        "Essentials": [
+          ""
+        ],
+        "Extras": []
+      },
+      "Source": "()"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "3"
+        ],
+        "Extras": [
+          "ExpressionStatement"
+        ]
+      },
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ExpressionStatement",
+      "Info": null,
+      "Source": "    avlTree.Insert(4); // insert\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "InvocationExpression",
+      "Info": {
+        "Essentials": [
+          "avlTree.Insert"
+        ],
+        "Extras": []
+      },
+      "Source": "    avlTree.Insert(4)"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "MemberAccessExpression",
+      "Info": null,
+      "Source": "    avlTree.Insert"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "avlTree"
+        ],
+        "Extras": []
+      },
+      "Source": "    avlTree"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "Insert"
+        ],
+        "Extras": []
+      },
+      "Source": "Insert"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ArgumentList",
+      "Info": {
+        "Essentials": [
+          "4"
+        ],
+        "Extras": []
+      },
+      "Source": "(4)"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "Argument",
+      "Info": {
+        "Essentials": [
+          "4"
+        ],
+        "Extras": []
+      },
+      "Source": "4"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "LiteralExpression",
+      "Info": {
+        "Essentials": [
+          "4"
+        ],
+        "Extras": []
+      },
+      "Source": "4"
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "2",
+          "ExpressionStatement"
+        ],
+        "Extras": []
+      },
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "3"
+        ],
+        "Extras": [
+          "ExpressionStatement"
+        ]
+      },
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ExpressionStatement",
+      "Info": null,
+      "Source": "    AssertCase_2(avlTree);\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "InvocationExpression",
+      "Info": {
+        "Essentials": [
+          "AssertCase_2"
+        ],
+        "Extras": []
+      },
+      "Source": "    AssertCase_2(avlTree)"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "AssertCase_2"
+        ],
+        "Extras": []
+      },
+      "Source": "    AssertCase_2"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ArgumentList",
+      "Info": {
+        "Essentials": [
+          "avlTree"
+        ],
+        "Extras": []
+      },
+      "Source": "(avlTree)"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "Argument",
+      "Info": {
+        "Essentials": [
+          "avlTree"
+        ],
+        "Extras": []
+      },
+      "Source": "avlTree"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "avlTree"
+        ],
+        "Extras": []
+      },
+      "Source": "avlTree"
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "2",
+          "ExpressionStatement"
+        ],
+        "Extras": []
+      },
+      "Source": null
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "1",
+          "ExpressionStatement"
+        ],
+        "Extras": []
+      },
+      "Source": null
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "0",
+          "ExpressionStatement"
+        ],
+        "Extras": []
+      },
+      "Source": null
+    }
+  ]
+}

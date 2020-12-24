@@ -298,9 +298,8 @@ proc gen*(c: var CsArrowExpressionClause): string = assert false #TODO(gen:CsArr
 # ============= CsAssignmentExpression ========
 
 type CsAssignmentExpression* =ref object of BodyExpr
-  left*:string # should be some variable
-  right*:IAssignable # should be var or statement or literal
-  # probably following fields provide that. if so, can simply store it in body, with placeholders for following.
+  left*:string # TODO: should be some variable
+  right*:IAssignable 
 
 
 # TODO MAJOR TODO: instead of everyone matching bodyexpr and stored as a seq in various body fields, figure out which ones really do, maybe 3 types, then put these expressions in them accordingly.
@@ -813,6 +812,14 @@ proc gen*(p: CsParameter): string =
 proc gen*(p: CsParameterList): string =
   result = p.parameters.mapIt(it.gen()).join("; ")
 
+proc lowerFirst(s:string) : string =
+  if s.len == 0: return ""
+  if s.len == 1:
+    result = "" & s[0].toLowerAscii
+  if s.len > 1 :
+    result = s[0].toLowerAscii & s[1..^1]
+  
+
 proc gen*(m: var CsMethod): string =
   echo "generating method (wip): " & m.name
   if not m.isStatic: result = "method " else: result = "proc "
@@ -831,7 +838,7 @@ proc gen*(m: var CsMethod): string =
       
       lines.join("\r\n  ")
 
-  result &= m.name & "(" & parameterList & ")"
+  result &= m.name.lowerFirst & "(" & parameterList & ")"
   if returnType != "": result &= ": " & returnType
   result &= " ="
   result &= "\r\n  "
@@ -1985,21 +1992,20 @@ proc extract*(t: typedesc[CsInvocationExpression]; info: Info): CsInvocationExpr
 
 
 func normalizeCallName(s: string): string =
-  assert s.contains(".")
+  assert s.contains(".") and s.startsWith(re.re"[A-Z]")
   let parts = s.rsplit(".", 1)
   let lastPart = parts[1] # last part is the function name that was called.
-
-  if lastPart.len == 1:
-    result = lastPart.toLowerAscii
-  else:
-    result = lastPart[0].toLowerAscii & lastPart[1..^1]
+  result = lastPart.lowerFirst()
 
 
 method gen*(c: CsInvocationExpression): string =
   
-  result = if c.callName.contains("."):
+  result = if c.callName.contains(".") and c.callName.startsWith(re.re"[A-Z]"):
     normalizeCallName(c.callName)
-  else: c.callName
+  elif c.callName.startsWith(re.re"[A-Z]"): 
+    c.callName.lowerFirst()
+  else:
+    c.callName
 
 
   #[

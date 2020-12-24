@@ -30,7 +30,8 @@ suite "code generation tests":
       check genTest("xwtButtonTests")
     test "assign":
       check genTest("sample10")
-      
+    test "functions1":
+      check genTest("sample11")
   #[
   ]#
   # when true:
