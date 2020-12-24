@@ -52,6 +52,7 @@ proc lastBodyExprId*(c:CsMethod | CsConstructor | CsProperty):Option[UUID] =
 proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData =
   echo "in makeNeededData"
   result.sourceCode = src
+  echo src
   result.constructDeclName = info.declName
   if not state.currentConstruct.isEmpty and not state.currentConstruct.last.info.isVisitBlock():
     result.inBlock = state.currentConstruct.last

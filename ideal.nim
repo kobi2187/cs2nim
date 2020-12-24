@@ -241,6 +241,18 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckObjectCreationExpression:
       var c = child.objectCreationExpression
       c.parentId = p.id; p.add c
+    of ckGenericName: 
+      var c = child.genericName
+      c.parentId = p.id; p.add c
+
+    of ckTypeArgumentList:
+      var c = child.typeArgumentList
+      c.parentId = p.id; p.add c
+
+    of ckArgumentList:
+      var c = child.argumentList
+      c.parentId = p.id; p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
 

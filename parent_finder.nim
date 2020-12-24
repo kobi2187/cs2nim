@@ -55,6 +55,8 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckReturnStatement, ckArgumentList": true
   of "ckLocalDeclarationStatement, ckLiteralExpression": true
   of "ckAssignmentExpression, ckGenericName": true
+  of "ckAssignmentExpression, ckTypeArgumentList": true 
+  of "ckAssignmentExpression, ckArgumentList": true 
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =

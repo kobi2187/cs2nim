@@ -32,6 +32,8 @@ suite "code generation tests":
       check genTest("sample10")
     test "functions1":
       check genTest("sample11")
+    test "functions2":
+      check genTest("sample12")
   #[
   ]#
   # when true:

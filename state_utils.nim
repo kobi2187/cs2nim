@@ -8,7 +8,7 @@ import constructs/cs_root
 import tables,sets
 import construct
 proc nsPathNS(r: var CsRoot): seq[CsNamespace] =
-  echo "in nsPathNS ",  $blocks
+  # echo "in nsPathNS ",  $blocks
   var started = false
  # we assume blocks starts with namespaces.
  # echo blocks
