@@ -201,10 +201,14 @@ proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
 proc extract*(t: typedesc[CsArgumentList]; info: Info): CsArgumentList =
   result = newCs(CsArgumentList, info.essentials[0].split(","))
 
+proc replacementGenericTypes (s:string): string =
+  if s.contains("<") and s.contains(">"):
+    result = s.replace("<","[").replace(">","]")
+  else: result = s
 
 proc gen*(c: var CsArgumentList): string =
   if not c.isNil:
-    result = c.args.join(", ")
+    result = c.args.join(", ").replacementGenericTypes()
 
 # ============= CsArgument ========
 
@@ -820,6 +824,7 @@ proc lowerFirst(s:string) : string =
     result = s[0].toLowerAscii & s[1..^1]
   
 
+
 proc gen*(m: var CsMethod): string =
   echo "generating method (wip): " & m.name
   if not m.isStatic: result = "method " else: result = "proc "
@@ -827,7 +832,7 @@ proc gen*(m: var CsMethod): string =
     m.addSelfParam()
 
   let parameterList = m.parameterList.gen()
-  let returnType = if m.returnType != "void": m.returnType else: ""
+  let returnType = if m.returnType != "void": m.returnType.replacementGenericTypes() else: ""
   let body =
     if m.body.len == 0: "discard"
     else: 
@@ -838,8 +843,8 @@ proc gen*(m: var CsMethod): string =
       
       lines.join("\r\n  ")
 
-  result &= m.name.lowerFirst & "(" & parameterList & ")"
-  if returnType != "": result &= ": " & returnType
+  result &= m.name.lowerFirst & "(" & parameterList.replacementGenericTypes() & ")"
+  if returnType != "": result &= ": " & returnType.replacementGenericTypes()
   result &= " ="
   result &= "\r\n  "
 
@@ -2241,7 +2246,7 @@ type CsObjectCreationExpression* = ref object of IAssignable
   args*: CsArgumentList
 
 method gen*(item:CsObjectCreationExpression) : string =
-  result = "new" & item.name & item.args.gen()
+  result = "new" & item.name.replacementGenericTypes() & "(" & item.args.gen().replacementGenericTypes() & ")"
 
 proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression = 
   result = newCs(CsAssignmentExpression)
@@ -2522,7 +2527,7 @@ method add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
 
 # proc add*(parent: var CsObjectCreationExpression; item: CsParameterList) = assert false
 
-method gen*(c: var CsObjectCreationExpression): string = assert false #TODO(gen:CsObjectCreationExpression)
+method gen*(c: CsObjectCreationExpression): string = assert false #TODO(gen:CsObjectCreationExpression)
 
 # ============= CsOmittedArraySizeExpression ========
 
@@ -3583,7 +3588,7 @@ proc extract*(t:typedesc[CsVariable], info:Info,data:AllNeededData):CsVariable =
 method gen*(c: CsVariable):string = 
   result = "var " & c.name
   if c.thetype != "var":
-    result &= " : " & c.thetype
+    result &= " : " & c.thetype.replacementGenericTypes()
   
   
 
