@@ -60,7 +60,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckObjectCreationExpression, ckInitializerExpression": true 
   of "ckInitializerExpression, ckLiteralExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
-import state
+import state,sugar
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
   echo "obj is LiteralExpression"
   let prevName = data.previousConstruct.get.name
@@ -81,6 +81,10 @@ proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
     result = data.lastBodyExprId
   of "InitializerExpression":
     let ini = state.getLastBlockType("InitializerExpression")
+    assert ini.isSome
+    result = ini.get.id.some
+  of "LiteralExpression":
+    let ini = state.getLastBlock((c) => c.name != "LiteralExpression")
     assert ini.isSome
     result = ini.get.id.some
   else: assert false, prevName

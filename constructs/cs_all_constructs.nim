@@ -1862,6 +1862,9 @@ method add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
 
 type CsInitializerExpression* = ref object of CsObject #TODO(type:CsInitializerExpression)
   valueReceived*:string
+  bexprs*:seq[BodyExpr]
+
+
 
 proc newCs*(t: typedesc[CsInitializerExpression]): CsInitializerExpression =
   new result
@@ -1882,7 +1885,14 @@ proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerEx
 
 # proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInitializerExpression): string = assert false #TODO(gen:CsInitializerExpression)
+proc gen*(c: var CsInitializerExpression): string =
+  echo "gen CsInitializerExpression, got values:", c.valueReceived
+  result = ".initWith("
+  for i, b in c.bexprs:
+    if i > 0: result &= ", "
+    result &= b.gen()
+  result &= ")"
+  # assert false #TODO(gen:CsInitializerExpression)
 
 # ============= CsInterface ========
 
@@ -2131,6 +2141,10 @@ proc gen*(c: var CsLetClause): string = assert false #TODO(gen:CsLetClause)
 
 type CsLiteralExpression* = ref object of IAssignable
   value*: string
+
+method add*(parent: var CsInitializerExpression; item: CsLiteralExpression) =
+  parent.bexprs.add item
+
 method add*(em: var CsEnumMember; item: CsLiteralExpression) =
   em.add(item.value)
 proc newCs(t: typedesc[CsLiteralExpression]; val: string): CsLiteralExpression =
@@ -2260,6 +2274,8 @@ type CsObjectCreationExpression* = ref object of IAssignable
 
 method gen*(item:CsObjectCreationExpression) : string =
   result = "new" & item.name.replacementGenericTypes() & "(" & item.args.gen().replacementGenericTypes() & ")"
+  if not item.initExpr.isNil:
+    result &= item.initExpr.gen()
 
 method add*(parent:var CsObjectCreationExpression; item:CsInitializerExpression) =
   parent.initExpr = item
@@ -2298,6 +2314,7 @@ type CsVariableDeclarator* = ref object of BodyExpr # I assume this is the right
   arglist*:CsArgumentList
 
 method gen*(c:CsVariableDeclarator):string = 
+  echo "rhs is: " & c.rhs.typ
   if c.ev != nil:
     result &= " = " & c.rhs.gen()
   
@@ -2558,7 +2575,6 @@ method add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
 
 # proc add*(parent: var CsObjectCreationExpression; item: CsParameterList) = assert false
 
-method gen*(c: CsObjectCreationExpression): string = assert false #TODO(gen:CsObjectCreationExpression)
 
 # ============= CsOmittedArraySizeExpression ========
 
