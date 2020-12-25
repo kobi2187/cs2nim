@@ -14,7 +14,18 @@ var blocks* = newStack[Block]()
 
 
 import algorithm, hashes
+import options 
+
 var currentConstruct* = newSeq[Block]()
+
+proc getLastBlock*(cond:(proc(c:Block):bool)) :Option[Block] =
+  for c in currentConstruct.reversed:
+    if c.cond(): return c.some
+  return none(Block)
+
+proc getLastBlockType*(typeStr:string):Option[Block]=
+  result = getLastBlock(proc(c:Block):bool = c.name == typeStr)
+
 
 proc prevprevConstruct*: Block =
   let skipList = @[

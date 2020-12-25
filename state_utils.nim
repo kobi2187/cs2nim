@@ -58,7 +58,7 @@ proc keys[A, B](t: TableRef[A, B]): seq[A] =
     result.add k
 
 proc getLastClass*(ns: CsNamespace): Option[CsClass] =
-  echo ns
+  # echo ns
   if ns.classes.len == 0:
     result = none(CsClass)
   else:
@@ -83,7 +83,7 @@ import tables
 proc getCurrentNs*(root:var CsRoot): (string, CsNamespace) =
   var p = nsPath(root)
   if p == "": p = "default"
-  echo p
+  # echo p
   assert root.nsTables.hasKey(p)
   let ns = root.nsTables[p]
   result = (p, ns)

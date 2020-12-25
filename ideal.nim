@@ -254,6 +254,14 @@ method add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
+  of ckObjectCreationExpression:
+    var p = parent.objectCreationExpression
+    case child.kind
+    of ckInitializerExpression:
+      var c = child.initializerExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+
   else: assert false, "plz impl for parent: " & $parent.kind
 
 
@@ -285,7 +293,7 @@ proc sameAsExisting(obj:Construct, data:AllNeededData):bool =
 import strutils
 proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   echo "in addToRoot2"
-  echo " ==START== " , root
+  echo " ==START== ","\n" , root
 
   # processTreeForData(root, info)
   # no need, lineparser.modifyPosition does that already.
@@ -318,7 +326,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
       parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
       obj.parentId = parent.id # connect them after adding.
 
-    echo " ==END== " , root
+    echo root,"\n"," ==END== " 
     echo "NOTE: if didn't add, go to ideal::add method."
 
 

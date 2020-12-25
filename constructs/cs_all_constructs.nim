@@ -1861,18 +1861,21 @@ method add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
 # ============= CsInitializerExpression ========
 
 type CsInitializerExpression* = ref object of CsObject #TODO(type:CsInitializerExpression)
+  valueReceived*:string
 
-proc newCs*(t: typedesc[CsInitializerExpression]; name: string): CsInitializerExpression =
+proc newCs*(t: typedesc[CsInitializerExpression]): CsInitializerExpression =
   new result
   result.typ = $typeof(t)
+
 #TODO(create:CsInitializerExpression)
 
 proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression = 
-  echo info  !!! # Continue here next time!!
-  # Info: InitializerExpression;; @["3", "15, 25, 5"];; @[]
+  result = newCs(t)
+  result.valueReceived = info.essentials[1]
+  echo "haven't really implemented: proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression "
+  echo info  # Info: InitializerExpression;; @["3", "15, 25, 5"];; @[]
   # 3 is arity. now it's possible they won't be simple literals. the following objects should provide more info.
   # for now we can store them as they are, or just make room, expect 3 more "expressions" or whatever.
-  assert false #TODO(extract:CsInitializerExpression)
 
 # method add*(parent: var CsInitializerExpression; item: Dummy) =
 #   assert false # TODO(add:CsInitializerExpression)
@@ -2253,14 +2256,21 @@ method add*(parent: var CsMethod; p: CsParameterList) =
 type CsObjectCreationExpression* = ref object of IAssignable 
   typeName*: string # args*: CsParameterList
   args*: CsArgumentList
+  initExpr*:CsInitializerExpression
 
 method gen*(item:CsObjectCreationExpression) : string =
   result = "new" & item.name.replacementGenericTypes() & "(" & item.args.gen().replacementGenericTypes() & ")"
+
+method add*(parent:var CsObjectCreationExpression; item:CsInitializerExpression) =
+  parent.initExpr = item
+  # assert false
+
 
 proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression = 
   result = newCs(CsAssignmentExpression)
   result.left = info.essentials[0]
   # result.right = info.essentials[1]
+
 
 
 method add*(parent:CsAssignmentExpression; item: CsTypeArgumentList) = 
@@ -2541,7 +2551,6 @@ proc extract*(t: typedesc[CsObjectCreationExpression]; info: Info): CsObjectCrea
 
 
 method add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
-
   parent.args = item
 
 # proc add*(parent: var CsObjectCreationExpression; item: CsArgumentList; data: AllNeededData) = parent.add(item) # TODO
