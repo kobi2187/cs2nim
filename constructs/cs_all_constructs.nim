@@ -1859,7 +1859,7 @@ method add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
 
 type CsPrefixUnaryExpression* = ref object of CsObject
   prefix*:string # don't handle it in any special way, prepend it, without space if literal, and with - otherwise.
-
+  actingOn*:string
 
 type CsLiteralExpression* = ref object of IAssignable
   value*: string
@@ -2834,6 +2834,7 @@ proc newCs*(t: typedesc[CsPrefixUnaryExpression]): CsPrefixUnaryExpression =
 proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryExpression = 
   result = newCs(t)
   result.prefix = info.essentials[0]
+  result.actingOn = info.essentials[1]
   # assert false #TODO(extract:CsPrefixUnaryExpression)
 
 # method add*(parent: var CsPrefixUnaryExpression; item: Dummy) =
@@ -3630,7 +3631,7 @@ method add*(parent: var CsLocalDeclarationStatement; item: CsLiteralExpression) 
 method add*(parent: var CsLocalDeclarationStatement; item: CsArgumentList) =
   parent.rhs.add item
 
-# method add*(parent:var CsVariable; item: Dummy) =  assert false
+method add*(parent:var CsVariable; item: CsPredefinedType) =  assert false
 
 
 method add*(parent: var CsVariableDeclarator; item: CsEqualsValueClause)=

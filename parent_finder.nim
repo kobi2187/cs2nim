@@ -61,6 +61,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckInitializerExpression, ckLiteralExpression": true
   of "ckLiteralExpression, ckPrefixUnaryExpression": true
   of "ckInitializerExpression, ckPrefixUnaryExpression": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 import state,sugar
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -159,10 +160,14 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     of "IndexerDeclaration":
       assert data.lastClass.hasIndexer
       res = data.lastClass.indexer.id
-    of ["Parameter" , "IdentifierName", "TypeArgumentList"]: discarded = true
-
+    of ["VariableDeclaration","Parameter" , "IdentifierName", "TypeArgumentList"]: discarded = true
+    # of "VariableDeclaration": 
+    #   res = data.previousConstruct.get.id.some
+      # assert false, "TODO!"
     else: 
       echo "in ckPredefinedType: not all cases were matched"
+      if discarded == false:
+        assert false
       return (discarded,none(UUID))
   of ckParameter:
     echo "object is Parameter"
