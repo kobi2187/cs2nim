@@ -1857,12 +1857,32 @@ method add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
 # proc add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier; data: AllNeededData) = parent.add(item) # TODO
 
 
+type CsPrefixUnaryExpression* = ref object of CsObject
+  prefix*:string # don't handle it in any special way, prepend it, without space if literal, and with - otherwise.
 
-# ============= CsInitializerExpression ========
+
+type CsLiteralExpression* = ref object of IAssignable
+  value*: string
 
 type CsInitializerExpression* = ref object of CsObject #TODO(type:CsInitializerExpression)
   valueReceived*:string
   bexprs*:seq[BodyExpr]
+  somePrefixOp: CsPrefixUnaryExpression
+
+method add*(parent: CsLiteralExpression; item: CsPrefixUnaryExpression) =
+  parent.value = item.prefix & parent.value
+
+proc addBExpr(p: CsInitializerExpression; b:BodyExpr) =
+  if p.somePrefixOp.isNil:
+    p.bexprs.add b
+  else:
+    case b.typ
+    of "CsLiteralExpression":
+    # method add*(parent: var CsLiteralExpression; item: CsPrefixUnaryExpression) =
+      CsLiteralExpression(b).add(p.somePrefixOp) # first apply prefix to obj
+      p.bexprs.add b # and then add applied-obj to list.
+    else: assert false
+    p.somePrefixOp = nil # disable the op.
 
 
 
@@ -2140,11 +2160,13 @@ proc gen*(c: var CsLetClause): string = assert false #TODO(gen:CsLetClause)
 
 # ============= CsLiteralExpression ========
 
-type CsLiteralExpression* = ref object of IAssignable
-  value*: string
+
+
+method add*(parent: var CsInitializerExpression; item: CsPrefixUnaryExpression) =
+  parent.somePrefixOp = item
 
 method add*(parent: var CsInitializerExpression; item: CsLiteralExpression) =
-  parent.bexprs.add item
+  parent.addBExpr item
 
 method add*(em: var CsEnumMember; item: CsLiteralExpression) =
   em.add(item.value)
@@ -2803,14 +2825,16 @@ proc gen*(c: var CsPredefinedType): string = assert false #TODO(gen:CsPredefined
 
 # ============= CsPrefixUnaryExpression ========
 
-type CsPrefixUnaryExpression* = ref object of CsObject #TODO(type:CsPrefixUnaryExpression)
 
-proc newCs*(t: typedesc[CsPrefixUnaryExpression]; name: string): CsPrefixUnaryExpression =
+proc newCs*(t: typedesc[CsPrefixUnaryExpression]): CsPrefixUnaryExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsPrefixUnaryExpression)
 
-proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryExpression = assert false #TODO(extract:CsPrefixUnaryExpression)
+proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryExpression = 
+  result = newCs(t)
+  result.prefix = info.essentials[0]
+  # assert false #TODO(extract:CsPrefixUnaryExpression)
 
 # method add*(parent: var CsPrefixUnaryExpression; item: Dummy) =
 #   assert false # TODO(add:CsPrefixUnaryExpression)
@@ -2818,6 +2842,8 @@ proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryEx
 # proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(c: var CsPrefixUnaryExpression): string = assert false #TODO(gen:CsPrefixUnaryExpression)
+
+
 
 proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
   new result

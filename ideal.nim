@@ -268,8 +268,20 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckLiteralExpression:
       var c = child.literalExpression
       c.parentId = p.id;  p.add c
+    of ckPrefixUnaryExpression:
+      var c = child.prefixUnaryExpression
+      c.parentId = p.id;  p.add c
     else: assert false, "plz impl for child: " & $child.kind
     
+  of ckLiteralExpression:
+    var p = parent.literalExpression
+    case child.kind
+    of ckPrefixUnaryExpression:
+      var c = child.prefixUnaryExpression
+      c.parentId = p.id;  p.add c
+
+    else: assert false, "plz impl for child: " & $child.kind
+
   else: assert false, "plz impl for parent: " & $parent.kind
 
 
