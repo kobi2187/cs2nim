@@ -1874,7 +1874,8 @@ proc newCs*(t: typedesc[CsInitializerExpression]): CsInitializerExpression =
 
 proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression = 
   result = newCs(t)
-  result.valueReceived = info.essentials[1]
+  if info.essentials.len > 1:
+    result.valueReceived = info.essentials[1]
   echo "haven't really implemented: proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression "
   echo info  # Info: InitializerExpression;; @["3", "15, 25, 5"];; @[]
   # 3 is arity. now it's possible they won't be simple literals. the following objects should provide more info.
