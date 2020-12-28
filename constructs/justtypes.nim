@@ -304,7 +304,7 @@ type CsBlock* = ref object of CsObject
 type CsVariable* = ref object of BodyExpr
   # name*:string
   thetype*:string
-  generic*:CsGenericName
+  genericName*:CsGenericName
 
 type CsLocalDeclarationStatement* = ref object of BodyExpr
   names*: seq[string]

@@ -44,7 +44,7 @@ method add*(parent: var CsAccessorList; item: CsAccessor) =
 
 
 
-# proc add*(parent: var CsAccessorList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAccessorList; item: Dummy; data: AllNeededData) = parent.add(item)
 
 
 proc gen*(c: var CsAccessorList): string = assert false #TODO(gen:CsAccessorList)
@@ -72,7 +72,7 @@ method add*(parent: var CsAccessor; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAccessor; item: Dummy) "
   #    assert false # TODO(add:CsAccessor)
 
-# proc add*(parent: var CsAccessor; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAccessor; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAccessor): string = assert false #TODO(gen:CsAccessor)
 
@@ -91,7 +91,7 @@ method add*(parent: var CsAliasQualifiedName; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAliasQualifiedName; item: Dummy) "
   #    assert false # TODO(add:CsAliasQualifiedName)
 
-# proc add*(parent: var CsAliasQualifiedName; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAliasQualifiedName; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAliasQualifiedName): string = assert false #TODO(gen:CsAliasQualifiedName)
 
@@ -116,7 +116,7 @@ proc extract*(t: typedesc[CsField]; info: Info): CsField =
 method add*(parent: var CsField; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsField; item: Dummy) "
   #    assert false # TODO(add:CsField)
-# proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item)
 
 
 proc gen*(f: CsField): string =
@@ -139,7 +139,7 @@ method add*(parent: var CsAnonymousMethodExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousMethodExpression; item: Dummy) "
   #    assert false # TODO(add:CsAnonymousMethodExpression)
 
-# proc add*(parent: var CsAnonymousMethodExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAnonymousMethodExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAnonymousMethodExpression): string = assert false #TODO(gen:CsAnonymousMethodExpression)
 
@@ -158,7 +158,7 @@ method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy) "
   #    assert false # TODO(add:CsAnonymousObjectCreationExpression)
 
-# proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAnonymousObjectCreationExpression): string = assert false #TODO(gen:CsAnonymousObjectCreationExpression)
 
@@ -177,7 +177,7 @@ method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy) "
   #    assert false # TODO(add:CsAnonymousObjectMemberDeclarator)
 
-# proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAnonymousObjectMemberDeclarator): string = assert false #TODO(gen:CsAnonymousObjectMemberDeclarator)
 
@@ -214,7 +214,7 @@ proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument =
   result = newCs(CsArgument)
   result.value = info.essentials[0]
 
-# proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsArgument): string = assert false #TODO(gen:CsArgument)
 
@@ -233,7 +233,7 @@ method add*(parent: var CsArrayCreationExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayCreationExpression; item: Dummy) "
   #    assert false # TODO(add:CsArrayCreationExpression)
 
-# proc add*(parent: var CsArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsArrayCreationExpression): string = assert false #TODO(gen:CsArrayCreationExpression)
 
@@ -252,7 +252,7 @@ method add*(parent: var CsArrayRankSpecifier; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayRankSpecifier; item: Dummy) "
   #    assert false # TODO(add:CsArrayRankSpecifier)
 
-# proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsArrayRankSpecifier): string = assert false #TODO(gen:CsArrayRankSpecifier)
 
@@ -271,7 +271,7 @@ method add*(parent: var CsArrayType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayType; item: Dummy) "
   #    assert false # TODO(add:CsArrayType)
 
-# proc add*(parent: var CsArrayType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsArrayType; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsArrayType): string = assert false #TODO(gen:CsArrayType)
 
@@ -290,7 +290,7 @@ method add*(parent: var CsArrowExpressionClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrowExpressionClause; item: Dummy) "
   #    assert false # TODO(add:CsArrowExpressionClause)
 
-# proc add*(parent: var CsArrowExpressionClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsArrowExpressionClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsArrowExpressionClause): string = assert false #TODO(gen:CsArrowExpressionClause)
 
@@ -324,7 +324,7 @@ method add*(parent: var CsAttributeArgumentList; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgumentList; item: Dummy) "
   #    assert false # TODO(add:CsAttributeArgumentList)
 
-# proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAttributeArgumentList): string = assert false #TODO(gen:CsAttributeArgumentList)
 
@@ -343,7 +343,7 @@ method add*(parent: var CsAttributeArgument; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgument; item: Dummy) "
   #    assert false # TODO(add:CsAttributeArgument)
 
-# proc add*(parent: var CsAttributeArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAttributeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAttributeArgument): string = assert false #TODO(gen:CsAttributeArgument)
 
@@ -361,7 +361,7 @@ method add*(parent: var CsAttributeList; item: Dummy)  =
   #    assert false # TODO(add:CsAttributeList)
 
 
-# proc add*(parent: var CsAttributeList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAttributeList; item: Dummy; data: AllNeededData) = parent.add(item)
 proc gen*(c: var CsAttributeList): string = assert false #TODO(gen:CsAttributeList)
 
 # ============= CsAttribute ========
@@ -379,7 +379,7 @@ method add*(parent: var CsAttribute; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttribute; item: Dummy) "
   #    assert false # TODO(add:CsAttribute)
 
-# proc add*(parent: var CsAttribute; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAttribute; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAttribute): string = assert false #TODO(gen:CsAttribute)
 
@@ -398,7 +398,7 @@ method add*(parent: var CsAttributeTargetSpecifier; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeTargetSpecifier; item: Dummy) "
   #    assert false # TODO(add:CsAttributeTargetSpecifier)
 
-# proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAttributeTargetSpecifier): string = assert false #TODO(gen:CsAttributeTargetSpecifier)
 
@@ -417,7 +417,7 @@ method add*(parent: var CsAwaitExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsAwaitExpression; item: Dummy) "
   #    assert false # TODO(add:CsAwaitExpression)
 
-# proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsAwaitExpression): string = assert false #TODO(gen:CsAwaitExpression)
 
@@ -436,7 +436,7 @@ method add*(parent: var CsBaseExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsBaseExpression; item: Dummy) "
   #    assert false # TODO(add:CsBaseExpression)
 
-# proc add*(parent: var CsBaseExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsBaseExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsBaseExpression): string = assert false #TODO(gen:CsBaseExpression)
 
@@ -457,7 +457,7 @@ method add*(parent: var CsBaseList; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsBaseList; item: Dummy) "
   #    assert false # TODO(add:CsBaseList)
 
-# proc add*(parent: var CsBaseList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsBaseList; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsBaseList): string = assert false #TODO(gen:CsBaseList)
 
@@ -483,7 +483,7 @@ proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression =
 method add*(parent: var CsBinaryExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsBinaryExpression; item: Dummy) "
   #    assert false # TODO(add:CsBinaryExpression)
-# proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 
 proc gen*(c: var CsBinaryExpression): string = assert false #TODO(gen:CsBinaryExpression)
@@ -503,7 +503,7 @@ method add*(parent: var CsBracketedArgumentList; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedArgumentList; item: Dummy) "
   #    assert false # TODO(add:CsBracketedArgumentList)
 
-# proc add*(parent: var CsBracketedArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsBracketedArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsBracketedArgumentList): string = assert false #TODO(gen:CsBracketedArgumentList)
 
@@ -523,7 +523,7 @@ method add*(parent: var CsBracketedParameterList; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedParameterList; item: Dummy) "
   #    assert false # TODO(add:CsBracketedParameterList)
 
-# proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsBracketedParameterList): string = assert false #TODO(gen:CsBracketedParameterList)
 
@@ -542,7 +542,7 @@ method add*(parent: var CsBreakStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsBreakStatement; item: Dummy) "
   #    assert false # TODO(add:CsBreakStatement)
 
-# proc add*(parent: var CsBreakStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsBreakStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsBreakStatement): string = assert false #TODO(gen:CsBreakStatement)
 
@@ -561,7 +561,7 @@ method add*(parent: var CsCasePatternSwitchLabel; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCasePatternSwitchLabel; item: Dummy) "
   #    assert false # TODO(add:CsCasePatternSwitchLabel)
 
-# proc add*(parent: var CsCasePatternSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCasePatternSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCasePatternSwitchLabel): string = assert false #TODO(gen:CsCasePatternSwitchLabel)
 
@@ -580,7 +580,7 @@ method add*(parent: var CsCaseSwitchLabel; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCaseSwitchLabel; item: Dummy) "
   #    assert false # TODO(add:CsCaseSwitchLabel)
 
-# proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCaseSwitchLabel): string = assert false #TODO(gen:CsCaseSwitchLabel)
 
@@ -599,7 +599,7 @@ method add*(parent: var CsCastExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCastExpression; item: Dummy) "
   #    assert false # TODO(add:CsCastExpression)
 
-# proc add*(parent: var CsCastExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCastExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCastExpression): string = assert false #TODO(gen:CsCastExpression)
 
@@ -618,7 +618,7 @@ method add*(parent: var CsCatchClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchClause; item: Dummy) "
   #    assert false # TODO(add:CsCatchClause)
 
-# proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCatchClause): string = assert false #TODO(gen:CsCatchClause)
 
@@ -637,7 +637,7 @@ method add*(parent: var CsCatchFilterClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchFilterClause; item: Dummy) "
   #    assert false # TODO(add:CsCatchFilterClause)
 
-# proc add*(parent: var CsCatchFilterClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCatchFilterClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCatchFilterClause): string = assert false #TODO(gen:CsCatchFilterClause)
 
@@ -656,7 +656,7 @@ method add*(parent: var CsCatch; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatch; item: Dummy) "
   #    assert false # TODO(add:CsCatch)
 
-# proc add*(parent: var CsCatch; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCatch; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCatch): string = assert false #TODO(gen:CsCatch)
 
@@ -675,7 +675,7 @@ method add*(parent: var CsCheckedExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedExpression; item: Dummy) "
   #    assert false # TODO(add:CsCheckedExpression)
 
-# proc add*(parent: var CsCheckedExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCheckedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCheckedExpression): string = assert false #TODO(gen:CsCheckedExpression)
 
@@ -694,7 +694,7 @@ method add*(parent: var CsCheckedStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedStatement; item: Dummy) "
   #    assert false # TODO(add:CsCheckedStatement)
 
-# proc add*(parent: var CsCheckedStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsCheckedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsCheckedStatement): string = assert false #TODO(gen:CsCheckedStatement)
 
@@ -930,7 +930,7 @@ method add*(parent: var CsClassOrStructConstraint; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsClassOrStructConstraint; item: Dummy) "
   #    assert false # TODO(add:CsClassOrStructConstraint)
 
-# proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsClassOrStructConstraint): string = assert false #TODO(gen:CsClassOrStructConstraint)
 
@@ -949,7 +949,7 @@ method add*(parent: var CsConditionalAccessExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalAccessExpression; item: Dummy) "
   #    assert false # TODO(add:CsConditionalAccessExpression)
 
-# proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsConditionalAccessExpression): string = assert false #TODO(gen:CsConditionalAccessExpression)
 
@@ -968,7 +968,7 @@ method add*(parent: var CsConditionalExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalExpression; item: Dummy) "
   #    assert false # TODO(add:CsConditionalExpression)
 
-# proc add*(parent: var CsConditionalExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConditionalExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsConditionalExpression): string = assert false #TODO(gen:CsConditionalExpression)
 
@@ -987,7 +987,7 @@ method add*(parent: var CsConstantPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsConstantPattern; item: Dummy) "
   #    assert false # TODO(add:CsConstantPattern)
 
-# proc add*(parent: var CsConstantPattern; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConstantPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsConstantPattern): string = assert false #TODO(gen:CsConstantPattern)
 
@@ -1006,7 +1006,7 @@ method add*(parent: var CsConstructorConstraint; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsConstructorConstraint; item: Dummy) "
   #    assert false # TODO(add:CsConstructorConstraint)
 
-# proc add*(parent: var CsConstructorConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConstructorConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsConstructorConstraint): string = assert false #TODO(gen:CsConstructorConstraint)
 
@@ -1023,7 +1023,7 @@ proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorI
   new result # TODO?
 
 
-# proc add*(parent: var CsConstructorInitializer; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConstructorInitializer; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsConstructorInitializer): string = assert false #TODO(gen:CsConstructorInitializer)
 
@@ -1072,7 +1072,7 @@ method add*(parent: var CsContinueStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsContinueStatement; item: Dummy) "
   #    assert false # TODO(add:CsContinueStatement)
 
-# proc add*(parent: var CsContinueStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsContinueStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsContinueStatement): string = assert false #TODO(gen:CsContinueStatement)
 
@@ -1091,7 +1091,7 @@ method add*(parent: var CsConversionOperator; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsConversionOperator; item: Dummy) "
   #    assert false # TODO(add:CsConversionOperator)
 
-# proc add*(parent: var CsConversionOperator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsConversionOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsConversionOperator): string = assert false #TODO(gen:CsConversionOperator)
 
@@ -1110,7 +1110,7 @@ method add*(parent: var CsDeclarationExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationExpression; item: Dummy) "
   #    assert false # TODO(add:CsDeclarationExpression)
 
-# proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDeclarationExpression): string = assert false #TODO(gen:CsDeclarationExpression)
 
@@ -1129,7 +1129,7 @@ method add*(parent: var CsDeclarationPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationPattern; item: Dummy) "
   #    assert false # TODO(add:CsDeclarationPattern)
 
-# proc add*(parent: var CsDeclarationPattern; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDeclarationPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDeclarationPattern): string = assert false #TODO(gen:CsDeclarationPattern)
 
@@ -1148,7 +1148,7 @@ method add*(parent: var CsDefaultExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultExpression; item: Dummy) "
   #    assert false # TODO(add:CsDefaultExpression)
 
-# proc add*(parent: var CsDefaultExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDefaultExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDefaultExpression): string = assert false #TODO(gen:CsDefaultExpression)
 
@@ -1167,7 +1167,7 @@ method add*(parent: var CsDefaultSwitchLabel; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultSwitchLabel; item: Dummy) "
   #    assert false # TODO(add:CsDefaultSwitchLabel)
 
-# proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDefaultSwitchLabel): string = assert false #TODO(gen:CsDefaultSwitchLabel)
 
@@ -1186,7 +1186,7 @@ method add*(parent: var CsDelegate; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDelegate; item: Dummy) "
   #    assert false # TODO(add:CsDelegate)
 
-# proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDelegate): string = assert false #TODO(gen:CsDelegate)
 
@@ -1205,7 +1205,7 @@ method add*(parent: var CsDestructor; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDestructor; item: Dummy) "
   #    assert false # TODO(add:CsDestructor)
 
-# proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDestructor): string = assert false #TODO(gen:CsDestructor)
 
@@ -1224,7 +1224,7 @@ method add*(parent: var CsDiscardDesignation; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDiscardDesignation; item: Dummy) "
   #    assert false # TODO(add:CsDiscardDesignation)
 
-# proc add*(parent: var CsDiscardDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDiscardDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDiscardDesignation): string = assert false #TODO(gen:CsDiscardDesignation)
 
@@ -1243,7 +1243,7 @@ method add*(parent: var CsDoStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsDoStatement; item: Dummy) "
   #    assert false # TODO(add:CsDoStatement)
 
-# proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsDoStatement): string = assert false #TODO(gen:CsDoStatement)
 
@@ -1262,7 +1262,7 @@ method add*(parent: var CsElementAccessExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsElementAccessExpression; item: Dummy) "
   #    assert false # TODO(add:CsElementAccessExpression)
 
-# proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsElementAccessExpression): string = assert false #TODO(gen:CsElementAccessExpression)
 
@@ -1281,7 +1281,7 @@ method add*(parent: var CsElementBindingExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsElementBindingExpression; item: Dummy) "
   #    assert false # TODO(add:CsElementBindingExpression)
 
-# proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsElementBindingExpression): string = assert false #TODO(gen:CsElementBindingExpression)
 
@@ -1300,7 +1300,7 @@ method add*(parent: var CsElseClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsElseClause; item: Dummy) "
   #    assert false # TODO(add:CsElseClause)
 
-# proc add*(parent: var CsElseClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsElseClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsElseClause): string = assert false #TODO(gen:CsElseClause)
 
@@ -1319,7 +1319,7 @@ method add*(parent: var CsEmptyStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsEmptyStatement; item: Dummy) "
   #    assert false # TODO(add:CsEmptyStatement)
 
-# proc add*(parent: var CsEmptyStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsEmptyStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsEmptyStatement): string = assert false #TODO(gen:CsEmptyStatement)
 
@@ -1405,7 +1405,7 @@ method add*(parent: var CsEqualsValueClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsEqualsValueClause; item: Dummy) "
   #    assert false # TODO(add:CsEqualsValueClause)
 
-# proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsEqualsValueClause): string = assert false #TODO(gen:CsEqualsValueClause)
 
@@ -1424,7 +1424,7 @@ method add*(parent: var CsEventField; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsEventField; item: Dummy) "
   #    assert false # TODO(add:CsEventField)
 
-# proc add*(parent: var CsEventField; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsEventField; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsEventField): string = assert false #TODO(gen:CsEventField)
 
@@ -1443,7 +1443,7 @@ method add*(parent: var CsEvent; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsEvent; item: Dummy) "
   #    assert false # TODO(add:CsEvent)
 
-# proc add*(parent: var CsEvent; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsEvent; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsEvent): string = assert false #TODO(gen:CsEvent)
 
@@ -1534,7 +1534,7 @@ method add*(parent: var CsExternAliasDirective; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsExternAliasDirective; item: Dummy) "
   #    assert false # TODO(add:CsExternAliasDirective)
 
-# proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsExternAliasDirective): string = assert false #TODO(gen:CsExternAliasDirective)
 # hmm, it's actually called a property.
@@ -1556,7 +1556,7 @@ method add*(parent: var CsFinallyClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsFinallyClause; item: Dummy) "
   #    assert false # TODO(add:CsFinallyClause)
 
-# proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsFinallyClause): string = assert false #TODO(gen:CsFinallyClause)
 
@@ -1575,7 +1575,7 @@ method add*(parent: var CsFixedStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsFixedStatement; item: Dummy) "
   #    assert false # TODO(add:CsFixedStatement)
 
-# proc add*(parent: var CsFixedStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsFixedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsFixedStatement): string = assert false #TODO(gen:CsFixedStatement)
 
@@ -1594,7 +1594,7 @@ method add*(parent: var CsForEachStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachStatement; item: Dummy) "
   #    assert false # TODO(add:CsForEachStatement)
 
-# proc add*(parent: var CsForEachStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsForEachStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsForEachStatement): string = assert false #TODO(gen:CsForEachStatement)
 
@@ -1613,7 +1613,7 @@ method add*(parent: var CsForEachVariableStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachVariableStatement; item: Dummy) "
   #    assert false # TODO(add:CsForEachVariableStatement)
 
-# proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsForEachVariableStatement): string = assert false #TODO(gen:CsForEachVariableStatement)
 
@@ -1632,7 +1632,7 @@ method add*(parent: var CsForStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsForStatement; item: Dummy) "
   #    assert false # TODO(add:CsForStatement)
 
-# proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsForStatement): string = assert false #TODO(gen:CsForStatement)
 
@@ -1651,7 +1651,7 @@ method add*(parent: var CsFromClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsFromClause; item: Dummy) "
   #    assert false # TODO(add:CsFromClause)
 
-# proc add*(parent: var CsFromClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsFromClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsFromClause): string = assert false #TODO(gen:CsFromClause)
 
@@ -1672,7 +1672,7 @@ method add*(parent: var CsGenericName; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsGenericName; item: Dummy) "
   #    assert false # TODO(add:CsGenericName)
 
-# proc add*(parent: var CsGenericName; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsGenericName; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsGenericName): string = assert false #TODO(gen:CsGenericName)
 
@@ -1691,7 +1691,7 @@ method add*(parent: var CsGlobalStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsGlobalStatement; item: Dummy) "
   #    assert false # TODO(add:CsGlobalStatement)
 
-# proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsGlobalStatement): string = assert false #TODO(gen:CsGlobalStatement)
 
@@ -1710,7 +1710,7 @@ method add*(parent: var CsGotoStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsGotoStatement; item: Dummy) "
   #    assert false # TODO(add:CsGotoStatement)
 
-# proc add*(parent: var CsGotoStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsGotoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsGotoStatement): string = assert false #TODO(gen:CsGotoStatement)
 
@@ -1729,7 +1729,7 @@ method add*(parent: var CsGroupClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsGroupClause; item: Dummy) "
   #    assert false # TODO(add:CsGroupClause)
 
-# proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsGroupClause): string = assert false #TODO(gen:CsGroupClause)
 
@@ -1748,7 +1748,7 @@ method add*(parent: var CsIfStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsIfStatement; item: Dummy) "
   #    assert false # TODO(add:CsIfStatement)
 
-# proc add*(parent: var CsIfStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsIfStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsIfStatement): string = assert false #TODO(gen:CsIfStatement)
 
@@ -1767,7 +1767,7 @@ method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy) "
   #    assert false # TODO(add:CsImplicitArrayCreationExpression)
 
-# proc add*(parent: var CsImplicitArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsImplicitArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsImplicitArrayCreationExpression): string = assert false #TODO(gen:CsImplicitArrayCreationExpression)
 
@@ -1786,7 +1786,7 @@ method add*(parent: var CsImplicitElementAccess; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitElementAccess; item: Dummy) "
   #    assert false # TODO(add:CsImplicitElementAccess)
 
-# proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsImplicitElementAccess): string = assert false #TODO(gen:CsImplicitElementAccess)
 
@@ -1805,7 +1805,7 @@ method add*(parent: var CsIncompleteMember; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsIncompleteMember; item: Dummy) "
   #    assert false # TODO(add:CsIncompleteMember)
 
-# proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsIncompleteMember): string = assert false #TODO(gen:CsIncompleteMember)
 
@@ -1885,7 +1885,7 @@ method add*(parent: var CsInitializerExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsInitializerExpression; item: Dummy) "
   #    assert false # TODO(add:CsInitializerExpression)
 
-# proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsInitializerExpression): string =
   echo "gen CsInitializerExpression, got values:", c.valueReceived
@@ -1934,7 +1934,7 @@ method add*(parent: var CsInterpolatedStringExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringExpression; item: Dummy) "
   #    assert false # TODO(add:CsInterpolatedStringExpression)
 
-# proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsInterpolatedStringExpression): string = assert false #TODO(gen:CsInterpolatedStringExpression)
 
@@ -1953,7 +1953,7 @@ method add*(parent: var CsInterpolatedStringText; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringText; item: Dummy) "
   #    assert false # TODO(add:CsInterpolatedStringText)
 
-# proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsInterpolatedStringText): string = assert false #TODO(gen:CsInterpolatedStringText)
 
@@ -1972,7 +1972,7 @@ method add*(parent: var CsInterpolationAlignmentClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationAlignmentClause; item: Dummy) "
   #    assert false # TODO(add:CsInterpolationAlignmentClause)
 
-# proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsInterpolationAlignmentClause): string = assert false #TODO(gen:CsInterpolationAlignmentClause)
 
@@ -1991,7 +1991,7 @@ method add*(parent: var CsInterpolationFormatClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationFormatClause; item: Dummy) "
   #    assert false # TODO(add:CsInterpolationFormatClause)
 
-# proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsInterpolationFormatClause): string = assert false #TODO(gen:CsInterpolationFormatClause)
 
@@ -2010,7 +2010,7 @@ method add*(parent: var CsInterpolation; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolation; item: Dummy) "
   #    assert false # TODO(add:CsInterpolation)
 
-# proc add*(parent: var CsInterpolation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsInterpolation; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsInterpolation): string = assert false #TODO(gen:CsInterpolation)
 
@@ -2072,7 +2072,7 @@ method add*(parent: var CsIsPatternExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsIsPatternExpression; item: Dummy) "
   #    assert false # TODO(add:CsIsPatternExpression)
 
-# proc add*(parent: var CsIsPatternExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsIsPatternExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsIsPatternExpression): string = assert false #TODO(gen:CsIsPatternExpression)
 
@@ -2091,7 +2091,7 @@ method add*(parent: var CsJoinClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinClause; item: Dummy) "
   #    assert false # TODO(add:CsJoinClause)
 
-# proc add*(parent: var CsJoinClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsJoinClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsJoinClause): string = assert false #TODO(gen:CsJoinClause)
 
@@ -2110,7 +2110,7 @@ method add*(parent: var CsJoinIntoClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinIntoClause; item: Dummy) "
   #    assert false # TODO(add:CsJoinIntoClause)
 
-# proc add*(parent: var CsJoinIntoClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsJoinIntoClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsJoinIntoClause): string = assert false #TODO(gen:CsJoinIntoClause)
 
@@ -2129,7 +2129,7 @@ method add*(parent: var CsLabeledStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsLabeledStatement; item: Dummy) "
   #    assert false # TODO(add:CsLabeledStatement)
 
-# proc add*(parent: var CsLabeledStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLabeledStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsLabeledStatement): string = assert false #TODO(gen:CsLabeledStatement)
 
@@ -2148,7 +2148,7 @@ method add*(parent: var CsLetClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsLetClause; item: Dummy) "
   #    assert false # TODO(add:CsLetClause)
 
-# proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsLetClause): string = assert false #TODO(gen:CsLetClause)
 
@@ -2182,7 +2182,7 @@ method gen*(lit: CsLiteralExpression): string =
 
 
 
-# proc add*(parent: var CsLocalDeclarationStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLocalDeclarationStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 
 
@@ -2201,7 +2201,7 @@ method add*(parent: var CsLocalFunctionStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsLocalFunctionStatement; item: Dummy) "
   #    assert false # TODO(add:CsLocalFunctionStatement)
 
-# proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsLocalFunctionStatement): string = assert false #TODO(gen:CsLocalFunctionStatement)
 
@@ -2226,7 +2226,7 @@ method add*(parent: var CsLockStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsLockStatement; item: Dummy) "
   #    assert false # TODO(add:CsLockStatement)
 
-# proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsLockStatement): string = assert false #TODO(gen:CsLockStatement)
 
@@ -2245,7 +2245,7 @@ method add*(parent: var CsMakeRefExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsMakeRefExpression; item: Dummy) "
   #    assert false # TODO(add:CsMakeRefExpression)
 
-# proc add*(parent: var CsMakeRefExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsMakeRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsMakeRefExpression): string = assert false #TODO(gen:CsMakeRefExpression)
 
@@ -2264,7 +2264,7 @@ method add*(parent: var CsMemberBindingExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsMemberBindingExpression; item: Dummy) "
   #    assert false # TODO(add:CsMemberBindingExpression)
 
-# proc add*(parent: var CsMemberBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsMemberBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsMemberBindingExpression): string = assert false #TODO(gen:CsMemberBindingExpression)
 
@@ -2364,7 +2364,7 @@ method add*(parent: var CsNameColon; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsNameColon; item: Dummy) "
   #    assert false # TODO(add:CsNameColon)
 
-# proc add*(parent: var CsNameColon; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsNameColon; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsNameColon): string = assert false #TODO(gen:CsNameColon)
 
@@ -2383,7 +2383,7 @@ method add*(parent: var CsNameEquals; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsNameEquals; item: Dummy) "
   #    assert false # TODO(add:CsNameEquals)
 
-# proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsNameEquals): string = assert false #TODO(gen:CsNameEquals)
 
@@ -2522,7 +2522,7 @@ method add*(parent: var CsNullableType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsNullableType; item: Dummy) "
   #    assert false # TODO(add:CsNullableType)
 
-# proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsNullableType): string = assert false #TODO(gen:CsNullableType)
 
@@ -2564,7 +2564,7 @@ method add*(parent: var CsOmittedArraySizeExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedArraySizeExpression; item: Dummy) "
   #    assert false # TODO(add:CsOmittedArraySizeExpression)
 
-# proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsOmittedArraySizeExpression): string = assert false #TODO(gen:CsOmittedArraySizeExpression)
 
@@ -2583,7 +2583,7 @@ method add*(parent: var CsOmittedTypeArgument; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedTypeArgument; item: Dummy) "
   #    assert false # TODO(add:CsOmittedTypeArgument)
 
-# proc add*(parent: var CsOmittedTypeArgument; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsOmittedTypeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsOmittedTypeArgument): string = assert false #TODO(gen:CsOmittedTypeArgument)
 
@@ -2602,7 +2602,7 @@ method add*(parent: var CsOperator; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsOperator; item: Dummy) "
   #    assert false # TODO(add:CsOperator)
 
-# proc add*(parent: var CsOperator; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsOperator): string = assert false #TODO(gen:CsOperator)
 
@@ -2621,7 +2621,7 @@ method add*(parent: var CsOrderByClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsOrderByClause; item: Dummy) "
   #    assert false # TODO(add:CsOrderByClause)
 
-# proc add*(parent: var CsOrderByClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsOrderByClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsOrderByClause): string = assert false #TODO(gen:CsOrderByClause)
 
@@ -2640,7 +2640,7 @@ method add*(parent: var CsOrdering; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsOrdering; item: Dummy) "
   #    assert false # TODO(add:CsOrdering)
 
-# proc add*(parent: var CsOrdering; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsOrdering; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsOrdering): string = assert false #TODO(gen:CsOrdering)
 
@@ -2686,7 +2686,7 @@ method add*(parent: var CsParenthesizedExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedExpression; item: Dummy) "
   #    assert false # TODO(add:CsParenthesizedExpression)
 
-# proc add*(parent: var CsParenthesizedExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsParenthesizedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsParenthesizedExpression): string = assert false #TODO(gen:CsParenthesizedExpression)
 
@@ -2705,7 +2705,7 @@ method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy) "
   #    assert false # TODO(add:CsParenthesizedLambdaExpression)
 
-# proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsParenthesizedLambdaExpression): string = assert false #TODO(gen:CsParenthesizedLambdaExpression)
 
@@ -2724,7 +2724,7 @@ method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy) "
   #    assert false # TODO(add:CsParenthesizedVariableDesignation)
 
-# proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsParenthesizedVariableDesignation): string = assert false #TODO(gen:CsParenthesizedVariableDesignation)
 
@@ -2743,7 +2743,7 @@ method add*(parent: var CsPointerType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsPointerType; item: Dummy) "
   #    assert false # TODO(add:CsPointerType)
 
-# proc add*(parent: var CsPointerType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsPointerType; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsPointerType): string = assert false #TODO(gen:CsPointerType)
 
@@ -2762,7 +2762,7 @@ method add*(parent: var CsPostfixUnaryExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsPostfixUnaryExpression; item: Dummy) "
   #    assert false # TODO(add:CsPostfixUnaryExpression)
 
-# proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsPostfixUnaryExpression): string = assert false #TODO(gen:CsPostfixUnaryExpression)
 
@@ -2801,7 +2801,7 @@ method add*(parent: var CsPrefixUnaryExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsPrefixUnaryExpression; item: Dummy) "
   #    assert false # TODO(add:CsPrefixUnaryExpression)
 
-# proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsPrefixUnaryExpression): string = assert false #TODO(gen:CsPrefixUnaryExpression)
 
@@ -2848,7 +2848,7 @@ method add*(parent: var CsQueryBody; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryBody; item: Dummy) "
   #    assert false # TODO(add:CsQueryBody)
 
-# proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsQueryBody): string = assert false #TODO(gen:CsQueryBody)
 
@@ -2867,7 +2867,7 @@ method add*(parent: var CsQueryContinuation; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryContinuation; item: Dummy) "
   #    assert false # TODO(add:CsQueryContinuation)
 
-# proc add*(parent: var CsQueryContinuation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsQueryContinuation; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsQueryContinuation): string = assert false #TODO(gen:CsQueryContinuation)
 
@@ -2886,7 +2886,7 @@ method add*(parent: var CsQueryExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryExpression; item: Dummy) "
   #    assert false # TODO(add:CsQueryExpression)
 
-# proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsQueryExpression): string = assert false #TODO(gen:CsQueryExpression)
 
@@ -2905,7 +2905,7 @@ method add*(parent: var CsRefExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefExpression; item: Dummy) "
   #    assert false # TODO(add:CsRefExpression)
 
-# proc add*(parent: var CsRefExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsRefExpression): string = assert false #TODO(gen:CsRefExpression)
 
@@ -2924,7 +2924,7 @@ method add*(parent: var CsRefTypeExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefTypeExpression; item: Dummy) "
   #    assert false # TODO(add:CsRefTypeExpression)
 
-# proc add*(parent: var CsRefTypeExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsRefTypeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsRefTypeExpression): string = assert false #TODO(gen:CsRefTypeExpression)
 
@@ -2943,7 +2943,7 @@ method add*(parent: var CsRefType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefType; item: Dummy) "
   #    assert false # TODO(add:CsRefType)
 
-# proc add*(parent: var CsRefType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsRefType; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsRefType): string = assert false #TODO(gen:CsRefType)
 
@@ -2962,7 +2962,7 @@ method add*(parent: var CsRefValueExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefValueExpression; item: Dummy) "
   #    assert false # TODO(add:CsRefValueExpression)
 
-# proc add*(parent: var CsRefValueExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsRefValueExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsRefValueExpression): string = assert false #TODO(gen:CsRefValueExpression)
 
@@ -3022,7 +3022,7 @@ method add*(parent: var CsSelectClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsSelectClause; item: Dummy) "
   #    assert false # TODO(add:CsSelectClause)
 
-# proc add*(parent: var CsSelectClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSelectClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsSelectClause): string = assert false #TODO(gen:CsSelectClause)
 
@@ -3042,7 +3042,7 @@ method add*(parent: var CsSimpleBaseType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleBaseType; item: Dummy) "
   #    assert false # TODO(add:CsSimpleBaseType)
 
-# proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsSimpleBaseType): string = assert false #TODO(gen:CsSimpleBaseType)
 
@@ -3061,7 +3061,7 @@ method add*(parent: var CsSimpleLambdaExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleLambdaExpression; item: Dummy) "
   #    assert false # TODO(add:CsSimpleLambdaExpression)
 
-# proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsSimpleLambdaExpression): string = assert false #TODO(gen:CsSimpleLambdaExpression)
 
@@ -3080,7 +3080,7 @@ method add*(parent: var CsSingleVariableDesignation; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsSingleVariableDesignation; item: Dummy) "
   #    assert false # TODO(add:CsSingleVariableDesignation)
 
-# proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsSingleVariableDesignation): string = assert false #TODO(gen:CsSingleVariableDesignation)
 
@@ -3099,7 +3099,7 @@ method add*(parent: var CsSizeOfExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsSizeOfExpression; item: Dummy) "
   #    assert false # TODO(add:CsSizeOfExpression)
 
-# proc add*(parent: var CsSizeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSizeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsSizeOfExpression): string = assert false #TODO(gen:CsSizeOfExpression)
 
@@ -3118,7 +3118,7 @@ method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy) "
   #    assert false # TODO(add:CsStackAllocArrayCreationExpression)
 
-# proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsStackAllocArrayCreationExpression): string = assert false #TODO(gen:CsStackAllocArrayCreationExpression)
 
@@ -3137,7 +3137,7 @@ method add*(parent: var CsStruct; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsStruct; item: Dummy) "
   #    assert false # TODO(add:CsStruct)
 
-# proc add*(parent: var CsStruct; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsStruct; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsStruct): string = assert false #TODO(gen:CsStruct)
 
@@ -3156,7 +3156,7 @@ method add*(parent: var CsSwitchSection; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchSection; item: Dummy) "
   #    assert false # TODO(add:CsSwitchSection)
 
-# proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsSwitchSection): string = assert false #TODO(gen:CsSwitchSection)
 
@@ -3175,7 +3175,7 @@ method add*(parent: var CsSwitchStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchStatement; item: Dummy) "
   #    assert false # TODO(add:CsSwitchStatement)
 
-# proc add*(parent: var CsSwitchStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsSwitchStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsSwitchStatement): string = assert false #TODO(gen:CsSwitchStatement)
 
@@ -3192,7 +3192,7 @@ method add*(parent: var CsThisExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsThisExpression; item: Dummy) "
   #    assert false # TODO(add:CsThisExpression)
 
-# proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsThisExpression): string = assert false #TODO(gen:CsThisExpression)
 
@@ -3211,7 +3211,7 @@ method add*(parent: var CsThrowExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowExpression; item: Dummy) "
   #    assert false # TODO(add:CsThrowExpression)
 
-# proc add*(parent: var CsThrowExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsThrowExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsThrowExpression): string = assert false #TODO(gen:CsThrowExpression)
 
@@ -3230,7 +3230,7 @@ method add*(parent: var CsThrowStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowStatement; item: Dummy) "
   #    assert false # TODO(add:CsThrowStatement)
 
-# proc add*(parent: var CsThrowStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsThrowStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsThrowStatement): string = assert false #TODO(gen:CsThrowStatement)
 
@@ -3249,7 +3249,7 @@ method add*(parent: var CsTryStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTryStatement; item: Dummy) "
   #    assert false # TODO(add:CsTryStatement)
 
-# proc add*(parent: var CsTryStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTryStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTryStatement): string = assert false #TODO(gen:CsTryStatement)
 
@@ -3268,7 +3268,7 @@ method add*(parent: var CsTupleElement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleElement; item: Dummy) "
   #    assert false # TODO(add:CsTupleElement)
 
-# proc add*(parent: var CsTupleElement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTupleElement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTupleElement): string = assert false #TODO(gen:CsTupleElement)
 
@@ -3287,7 +3287,7 @@ method add*(parent: var CsTupleExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleExpression; item: Dummy) "
   #    assert false # TODO(add:CsTupleExpression)
 
-# proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTupleExpression): string = assert false #TODO(gen:CsTupleExpression)
 
@@ -3306,7 +3306,7 @@ method add*(parent: var CsTupleType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleType; item: Dummy) "
   #    assert false # TODO(add:CsTupleType)
 
-# proc add*(parent: var CsTupleType; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTupleType; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTupleType): string = assert false #TODO(gen:CsTupleType)
 
@@ -3327,7 +3327,7 @@ method add*(parent: var CsTypeArgumentList; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeArgumentList; item: Dummy) "
   #    assert false # TODO(add:CsTypeArgumentList)
 
-# proc add*(parent: var CsTypeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTypeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTypeArgumentList): string = assert false #TODO(gen:CsTypeArgumentList)
 
@@ -3346,7 +3346,7 @@ method add*(parent: var CsTypeConstraint; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeConstraint; item: Dummy) "
   #    assert false # TODO(add:CsTypeConstraint)
 
-# proc add*(parent: var CsTypeConstraint; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTypeConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTypeConstraint): string = assert false #TODO(gen:CsTypeConstraint)
 
@@ -3363,7 +3363,7 @@ method add*(parent: var CsTypeOfExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeOfExpression; item: Dummy) "
   #    assert false # TODO(add:CsTypeOfExpression)
 
-# proc add*(parent: var CsTypeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTypeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTypeOfExpression): string = assert false #TODO(gen:CsTypeOfExpression)
 
@@ -3382,7 +3382,7 @@ method add*(parent: var CsTypeParameterConstraintClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterConstraintClause; item: Dummy) "
   #    assert false # TODO(add:CsTypeParameterConstraintClause)
 
-# proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTypeParameterConstraintClause): string = assert false #TODO(gen:CsTypeParameterConstraintClause)
 
@@ -3401,7 +3401,7 @@ method add*(parent: var CsTypeParameterList; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterList; item: Dummy) "
   #    assert false # TODO(add:CsTypeParameterList)
 
-# proc add*(parent: var CsTypeParameterList; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTypeParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTypeParameterList): string = assert false #TODO(gen:CsTypeParameterList)
 
@@ -3420,7 +3420,7 @@ method add*(parent: var CsTypeParameter; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameter; item: Dummy) "
   #    assert false # TODO(add:CsTypeParameter)
 
-# proc add*(parent: var CsTypeParameter; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsTypeParameter; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsTypeParameter): string = assert false #TODO(gen:CsTypeParameter)
 
@@ -3439,7 +3439,7 @@ method add*(parent: var CsUnsafeStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsUnsafeStatement; item: Dummy) "
   #    assert false # TODO(add:CsUnsafeStatement)
 
-# proc add*(parent: var CsUnsafeStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsUnsafeStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsUnsafeStatement): string = assert false #TODO(gen:CsUnsafeStatement)
 
@@ -3459,7 +3459,7 @@ proc extract*(t: typedesc[CsUsingDirective]; info: Info): CsUsingDirective =
 
 #   assert false # TODO(add:CsUsingDirective)
 
-# proc add*(parent: var CsUsingDirective; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsUsingDirective; item: Dummy; data: AllNeededData) = parent.add(item)
 
 # ============= CsUsingStatement ========
 
@@ -3476,7 +3476,7 @@ method add*(parent: var CsUsingStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsUsingStatement; item: Dummy) "
   #    assert false # TODO(add:CsUsingStatement)
 
-# proc add*(parent: var CsUsingStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsUsingStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsUsingStatement): string = assert false #TODO(gen:CsUsingStatement)
 
@@ -3495,7 +3495,7 @@ method add*(parent: var CsWhenClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhenClause; item: Dummy) "
   #    assert false # TODO(add:CsWhenClause)
 
-# proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsWhenClause): string = assert false #TODO(gen:CsWhenClause)
 
@@ -3514,7 +3514,7 @@ method add*(parent: var CsWhereClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhereClause; item: Dummy) "
   #    assert false # TODO(add:CsWhereClause)
 
-# proc add*(parent: var CsWhereClause; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsWhereClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsWhereClause): string = assert false #TODO(gen:CsWhereClause)
 
@@ -3533,7 +3533,7 @@ method add*(parent: var CsWhileStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhileStatement; item: Dummy) "
   #    assert false # TODO(add:CsWhileStatement)
 
-# proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsWhileStatement): string = assert false #TODO(gen:CsWhileStatement)
 
@@ -3552,7 +3552,7 @@ method add*(parent: var CsYieldStatement; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsYieldStatement; item: Dummy) "
   #    assert false # TODO(add:CsYieldStatement)
 
-# proc add*(parent: var CsYieldStatement; item: Dummy; data: AllNeededData) = parent.add(item) # TODO
+# proc add*(parent: var CsYieldStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsYieldStatement): string = assert false #TODO(gen:CsYieldStatement)
 
@@ -3608,10 +3608,10 @@ method add*(parent: var CsLocalDeclarationStatement; item: CsVariable) =
   parent.lhs = item
 
 method add*(parent: var CsLocalDeclarationStatement; item: CsGenericName) =
-  parent.lhs.generic = item
+  parent.lhs.genericName = item
 
 method add*(parent: var CsLocalDeclarationStatement; item: CsTypeArgumentList) =
-  parent.lhs.generic.typearglist = item
+  parent.lhs.genericName.typearglist = item
 method add*(parent: var CsLocalDeclarationStatement; item: CsVariableDeclarator) =
   parent.rhs = item
 
