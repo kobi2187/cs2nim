@@ -1,7 +1,7 @@
 import constructs / cs_all_constructs # [cs_root, cs_class, cs_method, cs_constructor, cs_property, cs_indexer]
 import stacks, tables, json, sequtils, options
 import state, types #, block_utils
-
+import constructs/justtypes
 
 import strutils, options
 import constructs/cs_root
@@ -25,7 +25,7 @@ proc nsPathNS(r: var CsRoot): seq[CsNamespace] =
       # let name = extract(CsNamespace, b.info).name
       # # assert r.nsTables.hasKey(name), "r.nsTables doesn't have it:" & $name
       # let actual = r.ns.toSeq.filterIt(it.name == name)
-      # let actualNs = 
+      # let actualNs =
       # r.nsTables[name]
 
     else:
@@ -184,7 +184,7 @@ proc isVisitBlock*(info: Info): bool =
   result = info.extras.len > 0 and info.extras[0] == "VisitBlock"
 
 import construct, state
-proc previousConstructObj*(r:var CsRoot) : Option[  Construct ]= 
+proc previousConstructObj*(r:var CsRoot) : Option[  Construct ]=
   let previd =previousConstruct().id
   result = r.fetch(previd)
 

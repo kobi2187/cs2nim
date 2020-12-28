@@ -1,4 +1,4 @@
-import constructs/cs_all_constructs
+import constructs/[cs_all_constructs, justtypes]
 import types, constructs/cs_root, construct, parent_finder#, block_utils
 # , state,
 import uuids, options,sequtils
@@ -55,16 +55,16 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckBaseList:
       var b = child.baselist
       b.parentId = c.id; c.add b
-    
+
     of [ckSimpleBaseType]: discard
-    of ckIndexer: 
+    of ckIndexer:
       var i = child.indexer
       i.parentId = c.id; c.add i
     of ckProperty:
       var pr = child.property
       pr.parentId = c.id; c.add pr
-    
-    
+
+
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckMethod:
@@ -166,7 +166,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       var c = child.accessorlist
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
-  
+
   of ckAccessorList:
     var p = parent.accessorlist
     case child.kind
@@ -188,13 +188,13 @@ proc add*(parent, child: Construct; data: AllNeededData) =
   of ckExpressionStatement:
     var p = parent.expressionStatement
     case child.kind
-    of ckInvocationExpression: 
+    of ckInvocationExpression:
       var c = child.invocationExpression
       c.parentId = p.id; p.add c
-    of ckArgumentList: 
+    of ckArgumentList:
       var c = child.argumentList
       c.parentId = p.id; p.add c
-    of ckArgument: 
+    of ckArgument:
       var c = child.argument
       c.parentId = p.id; p.add c
 
@@ -245,7 +245,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckObjectCreationExpression:
       var c = child.objectCreationExpression
       c.parentId = p.id; p.add c
-    of ckGenericName: 
+    of ckGenericName:
       var c = child.genericName
       c.parentId = p.id; p.add c
 
@@ -276,7 +276,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       var c = child.prefixUnaryExpression
       c.parentId = p.id;  p.add c
     else: assert false, "plz impl for child: " & $child.kind
-    
+
   of ckLiteralExpression:
     var p = parent.literalExpression
     case child.kind
@@ -353,7 +353,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID; upcoming:s
       parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
       obj.parentId = parent.id # connect them after adding.
 
-    echo root,"\n"," ==END== " 
+    echo root,"\n"," ==END== "
     echo "NOTE: if didn't add, go to ideal::add method."
     echo "upcoming lines:" , allData.upcoming
 

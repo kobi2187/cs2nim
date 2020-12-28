@@ -1,4 +1,4 @@
-import constructs/[cs_all_constructs, cs_root]
+import constructs/[ cs_root, justtypes]
 import types, state#, construct
 import options
 import state_utils
@@ -21,7 +21,7 @@ proc idLastNsPart*(data:AllNeededData):Option[UUID]=
     result = data.lastInterface.id
   of Enums:
     result = data.lastEnum.id
-  of Classes: 
+  of Classes:
     result = data.lastClass.id
   of Using: result = data.lastUsing.id
   else: return none(UUID)
@@ -37,13 +37,13 @@ proc getBody(c: CsProperty) : seq[BodyExpr]=
 proc getBody(c:CsMethod | CsConstructor):seq[BodyExpr]=
   result = c.body
 
-proc lastBodyExpr*(c:CsMethod | CsConstructor | CsProperty):Option[BodyExpr] = 
+proc lastBodyExpr*(c:CsMethod | CsConstructor | CsProperty):Option[BodyExpr] =
   let b = c.getBody()
   if not b.isEmpty:
     result = some(b[^1])
   else: result =none(BodyExpr)
 
-proc lastBodyExprId*(c:CsMethod | CsConstructor | CsProperty):Option[UUID] = 
+proc lastBodyExprId*(c:CsMethod | CsConstructor | CsProperty):Option[UUID] =
   let x = c.lastBodyExpr
   if x.isNone: result = none(UUID)
   else: result = x.get.id
@@ -71,9 +71,9 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[st
 
   result.currentConstruct =
     if currentConstruct.len > 0:
-      currentConstruct.last.some      
+      currentConstruct.last.some
     else: none(Block)
-  
+
   result.simplified = simplifiedConstructs()
 
   if currentConstruct.len >= 2:
@@ -89,7 +89,7 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[st
 
   # ns info
   result.currentNamespace = ns
-  
+
   if not result.isNsEmpty:
     result.nsLastAdded = ns.lastAddedTo.get
     if not result.currentNamespace.imports.isEmpty:

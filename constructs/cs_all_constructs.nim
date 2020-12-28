@@ -1,10 +1,7 @@
+import nre, sequtils, strutils, sets, re, uuids, options, tables, hashes
 # {.experimental: "codeReordering".}
 import ../types
-import ../state
-
-import uuids, options, sets, tables, sequtils, hashes
-
-type IAssignable = ref object of BodyExpr
+import justtypes
 
 # NOTE: for some reason I get the following warning:
 #   use {.base.} for base methods; baseless methods are deprecated [UseBase]
@@ -17,23 +14,14 @@ method add*(a: var ref CsObject, b: CsObject) {.base.} =
 
 # ============= CsAccessorList ========
 
-type CsAccessor* = ref object of CsObject #TODO(type:CsAccessor)
-  kind*:string # get or set
-  statementsTxt*:string
 
-type CsAccessorList* = ref object of CsObject #TODO(type:CsAccessorList)
-  hasDefaultGet*:bool
-  hasGetBody*:bool
-  hasDefaultSet*:bool
-  hasSetBody*:bool
-  getPart*:CsAccessor
-  setPart*:CsAccessor
+
+
 
 proc newCs*(t: typedesc[CsAccessorList]): CsAccessorList =
   new result
   result.typ = $typeof(t)
 
-import nre,strutils
 proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList =
   let val =  info.essentials[0]
   result = newCs(CsAccessorList)
@@ -43,8 +31,8 @@ proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList =
   if val.contains("set;"):
     result.hasDefaultSet = true
     # result.hasSetBody = false
-  if val.contains(re"get\s*{"): echo val; result.hasGetBody = true # TODO: check against real code.
-  if val.contains(re"set\s*{"): echo val; result.hasSetBody = true
+  if val.contains(nre.re"get\s*{"): echo val; result.hasGetBody = true # TODO: check against real code.
+  if val.contains(nre.re"set\s*{"): echo val; result.hasSetBody = true
 
 method add*(parent: var CsAccessorList; item: CsAccessor) =
   assert item.kind in [ "get","set"]
@@ -90,7 +78,7 @@ proc gen*(c: var CsAccessor): string = assert false #TODO(gen:CsAccessor)
 
 # ============= CsAliasQualifiedName ========
 
-type CsAliasQualifiedName* = ref object of CsObject #TODO(type:CsAliasQualifiedName)
+
 
 proc newCs*(t: typedesc[CsAliasQualifiedName]; name: string): CsAliasQualifiedName =
   new result
@@ -109,10 +97,7 @@ proc gen*(c: var CsAliasQualifiedName): string = assert false #TODO(gen:CsAliasQ
 
 # ============= CsField ========
 
-type CsField* = ref object of CsObject
-  ttype*: string
-  isPublic*: bool
-  isStatic*:bool
+
 
 proc newCs*(t: typedesc[CsField]): CsField =
   new result
@@ -141,7 +126,7 @@ proc gen*(f: CsField): string =
 
 # ============= CsAnonymousMethodExpression ========
 
-type CsAnonymousMethodExpression* = ref object of CsObject #TODO(type:CsAnonymousMethodExpression)
+
 
 proc newCs*(t: typedesc[CsAnonymousMethodExpression]; name: string): CsAnonymousMethodExpression =
   new result
@@ -160,7 +145,7 @@ proc gen*(c: var CsAnonymousMethodExpression): string = assert false #TODO(gen:C
 
 # ============= CsAnonymousObjectCreationExpression ========
 
-type CsAnonymousObjectCreationExpression* = ref object of CsObject #TODO(type:CsAnonymousObjectCreationExpression)
+
 
 proc newCs*(t: typedesc[CsAnonymousObjectCreationExpression]; name: string): CsAnonymousObjectCreationExpression =
   new result
@@ -179,7 +164,7 @@ proc gen*(c: var CsAnonymousObjectCreationExpression): string = assert false #TO
 
 # ============= CsAnonymousObjectMemberDeclarator ========
 
-type CsAnonymousObjectMemberDeclarator* = ref object of CsObject #TODO(type:CsAnonymousObjectMemberDeclarator)
+
 
 proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAnonymousObjectMemberDeclarator =
   new result
@@ -198,11 +183,8 @@ proc gen*(c: var CsAnonymousObjectMemberDeclarator): string = assert false #TODO
 
 # ============= CsArgumentList ========
 
-type CsArgumentList* = ref object of CsObject
-  args*: seq[string]
-  # args*: seq[CsArgument] # TODO: probably needed, when arguments are more complex. need to see the flow.
 
-import sequtils, strutils
+
 proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
   new result
   result.typ = $typeof(t)
@@ -222,8 +204,7 @@ proc gen*(c: var CsArgumentList): string =
 
 # ============= CsArgument ========
 
-type CsArgument* = ref object of CsObject #TODO(type:CsArgument)
-  value*:string
+
 proc newCs*(t: typedesc[CsArgument]): CsArgument =
   new result
   result.typ = $typeof(t)
@@ -239,7 +220,7 @@ proc gen*(c: var CsArgument): string = assert false #TODO(gen:CsArgument)
 
 # ============= CsArrayCreationExpression ========
 
-type CsArrayCreationExpression* = ref object of CsObject #TODO(type:CsArrayCreationExpression)
+
 
 proc newCs*(t: typedesc[CsArrayCreationExpression]; name: string): CsArrayCreationExpression =
   new result
@@ -258,7 +239,7 @@ proc gen*(c: var CsArrayCreationExpression): string = assert false #TODO(gen:CsA
 
 # ============= CsArrayRankSpecifier ========
 
-type CsArrayRankSpecifier* = ref object of CsObject #TODO(type:CsArrayRankSpecifier)
+
 
 proc newCs*(t: typedesc[CsArrayRankSpecifier]; name: string): CsArrayRankSpecifier =
   new result
@@ -277,7 +258,7 @@ proc gen*(c: var CsArrayRankSpecifier): string = assert false #TODO(gen:CsArrayR
 
 # ============= CsArrayType ========
 
-type CsArrayType* = ref object of CsObject #TODO(type:CsArrayType)
+
 
 proc newCs*(t: typedesc[CsArrayType]; name: string): CsArrayType =
   new result
@@ -296,7 +277,7 @@ proc gen*(c: var CsArrayType): string = assert false #TODO(gen:CsArrayType)
 
 # ============= CsArrowExpressionClause ========
 
-type CsArrowExpressionClause* = ref object of CsObject #TODO(type:CsArrowExpressionClause)
+
 
 proc newCs*(t: typedesc[CsArrowExpressionClause]; name: string): CsArrowExpressionClause =
   new result
@@ -315,9 +296,7 @@ proc gen*(c: var CsArrowExpressionClause): string = assert false #TODO(gen:CsArr
 
 # ============= CsAssignmentExpression ========
 
-type CsAssignmentExpression* =ref object of BodyExpr
-  left*:string # TODO: should be some variable
-  right*:IAssignable
+
 
 
 # TODO MAJOR TODO: instead of everyone matching bodyexpr and stored as a seq in various body fields, figure out which ones really do, maybe 3 types, then put these expressions in them accordingly.
@@ -332,7 +311,7 @@ method gen*(c: CsAssignmentExpression): string = assert false #TODO(gen:CsAssign
 
 # ============= CsAttributeArgumentList ========
 
-type CsAttributeArgumentList* = ref object of CsObject #TODO(type:CsAttributeArgumentList)
+
 
 proc newCs*(t: typedesc[CsAttributeArgumentList]; name: string): CsAttributeArgumentList =
   new result
@@ -351,7 +330,7 @@ proc gen*(c: var CsAttributeArgumentList): string = assert false #TODO(gen:CsAtt
 
 # ============= CsAttributeArgument ========
 
-type CsAttributeArgument* = ref object of CsObject #TODO(type:CsAttributeArgument)
+
 
 proc newCs*(t: typedesc[CsAttributeArgument]; name: string): CsAttributeArgument =
   new result
@@ -368,7 +347,7 @@ method add*(parent: var CsAttributeArgument; item: Dummy)  =
 
 proc gen*(c: var CsAttributeArgument): string = assert false #TODO(gen:CsAttributeArgument)
 
-type CsAttributeList* = ref object of CsObject #TODO(type:CsAttributeList)
+
 
 proc newCs*(t: typedesc[CsAttributeList]; name: string): CsAttributeList =
   new result
@@ -387,7 +366,7 @@ proc gen*(c: var CsAttributeList): string = assert false #TODO(gen:CsAttributeLi
 
 # ============= CsAttribute ========
 
-type CsAttribute* = ref object of CsObject #TODO(type:CsAttribute)
+
 
 proc newCs*(t: typedesc[CsAttribute]; name: string): CsAttribute =
   new result
@@ -406,7 +385,7 @@ proc gen*(c: var CsAttribute): string = assert false #TODO(gen:CsAttribute)
 
 # ============= CsAttributeTargetSpecifier ========
 
-type CsAttributeTargetSpecifier* = ref object of CsObject #TODO(type:CsAttributeTargetSpecifier)
+
 
 proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; name: string): CsAttributeTargetSpecifier =
   new result
@@ -425,7 +404,7 @@ proc gen*(c: var CsAttributeTargetSpecifier): string = assert false #TODO(gen:Cs
 
 # ============= CsAwaitExpression ========
 
-type CsAwaitExpression* = ref object of CsObject #TODO(type:CsAwaitExpression)
+
 
 proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =
   new result
@@ -444,7 +423,7 @@ proc gen*(c: var CsAwaitExpression): string = assert false #TODO(gen:CsAwaitExpr
 
 # ============= CsBaseExpression ========
 
-type CsBaseExpression* = ref object of CsObject #TODO(type:CsBaseExpression)
+
 
 proc newCs*(t: typedesc[CsBaseExpression]; name: string): CsBaseExpression =
   new result
@@ -463,8 +442,7 @@ proc gen*(c: var CsBaseExpression): string = assert false #TODO(gen:CsBaseExpres
 
 # ============= CsBaseList ========
 
-type CsBaseList* = ref object of CsObject #TODO(type:CsBaseList)
-  baseList*: seq[string]
+
 
 proc newCs*(t: typedesc[CsBaseList]): CsBaseList =
   new result
@@ -485,10 +463,7 @@ proc gen*(c: var CsBaseList): string = assert false #TODO(gen:CsBaseList)
 
 # ============= CsBinaryExpression ========
 
-type CsBinaryExpression* = ref object of IAssignable
-  left*:string
-  op*  :string
-  right*:string
+
 
 
 method gen*(c:CsBinaryExpression):string=
@@ -515,7 +490,7 @@ proc gen*(c: var CsBinaryExpression): string = assert false #TODO(gen:CsBinaryEx
 
 # ============= CsBracketedArgumentList ========
 
-type CsBracketedArgumentList* = ref object of CsObject #TODO(type:CsBracketedArgumentList)
+
 
 proc newCs*(t: typedesc[CsBracketedArgumentList]; name: string): CsBracketedArgumentList =
   new result
@@ -534,8 +509,7 @@ proc gen*(c: var CsBracketedArgumentList): string = assert false #TODO(gen:CsBra
 
 # ============= CsBracketedParameterList ========
 
-type CsBracketedParameterList* = ref object of CsObject #TODO(type:CsBracketedParameterList)
-  plist*:string
+
 proc newCs*(t: typedesc[CsBracketedParameterList]): CsBracketedParameterList =
   new result
   result.typ = $typeof(t)
@@ -555,7 +529,7 @@ proc gen*(c: var CsBracketedParameterList): string = assert false #TODO(gen:CsBr
 
 # ============= CsBreakStatement ========
 
-type CsBreakStatement* = ref object of CsObject #TODO(type:CsBreakStatement)
+
 
 proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =
   new result
@@ -574,7 +548,7 @@ proc gen*(c: var CsBreakStatement): string = assert false #TODO(gen:CsBreakState
 
 # ============= CsCasePatternSwitchLabel ========
 
-type CsCasePatternSwitchLabel* = ref object of CsObject #TODO(type:CsCasePatternSwitchLabel)
+
 
 proc newCs*(t: typedesc[CsCasePatternSwitchLabel]; name: string): CsCasePatternSwitchLabel =
   new result
@@ -593,7 +567,7 @@ proc gen*(c: var CsCasePatternSwitchLabel): string = assert false #TODO(gen:CsCa
 
 # ============= CsCaseSwitchLabel ========
 
-type CsCaseSwitchLabel* = ref object of CsObject #TODO(type:CsCaseSwitchLabel)
+
 
 proc newCs*(t: typedesc[CsCaseSwitchLabel]; name: string): CsCaseSwitchLabel =
   new result
@@ -612,7 +586,7 @@ proc gen*(c: var CsCaseSwitchLabel): string = assert false #TODO(gen:CsCaseSwitc
 
 # ============= CsCastExpression ========
 
-type CsCastExpression* = ref object of CsObject #TODO(type:CsCastExpression)
+
 
 proc newCs*(t: typedesc[CsCastExpression]; name: string): CsCastExpression =
   new result
@@ -631,7 +605,7 @@ proc gen*(c: var CsCastExpression): string = assert false #TODO(gen:CsCastExpres
 
 # ============= CsCatchClause ========
 
-type CsCatchClause* = ref object of CsObject #TODO(type:CsCatchClause)
+
 
 proc newCs*(t: typedesc[CsCatchClause]; name: string): CsCatchClause =
   new result
@@ -650,7 +624,7 @@ proc gen*(c: var CsCatchClause): string = assert false #TODO(gen:CsCatchClause)
 
 # ============= CsCatchFilterClause ========
 
-type CsCatchFilterClause* = ref object of CsObject #TODO(type:CsCatchFilterClause)
+
 
 proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause =
   new result
@@ -669,7 +643,7 @@ proc gen*(c: var CsCatchFilterClause): string = assert false #TODO(gen:CsCatchFi
 
 # ============= CsCatch ========
 
-type CsCatch* = ref object of CsObject #TODO(type:CsCatch)
+
 
 proc newCs*(t: typedesc[CsCatch]; name: string): CsCatch =
   new result
@@ -688,7 +662,7 @@ proc gen*(c: var CsCatch): string = assert false #TODO(gen:CsCatch)
 
 # ============= CsCheckedExpression ========
 
-type CsCheckedExpression* = ref object of CsObject #TODO(type:CsCheckedExpression)
+
 
 proc newCs*(t: typedesc[CsCheckedExpression]; name: string): CsCheckedExpression =
   new result
@@ -707,7 +681,7 @@ proc gen*(c: var CsCheckedExpression): string = assert false #TODO(gen:CsChecked
 
 # ============= CsCheckedStatement ========
 
-type CsCheckedStatement* = ref object of CsObject #TODO(type:CsCheckedStatement)
+
 
 proc newCs*(t: typedesc[CsCheckedStatement]; name: string): CsCheckedStatement =
   new result
@@ -728,99 +702,41 @@ proc gen*(c: var CsCheckedStatement): string = assert false #TODO(gen:CsCheckedS
 
 
 
-type ClassParts* {.pure.} = enum
-  Methods, Ctors, Properties, Indexer
-
-type PropertyParts* = enum Getter, Setter
-
-type CsProperty* = ref object of CsObject
-  lastAddedTo* : PropertyParts
-  retType*: string
-  hasGet*: bool
-  hasSet*: bool
-  parentClass*: string
-  acclist*:CsAccessorList
-  bodySet*: seq[BodyExpr] # dunno. TODO: this should be strongly connected to acclist (maybe extracted from it?). but lastBodyExpr wants to have constructs readily available like in this seq.
-  bodyGet*: seq[BodyExpr] # NOTE: don't know yet what type to* put here. maybe something like a method body or a list of expr ?
-
 method add*(parent:var CsProperty, item:CsAccessorList) =
   parent.acclist = item
 
 
-type CsParameter* = ref object of CsObject
-  ptype*: string
-  isRef*: bool
-  isOut*: bool
-
-type CsParameterList* = ref object of CsObject
-  parameters*: seq[CsParameter]
 
 
-type CsMethod* = ref object of CsObject
-  isStatic*: bool
-  parentClass*: string
-  parameterList*: CsParameterList # seq[CsParameter]
-  returnType*: string
-  # TODO: method body can change to Construct, but limited only to the constructs applicable. (type constraints* with distinct or runtime asserts)
-  # TODO: or we check with case ttype string, as before. runtime dispatch etc.
-  body*: seq[BodyExpr]            # use here inheritance and methods (runtime dispatch).
-                                  # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
+
+
+
+
 
 
 method add*(parent:var CsMethod, item: CsAssignmentExpression)=
   parent.body.add item
 
-type CsConstructorInitializer* = ref object of CsObject #TODO(type:CsConstructorInitializer)
 
-type CsConstructor* = ref object of CsObject
-  parentClass*: string
-  parameterList*: CsParameterList # seq[CsParameter]
-  body*: seq[BodyExpr]
-  initializer*: CsConstructorInitializer # for example, when C# ctor passes args to base ctor # don't yet know how to generate in Nim.
-  initializerArgList: CsArgumentList
 
-type CsEnumMember* = ref object of CsObject
-  value*: string #Option[int]
 
-type CsEnum* = ref object of CsObject
-  items*: seq[CsEnumMember]
+
+
+
+
 
 proc `$`*(e:CsEnum):string=
   result = "enum: (name: " & e.name
   result &= "; items: " & $e.items.len
   result &= " )"
 
-type CsIndexer* = ref object of CsObject
-  retType*: string
-  varName*: string
-  varType*: string
-  firstVarType*: string
-  aclist*:CsAccessorList
-  hasDefaultGet*: bool
-  hasDefaultSet*: bool
-  hasBody*:bool
-  # name*: string  # no, there is no name, but there is an AccessorList, or Accessor, that provide the function body.
+
 
 method add*(c:var CsIndexer, item: CsAccessorList) =
   c.aclist=item
 # ============= CsClass ========
 
-import sets
-type CsClass* = ref object of CsObject
-  nsParent*: string
-  extends*: string
-  implements*: seq[string]
-  # fields*: seq[CsField]
-  properties*: seq[CsProperty]
-  methods*: seq[CsMethod]
-  ctors*: seq[CsConstructor]
-  # enums*: seq[CsEnum]
-  # enumTable*: TableRef[string, CsEnum]
-  lastAddedTo*: Option[ClassParts]
-  isStatic*: bool
-  mods*: HashSet[string]
-  indexer*: CsIndexer
-  # hasIndexer*: bool
+
 proc `$`*(c:CsClass) :string=
   result = "class: (name: " & c.name
   result &= "; methods: " & $c.methods.len
@@ -1001,7 +917,7 @@ method add*(parent: var CsClass; item: CsBaseList) =
 
 # ============= CsClassOrStructConstraint ========
 
-type CsClassOrStructConstraint* = ref object of CsObject #TODO(type:CsClassOrStructConstraint)
+
 
 proc newCs*(t: typedesc[CsClassOrStructConstraint]; name: string): CsClassOrStructConstraint =
   new result
@@ -1020,7 +936,7 @@ proc gen*(c: var CsClassOrStructConstraint): string = assert false #TODO(gen:CsC
 
 # ============= CsConditionalAccessExpression ========
 
-type CsConditionalAccessExpression* = ref object of CsObject #TODO(type:CsConditionalAccessExpression)
+
 
 proc newCs*(t: typedesc[CsConditionalAccessExpression]; name: string): CsConditionalAccessExpression =
   new result
@@ -1039,7 +955,7 @@ proc gen*(c: var CsConditionalAccessExpression): string = assert false #TODO(gen
 
 # ============= CsConditionalExpression ========
 
-type CsConditionalExpression* = ref object of CsObject #TODO(type:CsConditionalExpression)
+
 
 proc newCs*(t: typedesc[CsConditionalExpression]; name: string): CsConditionalExpression =
   new result
@@ -1058,7 +974,7 @@ proc gen*(c: var CsConditionalExpression): string = assert false #TODO(gen:CsCon
 
 # ============= CsConstantPattern ========
 
-type CsConstantPattern* = ref object of CsObject #TODO(type:CsConstantPattern)
+
 
 proc newCs*(t: typedesc[CsConstantPattern]; name: string): CsConstantPattern =
   new result
@@ -1077,7 +993,7 @@ proc gen*(c: var CsConstantPattern): string = assert false #TODO(gen:CsConstantP
 
 # ============= CsConstructorConstraint ========
 
-type CsConstructorConstraint* = ref object of CsObject #TODO(type:CsConstructorConstraint)
+
 
 proc newCs*(t: typedesc[CsConstructorConstraint]; name: string): CsConstructorConstraint =
   new result
@@ -1143,7 +1059,7 @@ method add*(parent: var CsConstructor; item: CsParameterList) =
 
 # ============= CsContinueStatement ========
 
-type CsContinueStatement* = ref object of CsObject #TODO(type:CsContinueStatement)
+
 
 proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement =
   new result
@@ -1162,7 +1078,7 @@ proc gen*(c: var CsContinueStatement): string = assert false #TODO(gen:CsContinu
 
 # ============= CsConversionOperator ========
 
-type CsConversionOperator* = ref object of CsObject #TODO(type:CsConversionOperator)
+
 
 proc newCs*(t: typedesc[CsConversionOperator]; name: string): CsConversionOperator =
   new result
@@ -1181,7 +1097,7 @@ proc gen*(c: var CsConversionOperator): string = assert false #TODO(gen:CsConver
 
 # ============= CsDeclarationExpression ========
 
-type CsDeclarationExpression* = ref object of CsObject #TODO(type:CsDeclarationExpression)
+
 
 proc newCs*(t: typedesc[CsDeclarationExpression]; name: string): CsDeclarationExpression =
   new result
@@ -1200,7 +1116,7 @@ proc gen*(c: var CsDeclarationExpression): string = assert false #TODO(gen:CsDec
 
 # ============= CsDeclarationPattern ========
 
-type CsDeclarationPattern* = ref object of CsObject #TODO(type:CsDeclarationPattern)
+
 
 proc newCs*(t: typedesc[CsDeclarationPattern]; name: string): CsDeclarationPattern =
   new result
@@ -1219,7 +1135,7 @@ proc gen*(c: var CsDeclarationPattern): string = assert false #TODO(gen:CsDeclar
 
 # ============= CsDefaultExpression ========
 
-type CsDefaultExpression* = ref object of CsObject #TODO(type:CsDefaultExpression)
+
 
 proc newCs*(t: typedesc[CsDefaultExpression]; name: string): CsDefaultExpression =
   new result
@@ -1238,7 +1154,7 @@ proc gen*(c: var CsDefaultExpression): string = assert false #TODO(gen:CsDefault
 
 # ============= CsDefaultSwitchLabel ========
 
-type CsDefaultSwitchLabel* = ref object of CsObject #TODO(type:CsDefaultSwitchLabel)
+
 
 proc newCs*(t: typedesc[CsDefaultSwitchLabel]; name: string): CsDefaultSwitchLabel =
   new result
@@ -1257,7 +1173,7 @@ proc gen*(c: var CsDefaultSwitchLabel): string = assert false #TODO(gen:CsDefaul
 
 # ============= CsDelegate ========
 
-type CsDelegate* = ref object of CsObject #TODO(type:CsDelegate)
+
 
 proc newCs*(t: typedesc[CsDelegate]; name: string): CsDelegate =
   new result
@@ -1276,7 +1192,7 @@ proc gen*(c: var CsDelegate): string = assert false #TODO(gen:CsDelegate)
 
 # ============= CsDestructor ========
 
-type CsDestructor* = ref object of CsObject #TODO(type:CsDestructor)
+
 
 proc newCs*(t: typedesc[CsDestructor]; name: string): CsDestructor =
   new result
@@ -1295,7 +1211,7 @@ proc gen*(c: var CsDestructor): string = assert false #TODO(gen:CsDestructor)
 
 # ============= CsDiscardDesignation ========
 
-type CsDiscardDesignation* = ref object of CsObject #TODO(type:CsDiscardDesignation)
+
 
 proc newCs*(t: typedesc[CsDiscardDesignation]; name: string): CsDiscardDesignation =
   new result
@@ -1314,7 +1230,7 @@ proc gen*(c: var CsDiscardDesignation): string = assert false #TODO(gen:CsDiscar
 
 # ============= CsDoStatement ========
 
-type CsDoStatement* = ref object of CsObject #TODO(type:CsDoStatement)
+
 
 proc newCs*(t: typedesc[CsDoStatement]; name: string): CsDoStatement =
   new result
@@ -1333,7 +1249,7 @@ proc gen*(c: var CsDoStatement): string = assert false #TODO(gen:CsDoStatement)
 
 # ============= CsElementAccessExpression ========
 
-type CsElementAccessExpression* = ref object of CsObject #TODO(type:CsElementAccessExpression)
+
 
 proc newCs*(t: typedesc[CsElementAccessExpression]; name: string): CsElementAccessExpression =
   new result
@@ -1352,7 +1268,7 @@ proc gen*(c: var CsElementAccessExpression): string = assert false #TODO(gen:CsE
 
 # ============= CsElementBindingExpression ========
 
-type CsElementBindingExpression* = ref object of CsObject #TODO(type:CsElementBindingExpression)
+
 
 proc newCs*(t: typedesc[CsElementBindingExpression]; name: string): CsElementBindingExpression =
   new result
@@ -1371,7 +1287,7 @@ proc gen*(c: var CsElementBindingExpression): string = assert false #TODO(gen:Cs
 
 # ============= CsElseClause ========
 
-type CsElseClause* = ref object of CsObject #TODO(type:CsElseClause)
+
 
 proc newCs*(t: typedesc[CsElseClause]; name: string): CsElseClause =
   new result
@@ -1390,7 +1306,7 @@ proc gen*(c: var CsElseClause): string = assert false #TODO(gen:CsElseClause)
 
 # ============= CsEmptyStatement ========
 
-type CsEmptyStatement* = ref object of CsObject #TODO(type:CsEmptyStatement)
+
 
 proc newCs*(t: typedesc[CsEmptyStatement]; name: string): CsEmptyStatement =
   new result
@@ -1466,9 +1382,7 @@ proc gen*(e: CsEnum): string =
 
 # ============= CsEqualsValueClause ========
 
-type CsEqualsValueClause* = ref object of CsObject
-  value*: string
-  rhsValue*: BodyExpr
+
 
 
 method add*(em: var CsEnumMember; item: CsEqualsValueClause) =
@@ -1497,7 +1411,7 @@ proc gen*(c: var CsEqualsValueClause): string = assert false #TODO(gen:CsEqualsV
 
 # ============= CsEventField ========
 
-type CsEventField* = ref object of CsObject #TODO(type:CsEventField)
+
 
 proc newCs*(t: typedesc[CsEventField]; name: string): CsEventField =
   new result
@@ -1516,7 +1430,7 @@ proc gen*(c: var CsEventField): string = assert false #TODO(gen:CsEventField)
 
 # ============= CsEvent ========
 
-type CsEvent* = ref object of CsObject #TODO(type:CsEvent)
+
 
 proc newCs*(t: typedesc[CsEvent]; name: string): CsEvent =
   new result
@@ -1535,7 +1449,7 @@ proc gen*(c: var CsEvent): string = assert false #TODO(gen:CsEvent)
 
 # ============= CsExplicitInterfaceSpecifier ========
 
-type CsExplicitInterfaceSpecifier* = ref object of CsObject #TODO(type:CsExplicitInterfaceSpecifier)
+
 
 proc newCs*(t: typedesc[CsExplicitInterfaceSpecifier]; name: string): CsExplicitInterfaceSpecifier =
   new result
@@ -1555,14 +1469,11 @@ method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy)  =
 # proc gen*(c: var CsExplicitInterfaceSpecifier): string = assert false #TODO(gen:CsExplicitInterfaceSpecifier)
 
 
-type CsInvocationExpression* = ref object of BodyExpr
-  callName*: string
+
 
 
 # A method body's line.
-type CsExpressionStatement* = ref object of BodyExpr
-  call*: CsInvocationExpression
-  args*: CsArgumentList
+
 
 
 method add*(c:var CsConstructor; item: CsExpressionStatement) =
@@ -1598,7 +1509,6 @@ method add*(parent: var CsExpressionStatement; item: CsInvocationExpression) =
 
 # proc add*(parent: var CsExpressionStatement; item: CsInvocationExpression; data: AllNeededData) = parent.add(item) # TODO
 
-import re, strutils
 method gen*(c: CsExpressionStatement): string =
   echo "generating for expression statement"
   result = c.call.gen() & "("
@@ -1611,7 +1521,7 @@ method gen*(c: CsExpressionStatement): string =
 
 # ============= CsExternAliasDirective ========
 
-type CsExternAliasDirective* = ref object of CsObject #TODO(type:CsExternAliasDirective)
+
 
 proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDirective =
   new result
@@ -1633,7 +1543,7 @@ proc gen*(c: var CsExternAliasDirective): string = assert false #TODO(gen:CsExte
 
 # ============= CsFinallyClause ========
 
-type CsFinallyClause* = ref object of CsObject #TODO(type:CsFinallyClause)
+
 
 proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =
   new result
@@ -1652,7 +1562,7 @@ proc gen*(c: var CsFinallyClause): string = assert false #TODO(gen:CsFinallyClau
 
 # ============= CsFixedStatement ========
 
-type CsFixedStatement* = ref object of CsObject #TODO(type:CsFixedStatement)
+
 
 proc newCs*(t: typedesc[CsFixedStatement]; name: string): CsFixedStatement =
   new result
@@ -1671,7 +1581,7 @@ proc gen*(c: var CsFixedStatement): string = assert false #TODO(gen:CsFixedState
 
 # ============= CsForEachStatement ========
 
-type CsForEachStatement* = ref object of CsObject #TODO(type:CsForEachStatement)
+
 
 proc newCs*(t: typedesc[CsForEachStatement]; name: string): CsForEachStatement =
   new result
@@ -1690,7 +1600,7 @@ proc gen*(c: var CsForEachStatement): string = assert false #TODO(gen:CsForEachS
 
 # ============= CsForEachVariableStatement ========
 
-type CsForEachVariableStatement* = ref object of CsObject #TODO(type:CsForEachVariableStatement)
+
 
 proc newCs*(t: typedesc[CsForEachVariableStatement]; name: string): CsForEachVariableStatement =
   new result
@@ -1709,7 +1619,7 @@ proc gen*(c: var CsForEachVariableStatement): string = assert false #TODO(gen:Cs
 
 # ============= CsForStatement ========
 
-type CsForStatement* = ref object of CsObject #TODO(type:CsForStatement)
+
 
 proc newCs*(t: typedesc[CsForStatement]; name: string): CsForStatement =
   new result
@@ -1728,7 +1638,7 @@ proc gen*(c: var CsForStatement): string = assert false #TODO(gen:CsForStatement
 
 # ============= CsFromClause ========
 
-type CsFromClause* = ref object of CsObject #TODO(type:CsFromClause)
+
 
 proc newCs*(t: typedesc[CsFromClause]; name: string): CsFromClause =
   new result
@@ -1745,13 +1655,9 @@ method add*(parent: var CsFromClause; item: Dummy)  =
 
 proc gen*(c: var CsFromClause): string = assert false #TODO(gen:CsFromClause)
 
-# ============= CsGenericName ========
-type CsTypeArgumentList* = ref object of CsObject #TODO(type:CsTypeArgumentList)
-  # the types a generic has
-  types*:seq[string]
 
-type CsGenericName* = ref object of CsObject
-  typearglist*:CsTypeArgumentList
+
+
 
 proc newCs*(t: typedesc[CsGenericName]): CsGenericName =
   new result
@@ -1772,7 +1678,7 @@ proc gen*(c: var CsGenericName): string = assert false #TODO(gen:CsGenericName)
 
 # ============= CsGlobalStatement ========
 
-type CsGlobalStatement* = ref object of CsObject #TODO(type:CsGlobalStatement)
+
 
 proc newCs*(t: typedesc[CsGlobalStatement]; name: string): CsGlobalStatement =
   new result
@@ -1791,7 +1697,7 @@ proc gen*(c: var CsGlobalStatement): string = assert false #TODO(gen:CsGlobalSta
 
 # ============= CsGotoStatement ========
 
-type CsGotoStatement* = ref object of CsObject #TODO(type:CsGotoStatement)
+
 
 proc newCs*(t: typedesc[CsGotoStatement]; name: string): CsGotoStatement =
   new result
@@ -1810,7 +1716,7 @@ proc gen*(c: var CsGotoStatement): string = assert false #TODO(gen:CsGotoStateme
 
 # ============= CsGroupClause ========
 
-type CsGroupClause* = ref object of CsObject #TODO(type:CsGroupClause)
+
 
 proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =
   new result
@@ -1829,7 +1735,7 @@ proc gen*(c: var CsGroupClause): string = assert false #TODO(gen:CsGroupClause)
 
 # ============= CsIfStatement ========
 
-type CsIfStatement* = ref object of CsObject #TODO(type:CsIfStatement)
+
 
 proc newCs*(t: typedesc[CsIfStatement]; name: string): CsIfStatement =
   new result
@@ -1848,7 +1754,7 @@ proc gen*(c: var CsIfStatement): string = assert false #TODO(gen:CsIfStatement)
 
 # ============= CsImplicitArrayCreationExpression ========
 
-type CsImplicitArrayCreationExpression* = ref object of CsObject #TODO(type:CsImplicitArrayCreationExpression)
+
 
 proc newCs*(t: typedesc[CsImplicitArrayCreationExpression]; name: string): CsImplicitArrayCreationExpression =
   new result
@@ -1867,7 +1773,7 @@ proc gen*(c: var CsImplicitArrayCreationExpression): string = assert false #TODO
 
 # ============= CsImplicitElementAccess ========
 
-type CsImplicitElementAccess* = ref object of CsObject #TODO(type:CsImplicitElementAccess)
+
 
 proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitElementAccess =
   new result
@@ -1886,7 +1792,7 @@ proc gen*(c: var CsImplicitElementAccess): string = assert false #TODO(gen:CsImp
 
 # ============= CsIncompleteMember ========
 
-type CsIncompleteMember* = ref object of CsObject #TODO(type:CsIncompleteMember)
+
 
 proc newCs*(t: typedesc[CsIncompleteMember]; name: string): CsIncompleteMember =
   new result
@@ -1924,7 +1830,7 @@ method add*(parent: var CsIndexer; item: CsParameter) =
 method add*(parent: var CsIndexer; item: CsBracketedParameterList) =
   discard # add (csindexer, csparameter) already does what we need. because indexer has just one parameter.
 
-type CsPredefinedType* = ref object of CsObject
+
 
 method add*(parent: var CsIndexer; item: CsPredefinedType) =
 
@@ -1937,17 +1843,11 @@ method add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
 # proc add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier; data: AllNeededData) = parent.add(item) # TODO
 
 
-type CsPrefixUnaryExpression* = ref object of CsObject
-  prefix*:string # don't handle it in any special way, prepend it, without space if literal, and with - otherwise.
-  actingOn*:string
 
-type CsLiteralExpression* = ref object of IAssignable
-  value*: string
 
-type CsInitializerExpression* = ref object of CsObject #TODO(type:CsInitializerExpression)
-  valueReceived*:string
-  bexprs*:seq[BodyExpr]
-  somePrefixOp: CsPrefixUnaryExpression
+
+
+
 
 method add*(parent: CsLiteralExpression; item: CsPrefixUnaryExpression) =
   parent.value = item.prefix & parent.value
@@ -2001,7 +1901,7 @@ proc gen*(c: var CsInitializerExpression): string =
 
 # ============= CsInterface ========
 
-type CsInterface* = ref object of CsObject #TODO(type:CsInterface)
+
 proc newCs*(t: typedesc[CsInterface]; name: string): CsInterface =
   new result
   result.typ = $typeof(t)
@@ -2021,7 +1921,7 @@ proc gen*(c: var CsInterface): string = assert false #TODO(gen:CsInterface)
 
 # ============= CsInterpolatedStringExpression ========
 
-type CsInterpolatedStringExpression* = ref object of CsObject #TODO(type:CsInterpolatedStringExpression)
+
 
 proc newCs*(t: typedesc[CsInterpolatedStringExpression]; name: string): CsInterpolatedStringExpression =
   new result
@@ -2040,7 +1940,7 @@ proc gen*(c: var CsInterpolatedStringExpression): string = assert false #TODO(ge
 
 # ============= CsInterpolatedStringText ========
 
-type CsInterpolatedStringText* = ref object of CsObject #TODO(type:CsInterpolatedStringText)
+
 
 proc newCs*(t: typedesc[CsInterpolatedStringText]; name: string): CsInterpolatedStringText =
   new result
@@ -2059,7 +1959,7 @@ proc gen*(c: var CsInterpolatedStringText): string = assert false #TODO(gen:CsIn
 
 # ============= CsInterpolationAlignmentClause ========
 
-type CsInterpolationAlignmentClause* = ref object of CsObject #TODO(type:CsInterpolationAlignmentClause)
+
 
 proc newCs*(t: typedesc[CsInterpolationAlignmentClause]; name: string): CsInterpolationAlignmentClause =
   new result
@@ -2078,7 +1978,7 @@ proc gen*(c: var CsInterpolationAlignmentClause): string = assert false #TODO(ge
 
 # ============= CsInterpolationFormatClause ========
 
-type CsInterpolationFormatClause* = ref object of CsObject #TODO(type:CsInterpolationFormatClause)
+
 
 proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpolationFormatClause =
   new result
@@ -2097,7 +1997,7 @@ proc gen*(c: var CsInterpolationFormatClause): string = assert false #TODO(gen:C
 
 # ============= CsInterpolation ========
 
-type CsInterpolation* = ref object of CsObject #TODO(type:CsInterpolation)
+
 
 proc newCs*(t: typedesc[CsInterpolation]; name: string): CsInterpolation =
   new result
@@ -2159,7 +2059,7 @@ method gen*(c: CsInvocationExpression): string =
 
   # ============= CsIsPatternExpression ========
 
-type CsIsPatternExpression* = ref object of CsObject #TODO(type:CsIsPatternExpression)
+
 
 proc newCs*(t: typedesc[CsIsPatternExpression]; name: string): CsIsPatternExpression =
   new result
@@ -2178,7 +2078,7 @@ proc gen*(c: var CsIsPatternExpression): string = assert false #TODO(gen:CsIsPat
 
 # ============= CsJoinClause ========
 
-type CsJoinClause* = ref object of CsObject #TODO(type:CsJoinClause)
+
 
 proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =
   new result
@@ -2197,7 +2097,7 @@ proc gen*(c: var CsJoinClause): string = assert false #TODO(gen:CsJoinClause)
 
 # ============= CsJoinIntoClause ========
 
-type CsJoinIntoClause* = ref object of CsObject #TODO(type:CsJoinIntoClause)
+
 
 proc newCs*(t: typedesc[CsJoinIntoClause]; name: string): CsJoinIntoClause =
   new result
@@ -2216,7 +2116,7 @@ proc gen*(c: var CsJoinIntoClause): string = assert false #TODO(gen:CsJoinIntoCl
 
 # ============= CsLabeledStatement ========
 
-type CsLabeledStatement* = ref object of CsObject #TODO(type:CsLabeledStatement)
+
 
 proc newCs*(t: typedesc[CsLabeledStatement]; name: string): CsLabeledStatement =
   new result
@@ -2235,7 +2135,7 @@ proc gen*(c: var CsLabeledStatement): string = assert false #TODO(gen:CsLabeledS
 
 # ============= CsLetClause ========
 
-type CsLetClause* = ref object of CsObject #TODO(type:CsLetClause)
+
 
 proc newCs*(t: typedesc[CsLetClause]; name: string): CsLetClause =
   new result
@@ -2288,7 +2188,7 @@ method gen*(lit: CsLiteralExpression): string =
 
 # ============= CsLocalFunctionStatement ========
 
-type CsLocalFunctionStatement* = ref object of CsObject #TODO(type:CsLocalFunctionStatement)
+
 
 proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctionStatement =
   new result
@@ -2313,7 +2213,7 @@ proc newCs*(t: typedesc[CsAssignmentExpression]): CsAssignmentExpression =
 
 # ============= CsLockStatement ========
 
-type CsLockStatement* = ref object of CsObject #TODO(type:CsLockStatement)
+
 
 proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =
   new result
@@ -2332,7 +2232,7 @@ proc gen*(c: var CsLockStatement): string = assert false #TODO(gen:CsLockStateme
 
 # ============= CsMakeRefExpression ========
 
-type CsMakeRefExpression* = ref object of CsObject #TODO(type:CsMakeRefExpression)
+
 
 proc newCs*(t: typedesc[CsMakeRefExpression]; name: string): CsMakeRefExpression =
   new result
@@ -2351,7 +2251,7 @@ proc gen*(c: var CsMakeRefExpression): string = assert false #TODO(gen:CsMakeRef
 
 # ============= CsMemberBindingExpression ========
 
-type CsMemberBindingExpression* = ref object of CsObject #TODO(type:CsMemberBindingExpression)
+
 
 proc newCs*(t: typedesc[CsMemberBindingExpression]; name: string): CsMemberBindingExpression =
   new result
@@ -2388,10 +2288,7 @@ method add*(parent: var CsMethod; p: CsParameterList) =
   parent.parameterList = p
 
 
-type CsObjectCreationExpression* = ref object of IAssignable
-  typeName*: string # args*: CsParameterList
-  args*: CsArgumentList
-  initExpr*:CsInitializerExpression
+
 
 method gen*(item:CsObjectCreationExpression) : string =
   result = "new" & item.name.replacementGenericTypes() &
@@ -2430,13 +2327,7 @@ method add*(parent:CsAssignmentExpression; item: CsArgumentList) =
 method add*(parent:CsAssignmentExpression; item: CsObjectCreationExpression) =
   parent.right = item
 
-type CsVariableDeclarator* = ref object of BodyExpr # I assume this is the right hand side, what the variable is stored with.
-  ev*:CsEqualsValueClause # so i can get (with its parentid) the expression statement which is the right hand side, afterwards.
-  rhs*:IAssignable
-  # bexpr*:BodyExpr # either expressionStatement or objectcreationexpression
-  # expr*: CsObjectCreationExpression | CsExpressionStatement
-  # exprType*:string
-  arglist*:CsArgumentList
+
 
 method gen*(c:CsVariableDeclarator):string =
   echo "rhs is: " & c.rhs.typ
@@ -2448,10 +2339,7 @@ method gen*(c:CsVariableDeclarator):string =
 # proc add*(parent: var CsMethod; item: CsObjectCreationExpression; data: AllNeededData) = parent.add(item) # TODO
 
 
-type CsReturnStatement* = ref object of BodyExpr # type:CsReturnStatement
-  args*: CsArgumentList
-  expr*: BodyExpr                                # can have one expr that can be nil
-  value*:string
+
 
 method add*(parent: var CsMethod; item: CsReturnStatement) =
   parent.body.add item
@@ -2463,7 +2351,7 @@ method add*(parent: var CsMethod; item: CsExpressionStatement) =
 
 # ============= CsNameColon ========
 
-type CsNameColon* = ref object of CsObject #TODO(type:CsNameColon)
+
 
 proc newCs*(t: typedesc[CsNameColon]; name: string): CsNameColon =
   new result
@@ -2482,7 +2370,7 @@ proc gen*(c: var CsNameColon): string = assert false #TODO(gen:CsNameColon)
 
 # ============= CsNameEquals ========
 
-type CsNameEquals* = ref object of CsObject #TODO(type:CsNameEquals)
+
 
 proc newCs*(t: typedesc[CsNameEquals]; name: string): CsNameEquals =
   new result
@@ -2501,10 +2389,6 @@ proc gen*(c: var CsNameEquals): string = assert false #TODO(gen:CsNameEquals)
 
 
 
-type NamespaceParts* {.pure.} = enum
-  Unset, Interfaces, Enums, Classes, Using
-
-
 # type Child* = object
 #   name: string
 #   case kind: NamespaceParts
@@ -2514,26 +2398,14 @@ type NamespaceParts* {.pure.} = enum
 #     npIface: CsInterface
 #   of NamespaceParts.Enums:
 #     npEnum: CsEnum
-type CsUsingDirective* = ref object of CsObject
+
 proc `$`*(c:CsUsingDirective):string=
   result = "import: ("
   result &= "name: " & c.name
   result &= ")"
 
-type CsNamespace* = ref object of CsObject
-  # id*: UUID
-  parent*: string
-  classes*: seq[CsClass]
-  classTable*: TableRef[string, CsClass]
-  enums*: seq[CsEnum]
-  enumTable*: TableRef[string, CsEnum]
-  interfaces*: seq[CsInterface]
-  interfaceTable*: TableRef[string, CsInterface]
-  lastAddedTo*: Option[NamespaceParts] # TODO: !!! we actually want here an object variant, so we can simply ask for the object.
-                                       # lastAdded: Construct
-  imports*: seq[CsUsingDirective]
 
-import sequtils, strutils
+
 proc `$`*(n: CsNamespace): string =
   result = "namespace: ("
   result &= "name: " & n.name
@@ -2552,34 +2424,6 @@ proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   result.enumTable = newTable[string, CsEnum]()
   result.interfaces = @[]
   result.interfaceTable = newTable[string, CsInterface]()
-
-type AllNeededData* = object
-  sourceCode*: string
-  upcoming*:seq[string]
-  constructDeclName*: string
-  simplified*:seq[(string,UUID)]
-  currentNamespace*: CsNamespace
-  nsLastAdded*: NamespaceParts
-  classLastAdded*: ClassParts
-
-  lastUsing*:CsUsingDirective
-  lastEnum*: CsEnum
-  lastEnumMember*: CsEnumMember
-  lastInterface*:CsInterface
-  lastClass*: CsClass
-  lastMethod*: CsMethod
-  lastProp*: CsProperty
-  lastCtor*: CsConstructor
-
-  lastMethodBodyExpr*: BodyExpr
-  lastBodyExprId*:Option[UUID]
-  lastBodyExpr* : Option[BodyExpr]
-
-  inBlock*: Block
-  prevBlock*: Block
-  currentConstruct*: Option[Block]
-  previousConstruct*: Option[Block]
-  previousPreviousConstruct*: Option[Block]
 
 
 
@@ -2665,7 +2509,7 @@ proc hash*(c: CsNamespace): Hash =
 
 # ============= CsNullableType ========
 
-type CsNullableType* = ref object of CsObject #TODO(type:CsNullableType)
+
 
 proc newCs*(t: typedesc[CsNullableType]; name: string): CsNullableType =
   new result
@@ -2707,7 +2551,7 @@ method add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
 
 # ============= CsOmittedArraySizeExpression ========
 
-type CsOmittedArraySizeExpression* = ref object of CsObject #TODO(type:CsOmittedArraySizeExpression)
+
 
 proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedArraySizeExpression =
   new result
@@ -2726,7 +2570,7 @@ proc gen*(c: var CsOmittedArraySizeExpression): string = assert false #TODO(gen:
 
 # ============= CsOmittedTypeArgument ========
 
-type CsOmittedTypeArgument* = ref object of CsObject #TODO(type:CsOmittedTypeArgument)
+
 
 proc newCs*(t: typedesc[CsOmittedTypeArgument]; name: string): CsOmittedTypeArgument =
   new result
@@ -2745,7 +2589,7 @@ proc gen*(c: var CsOmittedTypeArgument): string = assert false #TODO(gen:CsOmitt
 
 # ============= CsOperator ========
 
-type CsOperator* = ref object of CsObject #TODO(type:CsOperator)
+
 
 proc newCs*(t: typedesc[CsOperator]; name: string): CsOperator =
   new result
@@ -2764,7 +2608,7 @@ proc gen*(c: var CsOperator): string = assert false #TODO(gen:CsOperator)
 
 # ============= CsOrderByClause ========
 
-type CsOrderByClause* = ref object of CsObject #TODO(type:CsOrderByClause)
+
 
 proc newCs*(t: typedesc[CsOrderByClause]; name: string): CsOrderByClause =
   new result
@@ -2783,7 +2627,7 @@ proc gen*(c: var CsOrderByClause): string = assert false #TODO(gen:CsOrderByClau
 
 # ============= CsOrdering ========
 
-type CsOrdering* = ref object of CsObject #TODO(type:CsOrdering)
+
 
 proc newCs*(t: typedesc[CsOrdering]; name: string): CsOrdering =
   new result
@@ -2829,7 +2673,7 @@ proc extract*(t: typedesc[CsParameter]; info: Info): CsParameter =
 
 # ============= CsParenthesizedExpression ========
 
-type CsParenthesizedExpression* = ref object of CsObject #TODO(type:CsParenthesizedExpression)
+
 
 proc newCs*(t: typedesc[CsParenthesizedExpression]; name: string): CsParenthesizedExpression =
   new result
@@ -2848,7 +2692,7 @@ proc gen*(c: var CsParenthesizedExpression): string = assert false #TODO(gen:CsP
 
 # ============= CsParenthesizedLambdaExpression ========
 
-type CsParenthesizedLambdaExpression* = ref object of CsObject #TODO(type:CsParenthesizedLambdaExpression)
+
 
 proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; name: string): CsParenthesizedLambdaExpression =
   new result
@@ -2867,7 +2711,7 @@ proc gen*(c: var CsParenthesizedLambdaExpression): string = assert false #TODO(g
 
 # ============= CsParenthesizedVariableDesignation ========
 
-type CsParenthesizedVariableDesignation* = ref object of CsObject #TODO(type:CsParenthesizedVariableDesignation)
+
 
 proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; name: string): CsParenthesizedVariableDesignation =
   new result
@@ -2886,7 +2730,7 @@ proc gen*(c: var CsParenthesizedVariableDesignation): string = assert false #TOD
 
 # ============= CsPointerType ========
 
-type CsPointerType* = ref object of CsObject #TODO(type:CsPointerType)
+
 
 proc newCs*(t: typedesc[CsPointerType]; name: string): CsPointerType =
   new result
@@ -2905,7 +2749,7 @@ proc gen*(c: var CsPointerType): string = assert false #TODO(gen:CsPointerType)
 
 # ============= CsPostfixUnaryExpression ========
 
-type CsPostfixUnaryExpression* = ref object of CsObject #TODO(type:CsPostfixUnaryExpression)
+
 
 proc newCs*(t: typedesc[CsPostfixUnaryExpression]; name: string): CsPostfixUnaryExpression =
   new result
@@ -2991,7 +2835,7 @@ method add*(parent: var CsProperty; a: CsPredefinedType) =
 
 # ============= CsQueryBody ========
 
-type CsQueryBody* = ref object of CsObject #TODO(type:CsQueryBody)
+
 
 proc newCs*(t: typedesc[CsQueryBody]; name: string): CsQueryBody =
   new result
@@ -3010,7 +2854,7 @@ proc gen*(c: var CsQueryBody): string = assert false #TODO(gen:CsQueryBody)
 
 # ============= CsQueryContinuation ========
 
-type CsQueryContinuation* = ref object of CsObject #TODO(type:CsQueryContinuation)
+
 
 proc newCs*(t: typedesc[CsQueryContinuation]; name: string): CsQueryContinuation =
   new result
@@ -3029,7 +2873,7 @@ proc gen*(c: var CsQueryContinuation): string = assert false #TODO(gen:CsQueryCo
 
 # ============= CsQueryExpression ========
 
-type CsQueryExpression* = ref object of CsObject #TODO(type:CsQueryExpression)
+
 
 proc newCs*(t: typedesc[CsQueryExpression]; name: string): CsQueryExpression =
   new result
@@ -3048,7 +2892,7 @@ proc gen*(c: var CsQueryExpression): string = assert false #TODO(gen:CsQueryExpr
 
 # ============= CsRefExpression ========
 
-type CsRefExpression* = ref object of CsObject #TODO(type:CsRefExpression)
+
 
 proc newCs*(t: typedesc[CsRefExpression]; name: string): CsRefExpression =
   new result
@@ -3067,7 +2911,7 @@ proc gen*(c: var CsRefExpression): string = assert false #TODO(gen:CsRefExpressi
 
 # ============= CsRefTypeExpression ========
 
-type CsRefTypeExpression* = ref object of CsObject #TODO(type:CsRefTypeExpression)
+
 
 proc newCs*(t: typedesc[CsRefTypeExpression]; name: string): CsRefTypeExpression =
   new result
@@ -3086,7 +2930,7 @@ proc gen*(c: var CsRefTypeExpression): string = assert false #TODO(gen:CsRefType
 
 # ============= CsRefType ========
 
-type CsRefType* = ref object of CsObject #TODO(type:CsRefType)
+
 
 proc newCs*(t: typedesc[CsRefType]; name: string): CsRefType =
   new result
@@ -3105,7 +2949,7 @@ proc gen*(c: var CsRefType): string = assert false #TODO(gen:CsRefType)
 
 # ============= CsRefValueExpression ========
 
-type CsRefValueExpression* = ref object of CsObject #TODO(type:CsRefValueExpression)
+
 
 proc newCs*(t: typedesc[CsRefValueExpression]; name: string): CsRefValueExpression =
   new result
@@ -3165,7 +3009,7 @@ method gen*(c: CsReturnStatement): string =
 
 # ============= CsSelectClause ========
 
-type CsSelectClause* = ref object of CsObject #TODO(type:CsSelectClause)
+
 
 proc newCs*(t: typedesc[CsSelectClause]; name: string): CsSelectClause =
   new result
@@ -3182,7 +3026,7 @@ method add*(parent: var CsSelectClause; item: Dummy)  =
 
 proc gen*(c: var CsSelectClause): string = assert false #TODO(gen:CsSelectClause)
 
-type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
+
 
 proc newCs*(t: typedesc[CsSimpleBaseType]): CsSimpleBaseType =
   new result
@@ -3204,7 +3048,7 @@ proc gen*(c: var CsSimpleBaseType): string = assert false #TODO(gen:CsSimpleBase
 
 # ============= CsSimpleLambdaExpression ========
 
-type CsSimpleLambdaExpression* = ref object of CsObject #TODO(type:CsSimpleLambdaExpression)
+
 
 proc newCs*(t: typedesc[CsSimpleLambdaExpression]; name: string): CsSimpleLambdaExpression =
   new result
@@ -3223,7 +3067,7 @@ proc gen*(c: var CsSimpleLambdaExpression): string = assert false #TODO(gen:CsSi
 
 # ============= CsSingleVariableDesignation ========
 
-type CsSingleVariableDesignation* = ref object of CsObject #TODO(type:CsSingleVariableDesignation)
+
 
 proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVariableDesignation =
   new result
@@ -3242,7 +3086,7 @@ proc gen*(c: var CsSingleVariableDesignation): string = assert false #TODO(gen:C
 
 # ============= CsSizeOfExpression ========
 
-type CsSizeOfExpression* = ref object of CsObject #TODO(type:CsSizeOfExpression)
+
 
 proc newCs*(t: typedesc[CsSizeOfExpression]; name: string): CsSizeOfExpression =
   new result
@@ -3261,7 +3105,7 @@ proc gen*(c: var CsSizeOfExpression): string = assert false #TODO(gen:CsSizeOfEx
 
 # ============= CsStackAllocArrayCreationExpression ========
 
-type CsStackAllocArrayCreationExpression* = ref object of CsObject #TODO(type:CsStackAllocArrayCreationExpression)
+
 
 proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression]; name: string): CsStackAllocArrayCreationExpression =
   new result
@@ -3280,7 +3124,7 @@ proc gen*(c: var CsStackAllocArrayCreationExpression): string = assert false #TO
 
 # ============= CsStruct ========
 
-type CsStruct* = ref object of CsObject #TODO(type:CsStruct)
+
 
 proc newCs*(t: typedesc[CsStruct]; name: string): CsStruct =
   new result
@@ -3299,7 +3143,7 @@ proc gen*(c: var CsStruct): string = assert false #TODO(gen:CsStruct)
 
 # ============= CsSwitchSection ========
 
-type CsSwitchSection* = ref object of CsObject #TODO(type:CsSwitchSection)
+
 
 proc newCs*(t: typedesc[CsSwitchSection]; name: string): CsSwitchSection =
   new result
@@ -3318,7 +3162,7 @@ proc gen*(c: var CsSwitchSection): string = assert false #TODO(gen:CsSwitchSecti
 
 # ============= CsSwitchStatement ========
 
-type CsSwitchStatement* = ref object of CsObject #TODO(type:CsSwitchStatement)
+
 
 proc newCs*(t: typedesc[CsSwitchStatement]; name: string): CsSwitchStatement =
   new result
@@ -3335,7 +3179,7 @@ method add*(parent: var CsSwitchStatement; item: Dummy)  =
 
 proc gen*(c: var CsSwitchStatement): string = assert false #TODO(gen:CsSwitchStatement)
 
-type CsThisExpression* = ref object of CsObject #TODO(type:CsThisExpression)
+
 
 proc newCs*(t: typedesc[CsThisExpression]; name: string): CsThisExpression =
   new result
@@ -3354,7 +3198,7 @@ proc gen*(c: var CsThisExpression): string = assert false #TODO(gen:CsThisExpres
 
 # ============= CsThrowExpression ========
 
-type CsThrowExpression* = ref object of CsObject #TODO(type:CsThrowExpression)
+
 
 proc newCs*(t: typedesc[CsThrowExpression]; name: string): CsThrowExpression =
   new result
@@ -3373,7 +3217,7 @@ proc gen*(c: var CsThrowExpression): string = assert false #TODO(gen:CsThrowExpr
 
 # ============= CsThrowStatement ========
 
-type CsThrowStatement* = ref object of CsObject #TODO(type:CsThrowStatement)
+
 
 proc newCs*(t: typedesc[CsThrowStatement]; name: string): CsThrowStatement =
   new result
@@ -3392,7 +3236,7 @@ proc gen*(c: var CsThrowStatement): string = assert false #TODO(gen:CsThrowState
 
 # ============= CsTryStatement ========
 
-type CsTryStatement* = ref object of CsObject #TODO(type:CsTryStatement)
+
 
 proc newCs*(t: typedesc[CsTryStatement]; name: string): CsTryStatement =
   new result
@@ -3411,7 +3255,7 @@ proc gen*(c: var CsTryStatement): string = assert false #TODO(gen:CsTryStatement
 
 # ============= CsTupleElement ========
 
-type CsTupleElement* = ref object of CsObject #TODO(type:CsTupleElement)
+
 
 proc newCs*(t: typedesc[CsTupleElement]; name: string): CsTupleElement =
   new result
@@ -3430,7 +3274,7 @@ proc gen*(c: var CsTupleElement): string = assert false #TODO(gen:CsTupleElement
 
 # ============= CsTupleExpression ========
 
-type CsTupleExpression* = ref object of CsObject #TODO(type:CsTupleExpression)
+
 
 proc newCs*(t: typedesc[CsTupleExpression]; name: string): CsTupleExpression =
   new result
@@ -3449,7 +3293,7 @@ proc gen*(c: var CsTupleExpression): string = assert false #TODO(gen:CsTupleExpr
 
 # ============= CsTupleType ========
 
-type CsTupleType* = ref object of CsObject #TODO(type:CsTupleType)
+
 
 proc newCs*(t: typedesc[CsTupleType]; name: string): CsTupleType =
   new result
@@ -3489,7 +3333,7 @@ proc gen*(c: var CsTypeArgumentList): string = assert false #TODO(gen:CsTypeArgu
 
 # ============= CsTypeConstraint ========
 
-type CsTypeConstraint* = ref object of CsObject #TODO(type:CsTypeConstraint)
+
 
 proc newCs*(t: typedesc[CsTypeConstraint]; name: string): CsTypeConstraint =
   new result
@@ -3506,7 +3350,7 @@ method add*(parent: var CsTypeConstraint; item: Dummy)  =
 
 proc gen*(c: var CsTypeConstraint): string = assert false #TODO(gen:CsTypeConstraint)
 
-type CsTypeOfExpression* = ref object of CsObject #TODO(type:CsTypeOfExpression)
+
 
 proc newCs*(t: typedesc[CsTypeOfExpression]; name: string): CsTypeOfExpression =
   new result
@@ -3525,7 +3369,7 @@ proc gen*(c: var CsTypeOfExpression): string = assert false #TODO(gen:CsTypeOfEx
 
 # ============= CsTypeParameterConstraintClause ========
 
-type CsTypeParameterConstraintClause* = ref object of CsObject #TODO(type:CsTypeParameterConstraintClause)
+
 
 proc newCs*(t: typedesc[CsTypeParameterConstraintClause]; name: string): CsTypeParameterConstraintClause =
   new result
@@ -3544,7 +3388,7 @@ proc gen*(c: var CsTypeParameterConstraintClause): string = assert false #TODO(g
 
 # ============= CsTypeParameterList ========
 
-type CsTypeParameterList* = ref object of CsObject #TODO(type:CsTypeParameterList)
+
 
 proc newCs*(t: typedesc[CsTypeParameterList]; name: string): CsTypeParameterList =
   new result
@@ -3563,7 +3407,7 @@ proc gen*(c: var CsTypeParameterList): string = assert false #TODO(gen:CsTypePar
 
 # ============= CsTypeParameter ========
 
-type CsTypeParameter* = ref object of CsObject #TODO(type:CsTypeParameter)
+
 
 proc newCs*(t: typedesc[CsTypeParameter]; name: string): CsTypeParameter =
   new result
@@ -3582,7 +3426,7 @@ proc gen*(c: var CsTypeParameter): string = assert false #TODO(gen:CsTypeParamet
 
 # ============= CsUnsafeStatement ========
 
-type CsUnsafeStatement* = ref object of CsObject #TODO(type:CsUnsafeStatement)
+
 
 proc newCs*(t: typedesc[CsUnsafeStatement]; name: string): CsUnsafeStatement =
   new result
@@ -3619,7 +3463,7 @@ proc extract*(t: typedesc[CsUsingDirective]; info: Info): CsUsingDirective =
 
 # ============= CsUsingStatement ========
 
-type CsUsingStatement* = ref object of CsObject #TODO(type:CsUsingStatement)
+
 
 proc newCs*(t: typedesc[CsUsingStatement]; name: string): CsUsingStatement =
   new result
@@ -3638,7 +3482,7 @@ proc gen*(c: var CsUsingStatement): string = assert false #TODO(gen:CsUsingState
 
 # ============= CsWhenClause ========
 
-type CsWhenClause* = ref object of CsObject #TODO(type:CsWhenClause)
+
 
 proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
   new result
@@ -3657,7 +3501,7 @@ proc gen*(c: var CsWhenClause): string = assert false #TODO(gen:CsWhenClause)
 
 # ============= CsWhereClause ========
 
-type CsWhereClause* = ref object of CsObject #TODO(type:CsWhereClause)
+
 
 proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =
   new result
@@ -3676,7 +3520,7 @@ proc gen*(c: var CsWhereClause): string = assert false #TODO(gen:CsWhereClause)
 
 # ============= CsWhileStatement ========
 
-type CsWhileStatement* = ref object of CsObject #TODO(type:CsWhileStatement)
+
 
 proc newCs*(t: typedesc[CsWhileStatement]; name: string): CsWhileStatement =
   new result
@@ -3695,7 +3539,7 @@ proc gen*(c: var CsWhileStatement): string = assert false #TODO(gen:CsWhileState
 
 # ============= CsYieldStatement ========
 
-type CsYieldStatement* = ref object of CsObject #TODO(type:CsYieldStatement)
+
 
 proc newCs*(t: typedesc[CsYieldStatement]; name: string): CsYieldStatement =
   new result
@@ -3714,7 +3558,7 @@ proc gen*(c: var CsYieldStatement): string = assert false #TODO(gen:CsYieldState
 
 # ======================================================
 
-type CsBlock* = ref object of CsObject
+
 
 
 proc newCs*(t: typedesc[CsBlock]):CsBlock =
@@ -3726,20 +3570,13 @@ proc extract*(t:typedesc[CsBlock], info:Info,data:AllNeededData):CsBlock =
 
 method gen*(c: CsBlock):string = assert false
 
-type CsVariable* = ref object of BodyExpr
-  # name*:string
-  thetype*:string
-  generic*:CsGenericName
+
 
 proc newCs*(t: typedesc[CsVariable]):CsVariable =
   new result
   result.typ = $typeof(t)
 
-type CsLocalDeclarationStatement* = ref object of BodyExpr
-  names*: seq[string]
-  vartype*: string
-  lhs*: CsVariable # lhs = left hand side, rhs = right hand side.
-  rhs*:CsVariableDeclarator  # which has what's after the equals-value-clause.
+
 
 
 proc newCs*(t: typedesc[CsLocalDeclarationStatement]): CsLocalDeclarationStatement =
@@ -3828,35 +3665,35 @@ method gen*(c: CsVariable):string =
 
 
 
-type CsBinaryPattern* = ref object of CsObject
+
 method add*(parent:var CsBinaryPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsBinaryPattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsBinaryPattern], info:Info,data:AllNeededData):CsBinaryPattern = assert false
 method gen*(c: CsBinaryPattern):string = assert false
 
-type CsDiscardPattern* = ref object of CsObject
+
 method add*(parent:var CsDiscardPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsDiscardPattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsDiscardPattern], info:Info,data:AllNeededData):CsDiscardPattern = assert false
 method gen*(c: CsDiscardPattern):string = assert false
 
-type CsFunctionPointerType* = ref object of CsObject
+
 method add*(parent:var CsFunctionPointerType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsFunctionPointerType; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsFunctionPointerType], info:Info,data:AllNeededData):CsFunctionPointerType = assert false
 method gen*(c: CsFunctionPointerType):string = assert false
 
-type CsImplicitObjectCreationExpression* = ref object of CsObject
+
 method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsImplicitObjectCreationExpression], info:Info,data:AllNeededData):CsImplicitObjectCreationExpression = assert false
 method gen*(c: CsImplicitObjectCreationExpression):string = assert false
 
-type CsMemberAccessExpression* = ref object of CsObject
+
 proc newCs*(t:typedesc[CsMemberAccessExpression]):CsMemberAccessExpression =
   new result
   result.typ = $typeof(t)
@@ -3871,112 +3708,112 @@ proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData
 
 method gen*(c: CsMemberAccessExpression):string = assert false
 
-type CsParenthesizedPattern* = ref object of CsObject
+
 method add*(parent:var CsParenthesizedPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsParenthesizedPattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsParenthesizedPattern], info:Info,data:AllNeededData):CsParenthesizedPattern = assert false
 method gen*(c: CsParenthesizedPattern):string = assert false
 
-type CsPositionalPatternClause* = ref object of CsObject
+
 method add*(parent:var CsPositionalPatternClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsPositionalPatternClause; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsPositionalPatternClause], info:Info,data:AllNeededData):CsPositionalPatternClause = assert false
 method gen*(c: CsPositionalPatternClause):string = assert false
 
-type CsPrimaryConstructorBaseType* = ref object of CsObject
+
 method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsPrimaryConstructorBaseType], info:Info,data:AllNeededData):CsPrimaryConstructorBaseType = assert false
 method gen*(c: CsPrimaryConstructorBaseType):string = assert false
 
-type CsPropertyPatternClause* = ref object of CsObject
+
 method add*(parent:var CsPropertyPatternClause; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsPropertyPatternClause; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsPropertyPatternClause], info:Info,data:AllNeededData):CsPropertyPatternClause = assert false
 method gen*(c: CsPropertyPatternClause):string = assert false
 
-type CsRangeExpression* = ref object of CsObject
+
 method add*(parent:var CsRangeExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsRangeExpression; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsRangeExpression], info:Info,data:AllNeededData):CsRangeExpression = assert false
 method gen*(c: CsRangeExpression):string = assert false
 
-type CsRecord* = ref object of CsObject
+
 method add*(parent:var CsRecord; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsRecord; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsRecord], info:Info,data:AllNeededData):CsRecord = assert false
 method gen*(c: CsRecord):string = assert false
 
-type CsRecursivePattern* = ref object of CsObject
+
 method add*(parent:var CsRecursivePattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsRecursivePattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsRecursivePattern], info:Info,data:AllNeededData):CsRecursivePattern = assert false
 method gen*(c: CsRecursivePattern):string = assert false
 
-type CsRelationalPattern* = ref object of CsObject
+
 method add*(parent:var CsRelationalPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsRelationalPattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsRelationalPattern], info:Info,data:AllNeededData):CsRelationalPattern = assert false
 method gen*(c: CsRelationalPattern):string = assert false
 
-type CsSubpattern* = ref object of CsObject
+
 method add*(parent:var CsSubpattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsSubpattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsSubpattern], info:Info,data:AllNeededData):CsSubpattern = assert false
 method gen*(c: CsSubpattern):string = assert false
 
-type CsSwitchExpression* = ref object of CsObject
+
 method add*(parent:var CsSwitchExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpression; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsSwitchExpression], info:Info,data:AllNeededData):CsSwitchExpression = assert false
 method gen*(c: CsSwitchExpression):string = assert false
 
-type CsSwitchExpressionArm* = ref object of CsObject
+
 method add*(parent:var CsSwitchExpressionArm; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpressionArm; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsSwitchExpressionArm], info:Info,data:AllNeededData):CsSwitchExpressionArm = assert false
 method gen*(c: CsSwitchExpressionArm):string = assert false
 
-type CsTypePattern* = ref object of CsObject
+
 method add*(parent:var CsTypePattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsTypePattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsTypePattern], info:Info,data:AllNeededData):CsTypePattern = assert false
 method gen*(c: CsTypePattern):string = assert false
 
-type CsUnaryPattern* = ref object of CsObject
+
 method add*(parent:var CsUnaryPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsUnaryPattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsUnaryPattern], info:Info,data:AllNeededData):CsUnaryPattern = assert false
 method gen*(c: CsUnaryPattern):string = assert false
 
-type CsVarPattern* = ref object of CsObject
+
 method add*(parent:var CsVarPattern; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsVarPattern; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsVarPattern], info:Info,data:AllNeededData):CsVarPattern = assert false
 method gen*(c: CsVarPattern):string = assert false
 
-type CsWithExpression* = ref object of CsObject
+
 method add*(parent:var CsWithExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsWithExpression; item: Dummy) "
   #   assert false
 proc extract*(t:typedesc[CsWithExpression], info:Info,data:AllNeededData):CsWithExpression = assert false
 method gen*(c: CsWithExpression):string = assert false
 
-type CsImplicitStackAllocArrayCreationExpression* = ref object of CsObject
+
 method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy) "
   #   assert false
