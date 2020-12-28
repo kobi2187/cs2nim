@@ -16,9 +16,9 @@ proc `$`*(blocks: Stack[Block]): string =
   let x = blocks.toSeq.mapIt($it)
   result = $x
 
-proc nameFromCsast(b: Block): string =
-  result = ""
-  if b.info.extras.len > 0: result = b.info.extras[0]
+# proc nameFromCsast(b: Block): string =
+#   result = ""
+#   if b.info.extras.len > 0: result = b.info.extras[0]
 
 proc endBlock*(info: Info) =
   echo state.blocks

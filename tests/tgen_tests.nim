@@ -34,6 +34,8 @@ suite "code generation tests":
       check genTest("sample11")
     test "functions2":
       check genTest("sample12")
+    test "binary expression":
+      check genTest("binexp")
   #[
   ]#
   # when true:

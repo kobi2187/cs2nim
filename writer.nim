@@ -1,7 +1,10 @@
 # writer.nim
 import system, strutils, os
-import writer_utils, state
+import writer_utils#, state
 import constructs/cs_root
+
+
+
 
 proc main() =
 

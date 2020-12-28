@@ -18,13 +18,15 @@ import options
 
 var currentConstruct* = newSeq[Block]()
 
+
 proc getLastBlock*(cond:(proc(c:Block):bool)) :Option[Block] =
   for c in currentConstruct.reversed:
     if c.cond(): return c.some
   return none(Block)
 
+import strutils
 proc getLastBlockType*(typeStr:string):Option[Block]=
-  result = getLastBlock(proc(c:Block):bool = c.name == typeStr)
+  result = getLastBlock(proc(c:Block):bool = c.name.toLowerAscii == typeStr.toLowerAscii)
 
 
 proc prevprevConstruct*: Block =

@@ -44,7 +44,7 @@ type BodyExpr* = ref object of CsObject # RootObj
                                         #  name*: string
   ttype*: string
 method gen*(e: BodyExpr): string {.base.} =
-  raise newException(Exception, "Not Implemented for " & e.ttype & "-" & e.typ) #& " " & e.name)
+  raise newException(Exception, "Not Implemented for " & e.ttype & " " & e.typ) #& " " & e.name)
 
 # # possibly redundant. haven't yet used:
 # type CConstruct* = concept T, Parent

@@ -36,7 +36,7 @@ proc getInfo(line: JsonNode): (seq[string], seq[string]) =
     extras = linf["Extras"].getElems().mapIt(it.getStr)
   result = (main, extras)
 
-proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
+proc updateState(root: var CsRoot; line: JsonNode; upcoming:seq[string]) =
   let kindstr = line["KindStr"].getStr
   let kind: LineKind =
     if line["Kind"].getInt() == 1: LineKind.EndBlock
@@ -55,7 +55,7 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
     let id = genUUID()
     echo "generated id for the next object ", decl, " ", id
     modifyPosition(decl, info, id)
-    addToRoot2(root, src, info, id) # switched to new system, while making sure it compiles.
+    addToRoot2(root, src, info, id, upcoming) # switched to new system, while making sure it compiles.
 
   of EndBlock:
     assert kindstr == "EndBlock"
@@ -65,12 +65,11 @@ proc updateState(root: var CsRoot; line: JsonNode) = #, root: var CsRoot) =
     endBlock(info)
 
 import system, os
-proc parseExecFile*(root: var CsRoot; file: JsonNode) = # , root: var CsRoot) =
-
+proc parseExecFile*(root: var CsRoot; file: JsonNode; upcoming:seq[string]) =
   let filename = file["File"].getStr
   # echo "working on file: " & filename
   echo "file: " & filename.extractFilename
-  resetBlocks()
+  resetBlocks(); state.currentConstruct = newSeq[Block]()
   let lines = file["Lines"]
   for line in lines:
-    updateState(root, line)
+    updateState(root, line, upcoming)

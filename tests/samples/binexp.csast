@@ -1,5 +1,5 @@
 {
-  "File": "../cs2nim/tests/samples/sample5.cs",
+  "File": "../cs2nim/tests/samples/binexp.cs",
   "Lines": [
     {
       "Kind": 0,
@@ -21,10 +21,10 @@
       "Declaration": "ClassDeclaration",
       "Info": {
         "Essentials": [
-          "Array"
+          "AVLTreeTest"
         ],
         "Extras": [
-          "public abstract"
+          "public static"
         ]
       },
       "Source": null
@@ -32,174 +32,168 @@
     {
       "Kind": 0,
       "KindStr": "Decl",
-      "Declaration": "IndexerDeclaration",
+      "Declaration": "BlockStarts",
       "Info": {
         "Essentials": [
-          "System.Collections.IList.",
-          "[int index]",
-          "{ get; set; }",
+          "2"
+        ],
+        "Extras": [
+          "MethodDeclaration"
+        ]
+      },
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "MethodDeclaration",
+      "Info": {
+        "Essentials": [
+          "BinExpExample",
+          "void"
+        ],
+        "Extras": [
+          "public static"
+        ]
+      },
+      "Source": "  public static void BinExpExample()\n  {\n    var res = avlTreeHeight < bsTreeHeight;\n  }\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PredefinedType",
+      "Info": {
+        "Essentials": [
+          "void"
+        ],
+        "Extras": []
+      },
+      "Source": "void "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ParameterList",
+      "Info": {
+        "Essentials": [
           ""
         ],
         "Extras": []
       },
-      "Source": "  object System.Collections.IList.this[int index] { get; set; }\n"
+      "Source": "()\n"
     },
     {
       "Kind": 0,
       "KindStr": "Decl",
-      "Declaration": "PredefinedType",
+      "Declaration": "LocalDeclarationStatement",
       "Info": {
         "Essentials": [
-          "object"
+          "res",
+          "var"
         ],
         "Extras": []
       },
-      "Source": "  object "
+      "Source": "    var res = avlTreeHeight < bsTreeHeight;\n"
     },
     {
       "Kind": 0,
       "KindStr": "Decl",
-      "Declaration": "ExplicitInterfaceSpecifier",
+      "Declaration": "VariableDeclaration",
       "Info": {
         "Essentials": [
-          "System.Collections.IList"
+          "type:var",
+          "name:res"
         ],
         "Extras": []
       },
-      "Source": "System.Collections.IList."
+      "Source": "    var res = avlTreeHeight < bsTreeHeight"
     },
     {
       "Kind": 0,
       "KindStr": "Decl",
-      "Declaration": "QualifiedName",
+      "Declaration": "IdentifierName",
       "Info": {
         "Essentials": [
-          "System.Collections.IList"
+          "var"
+        ],
+        "Extras": []
+      },
+      "Source": "    var "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "VariableDeclarator",
+      "Info": {
+        "Essentials": [
+          "res"
+        ],
+        "Extras": []
+      },
+      "Source": "res = avlTreeHeight < bsTreeHeight"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EqualsValueClause",
+      "Info": {
+        "Essentials": [
+          "avlTreeHeight < bsTreeHeight"
+        ],
+        "Extras": []
+      },
+      "Source": "= avlTreeHeight < bsTreeHeight"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BinaryExpression",
+      "Info": {
+        "Essentials": [
+          "avlTreeHeight",
+          "<",
+          "bsTreeHeight"
+        ],
+        "Extras": []
+      },
+      "Source": "avlTreeHeight < bsTreeHeight"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "avlTreeHeight"
+        ],
+        "Extras": []
+      },
+      "Source": "avlTreeHeight "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "bsTreeHeight"
+        ],
+        "Extras": []
+      },
+      "Source": "bsTreeHeight"
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "1",
+          "MethodDeclaration"
         ],
         "Extras": []
       },
       "Source": null
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "QualifiedName",
-      "Info": {
-        "Essentials": [
-          "System.Collections"
-        ],
-        "Extras": []
-      },
-      "Source": null
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "IdentifierName",
-      "Info": {
-        "Essentials": [
-          "System"
-        ],
-        "Extras": []
-      },
-      "Source": "System"
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "IdentifierName",
-      "Info": {
-        "Essentials": [
-          "Collections"
-        ],
-        "Extras": []
-      },
-      "Source": "Collections"
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "IdentifierName",
-      "Info": {
-        "Essentials": [
-          "IList"
-        ],
-        "Extras": []
-      },
-      "Source": "IList"
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "BracketedParameterList",
-      "Info": {
-        "Essentials": [
-          "int index"
-        ],
-        "Extras": []
-      },
-      "Source": "[int index] "
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "Parameter",
-      "Info": {
-        "Essentials": [
-          "index",
-          "int "
-        ],
-        "Extras": []
-      },
-      "Source": "int index"
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "PredefinedType",
-      "Info": {
-        "Essentials": [
-          "int"
-        ],
-        "Extras": []
-      },
-      "Source": "int "
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "AccessorList",
-      "Info": {
-        "Essentials": [
-          "get; set;"
-        ],
-        "Extras": []
-      },
-      "Source": "{ get; set; }\n"
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "AccessorDeclaration",
-      "Info": {
-        "Essentials": [
-          "get"
-        ],
-        "Extras": []
-      },
-      "Source": "get; "
-    },
-    {
-      "Kind": 0,
-      "KindStr": "Decl",
-      "Declaration": "AccessorDeclaration",
-      "Info": {
-        "Essentials": [
-          "set"
-        ],
-        "Extras": []
-      },
-      "Source": "set; "
     },
     {
       "Kind": 1,
@@ -208,7 +202,7 @@
       "Info": {
         "Essentials": [
           "0",
-          "ClassDeclaration"
+          "MethodDeclaration"
         ],
         "Extras": []
       },

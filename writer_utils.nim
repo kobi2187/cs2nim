@@ -1,10 +1,15 @@
-import types, constructs/cs_all_constructs
+import types #, constructs/cs_all_constructs
 import lineparser
 
 import os, system, times
 import strutils, os, json
 # var currentRoot*: CsRoot
 
+proc upcomingLines*(jsn:JsonNode):seq[string] =
+  let x = jsn["Lines"].getElems() 
+  for ln in x:
+    if ln["KindStr"].getStr() == "Decl":
+      result.add ln["Declaration"].getStr()
 
 proc getCsastFiles*(folder: string): seq[string] =
   for file in walkDirRec(folder):
@@ -17,7 +22,8 @@ proc processFiles*(root: var CsRoot; files: seq[string]) =
   for f in files:
     assert f.endsWith(".csast")
     let linesJson = parseFile(f)
-    parseExecFile(root, linesJson)
+    let upcoming = upcomingLines(linesJson)
+    parseExecFile(root, linesJson, upcoming)
 
 import re,strutils
 proc concatModulesOutput*(mods: seq[Module]): string =
@@ -97,7 +103,8 @@ proc handleJustOne*(inputFolder: string; root: var CsRoot;
     file: string) =
   echo "working on: " & file
   let linesJson = parseFile(file)
-  parseExecFile(root, linesJson)
+  let upcoming = upcomingLines(linesJson)
+  parseExecFile(root, linesJson, upcoming)
 
 proc stats(i: int; f: string; len: int; sw: DateTime): string =
   let x = i + 1
@@ -112,9 +119,11 @@ proc handleMany*(inputFolder: string; root: var CsRoot; files: seq[string]) =
   var sw = now()
   for i, f in files.sorted:
     echo "working on: " & f
+
     let str = stats(i, f, files.len, sw)
     write(stdout, str)
 
     let linesJson = parseFile(f)
-    parseExecFile(root, linesJson)
+    let upcoming = upcomingLines(linesJson)
+    parseExecFile(root, linesJson, upcoming)
 

@@ -1,5 +1,6 @@
 import constructs/cs_all_constructs
-import types, state, constructs/cs_root, construct, parent_finder, block_utils
+import types, constructs/cs_root, construct, parent_finder#, block_utils
+# , state,
 import uuids, options,sequtils
 # ideal flow
 # the api that we want.
@@ -9,12 +10,12 @@ import uuids, options,sequtils
 
 # we can have global uuid tables, held in an object inside root, for each construct or grouped according to variants.
 # or follow the path correctly, then get the info from a smaller table within a more specific type.
-type B = object
-  kind*: ConstructKind
-  id*: UUID
-  name*: string
+# type B = object
+#   kind*: ConstructKind
+#   id*: UUID
+#   name*: string
 
-proc pathOfBlocks(): seq[B] = discard # TODO
+# proc pathOfBlocks(): seq[B] = discard # TODO
 
 # proc processTreeForData(root: var CsRoot; info: Info): AllNeededData =
 #   # make heavy use of the Construct variant kind, to build the needed Data.
@@ -25,7 +26,7 @@ proc pathOfBlocks(): seq[B] = discard # TODO
 #     lastBlock = root.fetch(path[^1].id) # TODO......
 
 # TODO: a sprawling giant. how to refactor? is it even possible to refactor this?
-method add*(parent, child: Construct; data: AllNeededData) =
+proc add*(parent, child: Construct; data: AllNeededData) =
   echo "in add <Construct>"
   case parent.kind
   of ckNamespace:
@@ -232,6 +233,9 @@ method add*(parent, child: Construct; data: AllNeededData) =
     of ckObjectCreationExpression:
       let c = child.objectCreationExpression
       c.parentId = p.id; p.add c
+    of ckBinaryExpression:
+      let c = child.binaryExpression
+      c.parentId = p.id; p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
 
@@ -288,7 +292,7 @@ method add*(parent, child: Construct; data: AllNeededData) =
 import type_creator, parent_finder
 import all_needed_data
 # state_utils, block_utils
-import sets,tables
+import sets #,tables
 proc sameAsExisting(obj:Construct, data:AllNeededData):bool =
   # for namespaces and partial classes. other uses?
   var root = currentRoot
@@ -310,8 +314,11 @@ proc sameAsExisting(obj:Construct, data:AllNeededData):bool =
     discard
     # assert false, $obj.kind
 
-import strutils
-proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
+# import strutils
+
+
+
+proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID; upcoming:seq[string]) =
   echo "in addToRoot2"
   echo " ==START== ","\n" , root
 
@@ -324,7 +331,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
   else:
     echo "creating the construct object"
     # NOTE: could be that blocks has ns but root didn't add it yet.
-    var allData: AllNeededData = makeNeededData(root, info, src)
+    var allData: AllNeededData = makeNeededData(root, info, src, upcoming)
     var obj: Construct = createType(info, id, allData)
     if obj.isNil: return
     obj.id = some(id)
@@ -348,6 +355,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID) =
 
     echo root,"\n"," ==END== " 
     echo "NOTE: if didn't add, go to ideal::add method."
+    echo "upcoming lines:" , allData.upcoming
 
 
 ### the construct types will now have such api: extract, fits, add, gen. newCs also exists but we don't call it from outside, so doesn't matter.

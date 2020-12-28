@@ -48,10 +48,22 @@ proc lastBodyExprId*(c:CsMethod | CsConstructor | CsProperty):Option[UUID] =
   if x.isNone: result = none(UUID)
   else: result = x.get.id
 
+import sequtils
+proc simplifiedConstructs() :seq[(string,UUID)]=
+  result = currentConstruct.mapIt((it.name, it.id))
 
-proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData =
+import strutils
+proc lastBlockType*(data: AllNeededData;typeStr:string):Option[UUID]=
+  for (name,id) in data.simplified:
+    if name.toLowerAscii == typeStr.toLowerAscii:
+      return some(id)
+  return none(UUID)
+
+
+proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[string]): AllNeededData =
   # echo "in makeNeededData"
   result.sourceCode = src
+  result.upcoming = upcoming
   echo "!! Source: ", src
   result.constructDeclName = info.declName
   if not state.currentConstruct.isEmpty and not state.currentConstruct.last.info.isVisitBlock():
@@ -62,6 +74,7 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData
       currentConstruct.last.some      
     else: none(Block)
   
+  result.simplified = simplifiedConstructs()
 
   if currentConstruct.len >= 2:
     result.previousConstruct = some(previousConstruct())
@@ -115,6 +128,6 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; ): AllNeededData
                 result.lastBodyExpr = lastBodyExpr(result.lastProp)
                 result.lastBodyExprId = lastBodyExprId(result.lastProp)
               else: discard
-proc refresh*(d: var AllNeededData; root: var CsRoot; info: Info; src: string) =
-  d = makeNeededData(root, info, src)
+# proc refresh*(d: var AllNeededData; root: var CsRoot; info: Info; src: string) =
+#   d = makeNeededData(root, info, src, upcoming)
 
