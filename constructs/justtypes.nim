@@ -12,10 +12,10 @@ type NamespaceParts* {.pure.} = enum
   Unset, Interfaces, Enums, Classes, Using
 
 type IAssignable = ref object of BodyExpr
-type CsAccessor* = ref object of CsObject #TODO(type:CsAccessor)
+type CsAccessor* = ref object of CsObject
   kind*:string # get or set
   statementsTxt*:string
-type CsAccessorList* = ref object of CsObject #TODO(type:CsAccessorList)
+type CsAccessorList* = ref object of CsObject
   hasDefaultGet*:bool
   hasGetBody*:bool
   hasDefaultSet*:bool
@@ -33,7 +33,7 @@ type CsAnonymousObjectMemberDeclarator* = ref object of CsObject #TODO(type:CsAn
 type CsArgumentList* = ref object of CsObject
   args*: seq[string]
   # args*: seq[CsArgument] # TODO: probably needed, when arguments are more complex. need to see the flow.
-type CsArgument* = ref object of CsObject #TODO(type:CsArgument)
+type CsArgument* = ref object of CsObject
   value*:string
 type CsArrayCreationExpression* = ref object of CsObject #TODO(type:CsArrayCreationExpression)
 type CsArrayRankSpecifier* = ref object of CsObject #TODO(type:CsArrayRankSpecifier)
@@ -49,7 +49,7 @@ type CsAttribute* = ref object of CsObject #TODO(type:CsAttribute)
 type CsAttributeTargetSpecifier* = ref object of CsObject #TODO(type:CsAttributeTargetSpecifier)
 type CsAwaitExpression* = ref object of CsObject #TODO(type:CsAwaitExpression)
 type CsBaseExpression* = ref object of CsObject #TODO(type:CsBaseExpression)
-type CsBaseList* = ref object of CsObject #TODO(type:CsBaseList)
+type CsBaseList* = ref object of CsObject
   baseList*: seq[string]
 type CsBinaryExpression* = ref object of IAssignable
   left*:string
@@ -311,6 +311,8 @@ type CsLocalDeclarationStatement* = ref object of BodyExpr
   vartype*: string
   lhs*: CsVariable # lhs = left hand side, rhs = right hand side.
   rhs*:CsVariableDeclarator  # which has what's after the equals-value-clause.
+
+
 type CsBinaryPattern* = ref object of CsObject
 type CsDiscardPattern* = ref object of CsObject
 type CsFunctionPointerType* = ref object of CsObject

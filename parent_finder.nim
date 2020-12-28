@@ -359,8 +359,6 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     assert res.isSome
 
   of ckPrefixUnaryExpression: # hmm, not the previous but the next one. so just add it.
-    # BUG: res = data.previousConstruct.get.id.some # it sets op on the previous literal (like a postfix) instead of the one coming next.
-    # assert false # bug!
     let fitting = state.getLastBlock(c=>c.name in ["InitializerExpression"]) # TODO: add others as needed.
     assert fitting.isSome
     res = fitting.get.id.some

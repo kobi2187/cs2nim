@@ -726,6 +726,9 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     var a = extract(CsVariableDeclarator, info);
     a.id = some(id); assert not a.typ.isEmptyOrWhitespace
     result = Construct(kind: ckVariableDeclarator, variableDeclarator: a)
-  of [ "QualifiedName","... add here."]: discard # TODO
+
+  # parts that should have no objects, but instead are part of fields or even unneeded.
+  of [ "QualifiedName"]: discard
+
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:  result.id = some(id)
