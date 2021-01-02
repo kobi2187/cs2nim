@@ -7,7 +7,8 @@ import strutils, options
 import constructs/cs_root
 import tables,sets
 import construct
-proc nsPathNS(r: var CsRoot): seq[CsNamespace] =
+
+proc nsPathNS*(r: var CsRoot): seq[CsNamespace] =
   # echo "in nsPathNS ",  $blocks
   var started = false
  # we assume blocks starts with namespaces.
@@ -41,11 +42,11 @@ proc nsPath*(r: var CsRoot): string = # SAME?
   else:
     "default"
 
-
-proc last*[T](s: seq[T]): T =
-  result = s[s.len-1]
-proc isEmpty*[T](s: seq[T]): bool =
-  result = (s.len == 0)
+import common_utils
+# proc last*[T](s: seq[T]): T =
+#   result = s[s.len-1]
+# proc isEmpty*[T](s: seq[T]): bool =
+#   result = (s.len == 0)
 proc itemName*(b: Block): string =
   b.info.essentials[0]
 
@@ -57,17 +58,67 @@ proc keys[A, B](t: TableRef[A, B]): seq[A] =
   for k in keys(t):
     result.add k
 
+
+proc previousBlock*(a: int = 2): Option[Block] =
+  let idx = -2 * a + 1
+  let prev = blocks.peek(idx) # -2*2+1 = -3
+  result = prev
+
+proc isVisitBlock*(info: Info): bool =
+  result = info.extras.len > 0 and info.extras[0] == "VisitBlock"
+
+import construct, state
+proc previousConstructObj*(r:var CsRoot) : Option[  Construct ]=
+  let previd =previousConstruct().id
+  result = r.fetch(previd)
+
+proc getLastClass*(root: var CsRoot): Option[CsClass] =
+  var ns = nsPathNS(root)
+  if ns.len == 0: ns = @[root.global]
+  result = ns.last.getLastClass()
+proc getCurrentNs*(root:var CsRoot): (string, CsNamespace) =
+  var p = nsPath(root)
+  if p == "": p = "default"
+  # echo p
+  assert root.nsTables.hasKey(p)
+  let ns = root.nsTables[p]
+  result = (p, ns)
+
+proc getLastProperty*(root: var CsRoot): Option[CsProperty] =
+  var (_, ns) = root.getCurrentNs
+  result = ns.getLastProperty()
+
+proc getIndexer(c: CsClass): Option[CsIndexer] =
+  if not c.hasIndexer():
+    echo "no indexer in class"
+    result = none(CsIndexer)
+  else:
+    result = some(c.indexer)
+
+proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
+  assert ns.lastAddedTo.isSome
+  case ns.lastAddedTo.get
+  of NamespaceParts.Classes:
+    let c = ns.getLastClass()
+    if c.isNone:
+      echo "no last class"
+      result = none(CsIndexer)
+    else:
+      result = c.get.getIndexer()
+  of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums,NamespaceParts.Using]: discard
+
+proc getLastIndexer*(root: var CsRoot): Option[CsIndexer] =
+  var (_, ns) = root.getCurrentNs
+  result = ns.getLastIndexer()
+import options, sequtils, strutils
+import common_utils
+import constructs/[justtypes,cs_root]
 proc getLastClass*(ns: CsNamespace): Option[CsClass] =
   # echo ns
   if ns.classes.len == 0:
     result = none(CsClass)
   else:
     result = some(ns.classes.last)
-
-proc getLastClass*(root: var CsRoot): Option[CsClass] =
-  var ns = nsPathNS(root)
-  if ns.len == 0: ns = @[root.global]
-  result = ns.last.getLastClass()
 
 proc getLastMethod*(cls: CsClass): Option[CsMethod] =
   if cls.methods.len == 0: return
@@ -80,43 +131,8 @@ proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
     return some(cls.ctors.last)
 
 import tables
-proc getCurrentNs*(root:var CsRoot): (string, CsNamespace) =
-  var p = nsPath(root)
-  if p == "": p = "default"
-  # echo p
-  assert root.nsTables.hasKey(p)
-  let ns = root.nsTables[p]
-  result = (p, ns)
 
 import options
-#[ proc lastAddedInfo(root: var CsRoot): string =
-  var (p, ns) = state_utils.getCurrentNs(root)
-  result = "current ns: " & p
-  result &= " namespace added something: " & $ns.lastAddedTo.isSome
-  if ns.lastAddedTo.isSome:
-    result &= "last added in ns: " & $ns.lastAddedTo
-    case ns.lastAddedTo.get
-    of Unset: discard
-    of NamespaceParts.Classes:
-      let c = ns.getLastClass.get
-      result &= "class is: " & c.name
-      if c.lastAddedTo.isSome:
-        result &= "class added something:" & $c.lastAddedTo.isSome
-        result &= "it was: " & $c.lastAddedTo.get & "  "
-        case c.lastAddedTo.get
-        of ClassParts.Properties: result &= c.properties.last.name
-        of ClassParts.Ctors: result &= c.ctors.last.name
-        of ClassParts.Indexer: result &= c.indexer.varName
-        of ClassParts.Methods: result &= c.methods.last.name
-        # of ClassParts.Enums: result &= c.enums.last.name
-        # of ClassParts.Fields: result &= c.fields.last.name
-    of NamespaceParts.Interfaces:
-      result &= ns.interfaces.last.name
-    of NamespaceParts.Enums:
-      let e = ns.enums.last
-      result &= "enum is " & e.name
-]#
-
 
 proc getLastProperty(c: CsClass): Option[CsProperty] =
   assert c.lastAddedTo.isSome
@@ -145,46 +161,22 @@ proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
       result = c.get.getLastProperty()
   of [NamespaceParts.Enums, NamespaceParts.Unset, NamespaceParts.Using]: discard
 
-proc getLastProperty*(root: var CsRoot): Option[CsProperty] =
-  var (_, ns) = root.getCurrentNs
-  result = ns.getLastProperty()
-
 # ===
 
-proc getIndexer(c: CsClass): Option[CsIndexer] =
-  if not c.hasIndexer:
-    echo "no indexer in class"
-    result = none(CsIndexer)
-  else:
-    result = some(c.indexer)
-
-proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
-  assert ns.lastAddedTo.isSome
-  case ns.lastAddedTo.get
-  of NamespaceParts.Classes:
-    let c = ns.getLastClass()
-    if c.isNone:
-      echo "no last class"
-      result = none(CsIndexer)
-    else:
-      result = c.get.getIndexer()
-  of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums,NamespaceParts.Using]: discard
-
-proc getLastIndexer*(root: var CsRoot): Option[CsIndexer] =
-  var (_, ns) = root.getCurrentNs
-  result = ns.getLastIndexer()
 
 
-proc previousBlock*(a: int = 2): Option[Block] =
-  let idx = -2 * a + 1
-  let prev = blocks.peek(idx) # -2*2+1 = -3
-  result = prev
+# proc getCurrentNs*(root:var CsRoot): (string, CsNamespace) =
+#   var p = nsPath(root)
+#   if p == "": p = "default"
+#   # echo p
+#   assert root.nsTables.hasKey(p)
+#   let ns = root.nsTables[p]
+#   result = (p, ns)
 
-proc isVisitBlock*(info: Info): bool =
-  result = info.extras.len > 0 and info.extras[0] == "VisitBlock"
+# proc getLastIndexer*(root: var CsRoot): Option[CsIndexer] =
+#   var (_, ns) = root.getCurrentNs
+#   result = ns.getLastIndexer()
 
-import construct, state
-proc previousConstructObj*(r:var CsRoot) : Option[  Construct ]=
-  let previd =previousConstruct().id
-  result = r.fetch(previd)
-
+# proc getLastProperty*(root: var CsRoot): Option[CsProperty] =
+#   var (_, ns) = root.getCurrentNs
+#   result = ns.getLastProperty()

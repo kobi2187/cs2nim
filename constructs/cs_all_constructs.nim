@@ -1,4 +1,4 @@
-import ../state_utils
+# import ../state_utils
 import nre, sequtils, strutils, sets, re, uuids, options, tables, hashes
 # {.experimental: "codeReordering".}
 import ../types
@@ -63,9 +63,9 @@ proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor =
 
   #todo: should find its parent accessorlist, add this field to AllNeededData ( last accessor list)
 
-method add*(parent: var CsAccessor; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAccessor; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAccessor; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAccessor; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAccessor; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -82,9 +82,9 @@ proc newCs*(t: typedesc[CsAliasQualifiedName]; name: string): CsAliasQualifiedNa
 
 proc extract*(t: typedesc[CsAliasQualifiedName]; info: Info): CsAliasQualifiedName = assert false
 
-method add*(parent: var CsAliasQualifiedName; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAliasQualifiedName; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAliasQualifiedName; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAliasQualifiedName; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAliasQualifiedName; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -101,14 +101,14 @@ proc newCs*(t: typedesc[CsField]): CsField =
 proc extract*(t: typedesc[CsField]; info: Info): CsField =
   result = newCs(CsField)
   result.name = info.essentials[2]
-  result.ttype = info.essentials[1]
+  result.thetype = info.essentials[1]
   result.isStatic = info.essentials[0].contains("static")
   result.isPublic = info.essentials[0].contains("public") # TODO check what CsDisplay actually provides.
 
-method add*(parent: var CsField; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsField; item: Dummy) "
-  if stopEarly: assert false
-# proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item)
+# method add*(parent: var CsField; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsField; item: Dummy) "
+#   if stopEarly: assert false
+# # proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(f: CsField): string =
 
@@ -126,9 +126,9 @@ proc newCs*(t: typedesc[CsAnonymousMethodExpression]; name: string): CsAnonymous
 
 proc extract*(t: typedesc[CsAnonymousMethodExpression]; info: Info): CsAnonymousMethodExpression = assert false
 
-method add*(parent: var CsAnonymousMethodExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousMethodExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAnonymousMethodExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousMethodExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAnonymousMethodExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -145,9 +145,9 @@ proc newCs*(t: typedesc[CsAnonymousObjectCreationExpression]; name: string): CsA
 
 proc extract*(t: typedesc[CsAnonymousObjectCreationExpression]; info: Info): CsAnonymousObjectCreationExpression = assert false
 
-method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -163,9 +163,9 @@ proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAno
 
 proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAnonymousObjectMemberDeclarator = assert false
 
-method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -220,9 +220,9 @@ proc newCs*(t: typedesc[CsArrayCreationExpression]; name: string): CsArrayCreati
 
 proc extract*(t: typedesc[CsArrayCreationExpression]; info: Info): CsArrayCreationExpression = assert false
 
-method add*(parent: var CsArrayCreationExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayCreationExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsArrayCreationExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayCreationExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -239,9 +239,9 @@ proc newCs*(t: typedesc[CsArrayRankSpecifier]; name: string): CsArrayRankSpecifi
 
 proc extract*(t: typedesc[CsArrayRankSpecifier]; info: Info): CsArrayRankSpecifier = assert false
 
-method add*(parent: var CsArrayRankSpecifier; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayRankSpecifier; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsArrayRankSpecifier; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayRankSpecifier; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -258,9 +258,9 @@ proc newCs*(t: typedesc[CsArrayType]; name: string): CsArrayType =
 
 proc extract*(t: typedesc[CsArrayType]; info: Info): CsArrayType = assert false
 
-method add*(parent: var CsArrayType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayType; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsArrayType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayType; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsArrayType; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -277,9 +277,9 @@ proc newCs*(t: typedesc[CsArrowExpressionClause]; name: string): CsArrowExpressi
 
 proc extract*(t: typedesc[CsArrowExpressionClause]; info: Info): CsArrowExpressionClause = assert false
 
-method add*(parent: var CsArrowExpressionClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsArrowExpressionClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsArrowExpressionClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrowExpressionClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsArrowExpressionClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -306,9 +306,9 @@ proc newCs*(t: typedesc[CsAttributeArgumentList]; name: string): CsAttributeArgu
 
 proc extract*(t: typedesc[CsAttributeArgumentList]; info: Info): CsAttributeArgumentList = assert false
 
-method add*(parent: var CsAttributeArgumentList; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgumentList; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAttributeArgumentList; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgumentList; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -325,9 +325,9 @@ proc newCs*(t: typedesc[CsAttributeArgument]; name: string): CsAttributeArgument
 
 proc extract*(t: typedesc[CsAttributeArgument]; info: Info): CsAttributeArgument = assert false
 
-method add*(parent: var CsAttributeArgument; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgument; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAttributeArgument; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgument; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAttributeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -342,9 +342,9 @@ proc newCs*(t: typedesc[CsAttributeList]; name: string): CsAttributeList =
 
 proc extract*(t: typedesc[CsAttributeList]; info: Info): CsAttributeList = assert false
 
-method add*(parent: var CsAttributeList; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeList; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAttributeList; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeList; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAttributeList; item: Dummy; data: AllNeededData) = parent.add(item)
 proc gen*(c: var CsAttributeList): string =
@@ -360,9 +360,9 @@ proc newCs*(t: typedesc[CsAttribute]; name: string): CsAttribute =
 
 proc extract*(t: typedesc[CsAttribute]; info: Info): CsAttribute = assert false
 
-method add*(parent: var CsAttribute; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAttribute; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAttribute; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttribute; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAttribute; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -379,9 +379,9 @@ proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; name: string): CsAttributeT
 
 proc extract*(t: typedesc[CsAttributeTargetSpecifier]; info: Info): CsAttributeTargetSpecifier = assert false
 
-method add*(parent: var CsAttributeTargetSpecifier; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeTargetSpecifier; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAttributeTargetSpecifier; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeTargetSpecifier; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -398,9 +398,9 @@ proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =
 
 proc extract*(t: typedesc[CsAwaitExpression]; info: Info): CsAwaitExpression = assert false
 
-method add*(parent: var CsAwaitExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsAwaitExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsAwaitExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsAwaitExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -417,9 +417,9 @@ proc newCs*(t: typedesc[CsBaseExpression]; name: string): CsBaseExpression =
 
 proc extract*(t: typedesc[CsBaseExpression]; info: Info): CsBaseExpression = assert false
 
-method add*(parent: var CsBaseExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsBaseExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsBaseExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsBaseExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsBaseExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -438,9 +438,9 @@ proc extract*(t: typedesc[CsBaseList]; info: Info): CsBaseList =
   if info.essentials.len > 0:
     result.baseList = info.essentials[0].split(", ").mapIt(it.strip)
 
-method add*(parent: var CsBaseList; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsBaseList; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsBaseList; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsBaseList; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsBaseList; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -464,10 +464,10 @@ proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression =
   result.op = info.essentials[1]
   result.right = info.essentials[2]
 
-method add*(parent: var CsBinaryExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsBinaryExpression; item: Dummy) "
-  if stopEarly: assert false
-# proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
+# method add*(parent: var CsBinaryExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsBinaryExpression; item: Dummy) "
+#   if stopEarly: assert false
+# # proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsBinaryExpression): string =
   assert false
@@ -482,9 +482,9 @@ proc newCs*(t: typedesc[CsBracketedArgumentList]; name: string): CsBracketedArgu
 
 proc extract*(t: typedesc[CsBracketedArgumentList]; info: Info): CsBracketedArgumentList = assert false
 
-method add*(parent: var CsBracketedArgumentList; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedArgumentList; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsBracketedArgumentList; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedArgumentList; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsBracketedArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -503,9 +503,9 @@ proc extract*(t: typedesc[CsBracketedParameterList]; info: Info): CsBracketedPar
   result.plist = info.essentials[0]
   # I suspect parameters will come next. most likely unneeded, i can easily parse that text.
 
-method add*(parent: var CsBracketedParameterList; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedParameterList; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsBracketedParameterList; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedParameterList; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -522,9 +522,9 @@ proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =
 
 proc extract*(t: typedesc[CsBreakStatement]; info: Info): CsBreakStatement = assert false
 
-method add*(parent: var CsBreakStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsBreakStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsBreakStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsBreakStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsBreakStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -541,9 +541,9 @@ proc newCs*(t: typedesc[CsCasePatternSwitchLabel]; name: string): CsCasePatternS
 
 proc extract*(t: typedesc[CsCasePatternSwitchLabel]; info: Info): CsCasePatternSwitchLabel = assert false
 
-method add*(parent: var CsCasePatternSwitchLabel; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCasePatternSwitchLabel; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCasePatternSwitchLabel; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCasePatternSwitchLabel; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCasePatternSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -560,9 +560,9 @@ proc newCs*(t: typedesc[CsCaseSwitchLabel]; name: string): CsCaseSwitchLabel =
 
 proc extract*(t: typedesc[CsCaseSwitchLabel]; info: Info): CsCaseSwitchLabel = assert false
 
-method add*(parent: var CsCaseSwitchLabel; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCaseSwitchLabel; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCaseSwitchLabel; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCaseSwitchLabel; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -579,9 +579,9 @@ proc newCs*(t: typedesc[CsCastExpression]; name: string): CsCastExpression =
 
 proc extract*(t: typedesc[CsCastExpression]; info: Info): CsCastExpression = assert false
 
-method add*(parent: var CsCastExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCastExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCastExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCastExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCastExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -598,9 +598,9 @@ proc newCs*(t: typedesc[CsCatchClause]; name: string): CsCatchClause =
 
 proc extract*(t: typedesc[CsCatchClause]; info: Info): CsCatchClause = assert false
 
-method add*(parent: var CsCatchClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCatchClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -617,9 +617,9 @@ proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause
 
 proc extract*(t: typedesc[CsCatchFilterClause]; info: Info): CsCatchFilterClause = assert false
 
-method add*(parent: var CsCatchFilterClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchFilterClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCatchFilterClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchFilterClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCatchFilterClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -636,9 +636,9 @@ proc newCs*(t: typedesc[CsCatch]; name: string): CsCatch =
 
 proc extract*(t: typedesc[CsCatch]; info: Info): CsCatch = assert false
 
-method add*(parent: var CsCatch; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCatch; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCatch; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatch; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCatch; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -655,9 +655,9 @@ proc newCs*(t: typedesc[CsCheckedExpression]; name: string): CsCheckedExpression
 
 proc extract*(t: typedesc[CsCheckedExpression]; info: Info): CsCheckedExpression = assert false
 
-method add*(parent: var CsCheckedExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCheckedExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCheckedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -674,9 +674,9 @@ proc newCs*(t: typedesc[CsCheckedStatement]; name: string): CsCheckedStatement =
 
 proc extract*(t: typedesc[CsCheckedStatement]; info: Info): CsCheckedStatement = assert false
 
-method add*(parent: var CsCheckedStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsCheckedStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsCheckedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -813,6 +813,86 @@ proc gen*(c: CsProperty): string =
 proc hasIndexer*(c: CsClass): bool =
   result = not c.indexer.isNil
 
+import ../common_utils
+proc getLastClass*(ns: CsNamespace): Option[CsClass] =
+  # echo ns
+  if ns.classes.len == 0:
+    result = none(CsClass)
+  else:
+    result = some(ns.classes.last)
+
+proc getLastMethod*(cls: CsClass): Option[CsMethod] =
+  if cls.methods.len == 0: return
+  else:
+    return some(cls.methods.last)
+
+proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
+  if cls.ctors.len == 0: return
+  else:
+    return some(cls.ctors.last)
+
+import tables
+
+import options
+#[ proc lastAddedInfo(root: var CsRoot): string =
+  var (p, ns) = state_utils.getCurrentNs(root)
+  result = "current ns: " & p
+  result &= " namespace added something: " & $ns.lastAddedTo.isSome
+  if ns.lastAddedTo.isSome:
+    result &= "last added in ns: " & $ns.lastAddedTo
+    case ns.lastAddedTo.get
+    of Unset: discard
+    of NamespaceParts.Classes:
+      let c = ns.getLastClass.get
+      result &= "class is: " & c.name
+      if c.lastAddedTo.isSome:
+        result &= "class added something:" & $c.lastAddedTo.isSome
+        result &= "it was: " & $c.lastAddedTo.get & "  "
+        case c.lastAddedTo.get
+        of ClassParts.Properties: result &= c.properties.last.name
+        of ClassParts.Ctors: result &= c.ctors.last.name
+        of ClassParts.Indexer: result &= c.indexer.varName
+        of ClassParts.Methods: result &= c.methods.last.name
+        # of ClassParts.Enums: result &= c.enums.last.name
+        # of ClassParts.Fields: result &= c.fields.last.name
+    of NamespaceParts.Interfaces:
+      result &= ns.interfaces.last.name
+    of NamespaceParts.Enums:
+      let e = ns.enums.last
+      result &= "enum is " & e.name
+]#
+
+
+proc getLastProperty(c: CsClass): Option[CsProperty] =
+  assert c.lastAddedTo.isSome
+  case c.lastAddedTo.get
+  of ClassParts.Properties:
+    # echo "~~~" & c.properties.mapIt(it.name)
+    if c.properties.isEmpty:
+      result = none(CsProperty)
+    else:
+      assert c.properties.len > 0
+      var last = c.properties[^1]
+      result = some(last)
+
+  else: assert false, "Unsupported"
+
+
+
+proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
+  assert ns.lastAddedTo.isSome
+  case ns.lastAddedTo.get
+  of NamespaceParts.Interfaces: discard # TODO
+  of NamespaceParts.Classes:
+    let c = ns.getLastClass()
+    if c.isNone: result = none(CsProperty)
+    else:
+      result = c.get.getLastProperty()
+  of [NamespaceParts.Enums, NamespaceParts.Unset, NamespaceParts.Using]: discard
+
+
+# ===
+
 proc gen*(c: CsClass): string =
   echo "--> in  gen*(c: CsClass)"
   echo "generating class:" & c.name
@@ -895,9 +975,9 @@ proc newCs*(t: typedesc[CsClassOrStructConstraint]; name: string): CsClassOrStru
 
 proc extract*(t: typedesc[CsClassOrStructConstraint]; info: Info): CsClassOrStructConstraint = assert false
 
-method add*(parent: var CsClassOrStructConstraint; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsClassOrStructConstraint; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsClassOrStructConstraint; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsClassOrStructConstraint; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -914,9 +994,9 @@ proc newCs*(t: typedesc[CsConditionalAccessExpression]; name: string): CsConditi
 
 proc extract*(t: typedesc[CsConditionalAccessExpression]; info: Info): CsConditionalAccessExpression = assert false
 
-method add*(parent: var CsConditionalAccessExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalAccessExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsConditionalAccessExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalAccessExpression; item: Dummy) "
+#   # if stopEarly: assert false
 
 # proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -933,9 +1013,9 @@ proc newCs*(t: typedesc[CsConditionalExpression]; name: string): CsConditionalEx
 
 proc extract*(t: typedesc[CsConditionalExpression]; info: Info): CsConditionalExpression = assert false
 
-method add*(parent: var CsConditionalExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsConditionalExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsConditionalExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -952,9 +1032,9 @@ proc newCs*(t: typedesc[CsConstantPattern]; name: string): CsConstantPattern =
 
 proc extract*(t: typedesc[CsConstantPattern]; info: Info): CsConstantPattern = assert false
 
-method add*(parent: var CsConstantPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsConstantPattern; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsConstantPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsConstantPattern; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsConstantPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -971,9 +1051,9 @@ proc newCs*(t: typedesc[CsConstructorConstraint]; name: string): CsConstructorCo
 
 proc extract*(t: typedesc[CsConstructorConstraint]; info: Info): CsConstructorConstraint = assert false
 
-method add*(parent: var CsConstructorConstraint; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsConstructorConstraint; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsConstructorConstraint; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsConstructorConstraint; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsConstructorConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1030,9 +1110,9 @@ proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement
 
 proc extract*(t: typedesc[CsContinueStatement]; info: Info): CsContinueStatement = assert false
 
-method add*(parent: var CsContinueStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsContinueStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsContinueStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsContinueStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsContinueStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1049,9 +1129,9 @@ proc newCs*(t: typedesc[CsConversionOperator]; name: string): CsConversionOperat
 
 proc extract*(t: typedesc[CsConversionOperator]; info: Info): CsConversionOperator = assert false
 
-method add*(parent: var CsConversionOperator; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsConversionOperator; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsConversionOperator; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsConversionOperator; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsConversionOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1068,9 +1148,9 @@ proc newCs*(t: typedesc[CsDeclarationExpression]; name: string): CsDeclarationEx
 
 proc extract*(t: typedesc[CsDeclarationExpression]; info: Info): CsDeclarationExpression = assert false
 
-method add*(parent: var CsDeclarationExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDeclarationExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1087,9 +1167,9 @@ proc newCs*(t: typedesc[CsDeclarationPattern]; name: string): CsDeclarationPatte
 
 proc extract*(t: typedesc[CsDeclarationPattern]; info: Info): CsDeclarationPattern = assert false
 
-method add*(parent: var CsDeclarationPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationPattern; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDeclarationPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationPattern; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDeclarationPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1106,9 +1186,9 @@ proc newCs*(t: typedesc[CsDefaultExpression]; name: string): CsDefaultExpression
 
 proc extract*(t: typedesc[CsDefaultExpression]; info: Info): CsDefaultExpression = assert false
 
-method add*(parent: var CsDefaultExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDefaultExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDefaultExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1125,9 +1205,9 @@ proc newCs*(t: typedesc[CsDefaultSwitchLabel]; name: string): CsDefaultSwitchLab
 
 proc extract*(t: typedesc[CsDefaultSwitchLabel]; info: Info): CsDefaultSwitchLabel = assert false
 
-method add*(parent: var CsDefaultSwitchLabel; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultSwitchLabel; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDefaultSwitchLabel; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultSwitchLabel; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1144,9 +1224,9 @@ proc newCs*(t: typedesc[CsDelegate]; name: string): CsDelegate =
 
 proc extract*(t: typedesc[CsDelegate]; info: Info): CsDelegate = assert false
 
-method add*(parent: var CsDelegate; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDelegate; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDelegate; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDelegate; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1163,9 +1243,9 @@ proc newCs*(t: typedesc[CsDestructor]; name: string): CsDestructor =
 
 proc extract*(t: typedesc[CsDestructor]; info: Info): CsDestructor = assert false
 
-method add*(parent: var CsDestructor; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDestructor; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDestructor; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDestructor; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1182,9 +1262,9 @@ proc newCs*(t: typedesc[CsDiscardDesignation]; name: string): CsDiscardDesignati
 
 proc extract*(t: typedesc[CsDiscardDesignation]; info: Info): CsDiscardDesignation = assert false
 
-method add*(parent: var CsDiscardDesignation; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDiscardDesignation; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDiscardDesignation; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDiscardDesignation; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDiscardDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1201,9 +1281,9 @@ proc newCs*(t: typedesc[CsDoStatement]; name: string): CsDoStatement =
 
 proc extract*(t: typedesc[CsDoStatement]; info: Info): CsDoStatement = assert false
 
-method add*(parent: var CsDoStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsDoStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsDoStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsDoStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1220,9 +1300,9 @@ proc newCs*(t: typedesc[CsElementAccessExpression]; name: string): CsElementAcce
 
 proc extract*(t: typedesc[CsElementAccessExpression]; info: Info): CsElementAccessExpression = assert false
 
-method add*(parent: var CsElementAccessExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsElementAccessExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsElementAccessExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsElementAccessExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1239,9 +1319,9 @@ proc newCs*(t: typedesc[CsElementBindingExpression]; name: string): CsElementBin
 
 proc extract*(t: typedesc[CsElementBindingExpression]; info: Info): CsElementBindingExpression = assert false
 
-method add*(parent: var CsElementBindingExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsElementBindingExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsElementBindingExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsElementBindingExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1258,9 +1338,9 @@ proc newCs*(t: typedesc[CsElseClause]; name: string): CsElseClause =
 
 proc extract*(t: typedesc[CsElseClause]; info: Info): CsElseClause = assert false
 
-method add*(parent: var CsElseClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsElseClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsElseClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsElseClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsElseClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1277,9 +1357,9 @@ proc newCs*(t: typedesc[CsEmptyStatement]; name: string): CsEmptyStatement =
 
 proc extract*(t: typedesc[CsEmptyStatement]; info: Info): CsEmptyStatement = assert false
 
-method add*(parent: var CsEmptyStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsEmptyStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsEmptyStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsEmptyStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsEmptyStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1357,9 +1437,9 @@ proc extract*(t: typedesc[CsEqualsValueClause]; info: Info): CsEqualsValueClause
   let val = info.essentials[0]
   result = newCs(CsEqualsValueClause, val)
 
-method add*(parent: var CsEqualsValueClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsEqualsValueClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsEqualsValueClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsEqualsValueClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1376,9 +1456,9 @@ proc newCs*(t: typedesc[CsEventField]; name: string): CsEventField =
 
 proc extract*(t: typedesc[CsEventField]; info: Info): CsEventField = assert false
 
-method add*(parent: var CsEventField; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsEventField; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsEventField; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsEventField; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsEventField; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1395,9 +1475,9 @@ proc newCs*(t: typedesc[CsEvent]; name: string): CsEvent =
 
 proc extract*(t: typedesc[CsEvent]; info: Info): CsEvent = assert false
 
-method add*(parent: var CsEvent; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsEvent; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsEvent; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsEvent; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsEvent; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1418,9 +1498,9 @@ proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicit
   result = newCs(CsExplicitInterfaceSpecifier, name)
 
 # proc add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy, data:AllNeededData) = parent.add(item) # TODO
-method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) "
-  #   assert false # TODO(add:CsExplicitInterfaceSpecifier)
+# method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) "
+#   #   assert false # TODO(add:CsExplicitInterfaceSpecifier)
 
 # proc gen*(c: var CsExplicitInterfaceSpecifier): string = assert false #TODO(gen:CsExplicitInterfaceSpecifier)
 
@@ -1484,9 +1564,9 @@ proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDir
   let name = "" # info.essentials[0] # TODO!! cs environ got messed up after last extension update. after fixing, add name to info
   result = newCs(t,name) # rare, it's a name for the dll when ns+class ambiguity occurs, should be in Namespace i think.
 
-method add*(parent: var CsExternAliasDirective; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsExternAliasDirective; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsExternAliasDirective; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsExternAliasDirective; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1504,9 +1584,9 @@ proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =
 
 proc extract*(t: typedesc[CsFinallyClause]; info: Info): CsFinallyClause = assert false
 
-method add*(parent: var CsFinallyClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsFinallyClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsFinallyClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsFinallyClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1523,9 +1603,9 @@ proc newCs*(t: typedesc[CsFixedStatement]; name: string): CsFixedStatement =
 
 proc extract*(t: typedesc[CsFixedStatement]; info: Info): CsFixedStatement = assert false
 
-method add*(parent: var CsFixedStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsFixedStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsFixedStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsFixedStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsFixedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1542,9 +1622,9 @@ proc newCs*(t: typedesc[CsForEachStatement]; name: string): CsForEachStatement =
 
 proc extract*(t: typedesc[CsForEachStatement]; info: Info): CsForEachStatement = assert false
 
-method add*(parent: var CsForEachStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsForEachStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsForEachStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1561,9 +1641,9 @@ proc newCs*(t: typedesc[CsForEachVariableStatement]; name: string): CsForEachVar
 
 proc extract*(t: typedesc[CsForEachVariableStatement]; info: Info): CsForEachVariableStatement = assert false
 
-method add*(parent: var CsForEachVariableStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachVariableStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsForEachVariableStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachVariableStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1580,9 +1660,9 @@ proc newCs*(t: typedesc[CsForStatement]; name: string): CsForStatement =
 
 proc extract*(t: typedesc[CsForStatement]; info: Info): CsForStatement = assert false
 
-method add*(parent: var CsForStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsForStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsForStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsForStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1599,9 +1679,9 @@ proc newCs*(t: typedesc[CsFromClause]; name: string): CsFromClause =
 
 proc extract*(t: typedesc[CsFromClause]; info: Info): CsFromClause = assert false
 
-method add*(parent: var CsFromClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsFromClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsFromClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsFromClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsFromClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1618,9 +1698,9 @@ proc extract*(t: typedesc[CsGenericName]; info: Info): CsGenericName =
   result = newCs(t)
   # assert false #TODO(extract:CsGenericName)
 
-method add*(parent: var CsGenericName; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsGenericName; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsGenericName; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsGenericName; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsGenericName; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1637,9 +1717,9 @@ proc newCs*(t: typedesc[CsGlobalStatement]; name: string): CsGlobalStatement =
 
 proc extract*(t: typedesc[CsGlobalStatement]; info: Info): CsGlobalStatement = assert false
 
-method add*(parent: var CsGlobalStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsGlobalStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsGlobalStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsGlobalStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1656,9 +1736,9 @@ proc newCs*(t: typedesc[CsGotoStatement]; name: string): CsGotoStatement =
 
 proc extract*(t: typedesc[CsGotoStatement]; info: Info): CsGotoStatement = assert false
 
-method add*(parent: var CsGotoStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsGotoStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsGotoStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsGotoStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsGotoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1675,9 +1755,9 @@ proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =
 
 proc extract*(t: typedesc[CsGroupClause]; info: Info): CsGroupClause = assert false
 
-method add*(parent: var CsGroupClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsGroupClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsGroupClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsGroupClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1694,9 +1774,9 @@ proc newCs*(t: typedesc[CsIfStatement]; name: string): CsIfStatement =
 
 proc extract*(t: typedesc[CsIfStatement]; info: Info): CsIfStatement = assert false
 
-method add*(parent: var CsIfStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsIfStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsIfStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsIfStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsIfStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1713,9 +1793,9 @@ proc newCs*(t: typedesc[CsImplicitArrayCreationExpression]; name: string): CsImp
 
 proc extract*(t: typedesc[CsImplicitArrayCreationExpression]; info: Info): CsImplicitArrayCreationExpression = assert false
 
-method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsImplicitArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1732,9 +1812,9 @@ proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitEleme
 
 proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitElementAccess = assert false
 
-method add*(parent: var CsImplicitElementAccess; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitElementAccess; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsImplicitElementAccess; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitElementAccess; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1751,9 +1831,9 @@ proc newCs*(t: typedesc[CsIncompleteMember]; name: string): CsIncompleteMember =
 
 proc extract*(t: typedesc[CsIncompleteMember]; info: Info): CsIncompleteMember = assert false
 
-method add*(parent: var CsIncompleteMember; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsIncompleteMember; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsIncompleteMember; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsIncompleteMember; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1822,9 +1902,9 @@ proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerEx
   # 3 is arity. now it's possible they won't be simple literals. the following objects should provide more info.
   # for now we can store them as they are, or just make room, expect 3 more "expressions" or whatever.
 
-method add*(parent: var CsInitializerExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsInitializerExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsInitializerExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsInitializerExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1869,9 +1949,9 @@ proc newCs*(t: typedesc[CsInterpolatedStringExpression]; name: string): CsInterp
 
 proc extract*(t: typedesc[CsInterpolatedStringExpression]; info: Info): CsInterpolatedStringExpression = assert false
 
-method add*(parent: var CsInterpolatedStringExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsInterpolatedStringExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1888,9 +1968,9 @@ proc newCs*(t: typedesc[CsInterpolatedStringText]; name: string): CsInterpolated
 
 proc extract*(t: typedesc[CsInterpolatedStringText]; info: Info): CsInterpolatedStringText = assert false
 
-method add*(parent: var CsInterpolatedStringText; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringText; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsInterpolatedStringText; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringText; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1907,9 +1987,9 @@ proc newCs*(t: typedesc[CsInterpolationAlignmentClause]; name: string): CsInterp
 
 proc extract*(t: typedesc[CsInterpolationAlignmentClause]; info: Info): CsInterpolationAlignmentClause = assert false
 
-method add*(parent: var CsInterpolationAlignmentClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationAlignmentClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsInterpolationAlignmentClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationAlignmentClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1926,9 +2006,9 @@ proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpola
 
 proc extract*(t: typedesc[CsInterpolationFormatClause]; info: Info): CsInterpolationFormatClause = assert false
 
-method add*(parent: var CsInterpolationFormatClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationFormatClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsInterpolationFormatClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationFormatClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -1945,9 +2025,9 @@ proc newCs*(t: typedesc[CsInterpolation]; name: string): CsInterpolation =
 
 proc extract*(t: typedesc[CsInterpolation]; info: Info): CsInterpolation = assert false
 
-method add*(parent: var CsInterpolation; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolation; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsInterpolation; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolation; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsInterpolation; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2005,9 +2085,9 @@ proc newCs*(t: typedesc[CsIsPatternExpression]; name: string): CsIsPatternExpres
 
 proc extract*(t: typedesc[CsIsPatternExpression]; info: Info): CsIsPatternExpression = assert false
 
-method add*(parent: var CsIsPatternExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsIsPatternExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsIsPatternExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsIsPatternExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsIsPatternExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2024,9 +2104,9 @@ proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =
 
 proc extract*(t: typedesc[CsJoinClause]; info: Info): CsJoinClause = assert false
 
-method add*(parent: var CsJoinClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsJoinClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsJoinClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2043,9 +2123,9 @@ proc newCs*(t: typedesc[CsJoinIntoClause]; name: string): CsJoinIntoClause =
 
 proc extract*(t: typedesc[CsJoinIntoClause]; info: Info): CsJoinIntoClause = assert false
 
-method add*(parent: var CsJoinIntoClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinIntoClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsJoinIntoClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinIntoClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsJoinIntoClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2062,9 +2142,9 @@ proc newCs*(t: typedesc[CsLabeledStatement]; name: string): CsLabeledStatement =
 
 proc extract*(t: typedesc[CsLabeledStatement]; info: Info): CsLabeledStatement = assert false
 
-method add*(parent: var CsLabeledStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsLabeledStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsLabeledStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsLabeledStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsLabeledStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2081,9 +2161,9 @@ proc newCs*(t: typedesc[CsLetClause]; name: string): CsLetClause =
 
 proc extract*(t: typedesc[CsLetClause]; info: Info): CsLetClause = assert false
 
-method add*(parent: var CsLetClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsLetClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsLetClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsLetClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2129,9 +2209,9 @@ proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctio
 
 proc extract*(t: typedesc[CsLocalFunctionStatement]; info: Info): CsLocalFunctionStatement = assert false
 
-method add*(parent: var CsLocalFunctionStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsLocalFunctionStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsLocalFunctionStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsLocalFunctionStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2152,9 +2232,9 @@ proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =
 
 proc extract*(t: typedesc[CsLockStatement]; info: Info): CsLockStatement = assert false
 
-method add*(parent: var CsLockStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsLockStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsLockStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsLockStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2171,9 +2251,9 @@ proc newCs*(t: typedesc[CsMakeRefExpression]; name: string): CsMakeRefExpression
 
 proc extract*(t: typedesc[CsMakeRefExpression]; info: Info): CsMakeRefExpression = assert false
 
-method add*(parent: var CsMakeRefExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsMakeRefExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsMakeRefExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsMakeRefExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsMakeRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2190,9 +2270,9 @@ proc newCs*(t: typedesc[CsMemberBindingExpression]; name: string): CsMemberBindi
 
 proc extract*(t: typedesc[CsMemberBindingExpression]; info: Info): CsMemberBindingExpression = assert false
 
-method add*(parent: var CsMemberBindingExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsMemberBindingExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsMemberBindingExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsMemberBindingExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsMemberBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2278,9 +2358,9 @@ proc newCs*(t: typedesc[CsNameColon]; name: string): CsNameColon =
 
 proc extract*(t: typedesc[CsNameColon]; info: Info): CsNameColon = assert false
 
-method add*(parent: var CsNameColon; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsNameColon; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsNameColon; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsNameColon; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsNameColon; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2327,6 +2407,17 @@ proc `$`*(c:CsUsingDirective):string=
   result = "import: ("
   result &= "name: " & c.name
   result &= ")"
+
+proc `$`*(c:CsClass) :string=
+  result = "class: (name: " & c.name
+  result &= "; methods: " & $c.methods.len
+  result &= "; properties: " & $c.properties.len
+  result &= ")"
+
+proc `$`*(e:CsEnum):string=
+  result = "enum: (name: " & e.name
+  result &= "; items: " & $e.items.len
+  result &= " )"
 
 proc `$`*(n: CsNamespace): string =
   result = "namespace: ("
@@ -2441,9 +2532,9 @@ proc newCs*(t: typedesc[CsNullableType]; name: string): CsNullableType =
 
 proc extract*(t: typedesc[CsNullableType]; info: Info): CsNullableType = assert false
 
-method add*(parent: var CsNullableType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsNullableType; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsNullableType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsNullableType; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2481,9 +2572,9 @@ proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedA
 
 proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedArraySizeExpression = assert false
 
-method add*(parent: var CsOmittedArraySizeExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedArraySizeExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsOmittedArraySizeExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedArraySizeExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2500,9 +2591,9 @@ proc newCs*(t: typedesc[CsOmittedTypeArgument]; name: string): CsOmittedTypeArgu
 
 proc extract*(t: typedesc[CsOmittedTypeArgument]; info: Info): CsOmittedTypeArgument = assert false
 
-method add*(parent: var CsOmittedTypeArgument; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedTypeArgument; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsOmittedTypeArgument; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedTypeArgument; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsOmittedTypeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2519,9 +2610,9 @@ proc newCs*(t: typedesc[CsOperator]; name: string): CsOperator =
 
 proc extract*(t: typedesc[CsOperator]; info: Info): CsOperator = assert false
 
-method add*(parent: var CsOperator; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsOperator; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsOperator; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsOperator; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2538,9 +2629,9 @@ proc newCs*(t: typedesc[CsOrderByClause]; name: string): CsOrderByClause =
 
 proc extract*(t: typedesc[CsOrderByClause]; info: Info): CsOrderByClause = assert false
 
-method add*(parent: var CsOrderByClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsOrderByClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsOrderByClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsOrderByClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsOrderByClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2557,9 +2648,9 @@ proc newCs*(t: typedesc[CsOrdering]; name: string): CsOrdering =
 
 proc extract*(t: typedesc[CsOrdering]; info: Info): CsOrdering = assert false
 
-method add*(parent: var CsOrdering; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsOrdering; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsOrdering; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsOrdering; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsOrdering; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2600,9 +2691,9 @@ proc newCs*(t: typedesc[CsParenthesizedExpression]; name: string): CsParenthesiz
 
 proc extract*(t: typedesc[CsParenthesizedExpression]; info: Info): CsParenthesizedExpression = assert false
 
-method add*(parent: var CsParenthesizedExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsParenthesizedExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsParenthesizedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2619,9 +2710,9 @@ proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; name: string): CsParen
 
 proc extract*(t: typedesc[CsParenthesizedLambdaExpression]; info: Info): CsParenthesizedLambdaExpression = assert false
 
-method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2638,9 +2729,9 @@ proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; name: string): CsPa
 
 proc extract*(t: typedesc[CsParenthesizedVariableDesignation]; info: Info): CsParenthesizedVariableDesignation = assert false
 
-method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2657,9 +2748,9 @@ proc newCs*(t: typedesc[CsPointerType]; name: string): CsPointerType =
 
 proc extract*(t: typedesc[CsPointerType]; info: Info): CsPointerType = assert false
 
-method add*(parent: var CsPointerType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsPointerType; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsPointerType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsPointerType; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsPointerType; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2676,9 +2767,9 @@ proc newCs*(t: typedesc[CsPostfixUnaryExpression]; name: string): CsPostfixUnary
 
 proc extract*(t: typedesc[CsPostfixUnaryExpression]; info: Info): CsPostfixUnaryExpression = assert false
 
-method add*(parent: var CsPostfixUnaryExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsPostfixUnaryExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsPostfixUnaryExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsPostfixUnaryExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2716,9 +2807,9 @@ proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryEx
   result.prefix = info.essentials[0]
   result.actingOn = info.essentials[1]
 
-method add*(parent: var CsPrefixUnaryExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsPrefixUnaryExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsPrefixUnaryExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsPrefixUnaryExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2759,9 +2850,9 @@ proc newCs*(t: typedesc[CsQueryBody]; name: string): CsQueryBody =
 
 proc extract*(t: typedesc[CsQueryBody]; info: Info): CsQueryBody = assert false
 
-method add*(parent: var CsQueryBody; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryBody; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsQueryBody; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryBody; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2778,9 +2869,9 @@ proc newCs*(t: typedesc[CsQueryContinuation]; name: string): CsQueryContinuation
 
 proc extract*(t: typedesc[CsQueryContinuation]; info: Info): CsQueryContinuation = assert false
 
-method add*(parent: var CsQueryContinuation; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryContinuation; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsQueryContinuation; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryContinuation; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsQueryContinuation; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2797,9 +2888,9 @@ proc newCs*(t: typedesc[CsQueryExpression]; name: string): CsQueryExpression =
 
 proc extract*(t: typedesc[CsQueryExpression]; info: Info): CsQueryExpression = assert false
 
-method add*(parent: var CsQueryExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsQueryExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2816,9 +2907,9 @@ proc newCs*(t: typedesc[CsRefExpression]; name: string): CsRefExpression =
 
 proc extract*(t: typedesc[CsRefExpression]; info: Info): CsRefExpression = assert false
 
-method add*(parent: var CsRefExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsRefExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsRefExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2835,9 +2926,9 @@ proc newCs*(t: typedesc[CsRefTypeExpression]; name: string): CsRefTypeExpression
 
 proc extract*(t: typedesc[CsRefTypeExpression]; info: Info): CsRefTypeExpression = assert false
 
-method add*(parent: var CsRefTypeExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsRefTypeExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsRefTypeExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefTypeExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsRefTypeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2854,9 +2945,9 @@ proc newCs*(t: typedesc[CsRefType]; name: string): CsRefType =
 
 proc extract*(t: typedesc[CsRefType]; info: Info): CsRefType = assert false
 
-method add*(parent: var CsRefType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsRefType; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsRefType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefType; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsRefType; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2873,9 +2964,9 @@ proc newCs*(t: typedesc[CsRefValueExpression]; name: string): CsRefValueExpressi
 
 proc extract*(t: typedesc[CsRefValueExpression]; info: Info): CsRefValueExpression = assert false
 
-method add*(parent: var CsRefValueExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsRefValueExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsRefValueExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefValueExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsRefValueExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2934,9 +3025,9 @@ proc newCs*(t: typedesc[CsSelectClause]; name: string): CsSelectClause =
 
 proc extract*(t: typedesc[CsSelectClause]; info: Info): CsSelectClause = assert false
 
-method add*(parent: var CsSelectClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsSelectClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsSelectClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsSelectClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsSelectClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2952,9 +3043,9 @@ proc newCs*(t: typedesc[CsSimpleBaseType]): CsSimpleBaseType =
 proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType =
   result = newCs(t)   # TODO
 
-method add*(parent: var CsSimpleBaseType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleBaseType; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsSimpleBaseType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleBaseType; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2971,9 +3062,9 @@ proc newCs*(t: typedesc[CsSimpleLambdaExpression]; name: string): CsSimpleLambda
 
 proc extract*(t: typedesc[CsSimpleLambdaExpression]; info: Info): CsSimpleLambdaExpression = assert false
 
-method add*(parent: var CsSimpleLambdaExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleLambdaExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsSimpleLambdaExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleLambdaExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -2990,9 +3081,9 @@ proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVar
 
 proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVariableDesignation = assert false
 
-method add*(parent: var CsSingleVariableDesignation; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsSingleVariableDesignation; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsSingleVariableDesignation; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsSingleVariableDesignation; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3009,9 +3100,9 @@ proc newCs*(t: typedesc[CsSizeOfExpression]; name: string): CsSizeOfExpression =
 
 proc extract*(t: typedesc[CsSizeOfExpression]; info: Info): CsSizeOfExpression = assert false
 
-method add*(parent: var CsSizeOfExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsSizeOfExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsSizeOfExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsSizeOfExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsSizeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3028,9 +3119,9 @@ proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression]; name: string): CsS
 
 proc extract*(t: typedesc[CsStackAllocArrayCreationExpression]; info: Info): CsStackAllocArrayCreationExpression = assert false
 
-method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3047,9 +3138,9 @@ proc newCs*(t: typedesc[CsStruct]; name: string): CsStruct =
 
 proc extract*(t: typedesc[CsStruct]; info: Info): CsStruct = assert false
 
-method add*(parent: var CsStruct; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsStruct; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsStruct; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsStruct; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsStruct; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3066,9 +3157,9 @@ proc newCs*(t: typedesc[CsSwitchSection]; name: string): CsSwitchSection =
 
 proc extract*(t: typedesc[CsSwitchSection]; info: Info): CsSwitchSection = assert false
 
-method add*(parent: var CsSwitchSection; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchSection; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsSwitchSection; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchSection; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3085,9 +3176,9 @@ proc newCs*(t: typedesc[CsSwitchStatement]; name: string): CsSwitchStatement =
 
 proc extract*(t: typedesc[CsSwitchStatement]; info: Info): CsSwitchStatement = assert false
 
-method add*(parent: var CsSwitchStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsSwitchStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsSwitchStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3102,9 +3193,9 @@ proc newCs*(t: typedesc[CsThisExpression]; name: string): CsThisExpression =
 
 proc extract*(t: typedesc[CsThisExpression]; info: Info): CsThisExpression = assert false
 
-method add*(parent: var CsThisExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsThisExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsThisExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsThisExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3121,9 +3212,9 @@ proc newCs*(t: typedesc[CsThrowExpression]; name: string): CsThrowExpression =
 
 proc extract*(t: typedesc[CsThrowExpression]; info: Info): CsThrowExpression = assert false
 
-method add*(parent: var CsThrowExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsThrowExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsThrowExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3140,9 +3231,9 @@ proc newCs*(t: typedesc[CsThrowStatement]; name: string): CsThrowStatement =
 
 proc extract*(t: typedesc[CsThrowStatement]; info: Info): CsThrowStatement = assert false
 
-method add*(parent: var CsThrowStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsThrowStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsThrowStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3159,9 +3250,9 @@ proc newCs*(t: typedesc[CsTryStatement]; name: string): CsTryStatement =
 
 proc extract*(t: typedesc[CsTryStatement]; info: Info): CsTryStatement = assert false
 
-method add*(parent: var CsTryStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTryStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTryStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTryStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTryStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3178,9 +3269,9 @@ proc newCs*(t: typedesc[CsTupleElement]; name: string): CsTupleElement =
 
 proc extract*(t: typedesc[CsTupleElement]; info: Info): CsTupleElement = assert false
 
-method add*(parent: var CsTupleElement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleElement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTupleElement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleElement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTupleElement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3197,9 +3288,9 @@ proc newCs*(t: typedesc[CsTupleExpression]; name: string): CsTupleExpression =
 
 proc extract*(t: typedesc[CsTupleExpression]; info: Info): CsTupleExpression = assert false
 
-method add*(parent: var CsTupleExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTupleExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3216,9 +3307,9 @@ proc newCs*(t: typedesc[CsTupleType]; name: string): CsTupleType =
 
 proc extract*(t: typedesc[CsTupleType]; info: Info): CsTupleType = assert false
 
-method add*(parent: var CsTupleType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleType; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTupleType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleType; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTupleType; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3236,9 +3327,9 @@ proc extract*(t: typedesc[CsTypeArgumentList]; info: Info): CsTypeArgumentList =
   result = newCs(CsTypeArgumentList)
   result.types= info.essentials[0].split(",").mapIt(it.strip)
 
-method add*(parent: var CsTypeArgumentList; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeArgumentList; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTypeArgumentList; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeArgumentList; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTypeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3255,9 +3346,9 @@ proc newCs*(t: typedesc[CsTypeConstraint]; name: string): CsTypeConstraint =
 
 proc extract*(t: typedesc[CsTypeConstraint]; info: Info): CsTypeConstraint = assert false
 
-method add*(parent: var CsTypeConstraint; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeConstraint; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTypeConstraint; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeConstraint; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTypeConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3272,9 +3363,9 @@ proc newCs*(t: typedesc[CsTypeOfExpression]; name: string): CsTypeOfExpression =
 
 proc extract*(t: typedesc[CsTypeOfExpression]; info: Info): CsTypeOfExpression = assert false
 
-method add*(parent: var CsTypeOfExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeOfExpression; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTypeOfExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeOfExpression; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTypeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3291,9 +3382,9 @@ proc newCs*(t: typedesc[CsTypeParameterConstraintClause]; name: string): CsTypeP
 
 proc extract*(t: typedesc[CsTypeParameterConstraintClause]; info: Info): CsTypeParameterConstraintClause = assert false
 
-method add*(parent: var CsTypeParameterConstraintClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterConstraintClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTypeParameterConstraintClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterConstraintClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3310,9 +3401,9 @@ proc newCs*(t: typedesc[CsTypeParameterList]; name: string): CsTypeParameterList
 
 proc extract*(t: typedesc[CsTypeParameterList]; info: Info): CsTypeParameterList = assert false
 
-method add*(parent: var CsTypeParameterList; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterList; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTypeParameterList; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterList; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTypeParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3329,9 +3420,9 @@ proc newCs*(t: typedesc[CsTypeParameter]; name: string): CsTypeParameter =
 
 proc extract*(t: typedesc[CsTypeParameter]; info: Info): CsTypeParameter = assert false
 
-method add*(parent: var CsTypeParameter; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameter; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsTypeParameter; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameter; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsTypeParameter; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3348,9 +3439,9 @@ proc newCs*(t: typedesc[CsUnsafeStatement]; name: string): CsUnsafeStatement =
 
 proc extract*(t: typedesc[CsUnsafeStatement]; info: Info): CsUnsafeStatement = assert false
 
-method add*(parent: var CsUnsafeStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsUnsafeStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsUnsafeStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsUnsafeStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsUnsafeStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3384,9 +3475,9 @@ proc newCs*(t: typedesc[CsUsingStatement]; name: string): CsUsingStatement =
 
 proc extract*(t: typedesc[CsUsingStatement]; info: Info): CsUsingStatement = assert false
 
-method add*(parent: var CsUsingStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsUsingStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsUsingStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsUsingStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsUsingStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3403,9 +3494,9 @@ proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
 
 proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = assert false
 
-method add*(parent: var CsWhenClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsWhenClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsWhenClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhenClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3422,9 +3513,9 @@ proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =
 
 proc extract*(t: typedesc[CsWhereClause]; info: Info): CsWhereClause = assert false
 
-method add*(parent: var CsWhereClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsWhereClause; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsWhereClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhereClause; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsWhereClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3441,9 +3532,9 @@ proc newCs*(t: typedesc[CsWhileStatement]; name: string): CsWhileStatement =
 
 proc extract*(t: typedesc[CsWhileStatement]; info: Info): CsWhileStatement = assert false
 
-method add*(parent: var CsWhileStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsWhileStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsWhileStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhileStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3460,9 +3551,9 @@ proc newCs*(t: typedesc[CsYieldStatement]; name: string): CsYieldStatement =
 
 proc extract*(t: typedesc[CsYieldStatement]; info: Info): CsYieldStatement = assert false
 
-method add*(parent: var CsYieldStatement; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsYieldStatement; item: Dummy) "
-  if stopEarly: assert false
+# method add*(parent: var CsYieldStatement; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent: var CsYieldStatement; item: Dummy) "
+#   if stopEarly: assert false
 
 # proc add*(parent: var CsYieldStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
@@ -3577,27 +3668,27 @@ method gen*(c: CsVariable):string =
   if c.thetype != "var":
     result &= " : " & c.thetype.replacementGenericTypes()
 
-method add*(parent:var CsBinaryPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsBinaryPattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsBinaryPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsBinaryPattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsBinaryPattern], info:Info,data:AllNeededData):CsBinaryPattern = assert false
 method gen*(c: CsBinaryPattern):string = assert false
 
-method add*(parent:var CsDiscardPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsDiscardPattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsDiscardPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsDiscardPattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsDiscardPattern], info:Info,data:AllNeededData):CsDiscardPattern = assert false
 method gen*(c: CsDiscardPattern):string = assert false
 
-method add*(parent:var CsFunctionPointerType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsFunctionPointerType; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsFunctionPointerType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsFunctionPointerType; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsFunctionPointerType], info:Info,data:AllNeededData):CsFunctionPointerType = assert false
 method gen*(c: CsFunctionPointerType):string = assert false
 
-method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsImplicitObjectCreationExpression], info:Info,data:AllNeededData):CsImplicitObjectCreationExpression = assert false
 method gen*(c: CsImplicitObjectCreationExpression):string = assert false
 
@@ -3605,107 +3696,107 @@ proc newCs*(t:typedesc[CsMemberAccessExpression]):CsMemberAccessExpression =
   new result
   result.typ = $typeof(t)
 
-method add*(parent:var CsMemberAccessExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsMemberAccessExpression; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsMemberAccessExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsMemberAccessExpression; item: Dummy) "
+#   #   assert false
 
 proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData):CsMemberAccessExpression =
   result = newCs(t)  # i think we can discard it.
 
 method gen*(c: CsMemberAccessExpression):string = assert false
 
-method add*(parent:var CsParenthesizedPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsParenthesizedPattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsParenthesizedPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsParenthesizedPattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsParenthesizedPattern], info:Info,data:AllNeededData):CsParenthesizedPattern = assert false
 method gen*(c: CsParenthesizedPattern):string = assert false
 
-method add*(parent:var CsPositionalPatternClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsPositionalPatternClause; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsPositionalPatternClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsPositionalPatternClause; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsPositionalPatternClause], info:Info,data:AllNeededData):CsPositionalPatternClause = assert false
 method gen*(c: CsPositionalPatternClause):string = assert false
 
-method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsPrimaryConstructorBaseType], info:Info,data:AllNeededData):CsPrimaryConstructorBaseType = assert false
 method gen*(c: CsPrimaryConstructorBaseType):string = assert false
 
-method add*(parent:var CsPropertyPatternClause; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsPropertyPatternClause; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsPropertyPatternClause; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsPropertyPatternClause; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsPropertyPatternClause], info:Info,data:AllNeededData):CsPropertyPatternClause = assert false
 method gen*(c: CsPropertyPatternClause):string = assert false
 
-method add*(parent:var CsRangeExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsRangeExpression; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsRangeExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsRangeExpression; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsRangeExpression], info:Info,data:AllNeededData):CsRangeExpression = assert false
 method gen*(c: CsRangeExpression):string = assert false
 
-method add*(parent:var CsRecord; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsRecord; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsRecord; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsRecord; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsRecord], info:Info,data:AllNeededData):CsRecord = assert false
 method gen*(c: CsRecord):string = assert false
 
-method add*(parent:var CsRecursivePattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsRecursivePattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsRecursivePattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsRecursivePattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsRecursivePattern], info:Info,data:AllNeededData):CsRecursivePattern = assert false
 method gen*(c: CsRecursivePattern):string = assert false
 
-method add*(parent:var CsRelationalPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsRelationalPattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsRelationalPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsRelationalPattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsRelationalPattern], info:Info,data:AllNeededData):CsRelationalPattern = assert false
 method gen*(c: CsRelationalPattern):string = assert false
 
-method add*(parent:var CsSubpattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsSubpattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsSubpattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsSubpattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsSubpattern], info:Info,data:AllNeededData):CsSubpattern = assert false
 method gen*(c: CsSubpattern):string = assert false
 
-method add*(parent:var CsSwitchExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpression; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsSwitchExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpression; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsSwitchExpression], info:Info,data:AllNeededData):CsSwitchExpression = assert false
 method gen*(c: CsSwitchExpression):string = assert false
 
-method add*(parent:var CsSwitchExpressionArm; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpressionArm; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsSwitchExpressionArm; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpressionArm; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsSwitchExpressionArm], info:Info,data:AllNeededData):CsSwitchExpressionArm = assert false
 method gen*(c: CsSwitchExpressionArm):string = assert false
 
-method add*(parent:var CsTypePattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsTypePattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsTypePattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsTypePattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsTypePattern], info:Info,data:AllNeededData):CsTypePattern = assert false
 method gen*(c: CsTypePattern):string = assert false
 
-method add*(parent:var CsUnaryPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsUnaryPattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsUnaryPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsUnaryPattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsUnaryPattern], info:Info,data:AllNeededData):CsUnaryPattern = assert false
 method gen*(c: CsUnaryPattern):string = assert false
 
-method add*(parent:var CsVarPattern; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsVarPattern; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsVarPattern; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsVarPattern; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsVarPattern], info:Info,data:AllNeededData):CsVarPattern = assert false
 method gen*(c: CsVarPattern):string = assert false
 
-method add*(parent:var CsWithExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsWithExpression; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsWithExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsWithExpression; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsWithExpression], info:Info,data:AllNeededData):CsWithExpression = assert false
 method gen*(c: CsWithExpression):string = assert false
 
-method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy) "
-  #   assert false
+# method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy)  =
+#   echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy) "
+#   #   assert false
 proc extract*(t:typedesc[CsImplicitStackAllocArrayCreationExpression], info:Info,data:AllNeededData):CsImplicitStackAllocArrayCreationExpression = assert false
 method gen*(c: CsImplicitStackAllocArrayCreationExpression):string = assert false

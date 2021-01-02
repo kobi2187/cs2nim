@@ -28,7 +28,7 @@ type CsObject* = object of RootRef
   src*: string
   isComplete*: bool
 
-type Dummy* = ref object of CsObject
+# type Dummy* = ref object of CsObject
 
 type Module* = object
   name*: string

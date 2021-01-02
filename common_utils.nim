@@ -1,6 +1,5 @@
 # common_utils.nim
 
-
 proc last*[T](s: seq[T]): T =
   result = s[s.len-1]
 

@@ -3,6 +3,7 @@ import options, sequtils, all_needed_data, block_utils#, strutils
 import info_center
 import types, construct, constructs/[cs_all_constructs, justtypes]
 import constructs/cs_root, uuids
+import common_utils
 
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
