@@ -727,13 +727,7 @@ proc gen*(p: CsParameterList): string =
   echo "--> in  gen*(p: CsParameterList)"
   result = p.parameters.mapIt(it.gen()).join("; ")
 
-proc lowerFirst(s:string) : string =
-  if s.len == 0: return ""
-  if s.len == 1:
-    result = "" & s[0].toLowerAscii
-  if s.len > 1 :
-    result = s.lowerFirst()
-
+import ../common_utils
 proc gen*(m: var CsMethod): string =
 
   echo "--> in  gen*(m: var CsMethod)"
