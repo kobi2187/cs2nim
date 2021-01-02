@@ -35,6 +35,6 @@ proc main() =
       var root = newCs(CsRoot) # only one root to collect all the namespaces.
       handleMany(fi, root, files)
       writeAll(inputFolder, root)
-    echo "finished"
+    echo "finished: " & inputFolder
 
 main()

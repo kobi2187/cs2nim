@@ -14,6 +14,19 @@ To ease porting efforts of C# to Nim.
 :: type, new, extract, add, gen, unit test.
 
 - namespace
+- enum
+- class (basic)
+  - properties
+    - getters (partial)
+    - setters (partial)
+  - method (basic)
+    - method invocation
+    - assignment
+    - return
+  - ctor (partial)
+  - indexers
+  - object construction
+    - initializer expressions
 
 ### next
 

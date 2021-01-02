@@ -1,3 +1,4 @@
+import ../state_utils
 import nre, sequtils, strutils, sets, re, uuids, options, tables, hashes
 # {.experimental: "codeReordering".}
 import ../types
@@ -40,7 +41,9 @@ method add*(parent: var CsAccessorList; item: CsAccessor) =
 
 # proc add*(parent: var CsAccessorList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAccessorList): string = assert false
+proc gen*(c: var CsAccessorList): string =
+  assert false
+  echo "--> in  gen*(c: var CsAccessorList)"
 
 # ============= CsAccessor ========
 
@@ -66,7 +69,9 @@ method add*(parent: var CsAccessor; item: Dummy)  =
 
 # proc add*(parent: var CsAccessor; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAccessor): string = assert false
+proc gen*(c: var CsAccessor): string =
+  assert false
+  echo "--> in  gen*(c: var CsAccessor)"
 
 # ============= CsAliasQualifiedName ========
 
@@ -83,7 +88,9 @@ method add*(parent: var CsAliasQualifiedName; item: Dummy)  =
 
 # proc add*(parent: var CsAliasQualifiedName; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAliasQualifiedName): string = assert false
+proc gen*(c: var CsAliasQualifiedName): string =
+  assert false
+  echo "--> in  gen*(c: var CsAliasQualifiedName)"
 
 # ============= CsField ========
 
@@ -104,9 +111,11 @@ method add*(parent: var CsField; item: Dummy)  =
 # proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(f: CsField): string =
+
+  echo "--> in  gen*(f: CsField)"
   result = f.name
   if f.ispublic: result &= "*"
-  result &= ": " & f.ttype
+  result &= ": " & f.thetype
 
 # ============= CsAnonymousMethodExpression ========
 
@@ -123,7 +132,9 @@ method add*(parent: var CsAnonymousMethodExpression; item: Dummy)  =
 
 # proc add*(parent: var CsAnonymousMethodExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAnonymousMethodExpression): string = assert false
+proc gen*(c: var CsAnonymousMethodExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsAnonymousMethodExpression)"
 
 # ============= CsAnonymousObjectCreationExpression ========
 
@@ -140,14 +151,15 @@ method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy)  =
 
 # proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAnonymousObjectCreationExpression): string = assert false
+proc gen*(c: var CsAnonymousObjectCreationExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsAnonymousObjectCreationExpression)"
 
 # ============= CsAnonymousObjectMemberDeclarator ========
 
 proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAnonymousObjectMemberDeclarator =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsAnonymousObjectMemberDeclarator)
 
 proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAnonymousObjectMemberDeclarator = assert false
 
@@ -157,7 +169,9 @@ method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy)  =
 
 # proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAnonymousObjectMemberDeclarator): string = assert false
+proc gen*(c: var CsAnonymousObjectMemberDeclarator): string =
+  assert false
+  echo "--> in  gen*(c: var CsAnonymousObjectMemberDeclarator)"
 
 # ============= CsArgumentList ========
 
@@ -175,6 +189,8 @@ proc replacementGenericTypes (s:string): string =
   else: result = s
 
 proc gen*(c: var CsArgumentList): string =
+
+  echo "--> in  gen*(c: var CsArgumentList)"
   if not c.isNil:
     result = c.args.join(", ").replacementGenericTypes()
 
@@ -191,7 +207,9 @@ proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument =
 
 # proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArgument): string = assert false
+proc gen*(c: var CsArgument): string =
+  assert false
+  echo "--> in  gen*(c: var CsArgument)"
 
 # ============= CsArrayCreationExpression ========
 
@@ -208,7 +226,9 @@ method add*(parent: var CsArrayCreationExpression; item: Dummy)  =
 
 # proc add*(parent: var CsArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrayCreationExpression): string = assert false
+proc gen*(c: var CsArrayCreationExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsArrayCreationExpression)"
 
 # ============= CsArrayRankSpecifier ========
 
@@ -225,7 +245,9 @@ method add*(parent: var CsArrayRankSpecifier; item: Dummy)  =
 
 # proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrayRankSpecifier): string = assert false
+proc gen*(c: var CsArrayRankSpecifier): string =
+  assert false
+  echo "--> in  gen*(c: var CsArrayRankSpecifier)"
 
 # ============= CsArrayType ========
 
@@ -242,7 +264,9 @@ method add*(parent: var CsArrayType; item: Dummy)  =
 
 # proc add*(parent: var CsArrayType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrayType): string = assert false
+proc gen*(c: var CsArrayType): string =
+  assert false
+  echo "--> in  gen*(c: var CsArrayType)"
 
 # ============= CsArrowExpressionClause ========
 
@@ -259,7 +283,9 @@ method add*(parent: var CsArrowExpressionClause; item: Dummy)  =
 
 # proc add*(parent: var CsArrowExpressionClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrowExpressionClause): string = assert false
+proc gen*(c: var CsArrowExpressionClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsArrowExpressionClause)"
 
 # ============= CsAssignmentExpression ========
 
@@ -267,7 +293,9 @@ proc gen*(c: var CsArrowExpressionClause): string = assert false
 # then these are just lines, where line is a statement terminating with ';'
 # that is, create a more proper inheritence hierarchy. on paper, and code based on short unit tests.
 
-method gen*(c: CsAssignmentExpression): string = assert false #TODO(gen:CsAssignmentExpression)
+method gen*(c: CsAssignmentExpression): string =
+  assert false #TODO(gen:CsAssignmentExpression)
+  echo "--> in  gen*(c: CsAssignmentExpression)"
 
 # ============= CsAttributeArgumentList ========
 
@@ -284,7 +312,9 @@ method add*(parent: var CsAttributeArgumentList; item: Dummy)  =
 
 # proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttributeArgumentList): string = assert false
+proc gen*(c: var CsAttributeArgumentList): string =
+  assert false
+  echo "--> in  gen*(c: var CsAttributeArgumentList)"
 
 # ============= CsAttributeArgument ========
 
@@ -301,7 +331,9 @@ method add*(parent: var CsAttributeArgument; item: Dummy)  =
 
 # proc add*(parent: var CsAttributeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttributeArgument): string = assert false
+proc gen*(c: var CsAttributeArgument): string =
+  assert false
+  echo "--> in  gen*(c: var CsAttributeArgument)"
 
 proc newCs*(t: typedesc[CsAttributeList]; name: string): CsAttributeList =
   new result
@@ -315,7 +347,9 @@ method add*(parent: var CsAttributeList; item: Dummy)  =
   if stopEarly: assert false
 
 # proc add*(parent: var CsAttributeList; item: Dummy; data: AllNeededData) = parent.add(item)
-proc gen*(c: var CsAttributeList): string = assert false
+proc gen*(c: var CsAttributeList): string =
+  assert false
+  echo "--> in  gen*(c: var CsAttributeList)"
 
 # ============= CsAttribute ========
 
@@ -332,7 +366,9 @@ method add*(parent: var CsAttribute; item: Dummy)  =
 
 # proc add*(parent: var CsAttribute; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttribute): string = assert false
+proc gen*(c: var CsAttribute): string =
+  assert false
+  echo "--> in  gen*(c: var CsAttribute)"
 
 # ============= CsAttributeTargetSpecifier ========
 
@@ -349,7 +385,9 @@ method add*(parent: var CsAttributeTargetSpecifier; item: Dummy)  =
 
 # proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttributeTargetSpecifier): string = assert false
+proc gen*(c: var CsAttributeTargetSpecifier): string =
+  assert false
+  echo "--> in  gen*(c: var CsAttributeTargetSpecifier)"
 
 # ============= CsAwaitExpression ========
 
@@ -366,7 +404,9 @@ method add*(parent: var CsAwaitExpression; item: Dummy)  =
 
 # proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAwaitExpression): string = assert false
+proc gen*(c: var CsAwaitExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsAwaitExpression)"
 
 # ============= CsBaseExpression ========
 
@@ -383,7 +423,9 @@ method add*(parent: var CsBaseExpression; item: Dummy)  =
 
 # proc add*(parent: var CsBaseExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBaseExpression): string = assert false
+proc gen*(c: var CsBaseExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsBaseExpression)"
 
 # ============= CsBaseList ========
 
@@ -402,7 +444,9 @@ method add*(parent: var CsBaseList; item: Dummy)  =
 
 # proc add*(parent: var CsBaseList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBaseList): string = assert false
+proc gen*(c: var CsBaseList): string =
+  assert false
+  echo "--> in  gen*(c: var CsBaseList)"
 
 # ============= CsBinaryExpression ========
 
@@ -425,7 +469,9 @@ method add*(parent: var CsBinaryExpression; item: Dummy)  =
   if stopEarly: assert false
 # proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBinaryExpression): string = assert false
+proc gen*(c: var CsBinaryExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsBinaryExpression)"
 
 # ============= CsBracketedArgumentList ========
 
@@ -442,7 +488,9 @@ method add*(parent: var CsBracketedArgumentList; item: Dummy)  =
 
 # proc add*(parent: var CsBracketedArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBracketedArgumentList): string = assert false
+proc gen*(c: var CsBracketedArgumentList): string =
+  assert false
+  echo "--> in  gen*(c: var CsBracketedArgumentList)"
 
 # ============= CsBracketedParameterList ========
 
@@ -461,7 +509,9 @@ method add*(parent: var CsBracketedParameterList; item: Dummy)  =
 
 # proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBracketedParameterList): string = assert false
+proc gen*(c: var CsBracketedParameterList): string =
+  assert false
+  echo "--> in  gen*(c: var CsBracketedParameterList)"
 
 # ============= CsBreakStatement ========
 
@@ -478,7 +528,9 @@ method add*(parent: var CsBreakStatement; item: Dummy)  =
 
 # proc add*(parent: var CsBreakStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBreakStatement): string = assert false
+proc gen*(c: var CsBreakStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsBreakStatement)"
 
 # ============= CsCasePatternSwitchLabel ========
 
@@ -495,7 +547,9 @@ method add*(parent: var CsCasePatternSwitchLabel; item: Dummy)  =
 
 # proc add*(parent: var CsCasePatternSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCasePatternSwitchLabel): string = assert false
+proc gen*(c: var CsCasePatternSwitchLabel): string =
+  assert false
+  echo "--> in  gen*(c: var CsCasePatternSwitchLabel)"
 
 # ============= CsCaseSwitchLabel ========
 
@@ -512,7 +566,9 @@ method add*(parent: var CsCaseSwitchLabel; item: Dummy)  =
 
 # proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCaseSwitchLabel): string = assert false
+proc gen*(c: var CsCaseSwitchLabel): string =
+  assert false
+  echo "--> in  gen*(c: var CsCaseSwitchLabel)"
 
 # ============= CsCastExpression ========
 
@@ -529,7 +585,9 @@ method add*(parent: var CsCastExpression; item: Dummy)  =
 
 # proc add*(parent: var CsCastExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCastExpression): string = assert false
+proc gen*(c: var CsCastExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsCastExpression)"
 
 # ============= CsCatchClause ========
 
@@ -546,7 +604,9 @@ method add*(parent: var CsCatchClause; item: Dummy)  =
 
 # proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCatchClause): string = assert false
+proc gen*(c: var CsCatchClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsCatchClause)"
 
 # ============= CsCatchFilterClause ========
 
@@ -563,7 +623,9 @@ method add*(parent: var CsCatchFilterClause; item: Dummy)  =
 
 # proc add*(parent: var CsCatchFilterClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCatchFilterClause): string = assert false
+proc gen*(c: var CsCatchFilterClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsCatchFilterClause)"
 
 # ============= CsCatch ========
 
@@ -580,7 +642,9 @@ method add*(parent: var CsCatch; item: Dummy)  =
 
 # proc add*(parent: var CsCatch; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCatch): string = assert false
+proc gen*(c: var CsCatch): string =
+  assert false
+  echo "--> in  gen*(c: var CsCatch)"
 
 # ============= CsCheckedExpression ========
 
@@ -597,7 +661,9 @@ method add*(parent: var CsCheckedExpression; item: Dummy)  =
 
 # proc add*(parent: var CsCheckedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCheckedExpression): string = assert false
+proc gen*(c: var CsCheckedExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsCheckedExpression)"
 
 # ============= CsCheckedStatement ========
 
@@ -614,7 +680,9 @@ method add*(parent: var CsCheckedStatement; item: Dummy)  =
 
 # proc add*(parent: var CsCheckedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCheckedStatement): string = assert false
+proc gen*(c: var CsCheckedStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsCheckedStatement)"
 
 method add*(parent:var CsProperty, item:CsAccessorList) =
   parent.acclist = item
@@ -622,22 +690,10 @@ method add*(parent:var CsProperty, item:CsAccessorList) =
 method add*(parent:var CsMethod, item: CsAssignmentExpression)=
   parent.body.add item
 
-proc `$`*(e:CsEnum):string=
-  result = "enum: (name: " & e.name
-  result &= "; items: " & $e.items.len
-  result &= " )"
 
 method add*(c:var CsIndexer, item: CsAccessorList) =
   c.aclist=item
 # ============= CsClass ========
-
-proc `$`*(c:CsClass) :string=
-  result = "class: (name: " & c.name
-  result &= "; methods: " & $c.methods.len
-  result &= "; properties: " & $c.properties.len
-  result &= ")"
-
-proc hasIndexer*(c: CsClass): bool = not c.indexer.isNil
 
 proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[string] = @[]): CsClass =
   new result
@@ -659,12 +715,16 @@ method addSelfParam(m: var CsMethod) =
   m.parameterList.parameters.insert(@[p], 0)
 
 proc gen*(p: CsParameter): string =
+
+  echo "--> in  gen*(p: CsParameter)"
   result = p.name & ": "
   if p.isRef:
     result &= "var "
   result &= p.ptype.strip
 
 proc gen*(p: CsParameterList): string =
+
+  echo "--> in  gen*(p: CsParameterList)"
   result = p.parameters.mapIt(it.gen()).join("; ")
 
 proc lowerFirst(s:string) : string =
@@ -672,9 +732,11 @@ proc lowerFirst(s:string) : string =
   if s.len == 1:
     result = "" & s[0].toLowerAscii
   if s.len > 1 :
-    result = s[0].toLowerAscii & s[1..^1]
+    result = s.lowerFirst()
 
 proc gen*(m: var CsMethod): string =
+
+  echo "--> in  gen*(m: var CsMethod)"
   echo "generating method (wip): " & m.name
   if not m.isStatic: result = "method " else: result = "proc "
   if not m.isStatic:
@@ -700,6 +762,8 @@ proc gen*(m: var CsMethod): string =
   result &= body
 
 method gen*(c: var CsConstructor): string =
+
+  echo "--> in  gen*(c: var CsConstructor)"
   echo "generating ctor (wip): (new)" & c.name
   result = "proc "
 
@@ -717,6 +781,8 @@ method gen*(c: var CsConstructor): string =
   result &= body
 
 proc gen*(c: var CsIndexer): string =
+
+  echo "--> in  gen*(c: var CsIndexer)"
   echo "generating indexer"
   let x = c.firstVarType.rsplit(".", 1)[^1]
   var setPart, getPart : string
@@ -729,19 +795,26 @@ proc gen*(c: var CsIndexer): string =
   result &= getPart & "\n" & setPart
 
 proc gen*(c: CsProperty): string =
+  echo "--> in  gen*(c: CsProperty)"
   result = ""
   if c.hasGet:
     result &= # this is a getter
-      "method " & c.name[0].toLowerAscii & c.name[1..^1] &
+      "method " & c.name.lowerFirst() &
       "*(this: " & c.parentClass & "): " & c.retType & " = " &
       "this.u_" & c.name
   if c.hasSet:
     result &=
-      "method " & c.name[0].toLowerAscii & c.name[1..^1] &
+      "method " & c.name.lowerFirst &
       "*(this: " & c.parentClass & ", value: " & c.retType & "): " & c.retType & " = " &
       "this.u_" & c.name & " = value"
 
+# import ../type_utils
+
+proc hasIndexer*(c: CsClass): bool =
+  result = not c.indexer.isNil
+
 proc gen*(c: CsClass): string =
+  echo "--> in  gen*(c: CsClass)"
   echo "generating class:" & c.name
   if c.isNil: result = "" else: result &= "type " & c.name & "* = ref object"
   if c.extends != "": result &= " of " & c.extends
@@ -751,7 +824,6 @@ proc gen*(c: CsClass): string =
   echo "generating methods:"
 
   for m in c.methods.mitems:
-
     result &= m.gen()
     result &= "\r\n"
   echo "ctors count: " & $c.ctors.len
@@ -778,11 +850,26 @@ method add*(parent: var CsClass; m: CsMethod) =
   parent.lastAddedTo = some(Methods)
   m.parentClass = parent.name
 
-method add*(parent: var CsClass; item: CsProperty) =
 
+proc addField(parent:CsClass; name, typ:string) =
+  var f = newCs(CsField)
+  f.name = name
+  f.thetype = typ
+  parent.fields.add f
+
+proc addFieldForProperty(parent:CsClass,item:CsProperty) =
+  let fieldName = "u_" & item.name
+  let fieldType = item.retType
+  parent.addField(fieldName, fieldType)
+
+
+method add*(parent: var CsClass; item: CsProperty) =
   parent.properties.add item
   parent.lastAddedTo = some(Properties)
   item.parentClass = parent.name
+  if (item.hasGet or item.hasSet) and
+    item.bodyGet.len == 0 and item.bodySet.len == 0:
+      parent.addFieldForProperty(item)
 # proc add*(parent: var CsClass; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
 method add*(parent: var CsClass; item: CsIndexer) =
@@ -814,7 +901,9 @@ method add*(parent: var CsClassOrStructConstraint; item: Dummy)  =
 
 # proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsClassOrStructConstraint): string = assert false
+proc gen*(c: var CsClassOrStructConstraint): string =
+  assert false
+  echo "--> in  gen*(c: var CsClassOrStructConstraint)"
 
 # ============= CsConditionalAccessExpression ========
 
@@ -831,7 +920,9 @@ method add*(parent: var CsConditionalAccessExpression; item: Dummy)  =
 
 # proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConditionalAccessExpression): string = assert false
+proc gen*(c: var CsConditionalAccessExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsConditionalAccessExpression)"
 
 # ============= CsConditionalExpression ========
 
@@ -848,7 +939,9 @@ method add*(parent: var CsConditionalExpression; item: Dummy)  =
 
 # proc add*(parent: var CsConditionalExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConditionalExpression): string = assert false
+proc gen*(c: var CsConditionalExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsConditionalExpression)"
 
 # ============= CsConstantPattern ========
 
@@ -865,7 +958,9 @@ method add*(parent: var CsConstantPattern; item: Dummy)  =
 
 # proc add*(parent: var CsConstantPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConstantPattern): string = assert false
+proc gen*(c: var CsConstantPattern): string =
+  assert false
+  echo "--> in  gen*(c: var CsConstantPattern)"
 
 # ============= CsConstructorConstraint ========
 
@@ -882,22 +977,26 @@ method add*(parent: var CsConstructorConstraint; item: Dummy)  =
 
 # proc add*(parent: var CsConstructorConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConstructorConstraint): string = assert false
+proc gen*(c: var CsConstructorConstraint): string =
+  assert false
+  echo "--> in  gen*(c: var CsConstructorConstraint)"
 
 # ============= CsConstructorInitializer ========
 
-proc newCs*(t: typedesc[CsConstructorInitializer]; name: string): CsConstructorInitializer =
+proc newCs*(t: typedesc[CsConstructorInitializer]): CsConstructorInitializer =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsConstructorInitializer)
+
 
 proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorInitializer =
   echo info
-  new result # TODO?
+  result = newCs(CsConstructorInitializer)
 
 # proc add*(parent: var CsConstructorInitializer; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConstructorInitializer): string = assert false
+proc gen*(c: var CsConstructorInitializer): string =
+  assert false
+  echo "--> in  gen*(c: var CsConstructorInitializer)"
 
 # ============= CsConstructor ========
 
@@ -937,7 +1036,9 @@ method add*(parent: var CsContinueStatement; item: Dummy)  =
 
 # proc add*(parent: var CsContinueStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsContinueStatement): string = assert false
+proc gen*(c: var CsContinueStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsContinueStatement)"
 
 # ============= CsConversionOperator ========
 
@@ -954,7 +1055,9 @@ method add*(parent: var CsConversionOperator; item: Dummy)  =
 
 # proc add*(parent: var CsConversionOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConversionOperator): string = assert false
+proc gen*(c: var CsConversionOperator): string =
+  assert false
+  echo "--> in  gen*(c: var CsConversionOperator)"
 
 # ============= CsDeclarationExpression ========
 
@@ -971,7 +1074,9 @@ method add*(parent: var CsDeclarationExpression; item: Dummy)  =
 
 # proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDeclarationExpression): string = assert false
+proc gen*(c: var CsDeclarationExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsDeclarationExpression)"
 
 # ============= CsDeclarationPattern ========
 
@@ -988,7 +1093,9 @@ method add*(parent: var CsDeclarationPattern; item: Dummy)  =
 
 # proc add*(parent: var CsDeclarationPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDeclarationPattern): string = assert false
+proc gen*(c: var CsDeclarationPattern): string =
+  assert false
+  echo "--> in  gen*(c: var CsDeclarationPattern)"
 
 # ============= CsDefaultExpression ========
 
@@ -1005,7 +1112,9 @@ method add*(parent: var CsDefaultExpression; item: Dummy)  =
 
 # proc add*(parent: var CsDefaultExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDefaultExpression): string = assert false
+proc gen*(c: var CsDefaultExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsDefaultExpression)"
 
 # ============= CsDefaultSwitchLabel ========
 
@@ -1022,7 +1131,9 @@ method add*(parent: var CsDefaultSwitchLabel; item: Dummy)  =
 
 # proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDefaultSwitchLabel): string = assert false
+proc gen*(c: var CsDefaultSwitchLabel): string =
+  assert false
+  echo "--> in  gen*(c: var CsDefaultSwitchLabel)"
 
 # ============= CsDelegate ========
 
@@ -1039,7 +1150,9 @@ method add*(parent: var CsDelegate; item: Dummy)  =
 
 # proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDelegate): string = assert false
+proc gen*(c: var CsDelegate): string =
+  assert false
+  echo "--> in  gen*(c: var CsDelegate)"
 
 # ============= CsDestructor ========
 
@@ -1056,7 +1169,9 @@ method add*(parent: var CsDestructor; item: Dummy)  =
 
 # proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDestructor): string = assert false
+proc gen*(c: var CsDestructor): string =
+  assert false
+  echo "--> in  gen*(c: var CsDestructor)"
 
 # ============= CsDiscardDesignation ========
 
@@ -1073,7 +1188,9 @@ method add*(parent: var CsDiscardDesignation; item: Dummy)  =
 
 # proc add*(parent: var CsDiscardDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDiscardDesignation): string = assert false
+proc gen*(c: var CsDiscardDesignation): string =
+  assert false
+  echo "--> in  gen*(c: var CsDiscardDesignation)"
 
 # ============= CsDoStatement ========
 
@@ -1090,7 +1207,9 @@ method add*(parent: var CsDoStatement; item: Dummy)  =
 
 # proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDoStatement): string = assert false
+proc gen*(c: var CsDoStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsDoStatement)"
 
 # ============= CsElementAccessExpression ========
 
@@ -1107,7 +1226,9 @@ method add*(parent: var CsElementAccessExpression; item: Dummy)  =
 
 # proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsElementAccessExpression): string = assert false
+proc gen*(c: var CsElementAccessExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsElementAccessExpression)"
 
 # ============= CsElementBindingExpression ========
 
@@ -1124,7 +1245,9 @@ method add*(parent: var CsElementBindingExpression; item: Dummy)  =
 
 # proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsElementBindingExpression): string = assert false
+proc gen*(c: var CsElementBindingExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsElementBindingExpression)"
 
 # ============= CsElseClause ========
 
@@ -1141,7 +1264,9 @@ method add*(parent: var CsElseClause; item: Dummy)  =
 
 # proc add*(parent: var CsElseClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsElseClause): string = assert false
+proc gen*(c: var CsElseClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsElseClause)"
 
 # ============= CsEmptyStatement ========
 
@@ -1158,7 +1283,9 @@ method add*(parent: var CsEmptyStatement; item: Dummy)  =
 
 # proc add*(parent: var CsEmptyStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEmptyStatement): string = assert false
+proc gen*(c: var CsEmptyStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsEmptyStatement)"
 
 proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   new result
@@ -1182,6 +1309,8 @@ method add*(em: CsEnumMember; val: string) =
   else: echo "value is already set:`", em.value, "`. got `",val ,"`;"
 
 proc gen*(e: CsEnumMember): string =
+
+  echo "--> in  gen*(e: CsEnumMember)"
   result = e.name
   if e.value != "": result &= " = " & $e.value
 
@@ -1202,6 +1331,8 @@ method add*(parent: var CsEnum; item: CsEnumMember) =
 # proc add*(parent: var CsEnum; item: CsEnumMember; data: AllNeededData) = parent.add(item) # TODO
 
 proc gen*(e: CsEnum): string =
+
+  echo "--> in  gen*(e: CsEnum)"
   echo "members count:" & $e.items.len
 
   result = "type " & e.name & "* = enum"
@@ -1232,7 +1363,9 @@ method add*(parent: var CsEqualsValueClause; item: Dummy)  =
 
 # proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEqualsValueClause): string = assert false
+proc gen*(c: var CsEqualsValueClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsEqualsValueClause)"
 
 # ============= CsEventField ========
 
@@ -1249,7 +1382,9 @@ method add*(parent: var CsEventField; item: Dummy)  =
 
 # proc add*(parent: var CsEventField; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEventField): string = assert false
+proc gen*(c: var CsEventField): string =
+  assert false
+  echo "--> in  gen*(c: var CsEventField)"
 
 # ============= CsEvent ========
 
@@ -1266,7 +1401,9 @@ method add*(parent: var CsEvent; item: Dummy)  =
 
 # proc add*(parent: var CsEvent; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEvent): string = assert false
+proc gen*(c: var CsEvent): string =
+  assert false
+  echo "--> in  gen*(c: var CsEvent)"
 
 # ============= CsExplicitInterfaceSpecifier ========
 
@@ -1322,13 +1459,18 @@ method add*(parent: var CsExpressionStatement; item: CsInvocationExpression) =
 # proc add*(parent: var CsExpressionStatement; item: CsInvocationExpression; data: AllNeededData) = parent.add(item) # TODO
 
 method gen*(c: CsExpressionStatement): string =
+
+  echo "--> in  gen*(c: CsExpressionStatement)"
   echo "generating for expression statement"
+  echo "source is: " & c.src.strip()
+  assert not c.call.isNil
   result = c.call.gen() & "("
   if c.args.args.len > 0:
     result &= c.args.gen()
   result &= ")"
   if c.call.callName.contains(".") and c.call.callName.startsWith(re.re"[A-Z]"):
     result &= " # " & c.call.callName.rsplit(".",1)[0]
+  echo "expression statement generated result: " & result
 
 # ============= CsExternAliasDirective ========
 
@@ -1337,7 +1479,10 @@ proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDir
   result.typ = $typeof(t)
 #TODO(create:CsExternAliasDirective)
 
-proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective = assert false
+proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective =
+  echo info
+  let name = "" # info.essentials[0] # TODO!! cs environ got messed up after last extension update. after fixing, add name to info
+  result = newCs(t,name) # rare, it's a name for the dll when ns+class ambiguity occurs, should be in Namespace i think.
 
 method add*(parent: var CsExternAliasDirective; item: Dummy)  =
   echo "!!! ---->> unimplemented:  method add*(parent: var CsExternAliasDirective; item: Dummy) "
@@ -1345,7 +1490,9 @@ method add*(parent: var CsExternAliasDirective; item: Dummy)  =
 
 # proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsExternAliasDirective): string = assert false
+proc gen*(c: var CsExternAliasDirective): string =
+  assert false
+  echo "--> in  gen*(c: var CsExternAliasDirective)"
 # hmm, it's actually called a property.
 
 # ============= CsFinallyClause ========
@@ -1363,7 +1510,9 @@ method add*(parent: var CsFinallyClause; item: Dummy)  =
 
 # proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsFinallyClause): string = assert false
+proc gen*(c: var CsFinallyClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsFinallyClause)"
 
 # ============= CsFixedStatement ========
 
@@ -1380,7 +1529,9 @@ method add*(parent: var CsFixedStatement; item: Dummy)  =
 
 # proc add*(parent: var CsFixedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsFixedStatement): string = assert false
+proc gen*(c: var CsFixedStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsFixedStatement)"
 
 # ============= CsForEachStatement ========
 
@@ -1397,7 +1548,9 @@ method add*(parent: var CsForEachStatement; item: Dummy)  =
 
 # proc add*(parent: var CsForEachStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsForEachStatement): string = assert false
+proc gen*(c: var CsForEachStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsForEachStatement)"
 
 # ============= CsForEachVariableStatement ========
 
@@ -1414,7 +1567,9 @@ method add*(parent: var CsForEachVariableStatement; item: Dummy)  =
 
 # proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsForEachVariableStatement): string = assert false
+proc gen*(c: var CsForEachVariableStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsForEachVariableStatement)"
 
 # ============= CsForStatement ========
 
@@ -1431,7 +1586,9 @@ method add*(parent: var CsForStatement; item: Dummy)  =
 
 # proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsForStatement): string = assert false
+proc gen*(c: var CsForStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsForStatement)"
 
 # ============= CsFromClause ========
 
@@ -1448,7 +1605,9 @@ method add*(parent: var CsFromClause; item: Dummy)  =
 
 # proc add*(parent: var CsFromClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsFromClause): string = assert false
+proc gen*(c: var CsFromClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsFromClause)"
 
 proc newCs*(t: typedesc[CsGenericName]): CsGenericName =
   new result
@@ -1465,7 +1624,9 @@ method add*(parent: var CsGenericName; item: Dummy)  =
 
 # proc add*(parent: var CsGenericName; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGenericName): string = assert false
+proc gen*(c: var CsGenericName): string =
+  assert false
+  echo "--> in  gen*(c: var CsGenericName)"
 
 # ============= CsGlobalStatement ========
 
@@ -1482,7 +1643,9 @@ method add*(parent: var CsGlobalStatement; item: Dummy)  =
 
 # proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGlobalStatement): string = assert false
+proc gen*(c: var CsGlobalStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsGlobalStatement)"
 
 # ============= CsGotoStatement ========
 
@@ -1499,7 +1662,9 @@ method add*(parent: var CsGotoStatement; item: Dummy)  =
 
 # proc add*(parent: var CsGotoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGotoStatement): string = assert false
+proc gen*(c: var CsGotoStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsGotoStatement)"
 
 # ============= CsGroupClause ========
 
@@ -1516,7 +1681,9 @@ method add*(parent: var CsGroupClause; item: Dummy)  =
 
 # proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGroupClause): string = assert false
+proc gen*(c: var CsGroupClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsGroupClause)"
 
 # ============= CsIfStatement ========
 
@@ -1533,7 +1700,9 @@ method add*(parent: var CsIfStatement; item: Dummy)  =
 
 # proc add*(parent: var CsIfStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsIfStatement): string = assert false
+proc gen*(c: var CsIfStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsIfStatement)"
 
 # ============= CsImplicitArrayCreationExpression ========
 
@@ -1550,7 +1719,9 @@ method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy)  =
 
 # proc add*(parent: var CsImplicitArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsImplicitArrayCreationExpression): string = assert false
+proc gen*(c: var CsImplicitArrayCreationExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsImplicitArrayCreationExpression)"
 
 # ============= CsImplicitElementAccess ========
 
@@ -1567,7 +1738,9 @@ method add*(parent: var CsImplicitElementAccess; item: Dummy)  =
 
 # proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsImplicitElementAccess): string = assert false
+proc gen*(c: var CsImplicitElementAccess): string =
+  assert false
+  echo "--> in  gen*(c: var CsImplicitElementAccess)"
 
 # ============= CsIncompleteMember ========
 
@@ -1584,7 +1757,9 @@ method add*(parent: var CsIncompleteMember; item: Dummy)  =
 
 # proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsIncompleteMember): string = assert false
+proc gen*(c: var CsIncompleteMember): string =
+  assert false
+  echo "--> in  gen*(c: var CsIncompleteMember)"
 
 # ============= CsIndexer ========
 
@@ -1620,6 +1795,7 @@ method add*(parent: CsLiteralExpression; item: CsPrefixUnaryExpression) =
   parent.value = item.prefix & parent.value
 
 proc addBExpr(p: CsInitializerExpression; b:BodyExpr) =
+  echo "in addBExpr: " & b.typ
   if p.somePrefixOp.isNil:
     p.bexprs.add b
   else:
@@ -1653,12 +1829,15 @@ method add*(parent: var CsInitializerExpression; item: Dummy)  =
 # proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
 proc gen*(c: var CsInitializerExpression): string =
+
+  echo "--> in  gen*(c: var CsInitializerExpression)"
   echo "gen CsInitializerExpression, got values:", c.valueReceived
   # result = ".initWith("
   result = ".initWith(@["
-  for i, b in c.bexprs:
-    if i > 0: result &= ", "
-    result &= b.gen()
+  var ls :seq[string]= @[]
+  for b in c.bexprs:
+    ls.add b.gen()
+  result &= ls.join(", ")
   # result &= ")"
   result &= "])"
   echo "gen result CsInitializerExpression" & result
@@ -1677,7 +1856,9 @@ method add*(parent: var CsInterface; item: CsProperty) =
 
 # proc add*(parent: var CsInterface; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInterface): string = assert false
+proc gen*(c: var CsInterface): string =
+  assert false
+  echo "--> in  gen*(c: var CsInterface)"
 
 # ============= CsInterpolatedStringExpression ========
 
@@ -1694,7 +1875,9 @@ method add*(parent: var CsInterpolatedStringExpression; item: Dummy)  =
 
 # proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolatedStringExpression): string = assert false
+proc gen*(c: var CsInterpolatedStringExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsInterpolatedStringExpression)"
 
 # ============= CsInterpolatedStringText ========
 
@@ -1711,7 +1894,9 @@ method add*(parent: var CsInterpolatedStringText; item: Dummy)  =
 
 # proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolatedStringText): string = assert false
+proc gen*(c: var CsInterpolatedStringText): string =
+  assert false
+  echo "--> in  gen*(c: var CsInterpolatedStringText)"
 
 # ============= CsInterpolationAlignmentClause ========
 
@@ -1728,7 +1913,9 @@ method add*(parent: var CsInterpolationAlignmentClause; item: Dummy)  =
 
 # proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolationAlignmentClause): string = assert false
+proc gen*(c: var CsInterpolationAlignmentClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsInterpolationAlignmentClause)"
 
 # ============= CsInterpolationFormatClause ========
 
@@ -1745,7 +1932,9 @@ method add*(parent: var CsInterpolationFormatClause; item: Dummy)  =
 
 # proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolationFormatClause): string = assert false
+proc gen*(c: var CsInterpolationFormatClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsInterpolationFormatClause)"
 
 # ============= CsInterpolation ========
 
@@ -1762,7 +1951,9 @@ method add*(parent: var CsInterpolation; item: Dummy)  =
 
 # proc add*(parent: var CsInterpolation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolation): string = assert false
+proc gen*(c: var CsInterpolation): string =
+  assert false
+  echo "--> in  gen*(c: var CsInterpolation)"
 
 # ============= CsInvocationExpression ========
 
@@ -1783,6 +1974,8 @@ func normalizeCallName(s: string): string =
   result = lastPart.lowerFirst()
 
 method gen*(c: CsInvocationExpression): string =
+
+  echo "--> in  gen*(c: CsInvocationExpression)"
 
   result = if c.callName.contains(".") and c.callName.startsWith(re.re"[A-Z]"):
     normalizeCallName(c.callName)
@@ -1818,7 +2011,9 @@ method add*(parent: var CsIsPatternExpression; item: Dummy)  =
 
 # proc add*(parent: var CsIsPatternExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsIsPatternExpression): string = assert false
+proc gen*(c: var CsIsPatternExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsIsPatternExpression)"
 
 # ============= CsJoinClause ========
 
@@ -1835,7 +2030,9 @@ method add*(parent: var CsJoinClause; item: Dummy)  =
 
 # proc add*(parent: var CsJoinClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsJoinClause): string = assert false
+proc gen*(c: var CsJoinClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsJoinClause)"
 
 # ============= CsJoinIntoClause ========
 
@@ -1852,7 +2049,9 @@ method add*(parent: var CsJoinIntoClause; item: Dummy)  =
 
 # proc add*(parent: var CsJoinIntoClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsJoinIntoClause): string = assert false
+proc gen*(c: var CsJoinIntoClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsJoinIntoClause)"
 
 # ============= CsLabeledStatement ========
 
@@ -1869,7 +2068,9 @@ method add*(parent: var CsLabeledStatement; item: Dummy)  =
 
 # proc add*(parent: var CsLabeledStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLabeledStatement): string = assert false
+proc gen*(c: var CsLabeledStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsLabeledStatement)"
 
 # ============= CsLetClause ========
 
@@ -1886,7 +2087,9 @@ method add*(parent: var CsLetClause; item: Dummy)  =
 
 # proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLetClause): string = assert false
+proc gen*(c: var CsLetClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsLetClause)"
 
 # ============= CsLiteralExpression ========
 
@@ -1909,6 +2112,8 @@ proc extract*(_: typedesc[CsLiteralExpression]; info: Info): CsLiteralExpression
   result = newCs(CsLiteralExpression, strVal)
 
 method gen*(lit: CsLiteralExpression): string =
+
+  echo "--> in  gen*(lit: CsLiteralExpression)"
   lit.value
 
 # ============= CsLocalDeclarationStatement ========
@@ -1930,7 +2135,9 @@ method add*(parent: var CsLocalFunctionStatement; item: Dummy)  =
 
 # proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLocalFunctionStatement): string = assert false
+proc gen*(c: var CsLocalFunctionStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsLocalFunctionStatement)"
 
 proc newCs*(t: typedesc[CsAssignmentExpression]): CsAssignmentExpression =
   new result
@@ -1951,7 +2158,9 @@ method add*(parent: var CsLockStatement; item: Dummy)  =
 
 # proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLockStatement): string = assert false
+proc gen*(c: var CsLockStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsLockStatement)"
 
 # ============= CsMakeRefExpression ========
 
@@ -1968,7 +2177,9 @@ method add*(parent: var CsMakeRefExpression; item: Dummy)  =
 
 # proc add*(parent: var CsMakeRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsMakeRefExpression): string = assert false
+proc gen*(c: var CsMakeRefExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsMakeRefExpression)"
 
 # ============= CsMemberBindingExpression ========
 
@@ -1985,7 +2196,9 @@ method add*(parent: var CsMemberBindingExpression; item: Dummy)  =
 
 # proc add*(parent: var CsMemberBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsMemberBindingExpression): string = assert false
+proc gen*(c: var CsMemberBindingExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsMemberBindingExpression)"
 
 proc newCs*(t: typedesc[CsMethod]; name: string): CsMethod =
   new result
@@ -2000,6 +2213,8 @@ method add*(parent: var CsMethod; p: CsParameterList) =
   parent.parameterList = p
 
 method gen*(item:CsObjectCreationExpression) : string =
+
+  echo "--> in  gen*(item:CsObjectCreationExpression) "
   result = "new" & item.name.replacementGenericTypes() &
     "(" &
     item.args.gen().replacementGenericTypes() &
@@ -2007,6 +2222,9 @@ method gen*(item:CsObjectCreationExpression) : string =
   if not item.initExpr.isNil:
     echo "trying to gen initExpr"
     result &= item.initExpr.gen()
+
+method add*(parent:var CsObjectCreationExpression; item:CsGenericName) =
+  parent.genericName=item
 
 method add*(parent:var CsObjectCreationExpression; item:CsInitializerExpression) =
   parent.initExpr = item
@@ -2031,6 +2249,10 @@ method add*(parent:CsAssignmentExpression; item: CsArgumentList) =
 
 method add*(parent:CsAssignmentExpression; item: CsObjectCreationExpression) =
   parent.right = item
+
+
+method add*(parent:CsGenericName; item:CsTypeArgumentList) =
+  parent.typearglist = item
 
 method gen*(c:CsVariableDeclarator):string =
   echo "rhs is: " & c.rhs.typ
@@ -2062,24 +2284,34 @@ method add*(parent: var CsNameColon; item: Dummy)  =
 
 # proc add*(parent: var CsNameColon; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsNameColon): string = assert false
+proc gen*(c: var CsNameColon): string =
+  assert false
+  echo "--> in  gen*(c: var CsNameColon)"
 
 # ============= CsNameEquals ========
 
 proc newCs*(t: typedesc[CsNameEquals]; name: string): CsNameEquals =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsNameEquals)
 
-proc extract*(t: typedesc[CsNameEquals]; info: Info): CsNameEquals = assert false
+proc extract*(t: typedesc[CsNameEquals]; info: Info): CsNameEquals =
+  var name = ""
+  if info.essentials.len > 0:
+    name = info.essentials[0] # TODO: add in csdisplay
+  result = newCs(CsNameEquals,name)
 
-method add*(parent: var CsNameEquals; item: Dummy)  =
-  echo "!!! ---->> unimplemented:  method add*(parent: var CsNameEquals; item: Dummy) "
-  if stopEarly: assert false
+
+method add*(parent: var CsNameEquals; item: CsGenericName)  =
+  parent.genericName = item
+
+method add*(parent: var CsParameter; item: CsGenericName)  =
+  parent.genericType = item
 
 # proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsNameEquals): string = assert false
+proc gen*(c: var CsNameEquals): string =
+  assert false
+  echo "--> in  gen*(c: var CsNameEquals)"
 
 # type Child* = object
 #   name: string
@@ -2173,9 +2405,13 @@ method add*(ns: var CsNamespace; use: CsUsingDirective) =
   ns.lastAddedTo = some(NamespaceParts.Using)
 
 proc gen*(c: CsUsingDirective): string =
+
+  echo "--> in  gen*(c: CsUsingDirective)"
   result = "import dotnet/" & c.name.toLowerAscii.replace(".", "/")
 
 proc gen*(r: CsNamespace): string =
+
+  echo "--> in  gen*(r: CsNamespace)"
   echo "generating namespace: " & r.name
   var s: seq[string] = @[]
   for u in r.imports:
@@ -2190,6 +2426,11 @@ proc gen*(r: CsNamespace): string =
 
 proc hash*(c: CsNamespace): Hash =
   result = hash(c.name)
+
+
+
+method add*(parent:var CsUsingDirective; item: CsNameEquals) =
+  parent.shorthand = item
 
 # ============= CsNullableType ========
 
@@ -2206,7 +2447,9 @@ method add*(parent: var CsNullableType; item: Dummy)  =
 
 # proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsNullableType): string = assert false
+proc gen*(c: var CsNullableType): string =
+  assert false
+  echo "--> in  gen*(c: var CsNullableType)"
 
 # ============= CsObjectCreationExpression ========
 
@@ -2244,7 +2487,9 @@ method add*(parent: var CsOmittedArraySizeExpression; item: Dummy)  =
 
 # proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOmittedArraySizeExpression): string = assert false
+proc gen*(c: var CsOmittedArraySizeExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsOmittedArraySizeExpression)"
 
 # ============= CsOmittedTypeArgument ========
 
@@ -2261,7 +2506,9 @@ method add*(parent: var CsOmittedTypeArgument; item: Dummy)  =
 
 # proc add*(parent: var CsOmittedTypeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOmittedTypeArgument): string = assert false
+proc gen*(c: var CsOmittedTypeArgument): string =
+  assert false
+  echo "--> in  gen*(c: var CsOmittedTypeArgument)"
 
 # ============= CsOperator ========
 
@@ -2278,7 +2525,9 @@ method add*(parent: var CsOperator; item: Dummy)  =
 
 # proc add*(parent: var CsOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOperator): string = assert false
+proc gen*(c: var CsOperator): string =
+  assert false
+  echo "--> in  gen*(c: var CsOperator)"
 
 # ============= CsOrderByClause ========
 
@@ -2295,7 +2544,9 @@ method add*(parent: var CsOrderByClause; item: Dummy)  =
 
 # proc add*(parent: var CsOrderByClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOrderByClause): string = assert false
+proc gen*(c: var CsOrderByClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsOrderByClause)"
 
 # ============= CsOrdering ========
 
@@ -2312,7 +2563,9 @@ method add*(parent: var CsOrdering; item: Dummy)  =
 
 # proc add*(parent: var CsOrdering; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOrdering): string = assert false
+proc gen*(c: var CsOrdering): string =
+  assert false
+  echo "--> in  gen*(c: var CsOrdering)"
 
 # ============ CsParameterList =================
 
@@ -2353,7 +2606,9 @@ method add*(parent: var CsParenthesizedExpression; item: Dummy)  =
 
 # proc add*(parent: var CsParenthesizedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsParenthesizedExpression): string = assert false
+proc gen*(c: var CsParenthesizedExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsParenthesizedExpression)"
 
 # ============= CsParenthesizedLambdaExpression ========
 
@@ -2370,7 +2625,9 @@ method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy)  =
 
 # proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsParenthesizedLambdaExpression): string = assert false
+proc gen*(c: var CsParenthesizedLambdaExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsParenthesizedLambdaExpression)"
 
 # ============= CsParenthesizedVariableDesignation ========
 
@@ -2387,7 +2644,9 @@ method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy)  =
 
 # proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsParenthesizedVariableDesignation): string = assert false
+proc gen*(c: var CsParenthesizedVariableDesignation): string =
+  assert false
+  echo "--> in  gen*(c: var CsParenthesizedVariableDesignation)"
 
 # ============= CsPointerType ========
 
@@ -2404,7 +2663,9 @@ method add*(parent: var CsPointerType; item: Dummy)  =
 
 # proc add*(parent: var CsPointerType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsPointerType): string = assert false
+proc gen*(c: var CsPointerType): string =
+  assert false
+  echo "--> in  gen*(c: var CsPointerType)"
 
 # ============= CsPostfixUnaryExpression ========
 
@@ -2421,7 +2682,9 @@ method add*(parent: var CsPostfixUnaryExpression; item: Dummy)  =
 
 # proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsPostfixUnaryExpression): string = assert false
+proc gen*(c: var CsPostfixUnaryExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsPostfixUnaryExpression)"
 
 # ============= CsPredefinedType ========
 
@@ -2437,7 +2700,9 @@ proc extract*(t: typedesc[CsPredefinedType]; info: Info; data: AllNeededData): C
   else: name = ""
   result = newCs(CsPredefinedType, name)
 
-proc gen*(c: var CsPredefinedType): string = assert false
+proc gen*(c: var CsPredefinedType): string =
+  assert false
+  echo "--> in  gen*(c: var CsPredefinedType)"
 
 # ============= CsPrefixUnaryExpression ========
 
@@ -2457,7 +2722,9 @@ method add*(parent: var CsPrefixUnaryExpression; item: Dummy)  =
 
 # proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsPrefixUnaryExpression): string = assert false
+proc gen*(c: var CsPrefixUnaryExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsPrefixUnaryExpression)"
 
 proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
   new result
@@ -2498,7 +2765,9 @@ method add*(parent: var CsQueryBody; item: Dummy)  =
 
 # proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsQueryBody): string = assert false
+proc gen*(c: var CsQueryBody): string =
+  assert false
+  echo "--> in  gen*(c: var CsQueryBody)"
 
 # ============= CsQueryContinuation ========
 
@@ -2515,7 +2784,9 @@ method add*(parent: var CsQueryContinuation; item: Dummy)  =
 
 # proc add*(parent: var CsQueryContinuation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsQueryContinuation): string = assert false
+proc gen*(c: var CsQueryContinuation): string =
+  assert false
+  echo "--> in  gen*(c: var CsQueryContinuation)"
 
 # ============= CsQueryExpression ========
 
@@ -2532,7 +2803,9 @@ method add*(parent: var CsQueryExpression; item: Dummy)  =
 
 # proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsQueryExpression): string = assert false
+proc gen*(c: var CsQueryExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsQueryExpression)"
 
 # ============= CsRefExpression ========
 
@@ -2549,7 +2822,9 @@ method add*(parent: var CsRefExpression; item: Dummy)  =
 
 # proc add*(parent: var CsRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefExpression): string = assert false
+proc gen*(c: var CsRefExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsRefExpression)"
 
 # ============= CsRefTypeExpression ========
 
@@ -2566,7 +2841,9 @@ method add*(parent: var CsRefTypeExpression; item: Dummy)  =
 
 # proc add*(parent: var CsRefTypeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefTypeExpression): string = assert false
+proc gen*(c: var CsRefTypeExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsRefTypeExpression)"
 
 # ============= CsRefType ========
 
@@ -2583,7 +2860,9 @@ method add*(parent: var CsRefType; item: Dummy)  =
 
 # proc add*(parent: var CsRefType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefType): string = assert false
+proc gen*(c: var CsRefType): string =
+  assert false
+  echo "--> in  gen*(c: var CsRefType)"
 
 # ============= CsRefValueExpression ========
 
@@ -2600,7 +2879,9 @@ method add*(parent: var CsRefValueExpression; item: Dummy)  =
 
 # proc add*(parent: var CsRefValueExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefValueExpression): string = assert false
+proc gen*(c: var CsRefValueExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsRefValueExpression)"
 
 # ============= CsReturnStatement ========
 
@@ -2628,6 +2909,8 @@ method add*(parent: var CsReturnStatement; item: BodyExpr) =
   parent.expr = item; parent.isComplete = true
 
 method gen*(c: CsReturnStatement): string =
+
+  echo "--> in  gen*(c: CsReturnStatement)"
   echo "generating CsReturnStatement:"
   if not c.expr.isNil:
     echo "!!!!!!", c.expr.typ , " " , c.expr.ttype
@@ -2657,7 +2940,9 @@ method add*(parent: var CsSelectClause; item: Dummy)  =
 
 # proc add*(parent: var CsSelectClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSelectClause): string = assert false
+proc gen*(c: var CsSelectClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsSelectClause)"
 
 proc newCs*(t: typedesc[CsSimpleBaseType]): CsSimpleBaseType =
   new result
@@ -2673,7 +2958,9 @@ method add*(parent: var CsSimpleBaseType; item: Dummy)  =
 
 # proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSimpleBaseType): string = assert false
+proc gen*(c: var CsSimpleBaseType): string =
+  assert false
+  echo "--> in  gen*(c: var CsSimpleBaseType)"
 
 # ============= CsSimpleLambdaExpression ========
 
@@ -2690,7 +2977,9 @@ method add*(parent: var CsSimpleLambdaExpression; item: Dummy)  =
 
 # proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSimpleLambdaExpression): string = assert false
+proc gen*(c: var CsSimpleLambdaExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsSimpleLambdaExpression)"
 
 # ============= CsSingleVariableDesignation ========
 
@@ -2707,7 +2996,9 @@ method add*(parent: var CsSingleVariableDesignation; item: Dummy)  =
 
 # proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSingleVariableDesignation): string = assert false
+proc gen*(c: var CsSingleVariableDesignation): string =
+  assert false
+  echo "--> in  gen*(c: var CsSingleVariableDesignation)"
 
 # ============= CsSizeOfExpression ========
 
@@ -2724,7 +3015,9 @@ method add*(parent: var CsSizeOfExpression; item: Dummy)  =
 
 # proc add*(parent: var CsSizeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSizeOfExpression): string = assert false
+proc gen*(c: var CsSizeOfExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsSizeOfExpression)"
 
 # ============= CsStackAllocArrayCreationExpression ========
 
@@ -2741,7 +3034,9 @@ method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy)  =
 
 # proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsStackAllocArrayCreationExpression): string = assert false
+proc gen*(c: var CsStackAllocArrayCreationExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsStackAllocArrayCreationExpression)"
 
 # ============= CsStruct ========
 
@@ -2758,7 +3053,9 @@ method add*(parent: var CsStruct; item: Dummy)  =
 
 # proc add*(parent: var CsStruct; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsStruct): string = assert false
+proc gen*(c: var CsStruct): string =
+  assert false
+  echo "--> in  gen*(c: var CsStruct)"
 
 # ============= CsSwitchSection ========
 
@@ -2775,7 +3072,9 @@ method add*(parent: var CsSwitchSection; item: Dummy)  =
 
 # proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSwitchSection): string = assert false
+proc gen*(c: var CsSwitchSection): string =
+  assert false
+  echo "--> in  gen*(c: var CsSwitchSection)"
 
 # ============= CsSwitchStatement ========
 
@@ -2792,7 +3091,9 @@ method add*(parent: var CsSwitchStatement; item: Dummy)  =
 
 # proc add*(parent: var CsSwitchStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSwitchStatement): string = assert false
+proc gen*(c: var CsSwitchStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsSwitchStatement)"
 
 proc newCs*(t: typedesc[CsThisExpression]; name: string): CsThisExpression =
   new result
@@ -2807,7 +3108,9 @@ method add*(parent: var CsThisExpression; item: Dummy)  =
 
 # proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsThisExpression): string = assert false
+proc gen*(c: var CsThisExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsThisExpression)"
 
 # ============= CsThrowExpression ========
 
@@ -2824,7 +3127,9 @@ method add*(parent: var CsThrowExpression; item: Dummy)  =
 
 # proc add*(parent: var CsThrowExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsThrowExpression): string = assert false
+proc gen*(c: var CsThrowExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsThrowExpression)"
 
 # ============= CsThrowStatement ========
 
@@ -2841,7 +3146,9 @@ method add*(parent: var CsThrowStatement; item: Dummy)  =
 
 # proc add*(parent: var CsThrowStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsThrowStatement): string = assert false
+proc gen*(c: var CsThrowStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsThrowStatement)"
 
 # ============= CsTryStatement ========
 
@@ -2858,7 +3165,9 @@ method add*(parent: var CsTryStatement; item: Dummy)  =
 
 # proc add*(parent: var CsTryStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTryStatement): string = assert false
+proc gen*(c: var CsTryStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsTryStatement)"
 
 # ============= CsTupleElement ========
 
@@ -2875,7 +3184,9 @@ method add*(parent: var CsTupleElement; item: Dummy)  =
 
 # proc add*(parent: var CsTupleElement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTupleElement): string = assert false
+proc gen*(c: var CsTupleElement): string =
+  assert false
+  echo "--> in  gen*(c: var CsTupleElement)"
 
 # ============= CsTupleExpression ========
 
@@ -2892,7 +3203,9 @@ method add*(parent: var CsTupleExpression; item: Dummy)  =
 
 # proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTupleExpression): string = assert false
+proc gen*(c: var CsTupleExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsTupleExpression)"
 
 # ============= CsTupleType ========
 
@@ -2909,7 +3222,9 @@ method add*(parent: var CsTupleType; item: Dummy)  =
 
 # proc add*(parent: var CsTupleType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTupleType): string = assert false
+proc gen*(c: var CsTupleType): string =
+  assert false
+  echo "--> in  gen*(c: var CsTupleType)"
 
 # ============= CsTypeArgumentList ========
 
@@ -2927,7 +3242,9 @@ method add*(parent: var CsTypeArgumentList; item: Dummy)  =
 
 # proc add*(parent: var CsTypeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeArgumentList): string = assert false
+proc gen*(c: var CsTypeArgumentList): string =
+  assert false
+  echo "--> in  gen*(c: var CsTypeArgumentList)"
 
 # ============= CsTypeConstraint ========
 
@@ -2944,7 +3261,9 @@ method add*(parent: var CsTypeConstraint; item: Dummy)  =
 
 # proc add*(parent: var CsTypeConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeConstraint): string = assert false
+proc gen*(c: var CsTypeConstraint): string =
+  assert false
+  echo "--> in  gen*(c: var CsTypeConstraint)"
 
 proc newCs*(t: typedesc[CsTypeOfExpression]; name: string): CsTypeOfExpression =
   new result
@@ -2959,7 +3278,9 @@ method add*(parent: var CsTypeOfExpression; item: Dummy)  =
 
 # proc add*(parent: var CsTypeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeOfExpression): string = assert false
+proc gen*(c: var CsTypeOfExpression): string =
+  assert false
+  echo "--> in  gen*(c: var CsTypeOfExpression)"
 
 # ============= CsTypeParameterConstraintClause ========
 
@@ -2976,7 +3297,9 @@ method add*(parent: var CsTypeParameterConstraintClause; item: Dummy)  =
 
 # proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeParameterConstraintClause): string = assert false
+proc gen*(c: var CsTypeParameterConstraintClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsTypeParameterConstraintClause)"
 
 # ============= CsTypeParameterList ========
 
@@ -2993,7 +3316,9 @@ method add*(parent: var CsTypeParameterList; item: Dummy)  =
 
 # proc add*(parent: var CsTypeParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeParameterList): string = assert false
+proc gen*(c: var CsTypeParameterList): string =
+  assert false
+  echo "--> in  gen*(c: var CsTypeParameterList)"
 
 # ============= CsTypeParameter ========
 
@@ -3010,7 +3335,9 @@ method add*(parent: var CsTypeParameter; item: Dummy)  =
 
 # proc add*(parent: var CsTypeParameter; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeParameter): string = assert false
+proc gen*(c: var CsTypeParameter): string =
+  assert false
+  echo "--> in  gen*(c: var CsTypeParameter)"
 
 # ============= CsUnsafeStatement ========
 
@@ -3027,7 +3354,9 @@ method add*(parent: var CsUnsafeStatement; item: Dummy)  =
 
 # proc add*(parent: var CsUnsafeStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsUnsafeStatement): string = assert false
+proc gen*(c: var CsUnsafeStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsUnsafeStatement)"
 
 # ============= CsUsingDirective ========
 
@@ -3061,7 +3390,9 @@ method add*(parent: var CsUsingStatement; item: Dummy)  =
 
 # proc add*(parent: var CsUsingStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsUsingStatement): string = assert false
+proc gen*(c: var CsUsingStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsUsingStatement)"
 
 # ============= CsWhenClause ========
 
@@ -3078,7 +3409,9 @@ method add*(parent: var CsWhenClause; item: Dummy)  =
 
 # proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsWhenClause): string = assert false
+proc gen*(c: var CsWhenClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsWhenClause)"
 
 # ============= CsWhereClause ========
 
@@ -3095,7 +3428,9 @@ method add*(parent: var CsWhereClause; item: Dummy)  =
 
 # proc add*(parent: var CsWhereClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsWhereClause): string = assert false
+proc gen*(c: var CsWhereClause): string =
+  assert false
+  echo "--> in  gen*(c: var CsWhereClause)"
 
 # ============= CsWhileStatement ========
 
@@ -3112,7 +3447,9 @@ method add*(parent: var CsWhileStatement; item: Dummy)  =
 
 # proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsWhileStatement): string = assert false
+proc gen*(c: var CsWhileStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsWhileStatement)"
 
 # ============= CsYieldStatement ========
 
@@ -3129,7 +3466,9 @@ method add*(parent: var CsYieldStatement; item: Dummy)  =
 
 # proc add*(parent: var CsYieldStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsYieldStatement): string = assert false
+proc gen*(c: var CsYieldStatement): string =
+  assert false
+  echo "--> in  gen*(c: var CsYieldStatement)"
 
 # ======================================================
 
@@ -3150,19 +3489,28 @@ proc newCs*(t: typedesc[CsLocalDeclarationStatement]): CsLocalDeclarationStateme
   new result
   result.typ = $typeof(t)
   result.ttype = "CsLocalDeclarationStatement"
+
 proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info; data:AllNeededData): CsLocalDeclarationStatement =
   result = newCs(CsLocalDeclarationStatement)
   result.vartype = info.essentials[1]
   result.names = info.essentials[0].split(",").mapIt(it.strip)
 
+method add*(parent:var CsVariable,item: CsGenericName) =
+  parent.genericName = item
+
+
 method gen*(c:  CsLocalDeclarationStatement): string =
+
+  echo "--> in  gen*(c:  CsLocalDeclarationStatement)"
   # echo "first gen attempt!!!", c.names.join(", ") & " : " & c.vartype
   # result = "var " & $c.names.join(", ")
   # if c.vartype != "var":
   #   result &= " : " & c.vartype
   echo "START OF gen CsLocalDeclarationStatement:"
+  echo "left hand side"
   result &= c.lhs.gen()
   echo "gen result so far: " & result
+  echo "right hand side"
   result &= c.rhs.gen()
   echo "gen result so far: " & result
   echo "END OF gen CsLocalDeclarationStatement."
@@ -3178,6 +3526,8 @@ method add*(parent: var CsLocalDeclarationStatement; item: CsGenericName) =
 
 method add*(parent: var CsLocalDeclarationStatement; item: CsTypeArgumentList) =
   parent.lhs.genericName.typearglist = item
+  # TODO: can also be the rhs. so we should forward to last construct that fits instead of a high parent.
+
 method add*(parent: var CsLocalDeclarationStatement; item: CsVariableDeclarator) =
   parent.rhs = item
 

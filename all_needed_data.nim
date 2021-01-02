@@ -59,7 +59,9 @@ proc lastBlockType*(data: AllNeededData;typeStr:string):Option[UUID]=
       return some(id)
   return none(UUID)
 
+import common_utils
 
+import type_utils
 proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[string]): AllNeededData =
   # echo "in makeNeededData"
   result.sourceCode = src

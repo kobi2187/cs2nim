@@ -1,5 +1,5 @@
 # parent_finder.nim
-import options, sequtils, all_needed_data, block_utils
+import options, sequtils, all_needed_data, block_utils#, strutils
 import info_center
 import types, construct, constructs/[cs_all_constructs, justtypes]
 import constructs/cs_root, uuids
@@ -7,6 +7,7 @@ import constructs/cs_root, uuids
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
   of "ckNamespace, ckClass": true
+  of "ckClass, ckField": true
   of "ckNamespace, ckEnum": true
   of "ckEnum, ckEnumMember": true
   of "ckClass, ckMethod": true
@@ -62,6 +63,12 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckLiteralExpression, ckPrefixUnaryExpression": true
   of "ckInitializerExpression, ckPrefixUnaryExpression": true
   of "ckVariableDeclarator, ckBinaryExpression": true
+  of "ckVariable, ckGenericName": true
+  of "ckObjectCreationExpression, ckGenericName": true
+  of "ckGenericName, ckTypeArgumentList": true
+  of "ckUsingDirective, ckNameEquals": true
+  of "ckNameEquals, ckGenericName": true
+  of "ckParameter, ckGenericName": true
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 import state,sugar
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -246,12 +253,14 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     res = data.idLastNsPart()
 
   of ckInvocationExpression:
-    echo "obj is InvocationExpression"
+    echo "obj is InvocationExpression" #TODO: can also be in class as initializing instance var.
     # res = data.lastMethod.id
-    if data.lastMethod.body.len == 0:
-      res = data.lastMethod.id
-    else:
-      res = data.lastMethod.lastBodyExprId
+    if data.classLastAdded == Methods:
+      if data.lastMethod.body.len == 0:
+        res = data.lastMethod.id
+      else:
+        res = data.lastMethod.lastBodyExprId
+    else: res = data.idLastClassPart
 
   of ckArgument:
     echo "obj is Argument, older code was discarding -- TODO?"
@@ -320,18 +329,30 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
 
 
   of ckGenericName: # NOTE:don't know how it should be structured. probably part of csvariable.
-    case data.previousConstruct.get.name
-    of ["VariableDeclaration", "ObjectCreationExpression"]:
-      assert data.classLastAdded == Methods, $data.classLastAdded
-      res = data.lastBodyExprId
-    else: assert false, data.previousConstruct.get.name
+    # just return the last construct.
+    let b = state.getLastBlock((c) => c.name notin [ "GenericName", "IdentifierName","QualifiedName"] )
+    echo b.get.name
+    res = b.get.id.some
+    when false: # previous impl. do we pass unit tests?
+      case data.previousConstruct.get.name
+      of [ "IdentifierName"]: discarded = true
+      of ["VariableDeclaration", "ObjectCreationExpression","MethodDeclaration","Parameter","SimpleBaseType"]:
+        assert data.classLastAdded == Methods, $data.classLastAdded
+        res = data.lastBodyExprId
+        if res.get != data.previousConstruct.get.id:
+          let btype = if not data.lastBodyExpr.get.typ.isEmptyOrWhitespace: data.lastBodyExpr.get.typ else: data.lastBodyExpr.get.ttype
+          echo btype, " <=> " , data.previousConstruct.get.name
+      else: assert false, data.previousConstruct.get.name
 
 
   of ckTypeArgumentList:
     case data.previousConstruct.get.name
     of "GenericName":
-      assert data.classLastAdded == Methods, $data.classLastAdded
-      res = data.lastBodyExprId
+      let b = data.lastBlockType("GenericName")
+      assert b.isSome
+      res = b
+      # assert data.classLastAdded == Methods, $data.classLastAdded
+      # res = data.lastBodyExprId
     else: assert false, data.previousConstruct.get.name
 
   of ckVariableDeclarator: # for now assume we're in method, add more later.
@@ -360,11 +381,12 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
 
   of ckPrefixUnaryExpression: # hmm, not the previous but the next one. so just add it.
     let fitting = state.getLastBlock(c=>c.name in ["InitializerExpression"]) # TODO: add others as needed.
-    assert fitting.isSome
+    assert fitting.isSome, $data.simplified
     res = fitting.get.id.some
   of ckBinaryExpression:
-    res = data.lastBlockType("VariableDeclarator")
-    assert res.isSome
+    let b  = state.getLastBlock(c=>c.name in ["VariableDeclarator"]) # TODO: add others as needed.
+    assert b.isSome, $data.simplified
+    res = b.get.id.some
   of ckField: # classes, or interfaces
     assert data.nsLastAdded in [ Classes, Interfaces ] # more?
     res = data.idLastNsPart
@@ -389,7 +411,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckOmittedArraySizeExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckNameEquals:
-    assert false, $obj.kind & " is still unsupported"
+    res = data.lastUsing.id
+    # assert false, $obj.kind & " is still unsupported"
   of ckThrowStatement:
     assert false, $obj.kind & " is still unsupported"
   of ckTypeOfExpression:
@@ -581,7 +604,9 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckQueryContinuation:
     assert false, $obj.kind & " is still unsupported"
   of ckExternAliasDirective:
-    assert false, $obj.kind & " is still unsupported"
+    # ignore, unsupported.
+    discarded = true
+    echo "got " & $obj.kind & " which we don't support (doesn't make sense for nim modules)"
   of ckMakeRefExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckRefValueExpression:
@@ -632,17 +657,24 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     assert false, $obj.kind & " is still unsupported"
     # raise notimplementedException
   result = (discarded,res)
+  if res.isNone: assert discarded == true
+  assert (not discarded and res.isSome) or (discarded and res.isNone), "dis: " & $discarded & ", res: " & $res
 
 proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (bool,Option[Construct]) =
   var res:Option[Construct]
   echo "in getParent"
   echo "newobj: ", newobj.kind
   let (dis,pid) = determineParentId(newobj, allData)
-  if newobj.kind != ckNamespace and pid.isSome():
-    assert pid.isSome and not pid.get.isZero
+  if pid.isNone: assert dis == true
+
+  echo dis, pid
+  if pid.isSome and not dis and newobj.kind != ckNamespace: # because namespace has no parent. root is explicit.
+    assert pid.isSome
+    assert not pid.get.isZero
     echo "parent id found: ", $pid
     res = root.infoCenter.fetch(pid.get)
     if res.isNone:
-      echo "couldn't find registered object for this id"
+      echo "couldn't find registered object for this id" ### NOTE: can happen for IdentifierName since we don't register it. it means the parent was wrongly identified as IdentifierName.
       echo root.infoCenter.keys
   result = (dis,res)
+  assert (not dis and res.isSome) or (dis and res.isNone), "dis: " & $dis & ", res: " & (if res.isSome: $res.get.kind else: "none")

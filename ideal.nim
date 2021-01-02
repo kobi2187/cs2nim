@@ -17,14 +17,6 @@ import uuids, options,sequtils
 
 # proc pathOfBlocks(): seq[B] = discard # TODO
 
-# proc processTreeForData(root: var CsRoot; info: Info): AllNeededData =
-#   # make heavy use of the Construct variant kind, to build the needed Data.
-#   var lastBlock: Option[Construct]
-#   # lastItem
-#   let path = pathOfBlocks()
-#   if path.len > 0:
-#     lastBlock = root.fetch(path[^1].id) # TODO......
-
 # TODO: a sprawling giant. how to refactor? is it even possible to refactor this?
 proc add*(parent, child: Construct; data: AllNeededData) =
   echo "in add <Construct>"
@@ -264,6 +256,10 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckInitializerExpression:
       var c = child.initializerExpression
       c.parentId = p.id; p.add c
+    of ckGenericName:
+      var c = child.genericName
+      c.parentId = p.id; p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckInitializerExpression:
@@ -284,6 +280,43 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       var c = child.prefixUnaryExpression
       c.parentId = p.id;  p.add c
 
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckVariable:
+    var p = parent.variable
+    case child.kind
+    of ckGenericName:
+      var c = child.genericName
+      c.parentId = p.id;  p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckGenericName:
+    var p = parent.genericName
+    case child.kind
+    of ckTypeArgumentList:
+      var c = child.typeArgumentList
+      c.parentId = p.id;  p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+
+  of ckUsingDirective:
+    var p = parent.usingDirective
+    case child.kind
+    of ckNameEquals:
+      var c = child.nameEquals
+      c.parentId = p.id;  p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckNameEquals:
+    var p = parent.nameEquals
+    case child.kind
+    of ckGenericName:
+      var c = child.genericName
+      c.parentId = p.id;  p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+
+  of ckParameter:
+    var p = parent.parameter
+    case child.kind
+    of ckGenericName:
+      var c = child.genericName
+      c.parentId = p.id;  p.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   else: assert false, "plz impl for parent: " & $parent.kind
@@ -335,6 +368,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID; upcoming:s
     var obj: Construct = createType(info, id, allData)
     if obj.isNil: return
     obj.id = some(id)
+
     # allData.refresh(root,info,src)
     if obj.sameAsExisting(allData): return # for example, don't add a new namespace but fetch it based on name.
     root.register(id, obj)

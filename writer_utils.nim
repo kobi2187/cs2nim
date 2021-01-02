@@ -6,7 +6,7 @@ import strutils, os, json
 # var currentRoot*: CsRoot
 
 proc upcomingLines*(jsn:JsonNode):seq[string] =
-  let x = jsn["Lines"].getElems() 
+  let x = jsn["Lines"].getElems()
   for ln in x:
     if ln["KindStr"].getStr() == "Decl":
       result.add ln["Declaration"].getStr()
@@ -94,17 +94,19 @@ proc writeAll*(dir: string; root: CsRoot) =
     for (d, output) in whatToDo:
       doWrite(d, output)
 
-
-
-
 import json, algorithm
+
+import system
+proc handleOne(root:var CsRoot; file:string) =
+  var contents = file.readFile()
+  var linesJson = json.parseJson(contents)
+  let upcoming = upcomingLines(linesJson)
+  parseExecFile(root, linesJson, upcoming)
 
 proc handleJustOne*(inputFolder: string; root: var CsRoot;
     file: string) =
   echo "working on: " & file
-  let linesJson = parseFile(file)
-  let upcoming = upcomingLines(linesJson)
-  parseExecFile(root, linesJson, upcoming)
+  handleOne(root,file)
 
 proc stats(i: int; f: string; len: int; sw: DateTime): string =
   let x = i + 1
@@ -122,8 +124,5 @@ proc handleMany*(inputFolder: string; root: var CsRoot; files: seq[string]) =
 
     let str = stats(i, f, files.len, sw)
     write(stdout, str)
-
-    let linesJson = parseFile(f)
-    let upcoming = upcomingLines(linesJson)
-    parseExecFile(root, linesJson, upcoming)
+    handleOne(root,f)
 
