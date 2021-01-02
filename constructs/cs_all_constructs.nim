@@ -99,19 +99,26 @@ proc newCs*(t: typedesc[CsField]): CsField =
   result.typ = $typeof(t)
 
 proc extract*(t: typedesc[CsField]; info: Info): CsField =
+  echo info
   result = newCs(CsField)
   result.name = info.essentials[2]
   result.thetype = info.essentials[1]
   result.isStatic = info.essentials[0].contains("static")
   result.isPublic = info.essentials[0].contains("public") # TODO check what CsDisplay actually provides.
+  assert false
 
 # method add*(parent: var CsField; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsField; item: Dummy) "
 #   if stopEarly: assert false
 # # proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(f: CsField): string =
+proc hackFindType(item:CsProperty) : string =
+  echo item.src
+  let regex = nre.re(".*?(\\w+)\\s*" & item.name & ".*")
+  result = item.src.match(regex).get.captures[0]
+  assert not result.isEmptyOrWhitespace
 
+proc gen*(f: CsField): string =
   echo "--> in  gen*(f: CsField)"
   result = f.name
   if f.ispublic: result &= "*"
@@ -892,6 +899,10 @@ proc gen*(c: CsClass): string =
   echo "generating class:" & c.name
   if c.isNil: result = "" else: result &= "type " & c.name & "* = ref object"
   if c.extends != "": result &= " of " & c.extends
+  if c.fields.len > 0:
+    result &= "\r\n"
+    for f in c.fields:
+      result &= "  " & f.gen()
   result &= "\r\n\r\n"
 
   echo "methods count: " & $c.methods.len
@@ -928,12 +939,17 @@ method add*(parent: var CsClass; m: CsMethod) =
 proc addField(parent:CsClass; name, typ:string) =
   var f = newCs(CsField)
   f.name = name
+  f.isStatic = false
+  f.isPublic = false
   f.thetype = typ
   parent.fields.add f
 
 proc addFieldForProperty(parent:CsClass,item:CsProperty) =
-  let fieldName = "u_" & item.name
-  let fieldType = item.retType
+  var fieldName = "u_" & item.name
+  var fieldType = item.retType
+  if fieldType == "":
+   fieldType = hackFindType(item)
+
   parent.addField(fieldName, fieldType)
 
 
@@ -2818,6 +2834,7 @@ proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
 
 proc extract*(t: typedesc[CsProperty]; info: Info): CsProperty =
   echo info
+  ## NOTE: very strange, no type from CsDisplay.
   let name = info.essentials[0] #name
   result = newCs(CsProperty, name)
   let cnt = info.essentials[1].parseInt # how many
