@@ -52,16 +52,24 @@ import sequtils
 proc simplifiedConstructs() :seq[(string,UUID)]=
   result = currentConstruct.mapIt((it.name, it.id))
 
-import strutils
+import strutils,algorithm
+
 proc lastBlockType*(data: AllNeededData;typeStr:string):Option[UUID]=
-  for (name,id) in data.simplified:
+  for (name,id) in data.simplified.reversed:
     if name.toLowerAscii == typeStr.toLowerAscii:
+      return some(id)
+  return none(UUID)
+
+proc lastBlockType*(data: AllNeededData;typeStrs:seq[string]):Option[UUID]=
+  let lowerTypeStr = typeStrs.mapIt(it.toLowerAscii)
+  for (name,id) in data.simplified.reversed:
+    if name.toLowerAscii in lowerTypeStr:
       return some(id)
   return none(UUID)
 
 import common_utils
 
-import type_utils
+# import type_utils
 proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[string]): AllNeededData =
   # echo "in makeNeededData"
   result.sourceCode = src

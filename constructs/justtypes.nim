@@ -219,6 +219,7 @@ type CsVariableDeclarator* = ref object of BodyExpr # I assume this is the right
   # expr*: CsObjectCreationExpression | CsExpressionStatement
   # exprType*:string
   arglist*:CsArgumentList
+
 type CsReturnStatement* = ref object of BodyExpr # type:CsReturnStatement
   args*: CsArgumentList
   expr*: BodyExpr                                # can have one expr that can be nil
@@ -328,7 +329,9 @@ type CsBinaryPattern* = ref object of CsObject
 type CsDiscardPattern* = ref object of CsObject
 type CsFunctionPointerType* = ref object of CsObject
 type CsImplicitObjectCreationExpression* = ref object of CsObject
-type CsMemberAccessExpression* = ref object of CsObject
+type CsMemberAccessExpression* = ref object of IAssignable
+  fromPart*:string
+  member*:string
 type CsParenthesizedPattern* = ref object of CsObject
 type CsPositionalPatternClause* = ref object of CsObject
 type CsPrimaryConstructorBaseType* = ref object of CsObject

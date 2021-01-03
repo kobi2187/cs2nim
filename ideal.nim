@@ -55,7 +55,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckProperty:
       var pr = child.property
       pr.parentId = c.id; c.add pr
-
+    of ckField:
+      var cf = child.field
+      cf.parentId = c.id; c.add cf
 
     else: assert false, "plz impl for child: " & $child.kind
 
@@ -80,6 +82,13 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckAssignmentExpression:
       var c = child.assignmentExpression
       c.parentId = m.id; m.add c
+    of ckVariableDeclarator: # just add to method body.
+      var c = child.variableDeclarator
+      c.parentId = m.id; m.add c
+    # of ckMemberAccessExpression:
+    #   var c = child.memberAccessExpression
+    #   c.parentId = m.id; m.add c
+
     else: assert false, "plz impl for child: " & $child.kind
   of ckEnum:
     var m = parent.cenum
@@ -228,6 +237,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckBinaryExpression:
       let c = child.binaryExpression
       c.parentId = p.id; p.add c
+    of ckMemberAccessExpression: # this would be the rhs
+      let c = child.memberAccessExpression
+      c.parentId = p.id; p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
 
@@ -287,6 +299,10 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckGenericName:
       var c = child.genericName
       c.parentId = p.id;  p.add c
+    # of ckVariableDeclarator:
+    #   var c = child.variableDeclarator
+    #   c.parentId = p.id;  p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
   of ckGenericName:
     var p = parent.genericName
@@ -316,6 +332,23 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckGenericName:
       var c = child.genericName
+      c.parentId = p.id;  p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckField:
+    var p = parent.field
+    case child.kind
+    of ckVariable:
+      var c = child.variable
+      c.parentId = p.id;  p.add c
+    of ckVariableDeclarator:
+      var c = child.variableDeclarator
+      c.parentId = p.id;  p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckInvocationExpression:
+    var p = parent.invocationExpression
+    case child.kind
+    of ckMemberAccessExpression:
+      var c = child.memberAccessExpression
       c.parentId = p.id;  p.add c
     else: assert false, "plz impl for child: " & $child.kind
 

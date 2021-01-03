@@ -110,9 +110,9 @@ proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
 proc getLastIndexer*(root: var CsRoot): Option[CsIndexer] =
   var (_, ns) = root.getCurrentNs
   result = ns.getLastIndexer()
-import options, sequtils, strutils
+import options#, sequtils, strutils
 import common_utils
-import constructs/[justtypes,cs_root]
+import constructs/[justtypes] #,cs_root]
 proc getLastClass*(ns: CsNamespace): Option[CsClass] =
   # echo ns
   if ns.classes.len == 0:
@@ -130,7 +130,7 @@ proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
   else:
     return some(cls.ctors.last)
 
-import tables
+# import tables
 
 import options
 

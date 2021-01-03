@@ -70,6 +70,13 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckUsingDirective, ckNameEquals": true
   of "ckNameEquals, ckGenericName": true
   of "ckParameter, ckGenericName": true
+  of "ckField, ckVariable": true
+  # of "ckVariable, ckVariableDeclarator": true
+  of "ckField, ckVariableDeclarator": true
+  of "ckMethod, ckVariableDeclarator": true
+  of "ckVariableDeclarator, ckMemberAccessExpression": true
+  of "ckInvocationExpression, ckMemberAccessExpression": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
 import state,sugar
 proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
@@ -309,7 +316,9 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
       assert data.lastClass.indexer.aclist != nil
       res = data.lastClass.indexer.aclist.id
     else: assert false, " where else? " & $data.classLastAdded
-  of ckMemberAccessExpression: discarded = true
+  of ckMemberAccessExpression:
+    res = data.lastBlockType(@["VariableDeclarator", "InvocationExpression"])
+    # if data.lastLine.isComplete: # variable declarator right hand side is fine,
   of ckConstructorInitializer:
     # parent is ckConstructor.
     assert data.classLastAdded == ClassParts.Ctors
@@ -325,7 +334,9 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
       # we're in a method, get the last body id.
       assert data.classLastAdded == Methods, $data.classLastAdded
       res = data.lastBodyExprId # "hopefully" this is the local declaration.
-
+    of "FieldDeclaration":
+      res = data.lastBlockType("FieldDeclaration")
+      assert res.isSome
     else: assert false, "please add more: " &   data.previousConstruct.get.name
 
 
@@ -358,7 +369,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
 
   of ckVariableDeclarator: # for now assume we're in method, add more later.
     assert data.classLastAdded == Methods, $data.classLastAdded
-    res = data.lastBodyExprId # this will create a few chained adds but we don't care.
+    # res = data.lastBodyExprId # this will create a few chained adds but we don't care.
+    res = data.lastBlockType(@[ "FieldDeclaration", "LocalDeclarationStatement", "MethodDeclaration"])
+    # res = data.idLastClassPart
+    # res = data.lastMethod.id
 
   of ckObjectCreationExpression: # store in assignment expression # not variable declarator.
     case data.previousPreviousConstruct.get.name & ", " & data.previousConstruct.get.name

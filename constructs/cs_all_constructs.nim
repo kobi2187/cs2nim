@@ -105,7 +105,6 @@ proc extract*(t: typedesc[CsField]; info: Info): CsField =
   result.thetype = info.essentials[1]
   result.isStatic = info.essentials[0].contains("static")
   result.isPublic = info.essentials[0].contains("public") # TODO check what CsDisplay actually provides.
-  assert false
 
 # method add*(parent: var CsField; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsField; item: Dummy) "
@@ -296,13 +295,10 @@ proc gen*(c: var CsArrowExpressionClause): string =
 
 # ============= CsAssignmentExpression ========
 
-# TODO MAJOR TODO: instead of everyone matching bodyexpr and stored as a seq in various body fields, figure out which ones really do, maybe 3 types, then put these expressions in them accordingly.
-# then these are just lines, where line is a statement terminating with ';'
-# that is, create a more proper inheritence hierarchy. on paper, and code based on short unit tests.
-
 method gen*(c: CsAssignmentExpression): string =
-  assert false #TODO(gen:CsAssignmentExpression)
   echo "--> in  gen*(c: CsAssignmentExpression)"
+  result = c.left & " = " & c.right.gen()
+  # assert false #TODO(gen:CsAssignmentExpression)
 
 # ============= CsAttributeArgumentList ========
 
@@ -697,6 +693,15 @@ method add*(parent:var CsProperty, item:CsAccessorList) =
 method add*(parent:var CsMethod, item: CsAssignmentExpression)=
   parent.body.add item
 
+method add*(parent:var CsMethod, item: CsVariableDeclarator)=
+  parent.body.add item
+
+method add*(parent:var CsInvocationExpression, item: CsMemberAccessExpression)=
+  echo "in add*(parent:var CsInvocationExpression, item: CsMemberAccessExpression)"
+  echo "NOTIMPLEMENTED: i assume unneeded."
+
+  # parent.callName
+
 
 method add*(c:var CsIndexer, item: CsAccessorList) =
   c.aclist=item
@@ -953,6 +958,8 @@ proc addFieldForProperty(parent:CsClass,item:CsProperty) =
   parent.addField(fieldName, fieldType)
 
 
+method add*(parent: var CsClass; item: CsField) =
+  parent.fields.add item
 method add*(parent: var CsClass; item: CsProperty) =
   parent.properties.add item
   parent.lastAddedTo = some(Properties)
@@ -1553,13 +1560,13 @@ method gen*(c: CsExpressionStatement): string =
   echo "--> in  gen*(c: CsExpressionStatement)"
   echo "generating for expression statement"
   echo "source is: " & c.src.strip()
-  assert not c.call.isNil
-  result = c.call.gen() & "("
-  if c.args.args.len > 0:
-    result &= c.args.gen()
-  result &= ")"
-  if c.call.callName.contains(".") and c.call.callName.startsWith(re.re"[A-Z]"):
-    result &= " # " & c.call.callName.rsplit(".",1)[0]
+  if not c.call.isNil:
+    result = c.call.gen() & "("
+    if c.args.args.len > 0:
+      result &= c.args.gen()
+    result &= ")"
+    if c.call.callName.contains(".") and c.call.callName.startsWith(re.re"[A-Z]"):
+      result &= " # " & c.call.callName.rsplit(".",1)[0]
   echo "expression statement generated result: " & result
 
 # ============= CsExternAliasDirective ========
@@ -2345,9 +2352,15 @@ method add*(parent:CsGenericName; item:CsTypeArgumentList) =
   parent.typearglist = item
 
 method gen*(c:CsVariableDeclarator):string =
-  echo "rhs is: " & c.rhs.typ
-  if c.ev != nil:
+  echo c.src
+  echo "in method gen*(c:CsVariableDeclarator)"
+  assert c.rhs != nil
+  if not c.rhs.isNil:
+    echo "rhs is: " & c.rhs.typ
     result &= " = " & c.rhs.gen()
+  else:
+    if c.ev != nil and c.ev.rhsValue != nil:
+      result = " = " & c.ev.rhsValue.gen()
 
 # method add*(parent: var CsMethod; item: CsObjectCreationExpression) =
 #   parent.body.add item
@@ -2393,6 +2406,17 @@ proc extract*(t: typedesc[CsNameEquals]; info: Info): CsNameEquals =
 
 method add*(parent: var CsNameEquals; item: CsGenericName)  =
   parent.genericName = item
+
+method add*(parent: var CsField; item: CsVariableDeclarator)  =
+  echo "in add*(parent: var CsField; item: CsVariableDeclarator)"
+
+method add*(parent: var CsField; item: CsVariable)  =
+  echo "in add*(parent: var CsField; item: CsVariable)"
+  if parent.name.isEmptyOrWhitespace:
+    parent.name = item.name
+  if parent.thetype.isEmptyOrWhitespace:
+    parent.thetype = item.thetype
+
 
 method add*(parent: var CsParameter; item: CsGenericName)  =
   parent.genericType = item
@@ -3597,6 +3621,7 @@ proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info; data:AllNeed
   result.vartype = info.essentials[1]
   result.names = info.essentials[0].split(",").mapIt(it.strip)
 
+
 method add*(parent:var CsVariable,item: CsGenericName) =
   parent.genericName = item
 
@@ -3612,8 +3637,12 @@ method gen*(c:  CsLocalDeclarationStatement): string =
   echo "left hand side"
   result &= c.lhs.gen()
   echo "gen result so far: " & result
-  echo "right hand side"
-  result &= c.rhs.gen()
+  echo "right hand side: "
+  if not c.rhs.isNil:
+    echo "rhs type" & c.rhs.typ
+    result &= c.rhs.gen()
+  else:
+    echo "c.rhs was nil"
   echo "gen result so far: " & result
   echo "END OF gen CsLocalDeclarationStatement."
 
@@ -3634,7 +3663,8 @@ method add*(parent: var CsLocalDeclarationStatement; item: CsVariableDeclarator)
   parent.rhs = item
 
 method add*(parent: var CsVariableDeclarator; item: CsLiteralExpression) =
-  parent.rhs = item
+  if parent.rhs.isNil:
+    parent.rhs = item
 method add*(parent: var CsVariableDeclarator; item: CsArgumentList) =
   parent.arglist = item # FIXME!
 
@@ -3653,11 +3683,17 @@ proc newCs*(t: typedesc[CsVariableDeclarator]):CsVariableDeclarator =
   new result
   result.typ = $typeof(t)
 
+method add*(parent: var CsVariableDeclarator; item:CsMemberAccessExpression)=
+  if parent.rhs.isNil:
+    parent.rhs = item
+
 method add*(parent: var CsVariableDeclarator; item: CsBinaryExpression)=
-  parent.rhs = item
+  if parent.rhs.isNil:
+    parent.rhs = item
 
 method add*(parent: var CsVariableDeclarator; item: CsObjectCreationExpression)=
-  parent.rhs = item
+  if parent.rhs.isNil:
+    parent.rhs = item
   # assert parent.bexpr.isNil
   # parent.bexpr = item
 
@@ -3713,8 +3749,13 @@ proc newCs*(t:typedesc[CsMemberAccessExpression]):CsMemberAccessExpression =
 
 proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData):CsMemberAccessExpression =
   result = newCs(t)  # i think we can discard it.
+  echo info
+  result.member = info.essentials[0]
+  result.fromPart = info.essentials[1]
 
-method gen*(c: CsMemberAccessExpression):string = assert false
+method gen*(c: CsMemberAccessExpression):string =
+  echo "in gen*(c: CsMemberAccessExpression)"
+  result = c.fromPart & "." & c.member.lowerFirst
 
 # method add*(parent:var CsParenthesizedPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsParenthesizedPattern; item: Dummy) "

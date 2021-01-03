@@ -36,11 +36,13 @@ suite "code generation tests":
       check genTest("sample12")
     test "15. binary expression":
       check genTest("binexp")
-    # echo "OK total: 15"
+    test "16. field and assignment between variables":
+      check genTest("sample13")
+    # echo "OK total: 16"
   #[
   ]#
-  # when true:
-    # discard
+  when true:
+    discard
     # working on it:
   # when false: # not ready yet.
   #   discard
