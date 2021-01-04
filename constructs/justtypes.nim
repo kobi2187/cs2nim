@@ -32,11 +32,11 @@ type CsAnonymousObjectCreationExpression *
   = ref object of CsObject #TODO(type:CsAnonymousObjectCreationExpression)
 type CsAnonymousObjectMemberDeclarator *
   = ref object of CsObject #TODO(type:CsAnonymousObjectMemberDeclarator)
-type CsArgumentList* = ref object of CsObject
-  args*: seq[string]
-  # args*: seq[CsArgument] # TODO: probably needed, when arguments are more complex. need to see the flow.
 type CsArgument* = ref object of CsObject
   value*: string
+type CsArgumentList* = ref object of CsObject
+  # args*: seq[string]
+  args*: seq[CsArgument] # TODO: probably needed, when arguments are more complex. need to see the flow.
 type CsArrayCreationExpression* = ref object of CsObject #TODO(type:CsArrayCreationExpression)
 type CsArrayRankSpecifier* = ref object of CsObject #TODO(type:CsArrayRankSpecifier)
 type CsArrayType* = ref object of CsObject #TODO(type:CsArrayType)
@@ -58,8 +58,6 @@ type CsBinaryExpression* = ref object of IAssignable
   op*: string
   right*: string
 type CsBracketedArgumentList* = ref object of CsObject #TODO(type:CsBracketedArgumentList)
-type CsBracketedParameterList* = ref object of CsObject #TODO(type:CsBracketedParameterList)
-  plist*: string
 type CsBreakStatement* = ref object of CsObject #TODO(type:CsBreakStatement)
 type CsCasePatternSwitchLabel* = ref object of CsObject #TODO(type:CsCasePatternSwitchLabel)
 type CsCaseSwitchLabel* = ref object of CsObject #TODO(type:CsCaseSwitchLabel)
@@ -89,8 +87,15 @@ type CsParameter* = ref object of CsObject
   genericType*: CsGenericName
   isRef*: bool
   isOut*: bool
+
+
 type CsParameterList* = ref object of CsObject
   parameters*: seq[CsParameter]
+
+type CsBracketedParameterList* = ref object of CsObject #TODO(type:CsBracketedParameterList)
+  plist*: string
+  # plist*: seq[CsParameter]
+
 type CsMethod* = ref object of CsObject
   isStatic*: bool
   parentClass*: string
@@ -162,6 +167,7 @@ type CsEvent* = ref object of CsObject #TODO(type:CsEvent)
 type CsExplicitInterfaceSpecifier* = ref object of CsObject #TODO(type:CsExplicitInterfaceSpecifier)
 type CsInvocationExpression* = ref object of BodyExpr
   callName*: string
+  args*: CsArgumentList
 type CsExpressionStatement* = ref object of BodyExpr
   call*: CsInvocationExpression
   args*: CsArgumentList
@@ -321,6 +327,7 @@ type CsVariable* = ref object of BodyExpr
   # name*:string
   thetype*: string
   genericName*: CsGenericName
+  declarator*: CsVariableDeclarator
 
 type CsLocalDeclarationStatement* = ref object of BodyExpr
   names*: seq[string]

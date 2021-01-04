@@ -77,7 +77,19 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckMethod, ckVariableDeclarator": true
   of "ckVariableDeclarator, ckMemberAccessExpression": true
   of "ckInvocationExpression, ckMemberAccessExpression": true
-
+  of "ckVariable, ckPredefinedType": true
+  of "ckVariable, ckVariableDeclarator": true
+  of "ckEqualsValueClause, ckLiteralExpression": true
+  of "ckInvocationExpression, ckArgumentList": true
+  of "ckArgumentList, ckArgument": true
+  of "ckArgument, ckLiteralExpression": true
+  of "ckTypeArgumentList, ckPredefinedType": true
+  of "ckEqualsValueClause, ckObjectCreationExpression": true
+  of "ckObjectCreationExpression, ckArgumentList": true
+  of "ckPrefixUnaryExpression, ckLiteralExpression": true
+  of "ckParameter, ckPredefinedType": true
+  of "ckBracketedParameterList, ckParameter": true
+  of "ckEqualsValueClause, ckMemberAccessExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -722,7 +734,7 @@ proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (
   let (dis, pid) = determineParentId(newobj, allData)
   if pid.isNone: assert dis == true
 
-  echo dis, pid
+  echo "discarded: ", dis,   " object kind: ", newobj.kind,  " parentID: ", pid
   if pid.isSome and not dis and newobj.kind !=
       ckNamespace: # because namespace has no parent. root is explicit.
     assert pid.isSome
@@ -731,7 +743,7 @@ proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (
     res = root.infoCenter.fetch(pid.get)
     if res.isNone:
       echo "couldn't find registered object for this id" ### NOTE: can happen for IdentifierName since we don't register it. it means the parent was wrongly identified as IdentifierName.
-      echo root.infoCenter.keys
+      # assert false
   result = (dis, res)
   assert (not dis and res.isSome) or (dis and res.isNone), "dis: " & $dis &
       ", res: " & (if res.isSome: $res.get.kind else: "none")

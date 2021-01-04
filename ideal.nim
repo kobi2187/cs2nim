@@ -271,6 +271,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckGenericName:
       var c = child.genericName
       c.parentId = p.id; p.add c
+    of ckArgumentList:
+      var c = child.argumentList
+      c.parentId = p.id; p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
 
@@ -299,9 +302,12 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckGenericName:
       var c = child.genericName
       c.parentId = p.id; p.add c
-    # of ckVariableDeclarator:
-    #   var c = child.variableDeclarator
-    #   c.parentId = p.id;  p.add c
+    of ckPredefinedType:
+      var c = child.predefinedType
+      c.parentId = p.id;  p.add c
+    of ckVariableDeclarator:
+      var c = child.variableDeclarator
+      c.parentId = p.id;  p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
   of ckGenericName:
@@ -333,6 +339,10 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckGenericName:
       var c = child.genericName
       c.parentId = p.id; p.add c
+    of ckPredefinedType:
+      var c = child.predefinedType
+      c.parentId = p.id; p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
   of ckField:
     var p = parent.field
@@ -350,6 +360,62 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckMemberAccessExpression:
       var c = child.memberAccessExpression
       c.parentId = p.id; p.add c
+    of ckArgumentList:
+      var c = child.argumentList
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckEqualsValueClause:
+    var p = parent.equalsValueClause
+    case child.kind
+    of ckLiteralExpression:
+      var c = child.literalExpression
+      c.parentId = p.id; p.add c
+    of ckObjectCreationExpression:
+      var c = child.objectCreationExpression
+      c.parentId = p.id; p.add c
+    of ckMemberAccessExpression:
+      var c = child.memberAccessExpression
+      c.parentId = p.id; p.add c
+
+    else: assert false, "plz impl for child: " & $child.kind
+
+  of ckArgumentList:
+    var p = parent.argumentList
+    case child.kind
+    of ckArgument:
+      var c = child.argument
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckArgument:
+    var p = parent.argument
+    case child.kind
+    of ckLiteralExpression:
+      var c = child.literalExpression
+      c.parentId = p.id; p.add c
+
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckTypeArgumentList:
+    var p = parent.typeArgumentList
+    case child.kind
+    of ckPredefinedType:
+      var c = child.predefinedType
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckPrefixUnaryExpression:
+    var p = parent.prefixUnaryExpression
+    case child.kind
+    of ckLiteralExpression:
+      var c = child.literalExpression
+      c.parentId = p.id; p.add c
+
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckBracketedParameterList:
+    var p = parent.bracketedParameterList
+    case child.kind
+    of ckParameter:
+      var c = child.parameter
+      c.parentId = p.id; p.add c
+
     else: assert false, "plz impl for child: " & $child.kind
 
   else: assert false, "plz impl for parent: " & $parent.kind

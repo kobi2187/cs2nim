@@ -84,7 +84,7 @@ type CNode {.acyclic.} = object
   of ckPredefinedType:
     predefinedType*: CsPredefinedType
   of ckArgumentList: argumentList*: CsArgumentList
-  of ckObjectCreationExpression: objectCreationExpression *
+  of ckObjectCreationExpression: objectCreationExpression*
       : CsObjectCreationExpression
   of ckUsingDirective: usingDirective*: CsUsingDirective
   of ckField: field*: CsField
@@ -95,18 +95,18 @@ type CNode {.acyclic.} = object
   of ckParameter: parameter*: CsParameter
   of ckArgument: argument*: CsArgument
   of ckConstructor: constructor*: CsConstructor
-  of ckReturnStatement: returnStatement * : CsReturnStatement
-  of ckLiteralExpression: literalExpression * : CsLiteralExpression
+  of ckReturnStatement: returnStatement* : CsReturnStatement
+  of ckLiteralExpression: literalExpression* : CsLiteralExpression
   of ckSimpleBaseType: simpleBaseType*: CsSimpleBaseType
   of ckBaseList: baseList*: CsBaseList
   of ckProperty: property*: CsProperty
-  of ckExplicitInterfaceSpecifier: explicitInterfaceSpecifier *
+  of ckExplicitInterfaceSpecifier: explicitInterfaceSpecifier*
       : CsExplicitInterfaceSpecifier
-  of ckExpressionStatement: expressionStatement * : CsExpressionStatement
-  of ckInvocationExpression: invocationExpression * : CsInvocationExpression
-  of ckLocalDeclarationStatement: localDeclarationStatement *
+  of ckExpressionStatement: expressionStatement* : CsExpressionStatement
+  of ckInvocationExpression: invocationExpression* : CsInvocationExpression
+  of ckLocalDeclarationStatement: localDeclarationStatement*
       : CsLocalDeclarationStatement
-  of ckVariableDeclarator: variableDeclarator * : CsVariableDeclarator
+  of ckVariableDeclarator: variableDeclarator* : CsVariableDeclarator
   of ckBinaryExpression:
     binaryExpression*: CsBinaryExpression
   of ckAssignmentExpression:
@@ -392,26 +392,183 @@ type CNode {.acyclic.} = object
   of ckWithExpression:
     withExpression*: CsWithExpression
   of ckImplicitStackAllocArrayCreationExpression:
-    implicitStackAllocArrayCreationExpression *
+    implicitStackAllocArrayCreationExpression*
         : CsImplicitStackAllocArrayCreationExpression
     # ]#
 type Construct* = ref CNode # all the types we support, wrapped in a variant.
 
+# with the help of regex:
+import types
+template unwrap*[T](c:Construct) : T =
+  case c.kind:
+  # of ckRoot: c.root
+  of ckNamespace: c.namespace
+  of ckClass: c.class
+  of ckMethod: c.cmethod
+  of ckPredefinedType: c.predefinedType
+  of ckArgumentList: c.argumentList
+  of ckObjectCreationExpression: c.objectCreationExpression
+  of ckUsingDirective: c.usingDirective
+  of ckField: c.field
+  of ckEnum: c.cenum
+  of ckEnumMember: c.enumMember
+  of ckIndexer: c.indexer
+  of ckParameterList: c.parameterList
+  of ckParameter: c.parameter
+  of ckArgument: c.argument
+  of ckConstructor: c.constructor
+  of ckReturnStatement: c.returnStatement
+  of ckLiteralExpression: c.literalExpression
+  of ckSimpleBaseType: c.simpleBaseType
+  of ckBaseList: c.baseList
+  of ckProperty: c.property
+  of ckExplicitInterfaceSpecifier: c.explicitInterfaceSpecifier
+  of ckExpressionStatement: c.expressionStatement
+  of ckInvocationExpression: c.invocationExpression
+  of ckLocalDeclarationStatement: c.localDeclarationStatement
+  of ckVariableDeclarator: c.variableDeclarator
+  of ckBinaryExpression: c.binaryExpression
+  of ckAssignmentExpression: c.assignmentExpression
+  of ckEqualsValueClause: c.equalsValueClause
+  of ckIfStatement: c.ifStatement
+  of ckThisExpression: c.thisExpression
+  of ckTypeArgumentList: c.typeArgumentList
+  of ckGenericName: c.genericName
+  of ckAccessor: c.accessor
+  of ckBracketedArgumentList: c.bracketedArgumentList
+  of ckElementAccessExpression: c.elementAccessExpression
+  of ckAccessorList: c.accessorList
+  of ckParenthesizedExpression: c.parenthesizedExpression
+  of ckCastExpression: c.castExpression
+  of ckArrayRankSpecifier: c.arrayRankSpecifier
+  of ckArrayType: c.arrayType
+  of ckPrefixUnaryExpression: c.prefixUnaryExpression
+  of ckOmittedArraySizeExpression: c.omittedArraySizeExpression
+  of ckInitializerExpression: c.initializerExpression
+  of ckNameEquals: c.nameEquals
+  of ckThrowStatement: c.throwStatement
+  of ckTypeOfExpression: c.typeOfExpression
+  of ckElseClause: c.elseClause
+  of ckCaseSwitchLabel: c.caseSwitchLabel
+  of ckSwitchSection: c.switchSection
+  of ckSimpleLambdaExpression: c.simpleLambdaExpression
+  of ckPostfixUnaryExpression: c.postfixUnaryExpression
+  of ckArrayCreationExpression: c.arrayCreationExpression
+  of ckArrowExpressionClause: c.arrowExpressionClause
+  of ckBreakStatement: c.breakStatement
+  of ckAliasQualifiedName: c.aliasQualifiedName
+  of ckTypeParameter: c.typeParameter
+  of ckAwaitExpression: c.awaitExpression
+  of ckConditionalExpression: c.conditionalExpression
+  of ckTypeParameterList: c.typeParameterList
+  of ckForEachStatement: c.forEachStatement
+  of ckForStatement: c.forStatement
+  of ckInterpolatedStringText: c.interpolatedStringText
+  of ckParenthesizedLambdaExpression: c.parenthesizedLambdaExpression
+  of ckTryStatement: c.tryStatement
+  of ckNullableType: c.nullableType
+  of ckBaseExpression: c.baseExpression
+  of ckCatchClause: c.catchClause
+  of ckConstructorInitializer: c.constructorInitializer
+  of ckInterpolation: c.interpolation
+  of ckCatch: c.catch
+  of ckNameColon: c.nameColon
+  of ckUsingStatement: c.usingStatement
+  of ckTypeParameterConstraintClause: c.typeParameterConstraintClause
+  of ckTypeConstraint: c.typeConstraint
+  of ckSingleVariableDesignation: c.singleVariableDesignation
+  of ckInterpolatedStringExpression: c.interpolatedStringExpression
+  of ckImplicitArrayCreationExpression: c.implicitArrayCreationExpression
+  of ckWhileStatement: c.whileStatement
+  of ckDeclarationExpression: c.declarationExpression
+  of ckConditionalAccessExpression: c.conditionalAccessExpression
+  of ckSwitchStatement: c.switchStatement
+  of ckMemberBindingExpression: c.memberBindingExpression
+  of ckDefaultExpression: c.defaultExpression
+  of ckPointerType: c.pointerType
+  of ckInterface: c.cinterface
+  of ckContinueStatement: c.continueStatement
+  of ckFinallyClause: c.finallyClause
+  of ckDefaultSwitchLabel: c.defaultSwitchLabel
+  of ckYieldStatement: c.yieldStatement
+  of ckAnonymousObjectMemberDeclarator: c.anonymousObjectMemberDeclarator
+  of ckCheckedExpression: c.checkedExpression
+  of ckStruct: c.struct
+  of ckIsPatternExpression: c.isPatternExpression
+  of ckLockStatement: c.lockStatement
+  of ckDeclarationPattern: c.declarationPattern
+  of ckThrowExpression: c.throwExpression
+  of ckConstantPattern: c.constantPattern
+  of ckRefType: c.refType
+  of ckRefExpression: c.refExpression
+  of ckClassOrStructConstraint: c.classOrStructConstraint
+  of ckOmittedTypeArgument: c.omittedTypeArgument
+  of ckTupleElement: c.tupleElement
+  of ckOperator: c.operator
+  of ckEventField: c.eventField
+  of ckDelegate: c.delegate
+  of ckImplicitElementAccess: c.implicitElementAccess
+  of ckAnonymousMethodExpression: c.anonymousMethodExpression
+  of ckTupleExpression: c.tupleExpression
+  of ckAnonymousObjectCreationExpression: c.anonymousObjectCreationExpression
+  of ckBracketedParameterList: c.bracketedParameterList
+  of ckEvent: c.event
+  of ckGotoStatement: c.gotoStatement
+  of ckDoStatement: c.doStatement
+  of ckGlobalStatement: c.globalStatement
+  of ckIncompleteMember: c.incompleteMember
+  of ckLocalFunctionStatement: c.localFunctionStatement
+  of ckConversionOperator: c.conversionOperator
+  of ckTupleType: c.tupleType
+  of ckFixedStatement: c.fixedStatement
+  of ckEmptyStatement: c.emptyStatement
+  of ckSizeOfExpression: c.sizeOfExpression
+  of ckQueryBody: c.queryBody
+  of ckCheckedStatement: c.checkedStatement
+  of ckQueryExpression: c.queryExpression
+  of ckCasePatternSwitchLabel: c.casePatternSwitchLabel
+  of ckLabeledStatement: c.labeledStatement
+  of ckConstructorConstraint: c.constructorConstraint
+  of ckUnsafeStatement: c.unsafeStatement
+  of ckParenthesizedVariableDesignation: c.parenthesizedVariableDesignation
+  of ckInterpolationFormatClause: c.interpolationFormatClause
+  of ckDestructor: c.destructor
+  of ckDiscardDesignation: c.discardDesignation
+  of ckStackAllocArrayCreationExpression: c.stackAllocArrayCreationExpression
+  of ckWhenClause: c.whenClause
+  of ckForEachVariableStatement: c.forEachVariableStatement
+  of ckLetClause: c.letClause
+  of ckElementBindingExpression: c.elementBindingExpression
+  of ckCatchFilterClause: c.catchFilterClause
+  of ckOrdering: c.ordering
+  of ckInterpolationAlignmentClause: c.interpolationAlignmentClause
+  of ckQueryContinuation: c.queryContinuation
+  of ckExternAliasDirective: c.externAliasDirective
+  of ckMakeRefExpression: c.makeRefExpression
+  of ckRefValueExpression: c.refValueExpression
+  of ckRefTypeExpression: c.refTypeExpression
+  of ckBlock: c.cblock
+  of ckVariable: c.variable
+  of ckBinaryPattern: c.binaryPattern
+  of ckDiscardPattern: c.discardPattern
+  of ckFunctionPointerType: c.functionPointerType
+  of ckImplicitObjectCreationExpression: c.implicitObjectCreationExpression
+  of ckMemberAccessExpression: c.memberAccessExpression
+  of ckParenthesizedPattern: c.parenthesizedPattern
+  of ckPositionalPatternClause: c.positionalPatternClause
+  of ckPrimaryConstructorBaseType: c.primaryConstructorBaseType
+  of ckPropertyPatternClause: c.propertyPatternClause
+  of ckRangeExpression: c.rangeExpression
+  of ckRecord: c.record
+  of ckRecursivePattern: c.recursivePattern
+  of ckRelationalPattern: c.relationalPattern
+  of ckSubpattern: c.subpattern
+  of ckSwitchExpression: c.switchExpression
+  of ckSwitchExpressionArm: c.switchExpressionArm
+  of ckTypePattern: c.typePattern
+  of ckUnaryPattern: c.unaryPattern
+  of ckVarPattern: c.varPattern
+  of ckWithExpression: c.withExpression
+  of ckImplicitStackAllocArrayCreationExpression: c.implicitStackAllocArrayCreationExpression
 
-# proc wrap[T](obj: ref T, kind: ConstructKind): Construct =
-#   case kind
-#   # of ckRoot: construct(kind: ckRoot, root: obj)
-#   of ckNamespace: result = Construct(kind: ckNamespace, namespace: obj)
-#   of ckClass: result = Construct(kind: ckClass, class: obj)
-#   of ckMethod: result = Construct(kind: ckMethod, cmethod: obj)
-# proc newC*[T](c: constructKind, a: typedesc[T], b: t): construct =
-#   case c
-#   of ckClass:
-#     result = Construct(kind: ckClass, class: b)
 
-# template unwrap*(c: construct): untyped =
-#   case c.kind:
-#   # of ckRoot: c.root
-#   of ckNamespace: c.namespace
-#   of ckClass: c.class
-#   of ckMethod: c.method

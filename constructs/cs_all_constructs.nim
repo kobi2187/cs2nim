@@ -209,7 +209,7 @@ proc gen*(c: var CsArgumentList): string =
 
   echo "--> in  gen*(c: var CsArgumentList)"
   if not c.isNil:
-    result = c.args.join(", ").replacementGenericTypes()
+    result = c.args.mapIt(it.value).join(", ").replacementGenericTypes()
 
 # ============= CsArgument ========
 
@@ -735,6 +735,22 @@ method add*(parent: var CsMethod, item: CsAssignmentExpression) =
 
 method add*(parent: var CsMethod, item: CsVariableDeclarator) =
   parent.body.add item
+
+method add*(parent: var CsEqualsValueClause, item: CsMemberAccessExpression) =
+  echo "in ","method add*(parent: var CsEqualsValueClause, item: CsMemberAccessExpression)"
+  if parent.rhsValue.isNil:
+    parent.rhsValue = item
+method add*(parent: var CsEqualsValueClause, item: CsObjectCreationExpression) =
+  echo "in ","method add*(parent: var CsEqualsValueClause, item: CsObjectCreationExpression)="
+  if parent.rhsValue.isNil:
+    parent.rhsValue = item
+method add*(parent: var CsEqualsValueClause, item: CsLiteralExpression) =
+  echo "in ","method add*(parent: var CsEqualsValueClause, item: CsLiteralExpression)"
+  if parent.rhsValue.isNil:
+    parent.rhsValue = item
+
+method add*(parent: var CsInvocationExpression, item: CsArgumentList) =
+  parent.args = item
 
 method add*(parent: var CsInvocationExpression,
     item: CsMemberAccessExpression) =
@@ -1625,8 +1641,13 @@ proc extract*(t: typedesc[CsExpressionStatement];
 method add*(parent: var CsExpressionStatement; item: CsArgumentList) =
   parent.args = item
 
+method add*(parent: var CsTypeArgumentList; item: CsPredefinedType) =
+  parent.types.add item.name
+method add*(parent: var CsArgument; item: CsLiteralExpression) =
+  parent.value = item.gen() # todo:shortcut
+
 method add*(parent: var CsArgumentList; item: CsArgument) =
-  parent.args.add item.value
+  parent.args.add item
 
 method add*(parent: var CsExpressionStatement; item: CsArgument) =
   parent.args.add item
@@ -1639,15 +1660,14 @@ method add*(parent: var CsExpressionStatement; item: CsInvocationExpression) =
 # proc add*(parent: var CsExpressionStatement; item: CsInvocationExpression; data: AllNeededData) = parent.add(item) # TODO
 
 method gen*(c: CsExpressionStatement): string =
-
   echo "--> in  gen*(c: CsExpressionStatement)"
   echo "generating for expression statement"
   echo "source is: " & c.src.strip()
   if not c.call.isNil:
-    result = c.call.gen() & "("
-    if c.args.args.len > 0:
-      result &= c.args.gen()
-    result &= ")"
+    result = c.call.gen()
+    # if c.args.args.len > 0:
+    #   result &= c.args.gen()
+    # result &= ")"
     if c.call.callName.contains(".") and c.call.callName.startsWith(re.re"[A-Z]"):
       result &= " # " & c.call.callName.rsplit(".", 1)[0]
   echo "expression statement generated result: " & result
@@ -2183,6 +2203,7 @@ func normalizeCallName(s: string): string =
   let lastPart = parts[1] # last part is the function name that was called.
   result = lastPart.lowerFirst()
 
+
 method gen*(c: CsInvocationExpression): string =
 
   echo "--> in  gen*(c: CsInvocationExpression)"
@@ -2194,19 +2215,11 @@ method gen*(c: CsInvocationExpression): string =
   else:
     c.callName
 
-  #[
-  let exprStmt = root.exprsTable[c.parentId] # method or class... how do we do this? uuid to the rescue.
-  let assumingMethod = root.allMethodsTable[exprStmt.parentId]
-  if assumingMethod.isStatic or assumingMethod.parentClass().isStatic: discard
-    # ......  so everyone gets a unique id, and that's how we call back to parent
-
-  # refactor to proc isInStatic(for each type that* needs it)
-
-  # for handling c# static calls, we don't need the static class it was defined in.
-
-    ]#
-
-  # ============= CsIsPatternExpression ========
+  result &= "("
+  if c.args != nil and c.args.args.len > 0:
+    let args = c.args.args.mapIt(it.value).join(", ")
+    result &= args
+  result &=  ")"
 
 proc newCs*(t: typedesc[CsIsPatternExpression];
     name: string): CsIsPatternExpression =
@@ -2314,6 +2327,11 @@ method add*(parent: var CsInitializerExpression;
 
 method add*(parent: var CsInitializerExpression; item: CsLiteralExpression) =
   parent.addBExpr item
+
+method add*(parent: var CsBracketedParameterList; item:CsParameter) =
+  parent.plist.add item.gen()
+method add*(parent: var CsPrefixUnaryExpression; item: CsLiteralExpression) =
+  item.value = parent.prefix & item.value
 
 method add*(em: var CsEnumMember; item: CsLiteralExpression) =
   em.add(item.value)
@@ -2482,14 +2500,16 @@ method add*(parent: CsGenericName; item: CsTypeArgumentList) =
 
 method gen*(c: CsVariableDeclarator): string =
   echo c.src
-  echo "in method gen*(c:CsVariableDeclarator)"
-  assert c.rhs != nil
+  echo "start of method gen*(c:CsVariableDeclarator)"
+  # assert c.rhs != nil
   if not c.rhs.isNil:
-    echo "rhs is: " & c.rhs.typ
-    result &= " = " & c.rhs.gen()
+    echo "rhs is: " & c.rhs.typ & c.rhs.ttype
+    result &= c.rhs.gen()
   else:
     if c.ev != nil and c.ev.rhsValue != nil:
-      result = " = " & c.ev.rhsValue.gen()
+      result = c.ev.rhsValue.gen()
+  echo result
+  echo "end of  method gen*(c:CsVariableDeclarator)"
 
 # method add*(parent: var CsMethod; item: CsObjectCreationExpression) =
 #   parent.body.add item
@@ -2547,6 +2567,8 @@ method add*(parent: var CsField; item: CsVariable) =
     parent.thetype = item.thetype
 
 
+method add*(parent: var CsParameter; item: CsPredefinedType) =
+  parent.ptype = item.name
 method add*(parent: var CsParameter; item: CsGenericName) =
   parent.genericType = item
 
@@ -3865,7 +3887,14 @@ method add*(parent: var CsLocalDeclarationStatement;
 method add*(parent: var CsLocalDeclarationStatement; item: CsArgumentList) =
   parent.rhs.add item
 
-method add*(parent: var CsVariable; item: CsPredefinedType) = assert false
+method add*(parent: var CsVariable; item: CsVariableDeclarator) =
+  parent.declarator = item
+
+method add*(parent: var CsVariable; item: CsPredefinedType) =
+  # echo item.name
+  # echo parent.thetype
+  if parent.thetype.isEmptyOrWhitespace:
+    parent.thetype = item.name
 
 method add*(parent: var CsVariableDeclarator; item: CsEqualsValueClause) =
   parent.ev = item
@@ -3908,7 +3937,9 @@ method gen*(c: CsVariable): string =
   result = "var " & c.name
   if c.thetype != "var":
     result &= " : " & c.thetype.replacementGenericTypes()
-
+  if not c.declarator.isNil:
+    let gendecl = c.declarator.gen()
+    result &= " = " & gendecl
 # method add*(parent:var CsBinaryPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsBinaryPattern; item: Dummy) "
 #   #   assert false
