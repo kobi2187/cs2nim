@@ -1,9 +1,10 @@
 # parent_finder.nim
 import options, sequtils, all_needed_data, block_utils #, strutils
-import info_center
+import info_center, state_utils
 import types, construct, constructs/[cs_all_constructs, justtypes]
 import constructs/cs_root, uuids
 import common_utils
+
 
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
@@ -80,6 +81,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
+
 proc handleLiteralExpression(data: AllNeededData): Option[UUID] =
   echo "obj is LiteralExpression"
   let prevName = data.previousConstruct.get.name
@@ -118,7 +120,19 @@ proc handleLiteralExpression(data: AllNeededData): Option[UUID] =
 # figures out path from blocks. blocks now contain id as well.
 # the bulk of the work shifts to here.
 # this happens before we add to the parent.
+
 import state_utils, state
+import tables
+proc parentHint(parentRawKind:int) : Option[string] =
+  let key = parentRawKind
+  if parentTable.hasKey(key):
+    result = some(parentTable[key])
+  else:
+    result = none(string)
+
+proc parentHint(c: Construct) : Option[string] =
+  result = parentHint(c.parentRawKind)
+
 proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]) =
   var discarded = false
   var res: Option[UUID]
@@ -131,6 +145,13 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   if obj.parentId.isSome:
     echo "obj already has parent id, returning that."
     return (discarded, obj.parentId)
+
+  let phint = parentHint(obj)
+  if phint.isSome():
+    let lastMatch = getLastBlockType(phint.get)
+    if lastMatch.isSome:
+      let id = lastMatch.get.id.some
+      return (false,id)
 
   echo obj.kind
   case obj.kind

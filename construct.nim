@@ -70,6 +70,8 @@ import options
 type CNode {.acyclic.} = object
   id*: Option[UUID]
   parentId*: Option[UUID]
+  parentRawKind*: int
+  rawKind*: int
   case kind*: ConstructKind
   # add types here:
   # of ckRoot: root: csRoot

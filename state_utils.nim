@@ -8,6 +8,9 @@ import constructs/cs_root
 import tables, sets
 import construct
 
+var parentTable* = initTable[int,string]()
+
+
 proc nsPathNS*(r: var CsRoot): seq[CsNamespace] =
   # echo "in nsPathNS ",  $blocks
   var started = false

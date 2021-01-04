@@ -12,6 +12,8 @@ type Info* = ref object
   declName*: string
   essentials*: seq[string]
   extras*: seq[string]
+  rawKind*, parentRawKind*: int
+
 
 import strutils
 proc `$`*(info: Info): string =

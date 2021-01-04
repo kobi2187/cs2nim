@@ -403,6 +403,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID;
     if obj.isNil: return
     obj.id = some(id)
 
+
     # allData.refresh(root,info,src)
     if obj.sameAsExisting(allData): return # for example, don't add a new namespace but fetch it based on name.
     root.register(id, obj)

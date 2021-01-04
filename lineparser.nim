@@ -6,7 +6,7 @@ import constructs/cs_root
 type LineKind* = enum
   Decl, EndBlock
 
-import stacks, sets, json
+import stacks, sets, json,tables
 import sequtils
 import json
 
@@ -51,8 +51,17 @@ proc updateState(root: var CsRoot; line: JsonNode; upcoming: seq[string]) =
     var (main, extras) = getInfo(line)
     let src = line["Source"].getStr
 
-    let info = Info(declName: decl, essentials: main, extras: extras)
+    let objkind = line["RawKind"].getInt
+    let parentKind = line["ParentKind"].getInt
+
+    parentTable[objkind]=decl
+
+
+    let info = Info(declName: decl, essentials: main, extras: extras, rawKind:objkind, parentRawKind:parentKind)
+
     let id = genUUID()
+
+
     echo "generated id for the next object ", decl, " ", id
     modifyPosition(decl, info, id)
     addToRoot2(root, src, info, id, upcoming) # switched to new system, while making sure it compiles.
