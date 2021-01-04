@@ -22,13 +22,14 @@ proc compareNames(a, b: seq[string]): bool =
 suite "module output tests - file naming according to namespace":
   test "one namespace":
     let modules = modulesFromFiles @["tests/samples/one_namespace.csast"]
-    echo "modules",modules
+    echo "modules", modules
     let expected: seq[string] = @["default", "MyNamespace"]
     assert compareNames(names(modules), expected)
 
   test "namespaces translated to nim modules":
     let modules = modulesFromFiles @["tests/samples/many_namespaces.csast"]
-    var expected: seq[string] = @["default", "MyNamespace", "MyNamespace.Nested", "MyNamespace2"]
+    var expected: seq[string] = @["default", "MyNamespace",
+        "MyNamespace.Nested", "MyNamespace2"]
     var got = names(modules)
     assert compareNames(expected, got)
 

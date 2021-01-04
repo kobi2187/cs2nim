@@ -13,35 +13,37 @@ type NamespaceParts* {.pure.} = enum
 
 type IAssignable = ref object of BodyExpr
 type CsAccessor* = ref object of CsObject
-  kind*:string # get or set
-  statementsTxt*:string
+  kind*: string # get or set
+  statementsTxt*: string
 type CsAccessorList* = ref object of CsObject
-  hasDefaultGet*:bool
-  hasGetBody*:bool
-  hasDefaultSet*:bool
-  hasSetBody*:bool
-  getPart*:CsAccessor
-  setPart*:CsAccessor
+  hasDefaultGet*: bool
+  hasGetBody*: bool
+  hasDefaultSet*: bool
+  hasSetBody*: bool
+  getPart*: CsAccessor
+  setPart*: CsAccessor
 type CsAliasQualifiedName* = ref object of CsObject #TODO(type:CsAliasQualifiedName)
 type CsField* = ref object of CsObject
   thetype*: string
   isPublic*: bool
-  isStatic*:bool
+  isStatic*: bool
 type CsAnonymousMethodExpression* = ref object of CsObject #TODO(type:CsAnonymousMethodExpression)
-type CsAnonymousObjectCreationExpression* = ref object of CsObject #TODO(type:CsAnonymousObjectCreationExpression)
-type CsAnonymousObjectMemberDeclarator* = ref object of CsObject #TODO(type:CsAnonymousObjectMemberDeclarator)
+type CsAnonymousObjectCreationExpression *
+  = ref object of CsObject #TODO(type:CsAnonymousObjectCreationExpression)
+type CsAnonymousObjectMemberDeclarator *
+  = ref object of CsObject #TODO(type:CsAnonymousObjectMemberDeclarator)
 type CsArgumentList* = ref object of CsObject
   args*: seq[string]
   # args*: seq[CsArgument] # TODO: probably needed, when arguments are more complex. need to see the flow.
 type CsArgument* = ref object of CsObject
-  value*:string
+  value*: string
 type CsArrayCreationExpression* = ref object of CsObject #TODO(type:CsArrayCreationExpression)
 type CsArrayRankSpecifier* = ref object of CsObject #TODO(type:CsArrayRankSpecifier)
 type CsArrayType* = ref object of CsObject #TODO(type:CsArrayType)
 type CsArrowExpressionClause* = ref object of CsObject #TODO(type:CsArrowExpressionClause)
-type CsAssignmentExpression* =ref object of BodyExpr
-  left*:string # TODO: should be some variable
-  right*:IAssignable
+type CsAssignmentExpression* = ref object of BodyExpr
+  left*: string # TODO: should be some variable
+  right*: IAssignable
 type CsAttributeArgumentList* = ref object of CsObject #TODO(type:CsAttributeArgumentList)
 type CsAttributeArgument* = ref object of CsObject #TODO(type:CsAttributeArgument)
 type CsAttributeList* = ref object of CsObject #TODO(type:CsAttributeList)
@@ -52,12 +54,12 @@ type CsBaseExpression* = ref object of CsObject #TODO(type:CsBaseExpression)
 type CsBaseList* = ref object of CsObject
   baseList*: seq[string]
 type CsBinaryExpression* = ref object of IAssignable
-  left*:string
-  op*  :string
-  right*:string
+  left*: string
+  op*: string
+  right*: string
 type CsBracketedArgumentList* = ref object of CsObject #TODO(type:CsBracketedArgumentList)
 type CsBracketedParameterList* = ref object of CsObject #TODO(type:CsBracketedParameterList)
-  plist*:string
+  plist*: string
 type CsBreakStatement* = ref object of CsObject #TODO(type:CsBreakStatement)
 type CsCasePatternSwitchLabel* = ref object of CsObject #TODO(type:CsCasePatternSwitchLabel)
 type CsCaseSwitchLabel* = ref object of CsObject #TODO(type:CsCaseSwitchLabel)
@@ -68,23 +70,23 @@ type CsCatch* = ref object of CsObject #TODO(type:CsCatch)
 type CsCheckedExpression* = ref object of CsObject #TODO(type:CsCheckedExpression)
 type CsCheckedStatement* = ref object of CsObject #TODO(type:CsCheckedStatement)
 type CsProperty* = ref object of CsObject
-  lastAddedTo* : PropertyParts
+  lastAddedTo*: PropertyParts
   retType*: string
   hasGet*: bool
   hasSet*: bool
   parentClass*: string
-  acclist*:CsAccessorList
+  acclist*: CsAccessorList
   bodySet*: seq[BodyExpr] # dunno. TODO: this should be strongly connected to acclist (maybe extracted from it?). but lastBodyExpr wants to have constructs readily available like in this seq.
   bodyGet*: seq[BodyExpr] # NOTE: don't know yet what type to* put here. maybe something like a method body or a list of expr ?
 
 type CsTypeArgumentList* = ref object of CsObject #TODO(type:CsTypeArgumentList)
-  types*:seq[string]
+  types*: seq[string]
 type CsGenericName* = ref object of CsObject
-  typearglist*:CsTypeArgumentList
+  typearglist*: CsTypeArgumentList
 
 type CsParameter* = ref object of CsObject
   ptype*: string
-  genericType*:CsGenericName
+  genericType*: CsGenericName
   isRef*: bool
   isOut*: bool
 type CsParameterList* = ref object of CsObject
@@ -96,7 +98,7 @@ type CsMethod* = ref object of CsObject
   returnType*: string
   # TODO: method body can change to Construct, but limited only to the constructs applicable. (type constraints* with distinct or runtime asserts)
   # TODO: or we check with case ttype string, as before. runtime dispatch etc.
-  body*: seq[BodyExpr]            # use here inheritance and methods (runtime dispatch). # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
+  body*: seq[BodyExpr] # use here inheritance and methods (runtime dispatch). # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
 
 type CsConstructorInitializer* = ref object of CsObject #TODO(type:CsConstructorInitializer)
 
@@ -115,10 +117,10 @@ type CsIndexer* = ref object of CsObject
   varName*: string
   varType*: string
   firstVarType*: string
-  aclist*:CsAccessorList
+  aclist*: CsAccessorList
   hasDefaultGet*: bool
   hasDefaultSet*: bool
-  hasBody*:bool
+  hasBody*: bool
   # name*: string  # no, there is no name, but there is an AccessorList, or Accessor, that provide the function body.
 type CsClass* = ref object of CsObject
   nsParent*: string
@@ -177,18 +179,19 @@ type CsGlobalStatement* = ref object of CsObject #TODO(type:CsGlobalStatement)
 type CsGotoStatement* = ref object of CsObject #TODO(type:CsGotoStatement)
 type CsGroupClause* = ref object of CsObject #TODO(type:CsGroupClause)
 type CsIfStatement* = ref object of CsObject #TODO(type:CsIfStatement)
-type CsImplicitArrayCreationExpression* = ref object of CsObject #TODO(type:CsImplicitArrayCreationExpression)
+type CsImplicitArrayCreationExpression *
+  = ref object of CsObject #TODO(type:CsImplicitArrayCreationExpression)
 type CsImplicitElementAccess* = ref object of CsObject #TODO(type:CsImplicitElementAccess)
 type CsIncompleteMember* = ref object of CsObject #TODO(type:CsIncompleteMember)
 type CsPredefinedType* = ref object of CsObject
 type CsPrefixUnaryExpression* = ref object of CsObject
-  prefix*:string # don't handle it in any special way, prepend it, without space if literal, and with - otherwise.
-  actingOn*:string
+  prefix*: string # don't handle it in any special way, prepend it, without space if literal, and with - otherwise.
+  actingOn*: string
 type CsLiteralExpression* = ref object of IAssignable
   value*: string
 type CsInitializerExpression* = ref object of CsObject #TODO(type:CsInitializerExpression)
-  valueReceived*:string
-  bexprs*:seq[BodyExpr]
+  valueReceived*: string
+  bexprs*: seq[BodyExpr]
   somePrefixOp*: CsPrefixUnaryExpression
 type CsInterface* = ref object of CsObject #TODO(type:CsInterface)
 type CsInterpolatedStringExpression* = ref object of CsObject #TODO(type:CsInterpolatedStringExpression)
@@ -207,28 +210,28 @@ type CsMakeRefExpression* = ref object of CsObject #TODO(type:CsMakeRefExpressio
 type CsMemberBindingExpression* = ref object of CsObject #TODO(type:CsMemberBindingExpression)
 
 type CsObjectCreationExpression* = ref object of IAssignable
-  typeName*: string # args*: CsParameterList
-  genericName*:CsGenericName # replaces typeName perhaps.
+  typeName*: string           # args*: CsParameterList
+  genericName*: CsGenericName # replaces typeName perhaps.
   args*: CsArgumentList
-  initExpr*:CsInitializerExpression
+  initExpr*: CsInitializerExpression
 
 type CsVariableDeclarator* = ref object of BodyExpr # I assume this is the right hand side, what the variable is stored with.
-  ev*:CsEqualsValueClause # so i can get (with its parentid) the expression statement which is the right hand side, afterwards.
-  rhs*:IAssignable
+  ev*: CsEqualsValueClause # so i can get (with its parentid) the expression statement which is the right hand side, afterwards.
+  rhs*: IAssignable
   # bexpr*:BodyExpr # either expressionStatement or objectcreationexpression
   # expr*: CsObjectCreationExpression | CsExpressionStatement
   # exprType*:string
-  arglist*:CsArgumentList
+  arglist*: CsArgumentList
 
 type CsReturnStatement* = ref object of BodyExpr # type:CsReturnStatement
   args*: CsArgumentList
   expr*: BodyExpr                                # can have one expr that can be nil
-  value*:string
+  value*: string
 type CsNameColon* = ref object of CsObject #TODO(type:CsNameColon)
 type CsNameEquals* = ref object of CsObject #TODO(type:CsNameEquals)
-  genericName*:CsGenericName
+  genericName*: CsGenericName
 type CsUsingDirective* = ref object of CsObject
-  shorthand*:CsNameEquals
+  shorthand*: CsNameEquals
 type CsNamespace* = ref object of CsObject
   # id*: UUID
   parent*: string
@@ -239,28 +242,28 @@ type CsNamespace* = ref object of CsObject
   interfaces*: seq[CsInterface]
   interfaceTable*: TableRef[string, CsInterface]
   lastAddedTo*: Option[NamespaceParts] # TODO: !!! we actually want here an object variant, so we can simply ask for the object.
-                                       # lastAdded: Construct
+ # lastAdded: Construct
   imports*: seq[CsUsingDirective]
 
 type AllNeededData* = object
   sourceCode*: string
-  upcoming*:seq[string]
+  upcoming*: seq[string]
   constructDeclName*: string
-  simplified*:seq[(string,UUID)]
+  simplified*: seq[(string, UUID)]
   currentNamespace*: CsNamespace
   nsLastAdded*: NamespaceParts
   classLastAdded*: ClassParts
-  lastUsing*:CsUsingDirective
+  lastUsing*: CsUsingDirective
   lastEnum*: CsEnum
   lastEnumMember*: CsEnumMember
-  lastInterface*:CsInterface
+  lastInterface*: CsInterface
   lastClass*: CsClass
   lastMethod*: CsMethod
   lastProp*: CsProperty
   lastCtor*: CsConstructor
   lastMethodBodyExpr*: BodyExpr
-  lastBodyExprId*:Option[UUID]
-  lastBodyExpr* : Option[BodyExpr]
+  lastBodyExprId*: Option[UUID]
+  lastBodyExpr*: Option[BodyExpr]
   inBlock*: Block
   prevBlock*: Block
   currentConstruct*: Option[Block]
@@ -274,7 +277,8 @@ type CsOrderByClause* = ref object of CsObject #TODO(type:CsOrderByClause)
 type CsOrdering* = ref object of CsObject #TODO(type:CsOrdering)
 type CsParenthesizedExpression* = ref object of CsObject #TODO(type:CsParenthesizedExpression)
 type CsParenthesizedLambdaExpression* = ref object of CsObject #TODO(type:CsParenthesizedLambdaExpression)
-type CsParenthesizedVariableDesignation* = ref object of CsObject #TODO(type:CsParenthesizedVariableDesignation)
+type CsParenthesizedVariableDesignation *
+  = ref object of CsObject #TODO(type:CsParenthesizedVariableDesignation)
 type CsPointerType* = ref object of CsObject #TODO(type:CsPointerType)
 type CsPostfixUnaryExpression* = ref object of CsObject #TODO(type:CsPostfixUnaryExpression)
 type CsQueryBody* = ref object of CsObject #TODO(type:CsQueryBody)
@@ -289,7 +293,8 @@ type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
 type CsSimpleLambdaExpression* = ref object of CsObject #TODO(type:CsSimpleLambdaExpression)
 type CsSingleVariableDesignation* = ref object of CsObject #TODO(type:CsSingleVariableDesignation)
 type CsSizeOfExpression* = ref object of CsObject #TODO(type:CsSizeOfExpression)
-type CsStackAllocArrayCreationExpression* = ref object of CsObject #TODO(type:CsStackAllocArrayCreationExpression)
+type CsStackAllocArrayCreationExpression *
+  = ref object of CsObject #TODO(type:CsStackAllocArrayCreationExpression)
 type CsStruct* = ref object of CsObject #TODO(type:CsStruct)
 type CsSwitchSection* = ref object of CsObject #TODO(type:CsSwitchSection)
 type CsSwitchStatement* = ref object of CsObject #TODO(type:CsSwitchStatement)
@@ -314,24 +319,24 @@ type CsYieldStatement* = ref object of CsObject #TODO(type:CsYieldStatement)
 type CsBlock* = ref object of CsObject
 type CsVariable* = ref object of BodyExpr
   # name*:string
-  thetype*:string
-  genericName*:CsGenericName
+  thetype*: string
+  genericName*: CsGenericName
 
 type CsLocalDeclarationStatement* = ref object of BodyExpr
   names*: seq[string]
   vartype*: string
-  lhs*: CsVariable # lhs = left hand side, rhs = right hand side.
-  rhs*:CsVariableDeclarator  # which has what's after the equals-value-clause.
+  lhs*: CsVariable           # lhs = left hand side, rhs = right hand side.
+  rhs*: CsVariableDeclarator # which has what's after the equals-value-clause.
 
 
 
 type CsBinaryPattern* = ref object of CsObject
 type CsDiscardPattern* = ref object of CsObject
 type CsFunctionPointerType* = ref object of CsObject
-type CsImplicitObjectCreationExpression* = ref object of CsObject
+type CsImplicitObjectCreationExpression * = ref object of CsObject
 type CsMemberAccessExpression* = ref object of IAssignable
-  fromPart*:string
-  member*:string
+  fromPart*: string
+  member*: string
 type CsParenthesizedPattern* = ref object of CsObject
 type CsPositionalPatternClause* = ref object of CsObject
 type CsPrimaryConstructorBaseType* = ref object of CsObject
@@ -347,4 +352,4 @@ type CsTypePattern* = ref object of CsObject
 type CsUnaryPattern* = ref object of CsObject
 type CsVarPattern* = ref object of CsObject
 type CsWithExpression* = ref object of CsObject
-type CsImplicitStackAllocArrayCreationExpression* = ref object of CsObject
+type CsImplicitStackAllocArrayCreationExpression * = ref object of CsObject

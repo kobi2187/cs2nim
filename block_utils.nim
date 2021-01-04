@@ -26,7 +26,7 @@ proc endBlock*(info: Info) =
   assert info.declName == "EndBlock"
   let blockCount = parseInt(info.essentials[0])
   let finishingBlock = info.essentials[1]
-  echo blocks 
+  echo blocks
   echo "before: " & $blocks.len
 
   # on endBlock we now always expect to see an even number of items.
@@ -40,7 +40,8 @@ proc endBlock*(info: Info) =
   assert bs.name == "BlockStarts"
 
   echo "block count, according to csast:" & $blockCount
-  echo "block count, according to our count:" & $blocks.len & " / 2 = " & $(blocks.len / 2)
+  echo "block count, according to our count:" & $blocks.len & " / 2 = " & $(
+      blocks.len / 2)
   assert blocks.len == blockCount*2, $blocks
 
   echo "removed " & $last & " from blocks tracking. (assumes we finished with it)"

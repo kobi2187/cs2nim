@@ -1,7 +1,7 @@
 import constructs/[cs_all_constructs, justtypes]
-import types, constructs/cs_root, construct, parent_finder#, block_utils
+import types, constructs/cs_root, construct, parent_finder #, block_utils
 # , state,
-import uuids, options,sequtils
+import uuids, options, sequtils
 # ideal flow
 # the api that we want.
 
@@ -208,13 +208,13 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       let c = child.variable
       c.parentId = p.id; p.add c
     of ckGenericName:
-      let c= child.genericName
+      let c = child.genericName
       c.parentId = p.id; p.add c
     of ckTypeArgumentList:
-      let c= child.typeArgumentList
+      let c = child.typeArgumentList
       c.parentId = p.id; p.add c
     of ckVariableDeclarator:
-      let c= child.variableDeclarator
+      let c = child.variableDeclarator
       c.parentId = p.id; p.add c
     of ckArgumentList: # TODO CONTINUE HERE... add needs to drill until reaching rhs, maybe add field arglist. annoying.
       let c = child.argumentList
@@ -279,10 +279,10 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckLiteralExpression:
       var c = child.literalExpression
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     of ckPrefixUnaryExpression:
       var c = child.prefixUnaryExpression
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckLiteralExpression:
@@ -290,7 +290,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckPrefixUnaryExpression:
       var c = child.prefixUnaryExpression
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
 
     else: assert false, "plz impl for child: " & $child.kind
   of ckVariable:
@@ -298,7 +298,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckGenericName:
       var c = child.genericName
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     # of ckVariableDeclarator:
     #   var c = child.variableDeclarator
     #   c.parentId = p.id;  p.add c
@@ -309,7 +309,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckTypeArgumentList:
       var c = child.typeArgumentList
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckUsingDirective:
@@ -317,14 +317,14 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckNameEquals:
       var c = child.nameEquals
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckNameEquals:
     var p = parent.nameEquals
     case child.kind
     of ckGenericName:
       var c = child.genericName
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckParameter:
@@ -332,24 +332,24 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     case child.kind
     of ckGenericName:
       var c = child.genericName
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckField:
     var p = parent.field
     case child.kind
     of ckVariable:
       var c = child.variable
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     of ckVariableDeclarator:
       var c = child.variableDeclarator
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckInvocationExpression:
     var p = parent.invocationExpression
     case child.kind
     of ckMemberAccessExpression:
       var c = child.memberAccessExpression
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   else: assert false, "plz impl for parent: " & $parent.kind
@@ -359,7 +359,7 @@ import type_creator, parent_finder
 import all_needed_data
 # state_utils, block_utils
 import sets #,tables
-proc sameAsExisting(obj:Construct, data:AllNeededData):bool =
+proc sameAsExisting(obj: Construct; data: AllNeededData): bool =
   # for namespaces and partial classes. other uses?
   var root = currentRoot
   case obj.kind
@@ -380,13 +380,14 @@ proc sameAsExisting(obj:Construct, data:AllNeededData):bool =
     discard
     # assert false, $obj.kind
 
-# import strutils
+  # import strutils
 
 
 
-proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID; upcoming:seq[string]) =
+proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID;
+    upcoming: seq[string]) =
   echo "in addToRoot2"
-  echo " ==START== ","\n" , root
+  echo " ==START== ", "\n", root
 
   # processTreeForData(root, info)
   # no need, lineparser.modifyPosition does that already.
@@ -415,14 +416,14 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID; upcoming:s
       assert p.isSome, "Failed assertion that all constructs should have a parent"
       var parent: Construct = p.get
       assert parent.cfits(obj, allData)
-      echo "parent fits object: " , parent.kind , " --will add-- " , obj.kind
+      echo "parent fits object: ", parent.kind, " --will add-- ", obj.kind
       echo "attempting to add to parent..."
       parent.add(obj, allData) # we let the parent decide how to store it. usually trivial, if not we look in allData for answers. (and add as needed to allData in the proc that generates it)
       obj.parentId = parent.id # connect them after adding.
 
-    echo root,"\n"," ==END== "
+    echo root, "\n", " ==END== "
     echo "NOTE: if didn't add, go to ideal::add method."
-    echo "upcoming lines:" , allData.upcoming
+    echo "upcoming lines:", allData.upcoming
 
 
 ### the construct types will now have such api: extract, fits, add, gen. newCs also exists but we don't call it from outside, so doesn't matter.

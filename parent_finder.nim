@@ -1,5 +1,5 @@
 # parent_finder.nim
-import options, sequtils, all_needed_data, block_utils#, strutils
+import options, sequtils, all_needed_data, block_utils #, strutils
 import info_center
 import types, construct, constructs/[cs_all_constructs, justtypes]
 import constructs/cs_root, uuids
@@ -77,9 +77,10 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckVariableDeclarator, ckMemberAccessExpression": true
   of "ckInvocationExpression, ckMemberAccessExpression": true
 
-  else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
-import state,sugar
-proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
+  else: raise newException(Exception, "cfits is missing:  of \"" &
+      $parent.kind & ", " & $item.kind & "\": true")
+import state, sugar
+proc handleLiteralExpression(data: AllNeededData): Option[UUID] =
   echo "obj is LiteralExpression"
   let prevName = data.previousConstruct.get.name
   case prevName
@@ -93,20 +94,22 @@ proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
         result = data.lastBodyExprId
       else: assert false, prevprevName
 
-  of ["IdentifierName","Argument"]: discard # TODO?
+  of ["IdentifierName", "Argument"]: discard # TODO?
   of "ReturnStatement":
-    assert data.classLastAdded in [ ClassParts.Methods, ClassParts.Properties, ClassParts.Ctors]
+    assert data.classLastAdded in [ClassParts.Methods, ClassParts.Properties,
+        ClassParts.Ctors]
     result = data.lastBodyExprId
   of "InitializerExpression":
     let ini = data.lastBlockType("InitializerExpression")
     assert ini.isSome
     result = ini
 
-  of ["PrefixUnaryExpression","LiteralExpression"]:
-    let last = state.getLastBlock((c) => c.name notin [ "PrefixUnaryExpression","LiteralExpression"])
+  of ["PrefixUnaryExpression", "LiteralExpression"]:
+    let last = state.getLastBlock((c) => c.name notin ["PrefixUnaryExpression",
+        "LiteralExpression"])
     assert last.isSome
-    echo "LAST:",last
-    result=last.get.id.some
+    echo "LAST:", last
+    result = last.get.id.some
 
   else: assert false, prevName
 
@@ -116,9 +119,9 @@ proc  handleLiteralExpression(data:AllNeededData) : Option[UUID] =
 # the bulk of the work shifts to here.
 # this happens before we add to the parent.
 import state_utils, state
-proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID]) =
+proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]) =
   var discarded = false
-  var res:Option[UUID]
+  var res: Option[UUID]
   echo "source code was: " & data.sourceCode
   echo "all received constructs: ", currentConstruct
   if data.lastMethod != nil:
@@ -127,20 +130,20 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
 
   if obj.parentId.isSome:
     echo "obj already has parent id, returning that."
-    return (discarded,obj.parentId)
+    return (discarded, obj.parentId)
 
   echo obj.kind
   case obj.kind
   # of ckVariableDeclarator: # TODO
   #   echo "obj is a variable declarator"
   #   # hmm, can be in multiple parts (instance var, or local var). we have to know the last added construct.
-      # I think the local declaration is a wrapper for this object.
-      # i think this object can also be wrapped in an instance var. don't know yet.
+    # I think the local declaration is a wrapper for this object.
+    # i think this object can also be wrapped in an instance var. don't know yet.
   #   assert false
   of ckLocalDeclarationStatement:
     echo "obj is a local declaration"
     # exists in methods, ctors, properties.
-    assert data.classLastAdded in [Methods,Properties, Ctors]
+    assert data.classLastAdded in [Methods, Properties, Ctors]
     res = data.idLastClassPart
   of ckClass:
     echo "obj is a class, returning the current namespace id"
@@ -156,7 +159,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     assert data.nsLastAdded == NamespaceParts.Classes # methods are in classes.
     assert data.lastClass != nil
     echo "last class has id:", data.lastClass.id
-    return (discarded,data.lastClass.id)
+    return (discarded, data.lastClass.id)
 
   of ckPredefinedType:
     echo "object is a predefined type"
@@ -175,7 +178,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     of "IndexerDeclaration":
       assert data.lastClass.hasIndexer
       res = data.lastClass.indexer.id
-    of ["VariableDeclaration","Parameter" , "IdentifierName", "TypeArgumentList"]: discarded = true
+    of ["VariableDeclaration", "Parameter", "IdentifierName",
+        "TypeArgumentList"]: discarded = true
     # of "VariableDeclaration":
     #   res = data.previousConstruct.get.id.some
       # assert false, "TODO!"
@@ -183,7 +187,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
       echo "in ckPredefinedType: not all cases were matched"
       if discarded == false:
         assert false
-      return (discarded,none(UUID))
+      return (discarded, none(UUID))
   of ckParameter:
     echo "object is Parameter"
     case data.classLastAdded:
@@ -216,14 +220,16 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckArgumentList:
     echo "object is ArgumentList"
     echo "we assume we're in method or ctor, or property, but if there are more options change that."
-    assert data.classLastAdded in [ ClassParts.Methods,  ClassParts.Properties,  ClassParts.Ctors ]
+    assert data.classLastAdded in [ClassParts.Methods, ClassParts.Properties,
+        ClassParts.Ctors]
     # assert data.lastMethod.body.len > 0
     # res = lastBodyExprId(data.lastMethod)
     # echo data.classLastAdded
     # echo data.lastCtor.name
     # echo data.lastCtor.body.mapIt(it.ttype)
     echo data.classLastAdded
-    if data.classLastAdded == Ctors and data.lastCtor.body.isEmpty and data.lastCtor.initializer != nil:
+    if data.classLastAdded == Ctors and data.lastCtor.body.isEmpty and
+        data.lastCtor.initializer != nil:
       # then it could belong to initializer -- hmmm... we depend here on order (first ctor, then ctor init). a little fishy.
       res = data.lastCtor.id
     else:
@@ -232,12 +238,14 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckExpressionStatement:
     echo "obj is ExpressionStatement"
     # echo "we assume we're in method or ctor, but if there are more options change that."
-    assert data.classLastAdded in [ ClassParts.Methods, ClassParts.Ctors ], $data.classLastAdded
+    assert data.classLastAdded in [ClassParts.Methods, ClassParts.Ctors],
+        $data.classLastAdded
     res = data.idLastClassPart
 
   of ckAssignmentExpression:
     echo "obj is AssignmentExpression"
-    assert data.classLastAdded in [ ClassParts.Methods, ClassParts.Ctors ], $data.classLastAdded
+    assert data.classLastAdded in [ClassParts.Methods, ClassParts.Ctors],
+        $data.classLastAdded
     res = data.idLastClassPart
 
   of ckIndexer:
@@ -247,7 +255,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckParameterList:
     echo "obj is ParameterList"
     # last method or ctor
-    assert data.classLastAdded in [ ClassParts.Ctors, ClassParts.Methods]
+    assert data.classLastAdded in [ClassParts.Ctors, ClassParts.Methods]
     res = data.idLastClassPart
 
   of ckConstructor:
@@ -257,7 +265,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckProperty:
     echo "obj is property"
     # can be interfaces or classes
-    assert data.nsLastAdded in [ NamespaceParts.Interfaces, NamespaceParts.Classes]
+    assert data.nsLastAdded in [NamespaceParts.Interfaces,
+        NamespaceParts.Classes]
     res = data.idLastNsPart()
 
   of ckInvocationExpression:
@@ -287,30 +296,31 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     if data.previousPreviousConstruct.get.name == "IndexerDeclaration":
       if data.lastClass.hasIndexer:
         res = data.lastClass.indexer.id
-      else : res = none(UUID)
+      else: res = none(UUID)
   of ckEqualsValueClause:
     echo "obj is EqualsValueClause"
     # the parent is the previous construct. TODO: some checks needed?
     assert data.previousConstruct.isSome
     echo data.previousConstruct
     res = some(data.previousConstruct.get.id)
-    assert data.previousconstruct.get.name in [ "EnumMemberDeclaration" , "VariableDeclarator"], data.previousconstruct.get.name
+    assert data.previousconstruct.get.name in ["EnumMemberDeclaration",
+        "VariableDeclarator"], data.previousconstruct.get.name
     # currentRoot.previousConstructObj()
-  of ckBaseList, ckSimpleBaseType:  # interfaces, classes or structs can have a baselist to extend
-    assert data.nsLastAdded in [ Classes, Interfaces]#, Structs ]
+  of ckBaseList, ckSimpleBaseType: # interfaces, classes or structs can have a baselist to extend
+    assert data.nsLastAdded in [Classes, Interfaces] #, Structs ]
     res = data.idLastNsPart
   of ckBracketedParameterList: # for now, I assume only for indexer.
     assert data.classLastAdded == ClassParts.Indexer
     res = data.idLastClassPart
 
   of ckAccessorList: # for properties and indexer, others? both are in class.
-    assert data.classLastAdded in [ ClassParts.Properties, ClassParts.Indexer]
+    assert data.classLastAdded in [ClassParts.Properties, ClassParts.Indexer]
     res = data.idLastClassPart
   of ckAccessor: # find its parent:AccessorList
-    assert data.classLastAdded in [ ClassParts.Properties, ClassParts.Indexer]
+    assert data.classLastAdded in [ClassParts.Properties, ClassParts.Indexer]
     case data.classLastAdded
     of Properties:
-      res=data.lastProp.acclist.id
+      res = data.lastProp.acclist.id
     of Indexer:
       assert data.lastClass.hasIndexer
       assert data.lastClass.indexer.aclist != nil
@@ -329,7 +339,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     # echo data.inBlock
     # echo data.prevBlock
     # echo data.currentConstruct
-    case  data.previousConstruct.get.name
+    case data.previousConstruct.get.name
     of "LocalDeclarationStatement":
       # we're in a method, get the last body id.
       assert data.classLastAdded == Methods, $data.classLastAdded
@@ -337,23 +347,25 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     of "FieldDeclaration":
       res = data.lastBlockType("FieldDeclaration")
       assert res.isSome
-    else: assert false, "please add more: " &   data.previousConstruct.get.name
+    else: assert false, "please add more: " & data.previousConstruct.get.name
 
 
   of ckGenericName: # NOTE:don't know how it should be structured. probably part of csvariable.
     # just return the last construct.
-    let b = state.getLastBlock((c) => c.name notin [ "GenericName", "IdentifierName","QualifiedName"] )
+    let b = state.getLastBlock((c) => c.name notin ["GenericName",
+        "IdentifierName", "QualifiedName"])
     echo b.get.name
     res = b.get.id.some
     when false: # previous impl. do we pass unit tests?
       case data.previousConstruct.get.name
-      of [ "IdentifierName"]: discarded = true
-      of ["VariableDeclaration", "ObjectCreationExpression","MethodDeclaration","Parameter","SimpleBaseType"]:
+      of ["IdentifierName"]: discarded = true
+      of ["VariableDeclaration", "ObjectCreationExpression",
+          "MethodDeclaration", "Parameter", "SimpleBaseType"]:
         assert data.classLastAdded == Methods, $data.classLastAdded
         res = data.lastBodyExprId
         if res.get != data.previousConstruct.get.id:
           let btype = if not data.lastBodyExpr.get.typ.isEmptyOrWhitespace: data.lastBodyExpr.get.typ else: data.lastBodyExpr.get.ttype
-          echo btype, " <=> " , data.previousConstruct.get.name
+          echo btype, " <=> ", data.previousConstruct.get.name
       else: assert false, data.previousConstruct.get.name
 
 
@@ -370,12 +382,14 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckVariableDeclarator: # for now assume we're in method, add more later.
     assert data.classLastAdded == Methods, $data.classLastAdded
     # res = data.lastBodyExprId # this will create a few chained adds but we don't care.
-    res = data.lastBlockType(@[ "FieldDeclaration", "LocalDeclarationStatement", "MethodDeclaration"])
+    res = data.lastBlockType(@["FieldDeclaration", "LocalDeclarationStatement",
+        "MethodDeclaration"])
     # res = data.idLastClassPart
     # res = data.lastMethod.id
 
   of ckObjectCreationExpression: # store in assignment expression # not variable declarator.
-    case data.previousPreviousConstruct.get.name & ", " & data.previousConstruct.get.name
+    case data.previousPreviousConstruct.get.name & ", " &
+        data.previousConstruct.get.name
     of "VariableDeclarator, EqualsValueClause":
       # based on last 2 constructs: variableDeclarator equalsvalueclause ...
       res = data.previousPreviousConstruct.get.id.some
@@ -384,7 +398,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     of "ParameterList, ReturnStatement":
       res = data.previousConstruct.get.id.some
 
-    else: assert false, data.previousPreviousConstruct.get.name & ", " & data.previousConstruct.get.name
+    else: assert false, data.previousPreviousConstruct.get.name & ", " &
+        data.previousConstruct.get.name
 
     # HAVE TO FIGURE THIS OUT, can i just put them all one after another in a body seq?
   # of [ckInvocationExpression, ckAnonymousMethodExpression, ckAnonymousObjectCreationExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckAssignmentExpression, ckAwaitExpression, ckBaseExpression, ckBinaryExpression, ckBreakStatement, ckCastExpression, ckCheckedExpression, ckCheckedStatement, ckConditionalAccessExpression, ckConditionalExpression, ckContinueStatement, ckDeclarationExpression, ckDefaultExpression, ckDoStatement, ckElementAccessExpression, ckElementBindingExpression, ckEmptyStatement, ckExpressionStatement, ckFixedStatement, ckForEachStatement, ckForEachVariableStatement, ckForStatement, ckGlobalStatement, ckGotoStatement, ckIfStatement, ckImplicitArrayCreationExpression, ckImplicitObjectCreationExpression, ckImplicitStackAllocArrayCreationExpression, ckInitializerExpression, ckInterpolatedStringExpression, ckIsPatternExpression, ckLabeledStatement, ckLiteralExpression, ckLocalDeclarationStatement, ckLocalFunctionStatement, ckLockStatement, ckMakeRefExpression, ckMemberAccessExpression, ckMemberBindingExpression, ckObjectCreationExpression, ckOmittedArraySizeExpression, ckParenthesizedExpression, ckParenthesizedLambdaExpression, ckPostfixUnaryExpression, ckPrefixUnaryExpression, ckQueryExpression, ckRangeExpression, ckRefExpression, ckRefTypeExpression, ckRefValueExpression, ckReturnStatement, ckSimpleLambdaExpression, ckSizeOfExpression, ckStackAllocArrayCreationExpression, ckSwitchExpression, ckSwitchExpressionArm, ckSwitchStatement, ckThisExpression, ckThrowExpression, ckThrowStatement, ckTryStatement, ckTupleExpression, ckTypeOfExpression, ckUnsafeStatement, ckUsingStatement, ckWhileStatement, ckWithExpression, ckYieldStatement]:
@@ -395,19 +410,21 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
     assert res.isSome
 
   of ckPrefixUnaryExpression: # hmm, not the previous but the next one. so just add it.
-    let fitting = state.getLastBlock(c=>c.name in ["InitializerExpression"]) # TODO: add others as needed.
+    let fitting = state.getLastBlock(c=>c.name in [
+        "InitializerExpression"]) # TODO: add others as needed.
     assert fitting.isSome, $data.simplified
     res = fitting.get.id.some
   of ckBinaryExpression:
-    let b  = state.getLastBlock(c=>c.name in ["VariableDeclarator"]) # TODO: add others as needed.
+    let b = state.getLastBlock(c=>c.name in [
+        "VariableDeclarator"]) # TODO: add others as needed.
     assert b.isSome, $data.simplified
     res = b.get.id.some
   of ckField: # classes, or interfaces
-    assert data.nsLastAdded in [ Classes, Interfaces ] # more?
+    assert data.nsLastAdded in [Classes, Interfaces] # more?
     res = data.idLastNsPart
 
 
-  of  ckIfStatement:
+  of ckIfStatement:
     assert false, $obj.kind & " is still unsupported"
   of ckThisExpression:
     assert false, $obj.kind & " is still unsupported"
@@ -671,19 +688,22 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool,Option[UUID])
   of ckImplicitStackAllocArrayCreationExpression:
     assert false, $obj.kind & " is still unsupported"
     # raise notimplementedException
-  result = (discarded,res)
+  result = (discarded, res)
   if res.isNone: assert discarded == true
-  assert (not discarded and res.isSome) or (discarded and res.isNone), "dis: " & $discarded & ", res: " & $res
+  assert (not discarded and res.isSome) or (discarded and res.isNone), "dis: " &
+      $discarded & ", res: " & $res
 
-proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (bool,Option[Construct]) =
-  var res:Option[Construct]
+proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (
+    bool, Option[Construct]) =
+  var res: Option[Construct]
   echo "in getParent"
   echo "newobj: ", newobj.kind
-  let (dis,pid) = determineParentId(newobj, allData)
+  let (dis, pid) = determineParentId(newobj, allData)
   if pid.isNone: assert dis == true
 
   echo dis, pid
-  if pid.isSome and not dis and newobj.kind != ckNamespace: # because namespace has no parent. root is explicit.
+  if pid.isSome and not dis and newobj.kind !=
+      ckNamespace: # because namespace has no parent. root is explicit.
     assert pid.isSome
     assert not pid.get.isZero
     echo "parent id found: ", $pid
@@ -691,5 +711,6 @@ proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (b
     if res.isNone:
       echo "couldn't find registered object for this id" ### NOTE: can happen for IdentifierName since we don't register it. it means the parent was wrongly identified as IdentifierName.
       echo root.infoCenter.keys
-  result = (dis,res)
-  assert (not dis and res.isSome) or (dis and res.isNone), "dis: " & $dis & ", res: " & (if res.isSome: $res.get.kind else: "none")
+  result = (dis, res)
+  assert (not dis and res.isSome) or (dis and res.isNone), "dis: " & $dis &
+      ", res: " & (if res.isSome: $res.get.kind else: "none")

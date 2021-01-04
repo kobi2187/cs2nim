@@ -1,5 +1,5 @@
 
-import sets, sequtils, tables, uuids, options#, strutils
+import sets, sequtils, tables, uuids, options #, strutils
 import cs_all_constructs, justtypes, ../info_center, ../types, ../construct
 # ============= CsRoot ========
 
@@ -58,7 +58,8 @@ proc newCs*(t: typedesc[CsRoot]): CsRoot =
   echo $defaultNs.id.get
   result.global = defaultNs
   result.nsTables["default"] = defaultNs
-  result.register(defaultNs.id.get, Construct(kind: ckNamespace, namespace: defaultNs))
+  result.register(defaultNs.id.get, Construct(kind: ckNamespace,
+      namespace: defaultNs))
 
 
 var currentRoot*: CsRoot
@@ -70,7 +71,7 @@ proc makeModule*(ns: CsNamespace): Module =
   else:
     name = ns.name
   var output = ns.gen() & "\n\n"
-  output = output.replace(re"\n{2,}","\n\n")
+  output = output.replace(re"\n{2,}", "\n\n")
 
   result = Module(name: name, output: output)
 

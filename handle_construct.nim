@@ -23,7 +23,8 @@ proc addToLastMethodOrCtor(root: CsRoot, p: CsParameterList) =
 
   var c = getLastClass(root).get
 
-  assert c.lastAddedTo.issome and c.lastAddedTo.get in [ClassParts.Methods, ClassParts.Ctors]
+  assert c.lastAddedTo.issome and c.lastAddedTo.get in [ClassParts.Methods,
+      ClassParts.Ctors]
   case c.lastAddedTo.get
   of ClassParts.Methods:
     var m = getLastMethod(c)
@@ -37,7 +38,8 @@ proc addToLastMethodOrCtor(root: CsRoot, p: CsParameterList) =
 
 proc addIfBodyExpr(root: CsRoot; item: BodyExpr) =
   var c = root.getLastClass().get
-  assert c.lastAddedTo.issome and c.lastAddedTo.get in [ClassParts.Methods, ClassParts.Ctors]
+  assert c.lastAddedTo.issome and c.lastAddedTo.get in [ClassParts.Methods,
+      ClassParts.Ctors]
   # we assume bodyExpr to only exist within a method or a ctor.
   # todo: probably get/set also, haven't seen yet.
 
@@ -993,20 +995,35 @@ proc addToRoot*(root: var CsRoot; src: string; info: Info, id: UUID) =
   
   # ## unsupported by choice, or implement last.  
   # not interested in supporting attributes
-  of["AttributeTargetSpecifier", "Attribute", "AttributeList", "AttributeArgument", "AttributeArgumentList"]:
+  of["AttributeTargetSpecifier", "Attribute", "AttributeList",
+      "AttributeArgument", "AttributeArgumentList"]:
     discard
   # not interested in supporting xml attributes comments etc.
-  of ["XmlCDataSection", "XmlComment", "XmlCrefAttribute", "XmlElement", "XmlElementEndTag", "XmlElementStartTag", "XmlEmptyElement", "XmlName", "XmlNameAttribute", "XmlPrefix", "XmlProcessingInstruction", "XmlText", "XmlTextAttribute"]:
+  of ["XmlCDataSection", "XmlComment", "XmlCrefAttribute", "XmlElement",
+      "XmlElementEndTag", "XmlElementStartTag", "XmlEmptyElement", "XmlName",
+      "XmlNameAttribute", "XmlPrefix", "XmlProcessingInstruction", "XmlText",
+      "XmlTextAttribute"]:
     discard
   # not interested in supporting Trivia at the moment, some have nim equivalents though.
-  of ["BadDirectiveTrivia", "DefineDirectiveTrivia", "DocumentationCommentTrivia", "ElifDirectiveTrivia", "ElseDirectiveTrivia", "EndIfDirectiveTrivia", "EndRegionDirectiveTrivia", "ErrorDirectiveTrivia", "NullableDirectiveTrivia", "RegionDirectiveTrivia", "IfDirectiveTrivia", "LineDirectiveTrivia", "LoadDirectiveTrivia", "PragmaChecksumDirectiveTrivia", "PragmaWarningDirectiveTrivia",
-      "ReferenceDirectiveTrivia", "ShebangDirectiveTrivia", "SkippedTokensTrivia", "UndefDirectiveTrivia", "WarningDirectiveTrivia"]:
+  of ["BadDirectiveTrivia", "DefineDirectiveTrivia",
+      "DocumentationCommentTrivia", "ElifDirectiveTrivia",
+      "ElseDirectiveTrivia", "EndIfDirectiveTrivia", "EndRegionDirectiveTrivia",
+      "ErrorDirectiveTrivia", "NullableDirectiveTrivia",
+      "RegionDirectiveTrivia", "IfDirectiveTrivia", "LineDirectiveTrivia",
+      "LoadDirectiveTrivia", "PragmaChecksumDirectiveTrivia",
+      "PragmaWarningDirectiveTrivia",
+
+"ReferenceDirectiveTrivia", "ShebangDirectiveTrivia", "SkippedTokensTrivia",
+          "UndefDirectiveTrivia", "WarningDirectiveTrivia"]:
     discard
   # hmmm, what is Cref ?
-  of ["ConversionOperatorMemberCref", "CrefBracketedParameterList", "CrefParameter", "CrefParameterList", "IndexerMemberCref", "NameMemberCref", "OperatorMemberCref", "QualifiedCref", "TypeCref"]:
+  of ["ConversionOperatorMemberCref", "CrefBracketedParameterList",
+      "CrefParameter", "CrefParameterList", "IndexerMemberCref",
+      "NameMemberCref", "OperatorMemberCref", "QualifiedCref", "TypeCref"]:
     discard
   # linq stuff, we should support it, but perhaps there are shortcuts. (program that replaces linq with normal c#) or we'll make equivalent nim procs to handle it.
-  of ["OrderByClause", "GroupClause", "JoinClause", "FromClause", "SelectClause", "WhereClause", "JoinIntoClause"]:
+  of ["OrderByClause", "GroupClause", "JoinClause", "FromClause",
+      "SelectClause", "WhereClause", "JoinIntoClause"]:
     discard #linq
   else:
     raise newException(Exception, "unsupported! Please add to the switch case above: `" &

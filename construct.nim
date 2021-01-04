@@ -10,18 +10,62 @@ type ConstructKind* = enum
   ckEnum,
   # to be added.
   ckPredefinedType
-  ckArgumentList, ckObjectCreationExpression, ckUsingDirective, ckEnumMember, ckIndexer, ckParameterList, ckParameter, ckArgument, ckConstructor, ckReturnStatement, ckLiteralExpression, ckSimpleBaseType, ckBaseList, ckProperty, ckExplicitInterfaceSpecifier, ckExpressionStatement, ckInvocationExpression,
-  ckLocalDeclarationStatement,ckVariableDeclarator
+  ckArgumentList, ckObjectCreationExpression, ckUsingDirective, ckEnumMember,
+      ckIndexer, ckParameterList, ckParameter, ckArgument, ckConstructor,
+      ckReturnStatement, ckLiteralExpression, ckSimpleBaseType, ckBaseList,
+      ckProperty, ckExplicitInterfaceSpecifier, ckExpressionStatement,
+      ckInvocationExpression,
+  ckLocalDeclarationStatement, ckVariableDeclarator
 
- # unsupported:
-   ckBinaryExpression, ckAssignmentExpression, ckEqualsValueClause, ckIfStatement, ckThisExpression, ckTypeArgumentList, ckGenericName, ckAccessor, ckBracketedArgumentList, ckElementAccessExpression, ckAccessorList, ckParenthesizedExpression, ckCastExpression, ckArrayRankSpecifier, ckArrayType, ckPrefixUnaryExpression, ckOmittedArraySizeExpression,
-   ckInitializerExpression, ckNameEquals, ckThrowStatement, ckTypeOfExpression, ckElseClause, ckCaseSwitchLabel, ckSwitchSection, ckSimpleLambdaExpression, ckPostfixUnaryExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckBreakStatement, ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression, ckConditionalExpression, ckTypeParameterList, ckForEachStatement, ckForStatement,
-   ckInterpolatedStringText, ckParenthesizedLambdaExpression, ckTryStatement, ckNullableType, ckBaseExpression, ckCatchClause, ckConstructorInitializer, ckInterpolation, ckCatch, ckNameColon, ckUsingStatement, ckTypeParameterConstraintClause, ckTypeConstraint, ckSingleVariableDesignation, ckInterpolatedStringExpression, ckImplicitArrayCreationExpression, ckWhileStatement,
-   ckDeclarationExpression, ckConditionalAccessExpression, ckSwitchStatement, ckMemberBindingExpression, ckDefaultExpression, ckPointerType, ckInterface, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel, ckYieldStatement, ckAnonymousObjectMemberDeclarator, ckCheckedExpression, ckStruct, ckIsPatternExpression, ckLockStatement, ckDeclarationPattern, ckThrowExpression, ckConstantPattern,
-   ckRefType, ckRefExpression, ckClassOrStructConstraint, ckOmittedTypeArgument, ckTupleElement, ckOperator, ckEventField, ckDelegate, ckImplicitElementAccess, ckAnonymousMethodExpression, ckTupleExpression, ckAnonymousObjectCreationExpression, ckBracketedParameterList, ckEvent, ckGotoStatement, ckDoStatement, ckGlobalStatement, ckIncompleteMember, ckLocalFunctionStatement,
-   ckConversionOperator, ckTupleType, ckFixedStatement, ckEmptyStatement, ckSizeOfExpression, ckQueryBody, ckCheckedStatement, ckQueryExpression, ckCasePatternSwitchLabel, ckLabeledStatement, ckConstructorConstraint, ckUnsafeStatement, ckParenthesizedVariableDesignation, ckInterpolationFormatClause, ckDestructor, ckDiscardDesignation, ckStackAllocArrayCreationExpression, ckWhenClause,
-   ckForEachVariableStatement, ckLetClause, ckElementBindingExpression, ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause, ckQueryContinuation, ckExternAliasDirective, ckMakeRefExpression, ckRefValueExpression, ckRefTypeExpression, ckBlock, ckVariable, ckBinaryPattern, ckDiscardPattern, ckFunctionPointerType, ckImplicitObjectCreationExpression, ckMemberAccessExpression,
-   ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord, ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression
+# unsupported:
+  ckBinaryExpression, ckAssignmentExpression, ckEqualsValueClause,
+      ckIfStatement, ckThisExpression, ckTypeArgumentList, ckGenericName,
+      ckAccessor, ckBracketedArgumentList, ckElementAccessExpression,
+      ckAccessorList, ckParenthesizedExpression, ckCastExpression,
+      ckArrayRankSpecifier, ckArrayType, ckPrefixUnaryExpression,
+      ckOmittedArraySizeExpression,
+  ckInitializerExpression, ckNameEquals, ckThrowStatement, ckTypeOfExpression,
+      ckElseClause, ckCaseSwitchLabel, ckSwitchSection,
+      ckSimpleLambdaExpression, ckPostfixUnaryExpression,
+      ckArrayCreationExpression, ckArrowExpressionClause, ckBreakStatement,
+      ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression,
+      ckConditionalExpression, ckTypeParameterList, ckForEachStatement,
+      ckForStatement,
+  ckInterpolatedStringText, ckParenthesizedLambdaExpression, ckTryStatement,
+      ckNullableType, ckBaseExpression, ckCatchClause, ckConstructorInitializer,
+      ckInterpolation, ckCatch, ckNameColon, ckUsingStatement,
+      ckTypeParameterConstraintClause, ckTypeConstraint,
+      ckSingleVariableDesignation, ckInterpolatedStringExpression,
+      ckImplicitArrayCreationExpression, ckWhileStatement,
+  ckDeclarationExpression, ckConditionalAccessExpression, ckSwitchStatement,
+      ckMemberBindingExpression, ckDefaultExpression, ckPointerType,
+      ckInterface, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel,
+      ckYieldStatement, ckAnonymousObjectMemberDeclarator, ckCheckedExpression,
+      ckStruct, ckIsPatternExpression, ckLockStatement, ckDeclarationPattern,
+      ckThrowExpression, ckConstantPattern,
+  ckRefType, ckRefExpression, ckClassOrStructConstraint, ckOmittedTypeArgument,
+      ckTupleElement, ckOperator, ckEventField, ckDelegate,
+      ckImplicitElementAccess, ckAnonymousMethodExpression, ckTupleExpression,
+      ckAnonymousObjectCreationExpression, ckBracketedParameterList, ckEvent,
+      ckGotoStatement, ckDoStatement, ckGlobalStatement, ckIncompleteMember,
+      ckLocalFunctionStatement,
+  ckConversionOperator, ckTupleType, ckFixedStatement, ckEmptyStatement,
+      ckSizeOfExpression, ckQueryBody, ckCheckedStatement, ckQueryExpression,
+      ckCasePatternSwitchLabel, ckLabeledStatement, ckConstructorConstraint,
+      ckUnsafeStatement, ckParenthesizedVariableDesignation,
+      ckInterpolationFormatClause, ckDestructor, ckDiscardDesignation,
+      ckStackAllocArrayCreationExpression, ckWhenClause,
+  ckForEachVariableStatement, ckLetClause, ckElementBindingExpression,
+      ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause,
+      ckQueryContinuation, ckExternAliasDirective, ckMakeRefExpression,
+      ckRefValueExpression, ckRefTypeExpression, ckBlock, ckVariable,
+      ckBinaryPattern, ckDiscardPattern, ckFunctionPointerType,
+      ckImplicitObjectCreationExpression, ckMemberAccessExpression,
+  ckParenthesizedPattern, ckPositionalPatternClause,
+      ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression,
+      ckRecord, ckRecursivePattern, ckRelationalPattern, ckSubpattern,
+      ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern,
+      ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression
 import options
 type CNode {.acyclic.} = object
   id*: Option[UUID]
@@ -38,9 +82,10 @@ type CNode {.acyclic.} = object
   of ckPredefinedType:
     predefinedType*: CsPredefinedType
   of ckArgumentList: argumentList*: CsArgumentList
-  of ckObjectCreationExpression: objectCreationExpression*: CsObjectCreationExpression
+  of ckObjectCreationExpression: objectCreationExpression *
+      : CsObjectCreationExpression
   of ckUsingDirective: usingDirective*: CsUsingDirective
-  of ckField: field*:CsField
+  of ckField: field*: CsField
   of ckEnum: cenum*: CsEnum
   of ckEnumMember: enumMember*: CsEnumMember
   of ckIndexer: indexer*: CsIndexer
@@ -48,16 +93,18 @@ type CNode {.acyclic.} = object
   of ckParameter: parameter*: CsParameter
   of ckArgument: argument*: CsArgument
   of ckConstructor: constructor*: CsConstructor
-  of ckReturnStatement: returnStatement*: CsReturnStatement
-  of ckLiteralExpression: literalExpression*: CsLiteralExpression
+  of ckReturnStatement: returnStatement * : CsReturnStatement
+  of ckLiteralExpression: literalExpression * : CsLiteralExpression
   of ckSimpleBaseType: simpleBaseType*: CsSimpleBaseType
   of ckBaseList: baseList*: CsBaseList
   of ckProperty: property*: CsProperty
-  of ckExplicitInterfaceSpecifier: explicitInterfaceSpecifier*: CsExplicitInterfaceSpecifier
-  of ckExpressionStatement: expressionStatement*: CsExpressionStatement
-  of ckInvocationExpression: invocationExpression*: CsInvocationExpression
-  of ckLocalDeclarationStatement: localDeclarationStatement*: CsLocalDeclarationStatement
-  of ckVariableDeclarator: variableDeclarator*:CsVariableDeclarator
+  of ckExplicitInterfaceSpecifier: explicitInterfaceSpecifier *
+      : CsExplicitInterfaceSpecifier
+  of ckExpressionStatement: expressionStatement * : CsExpressionStatement
+  of ckInvocationExpression: invocationExpression * : CsInvocationExpression
+  of ckLocalDeclarationStatement: localDeclarationStatement *
+      : CsLocalDeclarationStatement
+  of ckVariableDeclarator: variableDeclarator * : CsVariableDeclarator
   of ckBinaryExpression:
     binaryExpression*: CsBinaryExpression
   of ckAssignmentExpression:
@@ -255,49 +302,49 @@ type CNode {.acyclic.} = object
   of ckCheckedStatement:
     checkedStatement*: CsCheckedStatement
   of ckQueryExpression:
-      queryExpression*: CsQueryExpression
+    queryExpression*: CsQueryExpression
   of ckCasePatternSwitchLabel:
-      casePatternSwitchLabel*: CsCasePatternSwitchLabel
+    casePatternSwitchLabel*: CsCasePatternSwitchLabel
   of ckLabeledStatement:
-      labeledStatement*: CsLabeledStatement
+    labeledStatement*: CsLabeledStatement
   of ckConstructorConstraint:
-      constructorConstraint*: CsConstructorConstraint
+    constructorConstraint*: CsConstructorConstraint
   of ckUnsafeStatement:
-      unsafeStatement*: CsUnsafeStatement
+    unsafeStatement*: CsUnsafeStatement
   of ckParenthesizedVariableDesignation:
-      parenthesizedVariableDesignation*: CsParenthesizedVariableDesignation
+    parenthesizedVariableDesignation*: CsParenthesizedVariableDesignation
   of ckInterpolationFormatClause:
-      interpolationFormatClause*: CsInterpolationFormatClause
+    interpolationFormatClause*: CsInterpolationFormatClause
   of ckDestructor:
-      destructor*: CsDestructor
+    destructor*: CsDestructor
   of ckDiscardDesignation:
-      discardDesignation*: CsDiscardDesignation
+    discardDesignation*: CsDiscardDesignation
   of ckStackAllocArrayCreationExpression:
-      stackAllocArrayCreationExpression*: CsStackAllocArrayCreationExpression
+    stackAllocArrayCreationExpression*: CsStackAllocArrayCreationExpression
   of ckWhenClause:
-      whenClause*: CsWhenClause
+    whenClause*: CsWhenClause
   of ckForEachVariableStatement:
-      forEachVariableStatement*: CsForEachVariableStatement
+    forEachVariableStatement*: CsForEachVariableStatement
   of ckLetClause:
-      letClause*: CsLetClause
+    letClause*: CsLetClause
   of ckElementBindingExpression:
-      elementBindingExpression*: CsElementBindingExpression
+    elementBindingExpression*: CsElementBindingExpression
   of ckCatchFilterClause:
-      catchFilterClause*: CsCatchFilterClause
+    catchFilterClause*: CsCatchFilterClause
   of ckOrdering:
-      ordering*: CsOrdering
+    ordering*: CsOrdering
   of ckInterpolationAlignmentClause:
-      interpolationAlignmentClause*: CsInterpolationAlignmentClause
+    interpolationAlignmentClause*: CsInterpolationAlignmentClause
   of ckQueryContinuation:
-      queryContinuation*: CsQueryContinuation
+    queryContinuation*: CsQueryContinuation
   of ckExternAliasDirective:
-      externAliasDirective*: CsExternAliasDirective
+    externAliasDirective*: CsExternAliasDirective
   of ckMakeRefExpression:
-      makeRefExpression*: CsMakeRefExpression
+    makeRefExpression*: CsMakeRefExpression
   of ckRefValueExpression:
-      refValueExpression*: CsRefValueExpression
+    refValueExpression*: CsRefValueExpression
   of ckRefTypeExpression:
-      refTypeExpression*: CsRefTypeExpression
+    refTypeExpression*: CsRefTypeExpression
   of ckBlock:
     cblock*: CsBlock
   of ckVariable:
@@ -323,28 +370,29 @@ type CNode {.acyclic.} = object
   of ckRangeExpression:
     rangeExpression*: CsRangeExpression
   of ckRecord:
-      record*: CsRecord
+    record*: CsRecord
   of ckRecursivePattern:
-      recursivePattern*: CsRecursivePattern
+    recursivePattern*: CsRecursivePattern
   of ckRelationalPattern:
-      relationalPattern*: CsRelationalPattern
+    relationalPattern*: CsRelationalPattern
   of ckSubpattern:
-      subpattern*: CsSubpattern
+    subpattern*: CsSubpattern
   of ckSwitchExpression:
-      switchExpression*: CsSwitchExpression
+    switchExpression*: CsSwitchExpression
   of ckSwitchExpressionArm:
-      switchExpressionArm*: CsSwitchExpressionArm
+    switchExpressionArm*: CsSwitchExpressionArm
   of ckTypePattern:
-      typePattern*: CsTypePattern
+    typePattern*: CsTypePattern
   of ckUnaryPattern:
-      unaryPattern*: CsUnaryPattern
+    unaryPattern*: CsUnaryPattern
   of ckVarPattern:
-      varPattern*: CsVarPattern
+    varPattern*: CsVarPattern
   of ckWithExpression:
-      withExpression*: CsWithExpression
+    withExpression*: CsWithExpression
   of ckImplicitStackAllocArrayCreationExpression:
-      implicitStackAllocArrayCreationExpression*: CsImplicitStackAllocArrayCreationExpression
-      # ]#
+    implicitStackAllocArrayCreationExpression *
+        : CsImplicitStackAllocArrayCreationExpression
+    # ]#
 type Construct* = ref CNode # all the types we support, wrapped in a variant.
 
 

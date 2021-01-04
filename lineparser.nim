@@ -36,7 +36,7 @@ proc getInfo(line: JsonNode): (seq[string], seq[string]) =
     extras = linf["Extras"].getElems().mapIt(it.getStr)
   result = (main, extras)
 
-proc updateState(root: var CsRoot; line: JsonNode; upcoming:seq[string]) =
+proc updateState(root: var CsRoot; line: JsonNode; upcoming: seq[string]) =
   let kindstr = line["KindStr"].getStr
   let kind: LineKind =
     if line["Kind"].getInt() == 1: LineKind.EndBlock
@@ -65,7 +65,7 @@ proc updateState(root: var CsRoot; line: JsonNode; upcoming:seq[string]) =
     endBlock(info)
 
 import system, os
-proc parseExecFile*(root: var CsRoot; file: JsonNode; upcoming:seq[string]) =
+proc parseExecFile*(root: var CsRoot; file: JsonNode; upcoming: seq[string]) =
   let filename = file["File"].getStr
   # echo "working on file: " & filename
   echo "file: " & filename.extractFilename

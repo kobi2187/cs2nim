@@ -1,1 +1,244 @@
-{"File":"tests/samples/binexp.cs","Lines":[{"Kind":0,"KindStr":"Decl","Declaration":"BlockStarts","Info":{"Essentials":["1"],"Extras":["ClassDeclaration"]},"ParentKind":0,"Source":null},{"Kind":0,"KindStr":"Decl","Declaration":"ClassDeclaration","Info":{"Essentials":["AVLTreeTest"],"Extras":["public static"]},"ParentKind":8840,"Source":null},{"Kind":0,"KindStr":"Decl","Declaration":"BlockStarts","Info":{"Essentials":["2"],"Extras":["MethodDeclaration"]},"ParentKind":0,"Source":null},{"Kind":0,"KindStr":"Decl","Declaration":"MethodDeclaration","Info":{"Essentials":["BinExpExample","void"],"Extras":["public static"]},"ParentKind":8855,"Source":"  public static void BinExpExample()\n  {\n    var res = avlTreeHeight < bsTreeHeight;\n  }\n"},{"Kind":0,"KindStr":"Decl","Declaration":"PredefinedType","Info":{"Essentials":["void"],"Extras":[]},"ParentKind":8875,"Source":"void "},{"Kind":0,"KindStr":"Decl","Declaration":"ParameterList","Info":{"Essentials":[""],"Extras":[]},"ParentKind":8875,"Source":"()\n"},{"Kind":0,"KindStr":"Decl","Declaration":"LocalDeclarationStatement","Info":{"Essentials":["res","var"],"Extras":[]},"ParentKind":8792,"Source":"    var res = avlTreeHeight < bsTreeHeight;\n"},{"Kind":0,"KindStr":"Decl","Declaration":"VariableDeclaration","Info":{"Essentials":["type:var","name:res"],"Extras":[]},"ParentKind":8793,"Source":"    var res = avlTreeHeight < bsTreeHeight"},{"Kind":0,"KindStr":"Decl","Declaration":"IdentifierName","Info":{"Essentials":["var"],"Extras":[]},"ParentKind":8794,"Source":"    var "},{"Kind":0,"KindStr":"Decl","Declaration":"VariableDeclarator","Info":{"Essentials":["res"],"Extras":[]},"ParentKind":8794,"Source":"res = avlTreeHeight < bsTreeHeight"},{"Kind":0,"KindStr":"Decl","Declaration":"EqualsValueClause","Info":{"Essentials":["avlTreeHeight < bsTreeHeight"],"Extras":[]},"ParentKind":8795,"Source":"= avlTreeHeight < bsTreeHeight"},{"Kind":0,"KindStr":"Decl","Declaration":"BinaryExpression","Info":{"Essentials":["avlTreeHeight","<","bsTreeHeight"],"Extras":[]},"ParentKind":8796,"Source":"avlTreeHeight < bsTreeHeight"},{"Kind":0,"KindStr":"Decl","Declaration":"IdentifierName","Info":{"Essentials":["avlTreeHeight"],"Extras":[]},"ParentKind":8682,"Source":"avlTreeHeight "},{"Kind":0,"KindStr":"Decl","Declaration":"IdentifierName","Info":{"Essentials":["bsTreeHeight"],"Extras":[]},"ParentKind":8682,"Source":"bsTreeHeight"},{"Kind":1,"KindStr":"EndBlock","Declaration":"","Info":{"Essentials":["1","MethodDeclaration"],"Extras":[]},"ParentKind":0,"Source":null},{"Kind":1,"KindStr":"EndBlock","Declaration":"","Info":{"Essentials":["0","MethodDeclaration"],"Extras":[]},"ParentKind":0,"Source":null}]}
+{
+  "File": "tests/samples/binexp.cs",
+  "Lines": [
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "1"
+        ],
+        "Extras": [
+          "ClassDeclaration"
+        ]
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ClassDeclaration",
+      "Info": {
+        "Essentials": [
+          "AVLTreeTest"
+        ],
+        "Extras": [
+          "public static"
+        ]
+      },
+      "ParentKind": 8840,
+      "RawKind": 8855,
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "2"
+        ],
+        "Extras": [
+          "MethodDeclaration"
+        ]
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "MethodDeclaration",
+      "Info": {
+        "Essentials": [
+          "BinExpExample",
+          "void"
+        ],
+        "Extras": [
+          "public static"
+        ]
+      },
+      "ParentKind": 8855,
+      "RawKind": 8875,
+      "Source": "  public static void BinExpExample()\n  {\n    var res = avlTreeHeight < bsTreeHeight;\n  }\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PredefinedType",
+      "Info": {
+        "Essentials": [
+          "void"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8875,
+      "RawKind": 8621,
+      "Source": "void "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ParameterList",
+      "Info": {
+        "Essentials": [
+          ""
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8875,
+      "RawKind": 8906,
+      "Source": "()\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "LocalDeclarationStatement",
+      "Info": {
+        "Essentials": [
+          "res",
+          "var"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8792,
+      "RawKind": 8793,
+      "Source": "    var res = avlTreeHeight < bsTreeHeight;\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "VariableDeclaration",
+      "Info": {
+        "Essentials": [
+          "type:var",
+          "name:res"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8793,
+      "RawKind": 8794,
+      "Source": "    var res = avlTreeHeight < bsTreeHeight"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "var"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8794,
+      "RawKind": 8616,
+      "Source": "    var "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "VariableDeclarator",
+      "Info": {
+        "Essentials": [
+          "res"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8794,
+      "RawKind": 8795,
+      "Source": "res = avlTreeHeight < bsTreeHeight"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EqualsValueClause",
+      "Info": {
+        "Essentials": [
+          "avlTreeHeight < bsTreeHeight"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8795,
+      "RawKind": 8796,
+      "Source": "= avlTreeHeight < bsTreeHeight"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BinaryExpression",
+      "Info": {
+        "Essentials": [
+          "avlTreeHeight",
+          "<",
+          "bsTreeHeight"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8796,
+      "RawKind": 8682,
+      "Source": "avlTreeHeight < bsTreeHeight"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "avlTreeHeight"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8682,
+      "RawKind": 8616,
+      "Source": "avlTreeHeight "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "bsTreeHeight"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8682,
+      "RawKind": 8616,
+      "Source": "bsTreeHeight"
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "1",
+          "MethodDeclaration"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "0",
+          "MethodDeclaration"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    }
+  ]
+}

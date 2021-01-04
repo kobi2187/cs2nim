@@ -27,6 +27,7 @@ type CsObject* = object of RootRef
   # line*: JsonNode
   src*: string
   isComplete*: bool
+  rawKind*, parentRawKind*: int
 
 # type Dummy* = ref object of CsObject
 
@@ -44,7 +45,8 @@ type BodyExpr* = ref object of CsObject # RootObj
                                         #  name*: string
   ttype*: string
 method gen*(e: BodyExpr): string {.base.} =
-  raise newException(Exception, "Not Implemented for " & e.ttype & " " & e.typ) #& " " & e.name)
+  raise newException(Exception, "Not Implemented for " & e.ttype & " " &
+      e.typ) #& " " & e.name)
 
 # # possibly redundant. haven't yet used:
 # type CConstruct* = concept T, Parent

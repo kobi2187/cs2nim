@@ -17,9 +17,9 @@ proc keys[A, B](t: TableRef[A, B]): seq[A] =
     result.add k
 
 
-proc lowerFirst*(s:string) : string =
+proc lowerFirst*(s: string): string =
   if s.len == 0: return ""
   if s.len == 1:
     result = "" & s[0].toLowerAscii
-  if s.len > 1 :
+  if s.len > 1:
     result = s[0].toLowerAscii & s[1..^1]

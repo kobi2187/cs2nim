@@ -5,7 +5,7 @@ import os, system, times
 import strutils, os, json
 # var currentRoot*: CsRoot
 
-proc upcomingLines*(jsn:JsonNode):seq[string] =
+proc upcomingLines*(jsn: JsonNode): seq[string] =
   let x = jsn["Lines"].getElems()
   for ln in x:
     if ln["KindStr"].getStr() == "Decl":
@@ -25,12 +25,12 @@ proc processFiles*(root: var CsRoot; files: seq[string]) =
     let upcoming = upcomingLines(linesJson)
     parseExecFile(root, linesJson, upcoming)
 
-import re,strutils
+import re, strutils
 proc concatModulesOutput*(mods: seq[Module]): string =
   for m in mods:
     result &= m.output & "\n\n"
-  var x  = result.replace(re"((\r\n)|(\n)){2,}","\n\n")
-  result = x.strip(chars={'\n'})
+  var x = result.replace(re"((\r\n)|(\n)){2,}", "\n\n")
+  result = x.strip(chars = {'\n'})
 
 let safer* = true
 const suffixOutputDir = "nim_code/dotnet"
@@ -97,7 +97,7 @@ proc writeAll*(dir: string; root: CsRoot) =
 import json, algorithm
 
 import system
-proc handleOne(root:var CsRoot; file:string) =
+proc handleOne(root: var CsRoot; file: string) =
   var contents = file.readFile()
   var linesJson = json.parseJson(contents)
   let upcoming = upcomingLines(linesJson)
@@ -106,7 +106,7 @@ proc handleOne(root:var CsRoot; file:string) =
 proc handleJustOne*(inputFolder: string; root: var CsRoot;
     file: string) =
   echo "working on: " & file
-  handleOne(root,file)
+  handleOne(root, file)
 
 proc stats(i: int; f: string; len: int; sw: DateTime): string =
   let x = i + 1
@@ -124,5 +124,5 @@ proc handleMany*(inputFolder: string; root: var CsRoot; files: seq[string]) =
 
     let str = stats(i, f, files.len, sw)
     write(stdout, str)
-    handleOne(root,f)
+    handleOne(root, f)
 

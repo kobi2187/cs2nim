@@ -5,11 +5,11 @@ import ../types
 import justtypes
 
 const stopEarly = false
-# NOTE: for some reason I get the following warning:
-#   use {.base.} for base methods; baseless methods are deprecated [UseBase]
+  # NOTE: for some reason I get the following warning:
+  #   use {.base.} for base methods; baseless methods are deprecated [UseBase]
 # the other add methods don't recognize that this is their base method. (even though both parameters inherit correctly from CsObject.
 
-# method add*(a: var ref CsObject, b: ref CsObject) {.base.} =
+  # method add*(a: var ref CsObject, b: ref CsObject) {.base.} =
 method add*(a: var ref CsObject, b: CsObject) {.base.} =
   raise newException(Exception, "missing implementation for " & a.typ & ", " & b.typ)
 
@@ -20,7 +20,7 @@ proc newCs*(t: typedesc[CsAccessorList]): CsAccessorList =
   result.typ = $typeof(t)
 
 proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList =
-  let val =  info.essentials[0]
+  let val = info.essentials[0]
   result = newCs(CsAccessorList)
   if val.contains("get;"):
     result.hasDefaultGet = true
@@ -28,11 +28,13 @@ proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList =
   if val.contains("set;"):
     result.hasDefaultSet = true
     # result.hasSetBody = false
-  if val.contains(nre.re"get\s*{"): echo val; result.hasGetBody = true # TODO: check against real code.
+  if val.contains(nre.re"get\s*{"):
+    echo val;
+    result.hasGetBody = true # TODO: check against real code.
   if val.contains(nre.re"set\s*{"): echo val; result.hasSetBody = true
 
 method add*(parent: var CsAccessorList; item: CsAccessor) =
-  assert item.kind in [ "get","set"]
+  assert item.kind in ["get", "set"]
   if item.kind == "get":
     parent.getPart = item
 
@@ -75,12 +77,14 @@ proc gen*(c: var CsAccessor): string =
 
 # ============= CsAliasQualifiedName ========
 
-proc newCs*(t: typedesc[CsAliasQualifiedName]; name: string): CsAliasQualifiedName =
+proc newCs*(t: typedesc[CsAliasQualifiedName];
+    name: string): CsAliasQualifiedName =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsAliasQualifiedName)
 
-proc extract*(t: typedesc[CsAliasQualifiedName]; info: Info): CsAliasQualifiedName = assert false
+proc extract*(t: typedesc[CsAliasQualifiedName];
+    info: Info): CsAliasQualifiedName = assert false
 
 # method add*(parent: var CsAliasQualifiedName; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAliasQualifiedName; item: Dummy) "
@@ -104,14 +108,15 @@ proc extract*(t: typedesc[CsField]; info: Info): CsField =
   result.name = info.essentials[2]
   result.thetype = info.essentials[1]
   result.isStatic = info.essentials[0].contains("static")
-  result.isPublic = info.essentials[0].contains("public") # TODO check what CsDisplay actually provides.
+  result.isPublic = info.essentials[0].contains(
+      "public") # TODO check what CsDisplay actually provides.
 
 # method add*(parent: var CsField; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsField; item: Dummy) "
 #   if stopEarly: assert false
 # # proc add*(parent: var CsField; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc hackFindType(item:CsProperty) : string =
+proc hackFindType(item: CsProperty): string =
   echo item.src
   let regex = nre.re(".*?(\\w+)\\s*" & item.name & ".*")
   result = item.src.match(regex).get.captures[0]
@@ -125,12 +130,14 @@ proc gen*(f: CsField): string =
 
 # ============= CsAnonymousMethodExpression ========
 
-proc newCs*(t: typedesc[CsAnonymousMethodExpression]; name: string): CsAnonymousMethodExpression =
+proc newCs*(t: typedesc[CsAnonymousMethodExpression];
+    name: string): CsAnonymousMethodExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsAnonymousMethodExpression)
 
-proc extract*(t: typedesc[CsAnonymousMethodExpression]; info: Info): CsAnonymousMethodExpression = assert false
+proc extract*(t: typedesc[CsAnonymousMethodExpression];
+    info: Info): CsAnonymousMethodExpression = assert false
 
 # method add*(parent: var CsAnonymousMethodExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousMethodExpression; item: Dummy) "
@@ -144,12 +151,14 @@ proc gen*(c: var CsAnonymousMethodExpression): string =
 
 # ============= CsAnonymousObjectCreationExpression ========
 
-proc newCs*(t: typedesc[CsAnonymousObjectCreationExpression]; name: string): CsAnonymousObjectCreationExpression =
+proc newCs*(t: typedesc[CsAnonymousObjectCreationExpression];
+    name: string): CsAnonymousObjectCreationExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsAnonymousObjectCreationExpression)
 
-proc extract*(t: typedesc[CsAnonymousObjectCreationExpression]; info: Info): CsAnonymousObjectCreationExpression = assert false
+proc extract*(t: typedesc[CsAnonymousObjectCreationExpression];
+    info: Info): CsAnonymousObjectCreationExpression = assert false
 
 # method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy) "
@@ -163,11 +172,13 @@ proc gen*(c: var CsAnonymousObjectCreationExpression): string =
 
 # ============= CsAnonymousObjectMemberDeclarator ========
 
-proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator]; name: string): CsAnonymousObjectMemberDeclarator =
+proc newCs*(t: typedesc[CsAnonymousObjectMemberDeclarator];
+    name: string): CsAnonymousObjectMemberDeclarator =
   new result
   result.typ = $typeof(t)
 
-proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator]; info: Info): CsAnonymousObjectMemberDeclarator = assert false
+proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator];
+    info: Info): CsAnonymousObjectMemberDeclarator = assert false
 
 # method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy) "
@@ -189,9 +200,9 @@ proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
 proc extract*(t: typedesc[CsArgumentList]; info: Info): CsArgumentList =
   result = newCs(CsArgumentList, info.essentials[0].split(","))
 
-proc replacementGenericTypes (s:string): string =
+proc replacementGenericTypes (s: string): string =
   if s.contains("<") and s.contains(">"):
-    result = s.replace("<","[").replace(">","]")
+    result = s.replace("<", "[").replace(">", "]")
   else: result = s
 
 proc gen*(c: var CsArgumentList): string =
@@ -219,12 +230,14 @@ proc gen*(c: var CsArgument): string =
 
 # ============= CsArrayCreationExpression ========
 
-proc newCs*(t: typedesc[CsArrayCreationExpression]; name: string): CsArrayCreationExpression =
+proc newCs*(t: typedesc[CsArrayCreationExpression];
+    name: string): CsArrayCreationExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsArrayCreationExpression)
 
-proc extract*(t: typedesc[CsArrayCreationExpression]; info: Info): CsArrayCreationExpression = assert false
+proc extract*(t: typedesc[CsArrayCreationExpression];
+    info: Info): CsArrayCreationExpression = assert false
 
 # method add*(parent: var CsArrayCreationExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayCreationExpression; item: Dummy) "
@@ -238,12 +251,14 @@ proc gen*(c: var CsArrayCreationExpression): string =
 
 # ============= CsArrayRankSpecifier ========
 
-proc newCs*(t: typedesc[CsArrayRankSpecifier]; name: string): CsArrayRankSpecifier =
+proc newCs*(t: typedesc[CsArrayRankSpecifier];
+    name: string): CsArrayRankSpecifier =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsArrayRankSpecifier)
 
-proc extract*(t: typedesc[CsArrayRankSpecifier]; info: Info): CsArrayRankSpecifier = assert false
+proc extract*(t: typedesc[CsArrayRankSpecifier];
+    info: Info): CsArrayRankSpecifier = assert false
 
 # method add*(parent: var CsArrayRankSpecifier; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrayRankSpecifier; item: Dummy) "
@@ -276,12 +291,14 @@ proc gen*(c: var CsArrayType): string =
 
 # ============= CsArrowExpressionClause ========
 
-proc newCs*(t: typedesc[CsArrowExpressionClause]; name: string): CsArrowExpressionClause =
+proc newCs*(t: typedesc[CsArrowExpressionClause];
+    name: string): CsArrowExpressionClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsArrowExpressionClause)
 
-proc extract*(t: typedesc[CsArrowExpressionClause]; info: Info): CsArrowExpressionClause = assert false
+proc extract*(t: typedesc[CsArrowExpressionClause];
+    info: Info): CsArrowExpressionClause = assert false
 
 # method add*(parent: var CsArrowExpressionClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsArrowExpressionClause; item: Dummy) "
@@ -302,12 +319,14 @@ method gen*(c: CsAssignmentExpression): string =
 
 # ============= CsAttributeArgumentList ========
 
-proc newCs*(t: typedesc[CsAttributeArgumentList]; name: string): CsAttributeArgumentList =
+proc newCs*(t: typedesc[CsAttributeArgumentList];
+    name: string): CsAttributeArgumentList =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsAttributeArgumentList)
 
-proc extract*(t: typedesc[CsAttributeArgumentList]; info: Info): CsAttributeArgumentList = assert false
+proc extract*(t: typedesc[CsAttributeArgumentList];
+    info: Info): CsAttributeArgumentList = assert false
 
 # method add*(parent: var CsAttributeArgumentList; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgumentList; item: Dummy) "
@@ -321,12 +340,14 @@ proc gen*(c: var CsAttributeArgumentList): string =
 
 # ============= CsAttributeArgument ========
 
-proc newCs*(t: typedesc[CsAttributeArgument]; name: string): CsAttributeArgument =
+proc newCs*(t: typedesc[CsAttributeArgument];
+    name: string): CsAttributeArgument =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsAttributeArgument)
 
-proc extract*(t: typedesc[CsAttributeArgument]; info: Info): CsAttributeArgument = assert false
+proc extract*(t: typedesc[CsAttributeArgument];
+    info: Info): CsAttributeArgument = assert false
 
 # method add*(parent: var CsAttributeArgument; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeArgument; item: Dummy) "
@@ -343,7 +364,8 @@ proc newCs*(t: typedesc[CsAttributeList]; name: string): CsAttributeList =
   result.typ = $typeof(t)
 #TODO(create:CsAttributeList)
 
-proc extract*(t: typedesc[CsAttributeList]; info: Info): CsAttributeList = assert false
+proc extract*(t: typedesc[CsAttributeList];
+    info: Info): CsAttributeList = assert false
 
 # method add*(parent: var CsAttributeList; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeList; item: Dummy) "
@@ -375,12 +397,14 @@ proc gen*(c: var CsAttribute): string =
 
 # ============= CsAttributeTargetSpecifier ========
 
-proc newCs*(t: typedesc[CsAttributeTargetSpecifier]; name: string): CsAttributeTargetSpecifier =
+proc newCs*(t: typedesc[CsAttributeTargetSpecifier];
+    name: string): CsAttributeTargetSpecifier =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsAttributeTargetSpecifier)
 
-proc extract*(t: typedesc[CsAttributeTargetSpecifier]; info: Info): CsAttributeTargetSpecifier = assert false
+proc extract*(t: typedesc[CsAttributeTargetSpecifier];
+    info: Info): CsAttributeTargetSpecifier = assert false
 
 # method add*(parent: var CsAttributeTargetSpecifier; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAttributeTargetSpecifier; item: Dummy) "
@@ -399,7 +423,8 @@ proc newCs*(t: typedesc[CsAwaitExpression]; name: string): CsAwaitExpression =
   result.typ = $typeof(t)
 #TODO(create:CsAwaitExpression)
 
-proc extract*(t: typedesc[CsAwaitExpression]; info: Info): CsAwaitExpression = assert false
+proc extract*(t: typedesc[CsAwaitExpression];
+    info: Info): CsAwaitExpression = assert false
 
 # method add*(parent: var CsAwaitExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsAwaitExpression; item: Dummy) "
@@ -418,7 +443,8 @@ proc newCs*(t: typedesc[CsBaseExpression]; name: string): CsBaseExpression =
   result.typ = $typeof(t)
 #TODO(create:CsBaseExpression)
 
-proc extract*(t: typedesc[CsBaseExpression]; info: Info): CsBaseExpression = assert false
+proc extract*(t: typedesc[CsBaseExpression];
+    info: Info): CsBaseExpression = assert false
 
 # method add*(parent: var CsBaseExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsBaseExpression; item: Dummy) "
@@ -453,7 +479,7 @@ proc gen*(c: var CsBaseList): string =
 
 # ============= CsBinaryExpression ========
 
-method gen*(c:CsBinaryExpression):string=
+method gen*(c: CsBinaryExpression): string =
   result = c.left & " " & c.op & " " & c.right
 
 proc newCs*(t: typedesc[CsBinaryExpression]): CsBinaryExpression =
@@ -478,12 +504,14 @@ proc gen*(c: var CsBinaryExpression): string =
 
 # ============= CsBracketedArgumentList ========
 
-proc newCs*(t: typedesc[CsBracketedArgumentList]; name: string): CsBracketedArgumentList =
+proc newCs*(t: typedesc[CsBracketedArgumentList];
+    name: string): CsBracketedArgumentList =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsBracketedArgumentList)
 
-proc extract*(t: typedesc[CsBracketedArgumentList]; info: Info): CsBracketedArgumentList = assert false
+proc extract*(t: typedesc[CsBracketedArgumentList];
+    info: Info): CsBracketedArgumentList = assert false
 
 # method add*(parent: var CsBracketedArgumentList; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedArgumentList; item: Dummy) "
@@ -501,7 +529,8 @@ proc newCs*(t: typedesc[CsBracketedParameterList]): CsBracketedParameterList =
   new result
   result.typ = $typeof(t)
 
-proc extract*(t: typedesc[CsBracketedParameterList]; info: Info): CsBracketedParameterList =
+proc extract*(t: typedesc[CsBracketedParameterList];
+    info: Info): CsBracketedParameterList =
   result = newCs(CsBracketedParameterList) # for indexer, and what else?
   result.plist = info.essentials[0]
   # I suspect parameters will come next. most likely unneeded, i can easily parse that text.
@@ -523,7 +552,8 @@ proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =
   result.typ = $typeof(t)
 #TODO(create:CsBreakStatement)
 
-proc extract*(t: typedesc[CsBreakStatement]; info: Info): CsBreakStatement = assert false
+proc extract*(t: typedesc[CsBreakStatement];
+    info: Info): CsBreakStatement = assert false
 
 # method add*(parent: var CsBreakStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsBreakStatement; item: Dummy) "
@@ -537,12 +567,14 @@ proc gen*(c: var CsBreakStatement): string =
 
 # ============= CsCasePatternSwitchLabel ========
 
-proc newCs*(t: typedesc[CsCasePatternSwitchLabel]; name: string): CsCasePatternSwitchLabel =
+proc newCs*(t: typedesc[CsCasePatternSwitchLabel];
+    name: string): CsCasePatternSwitchLabel =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsCasePatternSwitchLabel)
 
-proc extract*(t: typedesc[CsCasePatternSwitchLabel]; info: Info): CsCasePatternSwitchLabel = assert false
+proc extract*(t: typedesc[CsCasePatternSwitchLabel];
+    info: Info): CsCasePatternSwitchLabel = assert false
 
 # method add*(parent: var CsCasePatternSwitchLabel; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsCasePatternSwitchLabel; item: Dummy) "
@@ -561,7 +593,8 @@ proc newCs*(t: typedesc[CsCaseSwitchLabel]; name: string): CsCaseSwitchLabel =
   result.typ = $typeof(t)
 #TODO(create:CsCaseSwitchLabel)
 
-proc extract*(t: typedesc[CsCaseSwitchLabel]; info: Info): CsCaseSwitchLabel = assert false
+proc extract*(t: typedesc[CsCaseSwitchLabel];
+    info: Info): CsCaseSwitchLabel = assert false
 
 # method add*(parent: var CsCaseSwitchLabel; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsCaseSwitchLabel; item: Dummy) "
@@ -580,7 +613,8 @@ proc newCs*(t: typedesc[CsCastExpression]; name: string): CsCastExpression =
   result.typ = $typeof(t)
 #TODO(create:CsCastExpression)
 
-proc extract*(t: typedesc[CsCastExpression]; info: Info): CsCastExpression = assert false
+proc extract*(t: typedesc[CsCastExpression];
+    info: Info): CsCastExpression = assert false
 
 # method add*(parent: var CsCastExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsCastExpression; item: Dummy) "
@@ -599,7 +633,8 @@ proc newCs*(t: typedesc[CsCatchClause]; name: string): CsCatchClause =
   result.typ = $typeof(t)
 #TODO(create:CsCatchClause)
 
-proc extract*(t: typedesc[CsCatchClause]; info: Info): CsCatchClause = assert false
+proc extract*(t: typedesc[CsCatchClause];
+    info: Info): CsCatchClause = assert false
 
 # method add*(parent: var CsCatchClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchClause; item: Dummy) "
@@ -613,12 +648,14 @@ proc gen*(c: var CsCatchClause): string =
 
 # ============= CsCatchFilterClause ========
 
-proc newCs*(t: typedesc[CsCatchFilterClause]; name: string): CsCatchFilterClause =
+proc newCs*(t: typedesc[CsCatchFilterClause];
+    name: string): CsCatchFilterClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsCatchFilterClause)
 
-proc extract*(t: typedesc[CsCatchFilterClause]; info: Info): CsCatchFilterClause = assert false
+proc extract*(t: typedesc[CsCatchFilterClause];
+    info: Info): CsCatchFilterClause = assert false
 
 # method add*(parent: var CsCatchFilterClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsCatchFilterClause; item: Dummy) "
@@ -651,12 +688,14 @@ proc gen*(c: var CsCatch): string =
 
 # ============= CsCheckedExpression ========
 
-proc newCs*(t: typedesc[CsCheckedExpression]; name: string): CsCheckedExpression =
+proc newCs*(t: typedesc[CsCheckedExpression];
+    name: string): CsCheckedExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsCheckedExpression)
 
-proc extract*(t: typedesc[CsCheckedExpression]; info: Info): CsCheckedExpression = assert false
+proc extract*(t: typedesc[CsCheckedExpression];
+    info: Info): CsCheckedExpression = assert false
 
 # method add*(parent: var CsCheckedExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedExpression; item: Dummy) "
@@ -675,7 +714,8 @@ proc newCs*(t: typedesc[CsCheckedStatement]; name: string): CsCheckedStatement =
   result.typ = $typeof(t)
 #TODO(create:CsCheckedStatement)
 
-proc extract*(t: typedesc[CsCheckedStatement]; info: Info): CsCheckedStatement = assert false
+proc extract*(t: typedesc[CsCheckedStatement];
+    info: Info): CsCheckedStatement = assert false
 
 # method add*(parent: var CsCheckedStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsCheckedStatement; item: Dummy) "
@@ -687,27 +727,29 @@ proc gen*(c: var CsCheckedStatement): string =
   assert false
   echo "--> in  gen*(c: var CsCheckedStatement)"
 
-method add*(parent:var CsProperty, item:CsAccessorList) =
+method add*(parent: var CsProperty, item: CsAccessorList) =
   parent.acclist = item
 
-method add*(parent:var CsMethod, item: CsAssignmentExpression)=
+method add*(parent: var CsMethod, item: CsAssignmentExpression) =
   parent.body.add item
 
-method add*(parent:var CsMethod, item: CsVariableDeclarator)=
+method add*(parent: var CsMethod, item: CsVariableDeclarator) =
   parent.body.add item
 
-method add*(parent:var CsInvocationExpression, item: CsMemberAccessExpression)=
+method add*(parent: var CsInvocationExpression,
+    item: CsMemberAccessExpression) =
   echo "in add*(parent:var CsInvocationExpression, item: CsMemberAccessExpression)"
   echo "NOTIMPLEMENTED: i assume unneeded."
 
   # parent.callName
 
 
-method add*(c:var CsIndexer, item: CsAccessorList) =
-  c.aclist=item
+method add*(c: var CsIndexer, item: CsAccessorList) =
+  c.aclist = item
 # ============= CsClass ========
 
-proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[string] = @[]): CsClass =
+proc newCs*(t: typedesc[CsClass]; name: string; base = ""; impls: seq[
+    string] = @[]): CsClass =
   new result
   result.typ = $typeof(t)
 
@@ -753,9 +795,9 @@ proc gen*(m: var CsMethod): string =
   let body =
     if m.body.len == 0: "discard"
     else:
-      var lines : seq[string]
+      var lines: seq[string]
       for ln in m.body:
-        echo ln.typ , " " , ln.ttype
+        echo ln.typ, " ", ln.ttype
         lines.add ln.gen()
 
       lines.join("\r\n  ")
@@ -791,12 +833,14 @@ proc gen*(c: var CsIndexer): string =
   echo "--> in  gen*(c: var CsIndexer)"
   echo "generating indexer"
   let x = c.firstVarType.rsplit(".", 1)[^1]
-  var setPart, getPart : string
+  var setPart, getPart: string
   # let sig =
   if c.hasDefaultGet:
-    getPart= "proc `[]`*(this: var " & x & "; " & c.varName & ": " & c.varType & "): " & c.retType & " = discard"
+    getPart = "proc `[]`*(this: var " & x & "; " & c.varName & ": " &
+        c.varType & "): " & c.retType & " = discard"
   if c.hasDefaultSet:
-    setPart= "proc `[]=`*(this: var " & x & "; " & c.varName & ": " & c.varType & "; value: " & c.retType & ") = discard"
+    setPart = "proc `[]=`*(this: var " & x & "; " & c.varName & ": " &
+        c.varType & "; value: " & c.retType & ") = discard"
 
   result &= getPart & "\n" & setPart
 
@@ -811,7 +855,8 @@ proc gen*(c: CsProperty): string =
   if c.hasSet:
     result &=
       "method " & c.name.lowerFirst &
-      "*(this: " & c.parentClass & ", value: " & c.retType & "): " & c.retType & " = " &
+      "*(this: " & c.parentClass & ", value: " & c.retType & "): " & c.retType &
+          " = " &
       "this.u_" & c.name & " = value"
 
 # import ../type_utils
@@ -861,12 +906,12 @@ import options
         of ClassParts.Methods: result &= c.methods.last.name
         # of ClassParts.Enums: result &= c.enums.last.name
         # of ClassParts.Fields: result &= c.fields.last.name
-    of NamespaceParts.Interfaces:
-      result &= ns.interfaces.last.name
-    of NamespaceParts.Enums:
-      let e = ns.enums.last
-      result &= "enum is " & e.name
-]#
+      of NamespaceParts.Interfaces:
+        result &= ns.interfaces.last.name
+      of NamespaceParts.Enums:
+        let e = ns.enums.last
+        result &= "enum is " & e.name
+      ]#
 
 
 proc getLastProperty(c: CsClass): Option[CsProperty] =
@@ -941,7 +986,7 @@ method add*(parent: var CsClass; m: CsMethod) =
   m.parentClass = parent.name
 
 
-proc addField(parent:CsClass; name, typ:string) =
+proc addField(parent: CsClass; name, typ: string) =
   var f = newCs(CsField)
   f.name = name
   f.isStatic = false
@@ -949,11 +994,11 @@ proc addField(parent:CsClass; name, typ:string) =
   f.thetype = typ
   parent.fields.add f
 
-proc addFieldForProperty(parent:CsClass,item:CsProperty) =
+proc addFieldForProperty(parent: CsClass, item: CsProperty) =
   var fieldName = "u_" & item.name
   var fieldType = item.retType
   if fieldType == "":
-   fieldType = hackFindType(item)
+    fieldType = hackFindType(item)
 
   parent.addField(fieldName, fieldType)
 
@@ -966,7 +1011,7 @@ method add*(parent: var CsClass; item: CsProperty) =
   item.parentClass = parent.name
   if (item.hasGet or item.hasSet) and
     item.bodyGet.len == 0 and item.bodySet.len == 0:
-      parent.addFieldForProperty(item)
+    parent.addFieldForProperty(item)
 # proc add*(parent: var CsClass; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
 method add*(parent: var CsClass; item: CsIndexer) =
@@ -976,21 +1021,23 @@ method add*(parent: var CsClass; item: CsIndexer) =
   # item.parentName = parent.name
 
 method add*(parent: var CsClass; item: CsBaseList) =
-  if item.baseList.len>0:
+  if item.baseList.len > 0:
     parent.extends = item.baseList[0]
-  if item.baseList.len>1:
+  if item.baseList.len > 1:
     parent.implements = item.baselist[1..^1]
 
 # proc add*(parent: var CsClass; item: CsIndexer; data: AllNeededData) = parent.add(item) # TODO
 
 # ============= CsClassOrStructConstraint ========
 
-proc newCs*(t: typedesc[CsClassOrStructConstraint]; name: string): CsClassOrStructConstraint =
+proc newCs*(t: typedesc[CsClassOrStructConstraint];
+    name: string): CsClassOrStructConstraint =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsClassOrStructConstraint)
 
-proc extract*(t: typedesc[CsClassOrStructConstraint]; info: Info): CsClassOrStructConstraint = assert false
+proc extract*(t: typedesc[CsClassOrStructConstraint];
+    info: Info): CsClassOrStructConstraint = assert false
 
 # method add*(parent: var CsClassOrStructConstraint; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsClassOrStructConstraint; item: Dummy) "
@@ -1004,12 +1051,14 @@ proc gen*(c: var CsClassOrStructConstraint): string =
 
 # ============= CsConditionalAccessExpression ========
 
-proc newCs*(t: typedesc[CsConditionalAccessExpression]; name: string): CsConditionalAccessExpression =
+proc newCs*(t: typedesc[CsConditionalAccessExpression];
+    name: string): CsConditionalAccessExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsConditionalAccessExpression)
 
-proc extract*(t: typedesc[CsConditionalAccessExpression]; info: Info): CsConditionalAccessExpression = assert false
+proc extract*(t: typedesc[CsConditionalAccessExpression];
+    info: Info): CsConditionalAccessExpression = assert false
 
 # method add*(parent: var CsConditionalAccessExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalAccessExpression; item: Dummy) "
@@ -1023,12 +1072,14 @@ proc gen*(c: var CsConditionalAccessExpression): string =
 
 # ============= CsConditionalExpression ========
 
-proc newCs*(t: typedesc[CsConditionalExpression]; name: string): CsConditionalExpression =
+proc newCs*(t: typedesc[CsConditionalExpression];
+    name: string): CsConditionalExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsConditionalExpression)
 
-proc extract*(t: typedesc[CsConditionalExpression]; info: Info): CsConditionalExpression = assert false
+proc extract*(t: typedesc[CsConditionalExpression];
+    info: Info): CsConditionalExpression = assert false
 
 # method add*(parent: var CsConditionalExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsConditionalExpression; item: Dummy) "
@@ -1047,7 +1098,8 @@ proc newCs*(t: typedesc[CsConstantPattern]; name: string): CsConstantPattern =
   result.typ = $typeof(t)
 #TODO(create:CsConstantPattern)
 
-proc extract*(t: typedesc[CsConstantPattern]; info: Info): CsConstantPattern = assert false
+proc extract*(t: typedesc[CsConstantPattern];
+    info: Info): CsConstantPattern = assert false
 
 # method add*(parent: var CsConstantPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsConstantPattern; item: Dummy) "
@@ -1061,12 +1113,14 @@ proc gen*(c: var CsConstantPattern): string =
 
 # ============= CsConstructorConstraint ========
 
-proc newCs*(t: typedesc[CsConstructorConstraint]; name: string): CsConstructorConstraint =
+proc newCs*(t: typedesc[CsConstructorConstraint];
+    name: string): CsConstructorConstraint =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsConstructorConstraint)
 
-proc extract*(t: typedesc[CsConstructorConstraint]; info: Info): CsConstructorConstraint = assert false
+proc extract*(t: typedesc[CsConstructorConstraint];
+    info: Info): CsConstructorConstraint = assert false
 
 # method add*(parent: var CsConstructorConstraint; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsConstructorConstraint; item: Dummy) "
@@ -1085,7 +1139,8 @@ proc newCs*(t: typedesc[CsConstructorInitializer]): CsConstructorInitializer =
   result.typ = $typeof(t)
 
 
-proc extract*(t: typedesc[CsConstructorInitializer]; info: Info): CsConstructorInitializer =
+proc extract*(t: typedesc[CsConstructorInitializer];
+    info: Info): CsConstructorInitializer =
   echo info
   result = newCs(CsConstructorInitializer)
 
@@ -1120,12 +1175,14 @@ method add*(parent: var CsConstructor; item: CsParameterList) =
 
 # ============= CsContinueStatement ========
 
-proc newCs*(t: typedesc[CsContinueStatement]; name: string): CsContinueStatement =
+proc newCs*(t: typedesc[CsContinueStatement];
+    name: string): CsContinueStatement =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsContinueStatement)
 
-proc extract*(t: typedesc[CsContinueStatement]; info: Info): CsContinueStatement = assert false
+proc extract*(t: typedesc[CsContinueStatement];
+    info: Info): CsContinueStatement = assert false
 
 # method add*(parent: var CsContinueStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsContinueStatement; item: Dummy) "
@@ -1139,12 +1196,14 @@ proc gen*(c: var CsContinueStatement): string =
 
 # ============= CsConversionOperator ========
 
-proc newCs*(t: typedesc[CsConversionOperator]; name: string): CsConversionOperator =
+proc newCs*(t: typedesc[CsConversionOperator];
+    name: string): CsConversionOperator =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsConversionOperator)
 
-proc extract*(t: typedesc[CsConversionOperator]; info: Info): CsConversionOperator = assert false
+proc extract*(t: typedesc[CsConversionOperator];
+    info: Info): CsConversionOperator = assert false
 
 # method add*(parent: var CsConversionOperator; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsConversionOperator; item: Dummy) "
@@ -1158,12 +1217,14 @@ proc gen*(c: var CsConversionOperator): string =
 
 # ============= CsDeclarationExpression ========
 
-proc newCs*(t: typedesc[CsDeclarationExpression]; name: string): CsDeclarationExpression =
+proc newCs*(t: typedesc[CsDeclarationExpression];
+    name: string): CsDeclarationExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsDeclarationExpression)
 
-proc extract*(t: typedesc[CsDeclarationExpression]; info: Info): CsDeclarationExpression = assert false
+proc extract*(t: typedesc[CsDeclarationExpression];
+    info: Info): CsDeclarationExpression = assert false
 
 # method add*(parent: var CsDeclarationExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationExpression; item: Dummy) "
@@ -1177,12 +1238,14 @@ proc gen*(c: var CsDeclarationExpression): string =
 
 # ============= CsDeclarationPattern ========
 
-proc newCs*(t: typedesc[CsDeclarationPattern]; name: string): CsDeclarationPattern =
+proc newCs*(t: typedesc[CsDeclarationPattern];
+    name: string): CsDeclarationPattern =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsDeclarationPattern)
 
-proc extract*(t: typedesc[CsDeclarationPattern]; info: Info): CsDeclarationPattern = assert false
+proc extract*(t: typedesc[CsDeclarationPattern];
+    info: Info): CsDeclarationPattern = assert false
 
 # method add*(parent: var CsDeclarationPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDeclarationPattern; item: Dummy) "
@@ -1196,12 +1259,14 @@ proc gen*(c: var CsDeclarationPattern): string =
 
 # ============= CsDefaultExpression ========
 
-proc newCs*(t: typedesc[CsDefaultExpression]; name: string): CsDefaultExpression =
+proc newCs*(t: typedesc[CsDefaultExpression];
+    name: string): CsDefaultExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsDefaultExpression)
 
-proc extract*(t: typedesc[CsDefaultExpression]; info: Info): CsDefaultExpression = assert false
+proc extract*(t: typedesc[CsDefaultExpression];
+    info: Info): CsDefaultExpression = assert false
 
 # method add*(parent: var CsDefaultExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultExpression; item: Dummy) "
@@ -1215,12 +1280,14 @@ proc gen*(c: var CsDefaultExpression): string =
 
 # ============= CsDefaultSwitchLabel ========
 
-proc newCs*(t: typedesc[CsDefaultSwitchLabel]; name: string): CsDefaultSwitchLabel =
+proc newCs*(t: typedesc[CsDefaultSwitchLabel];
+    name: string): CsDefaultSwitchLabel =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsDefaultSwitchLabel)
 
-proc extract*(t: typedesc[CsDefaultSwitchLabel]; info: Info): CsDefaultSwitchLabel = assert false
+proc extract*(t: typedesc[CsDefaultSwitchLabel];
+    info: Info): CsDefaultSwitchLabel = assert false
 
 # method add*(parent: var CsDefaultSwitchLabel; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDefaultSwitchLabel; item: Dummy) "
@@ -1258,7 +1325,8 @@ proc newCs*(t: typedesc[CsDestructor]; name: string): CsDestructor =
   result.typ = $typeof(t)
 #TODO(create:CsDestructor)
 
-proc extract*(t: typedesc[CsDestructor]; info: Info): CsDestructor = assert false
+proc extract*(t: typedesc[CsDestructor];
+    info: Info): CsDestructor = assert false
 
 # method add*(parent: var CsDestructor; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDestructor; item: Dummy) "
@@ -1272,12 +1340,14 @@ proc gen*(c: var CsDestructor): string =
 
 # ============= CsDiscardDesignation ========
 
-proc newCs*(t: typedesc[CsDiscardDesignation]; name: string): CsDiscardDesignation =
+proc newCs*(t: typedesc[CsDiscardDesignation];
+    name: string): CsDiscardDesignation =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsDiscardDesignation)
 
-proc extract*(t: typedesc[CsDiscardDesignation]; info: Info): CsDiscardDesignation = assert false
+proc extract*(t: typedesc[CsDiscardDesignation];
+    info: Info): CsDiscardDesignation = assert false
 
 # method add*(parent: var CsDiscardDesignation; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDiscardDesignation; item: Dummy) "
@@ -1296,7 +1366,8 @@ proc newCs*(t: typedesc[CsDoStatement]; name: string): CsDoStatement =
   result.typ = $typeof(t)
 #TODO(create:CsDoStatement)
 
-proc extract*(t: typedesc[CsDoStatement]; info: Info): CsDoStatement = assert false
+proc extract*(t: typedesc[CsDoStatement];
+    info: Info): CsDoStatement = assert false
 
 # method add*(parent: var CsDoStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDoStatement; item: Dummy) "
@@ -1310,12 +1381,14 @@ proc gen*(c: var CsDoStatement): string =
 
 # ============= CsElementAccessExpression ========
 
-proc newCs*(t: typedesc[CsElementAccessExpression]; name: string): CsElementAccessExpression =
+proc newCs*(t: typedesc[CsElementAccessExpression];
+    name: string): CsElementAccessExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsElementAccessExpression)
 
-proc extract*(t: typedesc[CsElementAccessExpression]; info: Info): CsElementAccessExpression = assert false
+proc extract*(t: typedesc[CsElementAccessExpression];
+    info: Info): CsElementAccessExpression = assert false
 
 # method add*(parent: var CsElementAccessExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsElementAccessExpression; item: Dummy) "
@@ -1329,12 +1402,14 @@ proc gen*(c: var CsElementAccessExpression): string =
 
 # ============= CsElementBindingExpression ========
 
-proc newCs*(t: typedesc[CsElementBindingExpression]; name: string): CsElementBindingExpression =
+proc newCs*(t: typedesc[CsElementBindingExpression];
+    name: string): CsElementBindingExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsElementBindingExpression)
 
-proc extract*(t: typedesc[CsElementBindingExpression]; info: Info): CsElementBindingExpression = assert false
+proc extract*(t: typedesc[CsElementBindingExpression];
+    info: Info): CsElementBindingExpression = assert false
 
 # method add*(parent: var CsElementBindingExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsElementBindingExpression; item: Dummy) "
@@ -1353,7 +1428,8 @@ proc newCs*(t: typedesc[CsElseClause]; name: string): CsElseClause =
   result.typ = $typeof(t)
 #TODO(create:CsElseClause)
 
-proc extract*(t: typedesc[CsElseClause]; info: Info): CsElseClause = assert false
+proc extract*(t: typedesc[CsElseClause];
+    info: Info): CsElseClause = assert false
 
 # method add*(parent: var CsElseClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsElseClause; item: Dummy) "
@@ -1372,7 +1448,8 @@ proc newCs*(t: typedesc[CsEmptyStatement]; name: string): CsEmptyStatement =
   result.typ = $typeof(t)
 #TODO(create:CsEmptyStatement)
 
-proc extract*(t: typedesc[CsEmptyStatement]; info: Info): CsEmptyStatement = assert false
+proc extract*(t: typedesc[CsEmptyStatement];
+    info: Info): CsEmptyStatement = assert false
 
 # method add*(parent: var CsEmptyStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsEmptyStatement; item: Dummy) "
@@ -1403,7 +1480,7 @@ proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
 method add*(em: CsEnumMember; val: string) =
   if em.value.isEmptyOrWhitespace:
     em.value = val.strip
-  else: echo "value is already set:`", em.value, "`. got `",val ,"`;"
+  else: echo "value is already set:`", em.value, "`. got `", val, "`;"
 
 proc gen*(e: CsEnumMember): string =
 
@@ -1444,12 +1521,14 @@ proc gen*(e: CsEnum): string =
 method add*(em: var CsEnumMember; item: CsEqualsValueClause) =
   em.add(item.value)
 
-proc newCs*(t: typedesc[CsEqualsValueClause]; name: string): CsEqualsValueClause =
+proc newCs*(t: typedesc[CsEqualsValueClause];
+    name: string): CsEqualsValueClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsEqualsValueClause)
 
-proc extract*(t: typedesc[CsEqualsValueClause]; info: Info): CsEqualsValueClause =
+proc extract*(t: typedesc[CsEqualsValueClause];
+    info: Info): CsEqualsValueClause =
   echo info
   let val = info.essentials[0]
   result = newCs(CsEqualsValueClause, val)
@@ -1471,7 +1550,8 @@ proc newCs*(t: typedesc[CsEventField]; name: string): CsEventField =
   result.typ = $typeof(t)
 #TODO(create:CsEventField)
 
-proc extract*(t: typedesc[CsEventField]; info: Info): CsEventField = assert false
+proc extract*(t: typedesc[CsEventField];
+    info: Info): CsEventField = assert false
 
 # method add*(parent: var CsEventField; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsEventField; item: Dummy) "
@@ -1504,13 +1584,15 @@ proc gen*(c: var CsEvent): string =
 
 # ============= CsExplicitInterfaceSpecifier ========
 
-proc newCs*(t: typedesc[CsExplicitInterfaceSpecifier]; name: string): CsExplicitInterfaceSpecifier =
+proc newCs*(t: typedesc[CsExplicitInterfaceSpecifier];
+    name: string): CsExplicitInterfaceSpecifier =
   new result
   result.typ = $typeof(t)
 
   result.name = name
 
-proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicitInterfaceSpecifier = #TODO(extract:CsExplicitInterfaceSpecifier)
+proc extract*(t: typedesc[CsExplicitInterfaceSpecifier];
+    info: Info): CsExplicitInterfaceSpecifier = #TODO(extract:CsExplicitInterfaceSpecifier)
   let name = info.essentials[0]
   result = newCs(CsExplicitInterfaceSpecifier, name)
 
@@ -1523,11 +1605,11 @@ proc extract*(t: typedesc[CsExplicitInterfaceSpecifier]; info: Info): CsExplicit
 
 # A method body's line.
 
-method add*(c:var CsConstructor; item: CsExpressionStatement) =
+method add*(c: var CsConstructor; item: CsExpressionStatement) =
   c.body.add(item)
-method add*(c:var CsConstructor; item: CsAssignmentExpression) =
+method add*(c: var CsConstructor; item: CsAssignmentExpression) =
   c.body.add(item)
-method add*(c:var CsConstructor; item: CsConstructorInitializer) =
+method add*(c: var CsConstructor; item: CsConstructorInitializer) =
   c.initializer = item
 
 proc newCs*(t: typedesc[CsExpressionStatement]): CsExpressionStatement =
@@ -1536,7 +1618,8 @@ proc newCs*(t: typedesc[CsExpressionStatement]): CsExpressionStatement =
   result.ttype = "CsExpressionStatement"
   # result.typ = $typeof(t)
 
-proc extract*(t: typedesc[CsExpressionStatement]; info: Info): CsExpressionStatement =
+proc extract*(t: typedesc[CsExpressionStatement];
+    info: Info): CsExpressionStatement =
   result = newCs(CsExpressionStatement)
 
 method add*(parent: var CsExpressionStatement; item: CsArgumentList) =
@@ -1566,20 +1649,22 @@ method gen*(c: CsExpressionStatement): string =
       result &= c.args.gen()
     result &= ")"
     if c.call.callName.contains(".") and c.call.callName.startsWith(re.re"[A-Z]"):
-      result &= " # " & c.call.callName.rsplit(".",1)[0]
+      result &= " # " & c.call.callName.rsplit(".", 1)[0]
   echo "expression statement generated result: " & result
 
 # ============= CsExternAliasDirective ========
 
-proc newCs*(t: typedesc[CsExternAliasDirective]; name: string): CsExternAliasDirective =
+proc newCs*(t: typedesc[CsExternAliasDirective];
+    name: string): CsExternAliasDirective =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsExternAliasDirective)
 
-proc extract*(t: typedesc[CsExternAliasDirective]; info: Info): CsExternAliasDirective =
+proc extract*(t: typedesc[CsExternAliasDirective];
+    info: Info): CsExternAliasDirective =
   echo info
   let name = "" # info.essentials[0] # TODO!! cs environ got messed up after last extension update. after fixing, add name to info
-  result = newCs(t,name) # rare, it's a name for the dll when ns+class ambiguity occurs, should be in Namespace i think.
+  result = newCs(t, name) # rare, it's a name for the dll when ns+class ambiguity occurs, should be in Namespace i think.
 
 # method add*(parent: var CsExternAliasDirective; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsExternAliasDirective; item: Dummy) "
@@ -1599,7 +1684,8 @@ proc newCs*(t: typedesc[CsFinallyClause]; name: string): CsFinallyClause =
   result.typ = $typeof(t)
 #TODO(create:CsFinallyClause)
 
-proc extract*(t: typedesc[CsFinallyClause]; info: Info): CsFinallyClause = assert false
+proc extract*(t: typedesc[CsFinallyClause];
+    info: Info): CsFinallyClause = assert false
 
 # method add*(parent: var CsFinallyClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsFinallyClause; item: Dummy) "
@@ -1618,7 +1704,8 @@ proc newCs*(t: typedesc[CsFixedStatement]; name: string): CsFixedStatement =
   result.typ = $typeof(t)
 #TODO(create:CsFixedStatement)
 
-proc extract*(t: typedesc[CsFixedStatement]; info: Info): CsFixedStatement = assert false
+proc extract*(t: typedesc[CsFixedStatement];
+    info: Info): CsFixedStatement = assert false
 
 # method add*(parent: var CsFixedStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsFixedStatement; item: Dummy) "
@@ -1637,7 +1724,8 @@ proc newCs*(t: typedesc[CsForEachStatement]; name: string): CsForEachStatement =
   result.typ = $typeof(t)
 #TODO(create:CsForEachStatement)
 
-proc extract*(t: typedesc[CsForEachStatement]; info: Info): CsForEachStatement = assert false
+proc extract*(t: typedesc[CsForEachStatement];
+    info: Info): CsForEachStatement = assert false
 
 # method add*(parent: var CsForEachStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachStatement; item: Dummy) "
@@ -1651,12 +1739,14 @@ proc gen*(c: var CsForEachStatement): string =
 
 # ============= CsForEachVariableStatement ========
 
-proc newCs*(t: typedesc[CsForEachVariableStatement]; name: string): CsForEachVariableStatement =
+proc newCs*(t: typedesc[CsForEachVariableStatement];
+    name: string): CsForEachVariableStatement =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsForEachVariableStatement)
 
-proc extract*(t: typedesc[CsForEachVariableStatement]; info: Info): CsForEachVariableStatement = assert false
+proc extract*(t: typedesc[CsForEachVariableStatement];
+    info: Info): CsForEachVariableStatement = assert false
 
 # method add*(parent: var CsForEachVariableStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsForEachVariableStatement; item: Dummy) "
@@ -1675,7 +1765,8 @@ proc newCs*(t: typedesc[CsForStatement]; name: string): CsForStatement =
   result.typ = $typeof(t)
 #TODO(create:CsForStatement)
 
-proc extract*(t: typedesc[CsForStatement]; info: Info): CsForStatement = assert false
+proc extract*(t: typedesc[CsForStatement];
+    info: Info): CsForStatement = assert false
 
 # method add*(parent: var CsForStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsForStatement; item: Dummy) "
@@ -1694,7 +1785,8 @@ proc newCs*(t: typedesc[CsFromClause]; name: string): CsFromClause =
   result.typ = $typeof(t)
 #TODO(create:CsFromClause)
 
-proc extract*(t: typedesc[CsFromClause]; info: Info): CsFromClause = assert false
+proc extract*(t: typedesc[CsFromClause];
+    info: Info): CsFromClause = assert false
 
 # method add*(parent: var CsFromClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsFromClause; item: Dummy) "
@@ -1732,7 +1824,8 @@ proc newCs*(t: typedesc[CsGlobalStatement]; name: string): CsGlobalStatement =
   result.typ = $typeof(t)
 #TODO(create:CsGlobalStatement)
 
-proc extract*(t: typedesc[CsGlobalStatement]; info: Info): CsGlobalStatement = assert false
+proc extract*(t: typedesc[CsGlobalStatement];
+    info: Info): CsGlobalStatement = assert false
 
 # method add*(parent: var CsGlobalStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsGlobalStatement; item: Dummy) "
@@ -1751,7 +1844,8 @@ proc newCs*(t: typedesc[CsGotoStatement]; name: string): CsGotoStatement =
   result.typ = $typeof(t)
 #TODO(create:CsGotoStatement)
 
-proc extract*(t: typedesc[CsGotoStatement]; info: Info): CsGotoStatement = assert false
+proc extract*(t: typedesc[CsGotoStatement];
+    info: Info): CsGotoStatement = assert false
 
 # method add*(parent: var CsGotoStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsGotoStatement; item: Dummy) "
@@ -1770,7 +1864,8 @@ proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =
   result.typ = $typeof(t)
 #TODO(create:CsGroupClause)
 
-proc extract*(t: typedesc[CsGroupClause]; info: Info): CsGroupClause = assert false
+proc extract*(t: typedesc[CsGroupClause];
+    info: Info): CsGroupClause = assert false
 
 # method add*(parent: var CsGroupClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsGroupClause; item: Dummy) "
@@ -1789,7 +1884,8 @@ proc newCs*(t: typedesc[CsIfStatement]; name: string): CsIfStatement =
   result.typ = $typeof(t)
 #TODO(create:CsIfStatement)
 
-proc extract*(t: typedesc[CsIfStatement]; info: Info): CsIfStatement = assert false
+proc extract*(t: typedesc[CsIfStatement];
+    info: Info): CsIfStatement = assert false
 
 # method add*(parent: var CsIfStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsIfStatement; item: Dummy) "
@@ -1803,12 +1899,14 @@ proc gen*(c: var CsIfStatement): string =
 
 # ============= CsImplicitArrayCreationExpression ========
 
-proc newCs*(t: typedesc[CsImplicitArrayCreationExpression]; name: string): CsImplicitArrayCreationExpression =
+proc newCs*(t: typedesc[CsImplicitArrayCreationExpression];
+    name: string): CsImplicitArrayCreationExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsImplicitArrayCreationExpression)
 
-proc extract*(t: typedesc[CsImplicitArrayCreationExpression]; info: Info): CsImplicitArrayCreationExpression = assert false
+proc extract*(t: typedesc[CsImplicitArrayCreationExpression];
+    info: Info): CsImplicitArrayCreationExpression = assert false
 
 # method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitArrayCreationExpression; item: Dummy) "
@@ -1822,12 +1920,14 @@ proc gen*(c: var CsImplicitArrayCreationExpression): string =
 
 # ============= CsImplicitElementAccess ========
 
-proc newCs*(t: typedesc[CsImplicitElementAccess]; name: string): CsImplicitElementAccess =
+proc newCs*(t: typedesc[CsImplicitElementAccess];
+    name: string): CsImplicitElementAccess =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsImplicitElementAccess)
 
-proc extract*(t: typedesc[CsImplicitElementAccess]; info: Info): CsImplicitElementAccess = assert false
+proc extract*(t: typedesc[CsImplicitElementAccess];
+    info: Info): CsImplicitElementAccess = assert false
 
 # method add*(parent: var CsImplicitElementAccess; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsImplicitElementAccess; item: Dummy) "
@@ -1846,7 +1946,8 @@ proc newCs*(t: typedesc[CsIncompleteMember]; name: string): CsIncompleteMember =
   result.typ = $typeof(t)
 #TODO(create:CsIncompleteMember)
 
-proc extract*(t: typedesc[CsIncompleteMember]; info: Info): CsIncompleteMember = assert false
+proc extract*(t: typedesc[CsIncompleteMember];
+    info: Info): CsIncompleteMember = assert false
 
 # method add*(parent: var CsIncompleteMember; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsIncompleteMember; item: Dummy) "
@@ -1891,7 +1992,7 @@ method add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
 method add*(parent: CsLiteralExpression; item: CsPrefixUnaryExpression) =
   parent.value = item.prefix & parent.value
 
-proc addBExpr(p: CsInitializerExpression; b:BodyExpr) =
+proc addBExpr(p: CsInitializerExpression; b: BodyExpr) =
   echo "in addBExpr: " & b.typ
   if p.somePrefixOp.isNil:
     p.bexprs.add b
@@ -1910,12 +2011,13 @@ proc newCs*(t: typedesc[CsInitializerExpression]): CsInitializerExpression =
 
 #TODO(create:CsInitializerExpression)
 
-proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression =
+proc extract*(t: typedesc[CsInitializerExpression];
+    info: Info): CsInitializerExpression =
   result = newCs(t)
   if info.essentials.len > 1:
     result.valueReceived = info.essentials[1]
   echo "haven't really implemented: proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression "
-  echo info  # Info: InitializerExpression;; @["3", "15, 25, 5"];; @[]
+  echo info # Info: InitializerExpression;; @["3", "15, 25, 5"];; @[]
   # 3 is arity. now it's possible they won't be simple literals. the following objects should provide more info.
   # for now we can store them as they are, or just make room, expect 3 more "expressions" or whatever.
 
@@ -1931,7 +2033,7 @@ proc gen*(c: var CsInitializerExpression): string =
   echo "gen CsInitializerExpression, got values:", c.valueReceived
   # result = ".initWith("
   result = ".initWith(@["
-  var ls :seq[string]= @[]
+  var ls: seq[string] = @[]
   for b in c.bexprs:
     ls.add b.gen()
   result &= ls.join(", ")
@@ -1959,12 +2061,14 @@ proc gen*(c: var CsInterface): string =
 
 # ============= CsInterpolatedStringExpression ========
 
-proc newCs*(t: typedesc[CsInterpolatedStringExpression]; name: string): CsInterpolatedStringExpression =
+proc newCs*(t: typedesc[CsInterpolatedStringExpression];
+    name: string): CsInterpolatedStringExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsInterpolatedStringExpression)
 
-proc extract*(t: typedesc[CsInterpolatedStringExpression]; info: Info): CsInterpolatedStringExpression = assert false
+proc extract*(t: typedesc[CsInterpolatedStringExpression];
+    info: Info): CsInterpolatedStringExpression = assert false
 
 # method add*(parent: var CsInterpolatedStringExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringExpression; item: Dummy) "
@@ -1978,12 +2082,14 @@ proc gen*(c: var CsInterpolatedStringExpression): string =
 
 # ============= CsInterpolatedStringText ========
 
-proc newCs*(t: typedesc[CsInterpolatedStringText]; name: string): CsInterpolatedStringText =
+proc newCs*(t: typedesc[CsInterpolatedStringText];
+    name: string): CsInterpolatedStringText =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsInterpolatedStringText)
 
-proc extract*(t: typedesc[CsInterpolatedStringText]; info: Info): CsInterpolatedStringText = assert false
+proc extract*(t: typedesc[CsInterpolatedStringText];
+    info: Info): CsInterpolatedStringText = assert false
 
 # method add*(parent: var CsInterpolatedStringText; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolatedStringText; item: Dummy) "
@@ -1997,12 +2103,14 @@ proc gen*(c: var CsInterpolatedStringText): string =
 
 # ============= CsInterpolationAlignmentClause ========
 
-proc newCs*(t: typedesc[CsInterpolationAlignmentClause]; name: string): CsInterpolationAlignmentClause =
+proc newCs*(t: typedesc[CsInterpolationAlignmentClause];
+    name: string): CsInterpolationAlignmentClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsInterpolationAlignmentClause)
 
-proc extract*(t: typedesc[CsInterpolationAlignmentClause]; info: Info): CsInterpolationAlignmentClause = assert false
+proc extract*(t: typedesc[CsInterpolationAlignmentClause];
+    info: Info): CsInterpolationAlignmentClause = assert false
 
 # method add*(parent: var CsInterpolationAlignmentClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationAlignmentClause; item: Dummy) "
@@ -2016,12 +2124,14 @@ proc gen*(c: var CsInterpolationAlignmentClause): string =
 
 # ============= CsInterpolationFormatClause ========
 
-proc newCs*(t: typedesc[CsInterpolationFormatClause]; name: string): CsInterpolationFormatClause =
+proc newCs*(t: typedesc[CsInterpolationFormatClause];
+    name: string): CsInterpolationFormatClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsInterpolationFormatClause)
 
-proc extract*(t: typedesc[CsInterpolationFormatClause]; info: Info): CsInterpolationFormatClause = assert false
+proc extract*(t: typedesc[CsInterpolationFormatClause];
+    info: Info): CsInterpolationFormatClause = assert false
 
 # method add*(parent: var CsInterpolationFormatClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolationFormatClause; item: Dummy) "
@@ -2040,7 +2150,8 @@ proc newCs*(t: typedesc[CsInterpolation]; name: string): CsInterpolation =
   result.typ = $typeof(t)
 #TODO(create:CsInterpolation)
 
-proc extract*(t: typedesc[CsInterpolation]; info: Info): CsInterpolation = assert false
+proc extract*(t: typedesc[CsInterpolation];
+    info: Info): CsInterpolation = assert false
 
 # method add*(parent: var CsInterpolation; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsInterpolation; item: Dummy) "
@@ -2054,13 +2165,15 @@ proc gen*(c: var CsInterpolation): string =
 
 # ============= CsInvocationExpression ========
 
-proc newCs*(t: typedesc[CsInvocationExpression]; name: string): CsInvocationExpression =
+proc newCs*(t: typedesc[CsInvocationExpression];
+    name: string): CsInvocationExpression =
   new result
   result.typ = $typeof(t)
   result.ttype = "CsInvocationExpression"
   result.callName = name
 
-proc extract*(t: typedesc[CsInvocationExpression]; info: Info): CsInvocationExpression =
+proc extract*(t: typedesc[CsInvocationExpression];
+    info: Info): CsInvocationExpression =
   let name = info.essentials[0]
   result = newCs(CsInvocationExpression, name)
 
@@ -2095,12 +2208,14 @@ method gen*(c: CsInvocationExpression): string =
 
   # ============= CsIsPatternExpression ========
 
-proc newCs*(t: typedesc[CsIsPatternExpression]; name: string): CsIsPatternExpression =
+proc newCs*(t: typedesc[CsIsPatternExpression];
+    name: string): CsIsPatternExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsIsPatternExpression)
 
-proc extract*(t: typedesc[CsIsPatternExpression]; info: Info): CsIsPatternExpression = assert false
+proc extract*(t: typedesc[CsIsPatternExpression];
+    info: Info): CsIsPatternExpression = assert false
 
 # method add*(parent: var CsIsPatternExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsIsPatternExpression; item: Dummy) "
@@ -2119,7 +2234,8 @@ proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =
   result.typ = $typeof(t)
 #TODO(create:CsJoinClause)
 
-proc extract*(t: typedesc[CsJoinClause]; info: Info): CsJoinClause = assert false
+proc extract*(t: typedesc[CsJoinClause];
+    info: Info): CsJoinClause = assert false
 
 # method add*(parent: var CsJoinClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinClause; item: Dummy) "
@@ -2138,7 +2254,8 @@ proc newCs*(t: typedesc[CsJoinIntoClause]; name: string): CsJoinIntoClause =
   result.typ = $typeof(t)
 #TODO(create:CsJoinIntoClause)
 
-proc extract*(t: typedesc[CsJoinIntoClause]; info: Info): CsJoinIntoClause = assert false
+proc extract*(t: typedesc[CsJoinIntoClause];
+    info: Info): CsJoinIntoClause = assert false
 
 # method add*(parent: var CsJoinIntoClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinIntoClause; item: Dummy) "
@@ -2157,7 +2274,8 @@ proc newCs*(t: typedesc[CsLabeledStatement]; name: string): CsLabeledStatement =
   result.typ = $typeof(t)
 #TODO(create:CsLabeledStatement)
 
-proc extract*(t: typedesc[CsLabeledStatement]; info: Info): CsLabeledStatement = assert false
+proc extract*(t: typedesc[CsLabeledStatement];
+    info: Info): CsLabeledStatement = assert false
 
 # method add*(parent: var CsLabeledStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsLabeledStatement; item: Dummy) "
@@ -2190,7 +2308,8 @@ proc gen*(c: var CsLetClause): string =
 
 # ============= CsLiteralExpression ========
 
-method add*(parent: var CsInitializerExpression; item: CsPrefixUnaryExpression) =
+method add*(parent: var CsInitializerExpression;
+    item: CsPrefixUnaryExpression) =
   parent.somePrefixOp = item
 
 method add*(parent: var CsInitializerExpression; item: CsLiteralExpression) =
@@ -2204,7 +2323,8 @@ proc newCs(t: typedesc[CsLiteralExpression]; val: string): CsLiteralExpression =
   result.ttype = "CsLiteralExpression"
   result.value = val
 
-proc extract*(_: typedesc[CsLiteralExpression]; info: Info): CsLiteralExpression =
+proc extract*(_: typedesc[CsLiteralExpression];
+    info: Info): CsLiteralExpression =
   let strVal = info.essentials[0]
   result = newCs(CsLiteralExpression, strVal)
 
@@ -2219,12 +2339,14 @@ method gen*(lit: CsLiteralExpression): string =
 
 # ============= CsLocalFunctionStatement ========
 
-proc newCs*(t: typedesc[CsLocalFunctionStatement]; name: string): CsLocalFunctionStatement =
+proc newCs*(t: typedesc[CsLocalFunctionStatement];
+    name: string): CsLocalFunctionStatement =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsLocalFunctionStatement)
 
-proc extract*(t: typedesc[CsLocalFunctionStatement]; info: Info): CsLocalFunctionStatement = assert false
+proc extract*(t: typedesc[CsLocalFunctionStatement];
+    info: Info): CsLocalFunctionStatement = assert false
 
 # method add*(parent: var CsLocalFunctionStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsLocalFunctionStatement; item: Dummy) "
@@ -2247,7 +2369,8 @@ proc newCs*(t: typedesc[CsLockStatement]; name: string): CsLockStatement =
   result.typ = $typeof(t)
 #TODO(create:CsLockStatement)
 
-proc extract*(t: typedesc[CsLockStatement]; info: Info): CsLockStatement = assert false
+proc extract*(t: typedesc[CsLockStatement];
+    info: Info): CsLockStatement = assert false
 
 # method add*(parent: var CsLockStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsLockStatement; item: Dummy) "
@@ -2261,12 +2384,14 @@ proc gen*(c: var CsLockStatement): string =
 
 # ============= CsMakeRefExpression ========
 
-proc newCs*(t: typedesc[CsMakeRefExpression]; name: string): CsMakeRefExpression =
+proc newCs*(t: typedesc[CsMakeRefExpression];
+    name: string): CsMakeRefExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsMakeRefExpression)
 
-proc extract*(t: typedesc[CsMakeRefExpression]; info: Info): CsMakeRefExpression = assert false
+proc extract*(t: typedesc[CsMakeRefExpression];
+    info: Info): CsMakeRefExpression = assert false
 
 # method add*(parent: var CsMakeRefExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsMakeRefExpression; item: Dummy) "
@@ -2280,12 +2405,14 @@ proc gen*(c: var CsMakeRefExpression): string =
 
 # ============= CsMemberBindingExpression ========
 
-proc newCs*(t: typedesc[CsMemberBindingExpression]; name: string): CsMemberBindingExpression =
+proc newCs*(t: typedesc[CsMemberBindingExpression];
+    name: string): CsMemberBindingExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsMemberBindingExpression)
 
-proc extract*(t: typedesc[CsMemberBindingExpression]; info: Info): CsMemberBindingExpression = assert false
+proc extract*(t: typedesc[CsMemberBindingExpression];
+    info: Info): CsMemberBindingExpression = assert false
 
 # method add*(parent: var CsMemberBindingExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsMemberBindingExpression; item: Dummy) "
@@ -2309,7 +2436,7 @@ method add*(parent: var CsMethod; t: CsPredefinedType) =
 method add*(parent: var CsMethod; p: CsParameterList) =
   parent.parameterList = p
 
-method gen*(item:CsObjectCreationExpression) : string =
+method gen*(item: CsObjectCreationExpression): string =
 
   echo "--> in  gen*(item:CsObjectCreationExpression) "
   result = "new" & item.name.replacementGenericTypes() &
@@ -2320,38 +2447,40 @@ method gen*(item:CsObjectCreationExpression) : string =
     echo "trying to gen initExpr"
     result &= item.initExpr.gen()
 
-method add*(parent:var CsObjectCreationExpression; item:CsGenericName) =
-  parent.genericName=item
+method add*(parent: var CsObjectCreationExpression; item: CsGenericName) =
+  parent.genericName = item
 
-method add*(parent:var CsObjectCreationExpression; item:CsInitializerExpression) =
+method add*(parent: var CsObjectCreationExpression;
+    item: CsInitializerExpression) =
   parent.initExpr = item
   # assert false
 
-proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpression =
+proc extract*(t: typedesc[CsAssignmentExpression];
+    info: Info): CsAssignmentExpression =
   result = newCs(CsAssignmentExpression)
   result.left = info.essentials[0]
   # result.right = info.essentials[1]
 
-method add*(parent:CsAssignmentExpression; item: CsTypeArgumentList) =
+method add*(parent: CsAssignmentExpression; item: CsTypeArgumentList) =
   echo "havent implemented method add*(parent:CsAssignmentExpression; item: CsTypeArgumentList) "
   discard # TODO?
 
-method add*(parent:CsAssignmentExpression; item: CsGenericName) =
+method add*(parent: CsAssignmentExpression; item: CsGenericName) =
   echo "havent implemented method add*(parent:CsAssignmentExpression; item: CsGenericName) "
   discard # TODO?
 
-method add*(parent:CsAssignmentExpression; item: CsArgumentList) =
+method add*(parent: CsAssignmentExpression; item: CsArgumentList) =
   echo "havent implemented method add*(parent:CsAssignmentExpression; item: CsArgumentList) "
   discard # TODO?
 
-method add*(parent:CsAssignmentExpression; item: CsObjectCreationExpression) =
+method add*(parent: CsAssignmentExpression; item: CsObjectCreationExpression) =
   parent.right = item
 
 
-method add*(parent:CsGenericName; item:CsTypeArgumentList) =
+method add*(parent: CsGenericName; item: CsTypeArgumentList) =
   parent.typearglist = item
 
-method gen*(c:CsVariableDeclarator):string =
+method gen*(c: CsVariableDeclarator): string =
   echo c.src
   echo "in method gen*(c:CsVariableDeclarator)"
   assert c.rhs != nil
@@ -2401,16 +2530,16 @@ proc extract*(t: typedesc[CsNameEquals]; info: Info): CsNameEquals =
   var name = ""
   if info.essentials.len > 0:
     name = info.essentials[0] # TODO: add in csdisplay
-  result = newCs(CsNameEquals,name)
+  result = newCs(CsNameEquals, name)
 
 
-method add*(parent: var CsNameEquals; item: CsGenericName)  =
+method add*(parent: var CsNameEquals; item: CsGenericName) =
   parent.genericName = item
 
-method add*(parent: var CsField; item: CsVariableDeclarator)  =
+method add*(parent: var CsField; item: CsVariableDeclarator) =
   echo "in add*(parent: var CsField; item: CsVariableDeclarator)"
 
-method add*(parent: var CsField; item: CsVariable)  =
+method add*(parent: var CsField; item: CsVariable) =
   echo "in add*(parent: var CsField; item: CsVariable)"
   if parent.name.isEmptyOrWhitespace:
     parent.name = item.name
@@ -2418,7 +2547,7 @@ method add*(parent: var CsField; item: CsVariable)  =
     parent.thetype = item.thetype
 
 
-method add*(parent: var CsParameter; item: CsGenericName)  =
+method add*(parent: var CsParameter; item: CsGenericName) =
   parent.genericType = item
 
 # proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item)
@@ -2437,18 +2566,18 @@ proc gen*(c: var CsNameEquals): string =
 #   of NamespaceParts.Enums:
 #     npEnum: CsEnum
 
-proc `$`*(c:CsUsingDirective):string=
+proc `$`*(c: CsUsingDirective): string =
   result = "import: ("
   result &= "name: " & c.name
   result &= ")"
 
-proc `$`*(c:CsClass) :string=
+proc `$`*(c: CsClass): string =
   result = "class: (name: " & c.name
   result &= "; methods: " & $c.methods.len
   result &= "; properties: " & $c.properties.len
   result &= ")"
 
-proc `$`*(e:CsEnum):string=
+proc `$`*(e: CsEnum): string =
   result = "enum: (name: " & e.name
   result &= "; items: " & $e.items.len
   result &= " )"
@@ -2472,7 +2601,8 @@ proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   result.interfaces = @[]
   result.interfaceTable = newTable[string, CsInterface]()
 
-proc extract*(t: typedesc[CsMethod]; info: Info; data: AllNeededData): CsMethod =
+proc extract*(t: typedesc[CsMethod]; info: Info;
+    data: AllNeededData): CsMethod =
   let name = info.essentials[0]
   let m = newCs(CsMethod, name)
   result = m
@@ -2482,7 +2612,7 @@ proc extract*(t: typedesc[CsMethod]; info: Info; data: AllNeededData): CsMethod 
     if e.contains("static"):
       result.isStatic = true
 
-  if info.essentials.len>1:
+  if info.essentials.len > 1:
     let ret = info.essentials[1]
     if not ret.isEmptyOrWhitespace: result.returnType = ret
 
@@ -2508,7 +2638,8 @@ proc extract*(t: typedesc[CsNamespace]; info: Info; ): CsNamespace =
   echo info.essentials[0]
   result = newCs(t, info.essentials[0])
 
-proc extract*(t: typedesc[CsNamespace]; info: Info; data: AllNeededData): CsNamespace =
+proc extract*(t: typedesc[CsNamespace]; info: Info;
+    data: AllNeededData): CsNamespace =
   extract(t, info)
 
 method add*(parent: var CsNamespace; item: CsEnum) =
@@ -2554,7 +2685,7 @@ proc hash*(c: CsNamespace): Hash =
 
 
 
-method add*(parent:var CsUsingDirective; item: CsNameEquals) =
+method add*(parent: var CsUsingDirective; item: CsNameEquals) =
   parent.shorthand = item
 
 # ============= CsNullableType ========
@@ -2564,7 +2695,8 @@ proc newCs*(t: typedesc[CsNullableType]; name: string): CsNullableType =
   result.typ = $typeof(t)
 #TODO(create:CsNullableType)
 
-proc extract*(t: typedesc[CsNullableType]; info: Info): CsNullableType = assert false
+proc extract*(t: typedesc[CsNullableType];
+    info: Info): CsNullableType = assert false
 
 # method add*(parent: var CsNullableType; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsNullableType; item: Dummy) "
@@ -2578,14 +2710,16 @@ proc gen*(c: var CsNullableType): string =
 
 # ============= CsObjectCreationExpression ========
 
-proc newCs*(t: typedesc[CsObjectCreationExpression]; name: string): CsObjectCreationExpression =
+proc newCs*(t: typedesc[CsObjectCreationExpression];
+    name: string): CsObjectCreationExpression =
   new result
   result.typ = $typeof(t)
 
   result.name = name
   result.ttype = "CsObjectCreationExpression"
 
-proc extract*(t: typedesc[CsObjectCreationExpression]; info: Info): CsObjectCreationExpression =
+proc extract*(t: typedesc[CsObjectCreationExpression];
+    info: Info): CsObjectCreationExpression =
   let newClassName = info.essentials[0]
   result = newCs(CsObjectCreationExpression, newClassName)
 
@@ -2599,12 +2733,14 @@ method add*(parent: var CsObjectCreationExpression; item: CsArgumentList) =
 
 # ============= CsOmittedArraySizeExpression ========
 
-proc newCs*(t: typedesc[CsOmittedArraySizeExpression]; name: string): CsOmittedArraySizeExpression =
+proc newCs*(t: typedesc[CsOmittedArraySizeExpression];
+    name: string): CsOmittedArraySizeExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsOmittedArraySizeExpression)
 
-proc extract*(t: typedesc[CsOmittedArraySizeExpression]; info: Info): CsOmittedArraySizeExpression = assert false
+proc extract*(t: typedesc[CsOmittedArraySizeExpression];
+    info: Info): CsOmittedArraySizeExpression = assert false
 
 # method add*(parent: var CsOmittedArraySizeExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedArraySizeExpression; item: Dummy) "
@@ -2618,12 +2754,14 @@ proc gen*(c: var CsOmittedArraySizeExpression): string =
 
 # ============= CsOmittedTypeArgument ========
 
-proc newCs*(t: typedesc[CsOmittedTypeArgument]; name: string): CsOmittedTypeArgument =
+proc newCs*(t: typedesc[CsOmittedTypeArgument];
+    name: string): CsOmittedTypeArgument =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsOmittedTypeArgument)
 
-proc extract*(t: typedesc[CsOmittedTypeArgument]; info: Info): CsOmittedTypeArgument = assert false
+proc extract*(t: typedesc[CsOmittedTypeArgument];
+    info: Info): CsOmittedTypeArgument = assert false
 
 # method add*(parent: var CsOmittedTypeArgument; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsOmittedTypeArgument; item: Dummy) "
@@ -2661,7 +2799,8 @@ proc newCs*(t: typedesc[CsOrderByClause]; name: string): CsOrderByClause =
   result.typ = $typeof(t)
 #TODO(create:CsOrderByClause)
 
-proc extract*(t: typedesc[CsOrderByClause]; info: Info): CsOrderByClause = assert false
+proc extract*(t: typedesc[CsOrderByClause];
+    info: Info): CsOrderByClause = assert false
 
 # method add*(parent: var CsOrderByClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsOrderByClause; item: Dummy) "
@@ -2698,7 +2837,8 @@ proc newCs*(t: typedesc[CsParameterList]): CsParameterList =
   new result # start empty.
   result.typ = $typeof(t)
 
-proc extract*(t: typedesc[CsParameterList]; info: Info; data: AllNeededData): CsParameterList =
+proc extract*(t: typedesc[CsParameterList]; info: Info;
+    data: AllNeededData): CsParameterList =
   result = newCs(CsParameterList)
 
 method add*(parent: var CsParameterList; item: CsParameter) =
@@ -2718,12 +2858,14 @@ proc extract*(t: typedesc[CsParameter]; info: Info): CsParameter =
 
 # ============= CsParenthesizedExpression ========
 
-proc newCs*(t: typedesc[CsParenthesizedExpression]; name: string): CsParenthesizedExpression =
+proc newCs*(t: typedesc[CsParenthesizedExpression];
+    name: string): CsParenthesizedExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsParenthesizedExpression)
 
-proc extract*(t: typedesc[CsParenthesizedExpression]; info: Info): CsParenthesizedExpression = assert false
+proc extract*(t: typedesc[CsParenthesizedExpression];
+    info: Info): CsParenthesizedExpression = assert false
 
 # method add*(parent: var CsParenthesizedExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedExpression; item: Dummy) "
@@ -2737,12 +2879,14 @@ proc gen*(c: var CsParenthesizedExpression): string =
 
 # ============= CsParenthesizedLambdaExpression ========
 
-proc newCs*(t: typedesc[CsParenthesizedLambdaExpression]; name: string): CsParenthesizedLambdaExpression =
+proc newCs*(t: typedesc[CsParenthesizedLambdaExpression];
+    name: string): CsParenthesizedLambdaExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsParenthesizedLambdaExpression)
 
-proc extract*(t: typedesc[CsParenthesizedLambdaExpression]; info: Info): CsParenthesizedLambdaExpression = assert false
+proc extract*(t: typedesc[CsParenthesizedLambdaExpression];
+    info: Info): CsParenthesizedLambdaExpression = assert false
 
 # method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedLambdaExpression; item: Dummy) "
@@ -2756,12 +2900,14 @@ proc gen*(c: var CsParenthesizedLambdaExpression): string =
 
 # ============= CsParenthesizedVariableDesignation ========
 
-proc newCs*(t: typedesc[CsParenthesizedVariableDesignation]; name: string): CsParenthesizedVariableDesignation =
+proc newCs*(t: typedesc[CsParenthesizedVariableDesignation];
+    name: string): CsParenthesizedVariableDesignation =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsParenthesizedVariableDesignation)
 
-proc extract*(t: typedesc[CsParenthesizedVariableDesignation]; info: Info): CsParenthesizedVariableDesignation = assert false
+proc extract*(t: typedesc[CsParenthesizedVariableDesignation];
+    info: Info): CsParenthesizedVariableDesignation = assert false
 
 # method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsParenthesizedVariableDesignation; item: Dummy) "
@@ -2780,7 +2926,8 @@ proc newCs*(t: typedesc[CsPointerType]; name: string): CsPointerType =
   result.typ = $typeof(t)
 #TODO(create:CsPointerType)
 
-proc extract*(t: typedesc[CsPointerType]; info: Info): CsPointerType = assert false
+proc extract*(t: typedesc[CsPointerType];
+    info: Info): CsPointerType = assert false
 
 # method add*(parent: var CsPointerType; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsPointerType; item: Dummy) "
@@ -2794,12 +2941,14 @@ proc gen*(c: var CsPointerType): string =
 
 # ============= CsPostfixUnaryExpression ========
 
-proc newCs*(t: typedesc[CsPostfixUnaryExpression]; name: string): CsPostfixUnaryExpression =
+proc newCs*(t: typedesc[CsPostfixUnaryExpression];
+    name: string): CsPostfixUnaryExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsPostfixUnaryExpression)
 
-proc extract*(t: typedesc[CsPostfixUnaryExpression]; info: Info): CsPostfixUnaryExpression = assert false
+proc extract*(t: typedesc[CsPostfixUnaryExpression];
+    info: Info): CsPostfixUnaryExpression = assert false
 
 # method add*(parent: var CsPostfixUnaryExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsPostfixUnaryExpression; item: Dummy) "
@@ -2818,7 +2967,8 @@ proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
   result.typ = $typeof(t)
   result.name = name
 
-proc extract*(t: typedesc[CsPredefinedType]; info: Info; data: AllNeededData): CsPredefinedType =
+proc extract*(t: typedesc[CsPredefinedType]; info: Info;
+    data: AllNeededData): CsPredefinedType =
   var name: string
   if info.essentials.len > 0:
     name = info.essentials[0]
@@ -2836,7 +2986,8 @@ proc newCs*(t: typedesc[CsPrefixUnaryExpression]): CsPrefixUnaryExpression =
   result.typ = $typeof(t)
 #TODO(create:CsPrefixUnaryExpression)
 
-proc extract*(t: typedesc[CsPrefixUnaryExpression]; info: Info): CsPrefixUnaryExpression =
+proc extract*(t: typedesc[CsPrefixUnaryExpression];
+    info: Info): CsPrefixUnaryExpression =
   result = newCs(t)
   result.prefix = info.essentials[0]
   result.actingOn = info.essentials[1]
@@ -2897,12 +3048,14 @@ proc gen*(c: var CsQueryBody): string =
 
 # ============= CsQueryContinuation ========
 
-proc newCs*(t: typedesc[CsQueryContinuation]; name: string): CsQueryContinuation =
+proc newCs*(t: typedesc[CsQueryContinuation];
+    name: string): CsQueryContinuation =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsQueryContinuation)
 
-proc extract*(t: typedesc[CsQueryContinuation]; info: Info): CsQueryContinuation = assert false
+proc extract*(t: typedesc[CsQueryContinuation];
+    info: Info): CsQueryContinuation = assert false
 
 # method add*(parent: var CsQueryContinuation; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryContinuation; item: Dummy) "
@@ -2921,7 +3074,8 @@ proc newCs*(t: typedesc[CsQueryExpression]; name: string): CsQueryExpression =
   result.typ = $typeof(t)
 #TODO(create:CsQueryExpression)
 
-proc extract*(t: typedesc[CsQueryExpression]; info: Info): CsQueryExpression = assert false
+proc extract*(t: typedesc[CsQueryExpression];
+    info: Info): CsQueryExpression = assert false
 
 # method add*(parent: var CsQueryExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsQueryExpression; item: Dummy) "
@@ -2940,7 +3094,8 @@ proc newCs*(t: typedesc[CsRefExpression]; name: string): CsRefExpression =
   result.typ = $typeof(t)
 #TODO(create:CsRefExpression)
 
-proc extract*(t: typedesc[CsRefExpression]; info: Info): CsRefExpression = assert false
+proc extract*(t: typedesc[CsRefExpression];
+    info: Info): CsRefExpression = assert false
 
 # method add*(parent: var CsRefExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefExpression; item: Dummy) "
@@ -2954,12 +3109,14 @@ proc gen*(c: var CsRefExpression): string =
 
 # ============= CsRefTypeExpression ========
 
-proc newCs*(t: typedesc[CsRefTypeExpression]; name: string): CsRefTypeExpression =
+proc newCs*(t: typedesc[CsRefTypeExpression];
+    name: string): CsRefTypeExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsRefTypeExpression)
 
-proc extract*(t: typedesc[CsRefTypeExpression]; info: Info): CsRefTypeExpression = assert false
+proc extract*(t: typedesc[CsRefTypeExpression];
+    info: Info): CsRefTypeExpression = assert false
 
 # method add*(parent: var CsRefTypeExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefTypeExpression; item: Dummy) "
@@ -2992,12 +3149,14 @@ proc gen*(c: var CsRefType): string =
 
 # ============= CsRefValueExpression ========
 
-proc newCs*(t: typedesc[CsRefValueExpression]; name: string): CsRefValueExpression =
+proc newCs*(t: typedesc[CsRefValueExpression];
+    name: string): CsRefValueExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsRefValueExpression)
 
-proc extract*(t: typedesc[CsRefValueExpression]; info: Info): CsRefValueExpression = assert false
+proc extract*(t: typedesc[CsRefValueExpression];
+    info: Info): CsRefValueExpression = assert false
 
 # method add*(parent: var CsRefValueExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsRefValueExpression; item: Dummy) "
@@ -3022,7 +3181,7 @@ proc extract*(t: typedesc[CsReturnStatement]; info: Info): CsReturnStatement =
   result.value = expectedFollowupAsString
   # echo "From C# side -- expected to follow after return: " & expectedFollowupAsString
 
-method add*(parent: var BodyExpr; item:CsObject) =
+method add*(parent: var BodyExpr; item: CsObject) =
   raise newException(Exception,
     "reached here, but should have gone to instance of type: " & parent.ttype)
 
@@ -3039,7 +3198,7 @@ method gen*(c: CsReturnStatement): string =
   echo "--> in  gen*(c: CsReturnStatement)"
   echo "generating CsReturnStatement:"
   if not c.expr.isNil:
-    echo "!!!!!!", c.expr.typ , " " , c.expr.ttype
+    echo "!!!!!!", c.expr.typ, " ", c.expr.ttype
   result = "return"
   if c.expr.isNil:
     if not c.value.isEmptyOrWhitespace:
@@ -3058,7 +3217,8 @@ proc newCs*(t: typedesc[CsSelectClause]; name: string): CsSelectClause =
   result.typ = $typeof(t)
 #TODO(create:CsSelectClause)
 
-proc extract*(t: typedesc[CsSelectClause]; info: Info): CsSelectClause = assert false
+proc extract*(t: typedesc[CsSelectClause];
+    info: Info): CsSelectClause = assert false
 
 # method add*(parent: var CsSelectClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSelectClause; item: Dummy) "
@@ -3076,7 +3236,7 @@ proc newCs*(t: typedesc[CsSimpleBaseType]): CsSimpleBaseType =
 #TODO(create:CsSimpleBaseType)
 
 proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType =
-  result = newCs(t)   # TODO
+  result = newCs(t) # TODO
 
 # method add*(parent: var CsSimpleBaseType; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleBaseType; item: Dummy) "
@@ -3090,12 +3250,14 @@ proc gen*(c: var CsSimpleBaseType): string =
 
 # ============= CsSimpleLambdaExpression ========
 
-proc newCs*(t: typedesc[CsSimpleLambdaExpression]; name: string): CsSimpleLambdaExpression =
+proc newCs*(t: typedesc[CsSimpleLambdaExpression];
+    name: string): CsSimpleLambdaExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsSimpleLambdaExpression)
 
-proc extract*(t: typedesc[CsSimpleLambdaExpression]; info: Info): CsSimpleLambdaExpression = assert false
+proc extract*(t: typedesc[CsSimpleLambdaExpression];
+    info: Info): CsSimpleLambdaExpression = assert false
 
 # method add*(parent: var CsSimpleLambdaExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleLambdaExpression; item: Dummy) "
@@ -3109,12 +3271,14 @@ proc gen*(c: var CsSimpleLambdaExpression): string =
 
 # ============= CsSingleVariableDesignation ========
 
-proc newCs*(t: typedesc[CsSingleVariableDesignation]; name: string): CsSingleVariableDesignation =
+proc newCs*(t: typedesc[CsSingleVariableDesignation];
+    name: string): CsSingleVariableDesignation =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsSingleVariableDesignation)
 
-proc extract*(t: typedesc[CsSingleVariableDesignation]; info: Info): CsSingleVariableDesignation = assert false
+proc extract*(t: typedesc[CsSingleVariableDesignation];
+    info: Info): CsSingleVariableDesignation = assert false
 
 # method add*(parent: var CsSingleVariableDesignation; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSingleVariableDesignation; item: Dummy) "
@@ -3133,7 +3297,8 @@ proc newCs*(t: typedesc[CsSizeOfExpression]; name: string): CsSizeOfExpression =
   result.typ = $typeof(t)
 #TODO(create:CsSizeOfExpression)
 
-proc extract*(t: typedesc[CsSizeOfExpression]; info: Info): CsSizeOfExpression = assert false
+proc extract*(t: typedesc[CsSizeOfExpression];
+    info: Info): CsSizeOfExpression = assert false
 
 # method add*(parent: var CsSizeOfExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSizeOfExpression; item: Dummy) "
@@ -3147,12 +3312,14 @@ proc gen*(c: var CsSizeOfExpression): string =
 
 # ============= CsStackAllocArrayCreationExpression ========
 
-proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression]; name: string): CsStackAllocArrayCreationExpression =
+proc newCs*(t: typedesc[CsStackAllocArrayCreationExpression];
+    name: string): CsStackAllocArrayCreationExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsStackAllocArrayCreationExpression)
 
-proc extract*(t: typedesc[CsStackAllocArrayCreationExpression]; info: Info): CsStackAllocArrayCreationExpression = assert false
+proc extract*(t: typedesc[CsStackAllocArrayCreationExpression];
+    info: Info): CsStackAllocArrayCreationExpression = assert false
 
 # method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy) "
@@ -3190,7 +3357,8 @@ proc newCs*(t: typedesc[CsSwitchSection]; name: string): CsSwitchSection =
   result.typ = $typeof(t)
 #TODO(create:CsSwitchSection)
 
-proc extract*(t: typedesc[CsSwitchSection]; info: Info): CsSwitchSection = assert false
+proc extract*(t: typedesc[CsSwitchSection];
+    info: Info): CsSwitchSection = assert false
 
 # method add*(parent: var CsSwitchSection; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchSection; item: Dummy) "
@@ -3209,7 +3377,8 @@ proc newCs*(t: typedesc[CsSwitchStatement]; name: string): CsSwitchStatement =
   result.typ = $typeof(t)
 #TODO(create:CsSwitchStatement)
 
-proc extract*(t: typedesc[CsSwitchStatement]; info: Info): CsSwitchStatement = assert false
+proc extract*(t: typedesc[CsSwitchStatement];
+    info: Info): CsSwitchStatement = assert false
 
 # method add*(parent: var CsSwitchStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSwitchStatement; item: Dummy) "
@@ -3226,7 +3395,8 @@ proc newCs*(t: typedesc[CsThisExpression]; name: string): CsThisExpression =
   result.typ = $typeof(t)
 #TODO(create:CsThisExpression)
 
-proc extract*(t: typedesc[CsThisExpression]; info: Info): CsThisExpression = assert false
+proc extract*(t: typedesc[CsThisExpression];
+    info: Info): CsThisExpression = assert false
 
 # method add*(parent: var CsThisExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsThisExpression; item: Dummy) "
@@ -3245,7 +3415,8 @@ proc newCs*(t: typedesc[CsThrowExpression]; name: string): CsThrowExpression =
   result.typ = $typeof(t)
 #TODO(create:CsThrowExpression)
 
-proc extract*(t: typedesc[CsThrowExpression]; info: Info): CsThrowExpression = assert false
+proc extract*(t: typedesc[CsThrowExpression];
+    info: Info): CsThrowExpression = assert false
 
 # method add*(parent: var CsThrowExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowExpression; item: Dummy) "
@@ -3264,7 +3435,8 @@ proc newCs*(t: typedesc[CsThrowStatement]; name: string): CsThrowStatement =
   result.typ = $typeof(t)
 #TODO(create:CsThrowStatement)
 
-proc extract*(t: typedesc[CsThrowStatement]; info: Info): CsThrowStatement = assert false
+proc extract*(t: typedesc[CsThrowStatement];
+    info: Info): CsThrowStatement = assert false
 
 # method add*(parent: var CsThrowStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsThrowStatement; item: Dummy) "
@@ -3283,7 +3455,8 @@ proc newCs*(t: typedesc[CsTryStatement]; name: string): CsTryStatement =
   result.typ = $typeof(t)
 #TODO(create:CsTryStatement)
 
-proc extract*(t: typedesc[CsTryStatement]; info: Info): CsTryStatement = assert false
+proc extract*(t: typedesc[CsTryStatement];
+    info: Info): CsTryStatement = assert false
 
 # method add*(parent: var CsTryStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTryStatement; item: Dummy) "
@@ -3302,7 +3475,8 @@ proc newCs*(t: typedesc[CsTupleElement]; name: string): CsTupleElement =
   result.typ = $typeof(t)
 #TODO(create:CsTupleElement)
 
-proc extract*(t: typedesc[CsTupleElement]; info: Info): CsTupleElement = assert false
+proc extract*(t: typedesc[CsTupleElement];
+    info: Info): CsTupleElement = assert false
 
 # method add*(parent: var CsTupleElement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleElement; item: Dummy) "
@@ -3321,7 +3495,8 @@ proc newCs*(t: typedesc[CsTupleExpression]; name: string): CsTupleExpression =
   result.typ = $typeof(t)
 #TODO(create:CsTupleExpression)
 
-proc extract*(t: typedesc[CsTupleExpression]; info: Info): CsTupleExpression = assert false
+proc extract*(t: typedesc[CsTupleExpression];
+    info: Info): CsTupleExpression = assert false
 
 # method add*(parent: var CsTupleExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTupleExpression; item: Dummy) "
@@ -3360,7 +3535,7 @@ proc newCs*(t: typedesc[CsTypeArgumentList]): CsTypeArgumentList =
 
 proc extract*(t: typedesc[CsTypeArgumentList]; info: Info): CsTypeArgumentList =
   result = newCs(CsTypeArgumentList)
-  result.types= info.essentials[0].split(",").mapIt(it.strip)
+  result.types = info.essentials[0].split(",").mapIt(it.strip)
 
 # method add*(parent: var CsTypeArgumentList; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeArgumentList; item: Dummy) "
@@ -3379,7 +3554,8 @@ proc newCs*(t: typedesc[CsTypeConstraint]; name: string): CsTypeConstraint =
   result.typ = $typeof(t)
 #TODO(create:CsTypeConstraint)
 
-proc extract*(t: typedesc[CsTypeConstraint]; info: Info): CsTypeConstraint = assert false
+proc extract*(t: typedesc[CsTypeConstraint];
+    info: Info): CsTypeConstraint = assert false
 
 # method add*(parent: var CsTypeConstraint; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeConstraint; item: Dummy) "
@@ -3396,7 +3572,8 @@ proc newCs*(t: typedesc[CsTypeOfExpression]; name: string): CsTypeOfExpression =
   result.typ = $typeof(t)
 #TODO(create:CsTypeOfExpression)
 
-proc extract*(t: typedesc[CsTypeOfExpression]; info: Info): CsTypeOfExpression = assert false
+proc extract*(t: typedesc[CsTypeOfExpression];
+    info: Info): CsTypeOfExpression = assert false
 
 # method add*(parent: var CsTypeOfExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeOfExpression; item: Dummy) "
@@ -3410,12 +3587,14 @@ proc gen*(c: var CsTypeOfExpression): string =
 
 # ============= CsTypeParameterConstraintClause ========
 
-proc newCs*(t: typedesc[CsTypeParameterConstraintClause]; name: string): CsTypeParameterConstraintClause =
+proc newCs*(t: typedesc[CsTypeParameterConstraintClause];
+    name: string): CsTypeParameterConstraintClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsTypeParameterConstraintClause)
 
-proc extract*(t: typedesc[CsTypeParameterConstraintClause]; info: Info): CsTypeParameterConstraintClause = assert false
+proc extract*(t: typedesc[CsTypeParameterConstraintClause];
+    info: Info): CsTypeParameterConstraintClause = assert false
 
 # method add*(parent: var CsTypeParameterConstraintClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterConstraintClause; item: Dummy) "
@@ -3429,12 +3608,14 @@ proc gen*(c: var CsTypeParameterConstraintClause): string =
 
 # ============= CsTypeParameterList ========
 
-proc newCs*(t: typedesc[CsTypeParameterList]; name: string): CsTypeParameterList =
+proc newCs*(t: typedesc[CsTypeParameterList];
+    name: string): CsTypeParameterList =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsTypeParameterList)
 
-proc extract*(t: typedesc[CsTypeParameterList]; info: Info): CsTypeParameterList = assert false
+proc extract*(t: typedesc[CsTypeParameterList];
+    info: Info): CsTypeParameterList = assert false
 
 # method add*(parent: var CsTypeParameterList; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameterList; item: Dummy) "
@@ -3453,7 +3634,8 @@ proc newCs*(t: typedesc[CsTypeParameter]; name: string): CsTypeParameter =
   result.typ = $typeof(t)
 #TODO(create:CsTypeParameter)
 
-proc extract*(t: typedesc[CsTypeParameter]; info: Info): CsTypeParameter = assert false
+proc extract*(t: typedesc[CsTypeParameter];
+    info: Info): CsTypeParameter = assert false
 
 # method add*(parent: var CsTypeParameter; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameter; item: Dummy) "
@@ -3472,7 +3654,8 @@ proc newCs*(t: typedesc[CsUnsafeStatement]; name: string): CsUnsafeStatement =
   result.typ = $typeof(t)
 #TODO(create:CsUnsafeStatement)
 
-proc extract*(t: typedesc[CsUnsafeStatement]; info: Info): CsUnsafeStatement = assert false
+proc extract*(t: typedesc[CsUnsafeStatement];
+    info: Info): CsUnsafeStatement = assert false
 
 # method add*(parent: var CsUnsafeStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsUnsafeStatement; item: Dummy) "
@@ -3508,7 +3691,8 @@ proc newCs*(t: typedesc[CsUsingStatement]; name: string): CsUsingStatement =
   result.typ = $typeof(t)
 #TODO(create:CsUsingStatement)
 
-proc extract*(t: typedesc[CsUsingStatement]; info: Info): CsUsingStatement = assert false
+proc extract*(t: typedesc[CsUsingStatement];
+    info: Info): CsUsingStatement = assert false
 
 # method add*(parent: var CsUsingStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsUsingStatement; item: Dummy) "
@@ -3527,7 +3711,8 @@ proc newCs*(t: typedesc[CsWhenClause]; name: string): CsWhenClause =
   result.typ = $typeof(t)
 #TODO(create:CsWhenClause)
 
-proc extract*(t: typedesc[CsWhenClause]; info: Info): CsWhenClause = assert false
+proc extract*(t: typedesc[CsWhenClause];
+    info: Info): CsWhenClause = assert false
 
 # method add*(parent: var CsWhenClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhenClause; item: Dummy) "
@@ -3546,7 +3731,8 @@ proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =
   result.typ = $typeof(t)
 #TODO(create:CsWhereClause)
 
-proc extract*(t: typedesc[CsWhereClause]; info: Info): CsWhereClause = assert false
+proc extract*(t: typedesc[CsWhereClause];
+    info: Info): CsWhereClause = assert false
 
 # method add*(parent: var CsWhereClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhereClause; item: Dummy) "
@@ -3565,7 +3751,8 @@ proc newCs*(t: typedesc[CsWhileStatement]; name: string): CsWhileStatement =
   result.typ = $typeof(t)
 #TODO(create:CsWhileStatement)
 
-proc extract*(t: typedesc[CsWhileStatement]; info: Info): CsWhileStatement = assert false
+proc extract*(t: typedesc[CsWhileStatement];
+    info: Info): CsWhileStatement = assert false
 
 # method add*(parent: var CsWhileStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhileStatement; item: Dummy) "
@@ -3584,7 +3771,8 @@ proc newCs*(t: typedesc[CsYieldStatement]; name: string): CsYieldStatement =
   result.typ = $typeof(t)
 #TODO(create:CsYieldStatement)
 
-proc extract*(t: typedesc[CsYieldStatement]; info: Info): CsYieldStatement = assert false
+proc extract*(t: typedesc[CsYieldStatement];
+    info: Info): CsYieldStatement = assert false
 
 # method add*(parent: var CsYieldStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsYieldStatement; item: Dummy) "
@@ -3598,16 +3786,16 @@ proc gen*(c: var CsYieldStatement): string =
 
 # ======================================================
 
-proc newCs*(t: typedesc[CsBlock]):CsBlock =
+proc newCs*(t: typedesc[CsBlock]): CsBlock =
   new result
   result.typ = $typeof(t)
 
-proc extract*(t:typedesc[CsBlock], info:Info,data:AllNeededData):CsBlock =
+proc extract*(t: typedesc[CsBlock], info: Info, data: AllNeededData): CsBlock =
   result = newCs(t)
 
-method gen*(c: CsBlock):string = assert false
+method gen*(c: CsBlock): string = assert false
 
-proc newCs*(t: typedesc[CsVariable]):CsVariable =
+proc newCs*(t: typedesc[CsVariable]): CsVariable =
   new result
   result.typ = $typeof(t)
 
@@ -3616,17 +3804,18 @@ proc newCs*(t: typedesc[CsLocalDeclarationStatement]): CsLocalDeclarationStateme
   result.typ = $typeof(t)
   result.ttype = "CsLocalDeclarationStatement"
 
-proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info; data:AllNeededData): CsLocalDeclarationStatement =
+proc extract*(t: typedesc[CsLocalDeclarationStatement]; info: Info;
+    data: AllNeededData): CsLocalDeclarationStatement =
   result = newCs(CsLocalDeclarationStatement)
   result.vartype = info.essentials[1]
   result.names = info.essentials[0].split(",").mapIt(it.strip)
 
 
-method add*(parent:var CsVariable,item: CsGenericName) =
+method add*(parent: var CsVariable, item: CsGenericName) =
   parent.genericName = item
 
 
-method gen*(c:  CsLocalDeclarationStatement): string =
+method gen*(c: CsLocalDeclarationStatement): string =
 
   echo "--> in  gen*(c:  CsLocalDeclarationStatement)"
   # echo "first gen attempt!!!", c.names.join(", ") & " : " & c.vartype
@@ -3659,7 +3848,8 @@ method add*(parent: var CsLocalDeclarationStatement; item: CsTypeArgumentList) =
   parent.lhs.genericName.typearglist = item
   # TODO: can also be the rhs. so we should forward to last construct that fits instead of a high parent.
 
-method add*(parent: var CsLocalDeclarationStatement; item: CsVariableDeclarator) =
+method add*(parent: var CsLocalDeclarationStatement;
+    item: CsVariableDeclarator) =
   parent.rhs = item
 
 method add*(parent: var CsVariableDeclarator; item: CsLiteralExpression) =
@@ -3668,40 +3858,44 @@ method add*(parent: var CsVariableDeclarator; item: CsLiteralExpression) =
 method add*(parent: var CsVariableDeclarator; item: CsArgumentList) =
   parent.arglist = item # FIXME!
 
-method add*(parent: var CsLocalDeclarationStatement; item: CsLiteralExpression) =
+method add*(parent: var CsLocalDeclarationStatement;
+    item: CsLiteralExpression) =
   parent.rhs.add item
 
 method add*(parent: var CsLocalDeclarationStatement; item: CsArgumentList) =
   parent.rhs.add item
 
-method add*(parent:var CsVariable; item: CsPredefinedType) =  assert false
+method add*(parent: var CsVariable; item: CsPredefinedType) = assert false
 
-method add*(parent: var CsVariableDeclarator; item: CsEqualsValueClause)=
+method add*(parent: var CsVariableDeclarator; item: CsEqualsValueClause) =
   parent.ev = item
 
-proc newCs*(t: typedesc[CsVariableDeclarator]):CsVariableDeclarator =
+proc newCs*(t: typedesc[CsVariableDeclarator]): CsVariableDeclarator =
   new result
   result.typ = $typeof(t)
 
-method add*(parent: var CsVariableDeclarator; item:CsMemberAccessExpression)=
+method add*(parent: var CsVariableDeclarator; item: CsMemberAccessExpression) =
   if parent.rhs.isNil:
     parent.rhs = item
 
-method add*(parent: var CsVariableDeclarator; item: CsBinaryExpression)=
+method add*(parent: var CsVariableDeclarator; item: CsBinaryExpression) =
   if parent.rhs.isNil:
     parent.rhs = item
 
-method add*(parent: var CsVariableDeclarator; item: CsObjectCreationExpression)=
+method add*(parent: var CsVariableDeclarator;
+    item: CsObjectCreationExpression) =
   if parent.rhs.isNil:
     parent.rhs = item
   # assert parent.bexpr.isNil
   # parent.bexpr = item
 
-proc extract*(_: typedesc[CsVariableDeclarator]; info: Info): CsVariableDeclarator =
+proc extract*(_: typedesc[CsVariableDeclarator];
+    info: Info): CsVariableDeclarator =
   result = newCs(CsVariableDeclarator)
   result.name = info.essentials[0]
 
-proc extract*(t:typedesc[CsVariable], info:Info,data:AllNeededData):CsVariable =
+proc extract*(t: typedesc[CsVariable], info: Info,
+    data: AllNeededData): CsVariable =
   result = newCs(CsVariable)
   let p = info.essentials[0].split(":");
   result.thetype = p[1]
@@ -3710,7 +3904,7 @@ proc extract*(t:typedesc[CsVariable], info:Info,data:AllNeededData):CsVariable =
   result.name = n[1]
   assert n[0] == "name"
 
-method gen*(c: CsVariable):string =
+method gen*(c: CsVariable): string =
   result = "var " & c.name
   if c.thetype != "var":
     result &= " : " & c.thetype.replacementGenericTypes()
@@ -3718,28 +3912,32 @@ method gen*(c: CsVariable):string =
 # method add*(parent:var CsBinaryPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsBinaryPattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsBinaryPattern], info:Info,data:AllNeededData):CsBinaryPattern = assert false
-method gen*(c: CsBinaryPattern):string = assert false
+proc extract*(t: typedesc[CsBinaryPattern], info: Info,
+    data: AllNeededData): CsBinaryPattern = assert false
+method gen*(c: CsBinaryPattern): string = assert false
 
 # method add*(parent:var CsDiscardPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsDiscardPattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsDiscardPattern], info:Info,data:AllNeededData):CsDiscardPattern = assert false
-method gen*(c: CsDiscardPattern):string = assert false
+proc extract*(t: typedesc[CsDiscardPattern], info: Info,
+    data: AllNeededData): CsDiscardPattern = assert false
+method gen*(c: CsDiscardPattern): string = assert false
 
 # method add*(parent:var CsFunctionPointerType; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsFunctionPointerType; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsFunctionPointerType], info:Info,data:AllNeededData):CsFunctionPointerType = assert false
-method gen*(c: CsFunctionPointerType):string = assert false
+proc extract*(t: typedesc[CsFunctionPointerType], info: Info,
+    data: AllNeededData): CsFunctionPointerType = assert false
+method gen*(c: CsFunctionPointerType): string = assert false
 
 # method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitObjectCreationExpression; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsImplicitObjectCreationExpression], info:Info,data:AllNeededData):CsImplicitObjectCreationExpression = assert false
-method gen*(c: CsImplicitObjectCreationExpression):string = assert false
+proc extract*(t: typedesc[CsImplicitObjectCreationExpression], info: Info,
+    data: AllNeededData): CsImplicitObjectCreationExpression = assert false
+method gen*(c: CsImplicitObjectCreationExpression): string = assert false
 
-proc newCs*(t:typedesc[CsMemberAccessExpression]):CsMemberAccessExpression =
+proc newCs*(t: typedesc[CsMemberAccessExpression]): CsMemberAccessExpression =
   new result
   result.typ = $typeof(t)
 
@@ -3747,108 +3945,126 @@ proc newCs*(t:typedesc[CsMemberAccessExpression]):CsMemberAccessExpression =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsMemberAccessExpression; item: Dummy) "
 #   #   assert false
 
-proc extract*(t:typedesc[CsMemberAccessExpression], info:Info,data:AllNeededData):CsMemberAccessExpression =
-  result = newCs(t)  # i think we can discard it.
+proc extract*(t: typedesc[CsMemberAccessExpression], info: Info,
+    data: AllNeededData): CsMemberAccessExpression =
+  result = newCs(t) # i think we can discard it.
   echo info
   result.member = info.essentials[0]
   result.fromPart = info.essentials[1]
 
-method gen*(c: CsMemberAccessExpression):string =
+method gen*(c: CsMemberAccessExpression): string =
   echo "in gen*(c: CsMemberAccessExpression)"
   result = c.fromPart & "." & c.member.lowerFirst
 
 # method add*(parent:var CsParenthesizedPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsParenthesizedPattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsParenthesizedPattern], info:Info,data:AllNeededData):CsParenthesizedPattern = assert false
-method gen*(c: CsParenthesizedPattern):string = assert false
+proc extract*(t: typedesc[CsParenthesizedPattern], info: Info,
+    data: AllNeededData): CsParenthesizedPattern = assert false
+method gen*(c: CsParenthesizedPattern): string = assert false
 
 # method add*(parent:var CsPositionalPatternClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsPositionalPatternClause; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsPositionalPatternClause], info:Info,data:AllNeededData):CsPositionalPatternClause = assert false
-method gen*(c: CsPositionalPatternClause):string = assert false
+proc extract*(t: typedesc[CsPositionalPatternClause], info: Info,
+    data: AllNeededData): CsPositionalPatternClause = assert false
+method gen*(c: CsPositionalPatternClause): string = assert false
 
 # method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsPrimaryConstructorBaseType; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsPrimaryConstructorBaseType], info:Info,data:AllNeededData):CsPrimaryConstructorBaseType = assert false
-method gen*(c: CsPrimaryConstructorBaseType):string = assert false
+proc extract*(t: typedesc[CsPrimaryConstructorBaseType], info: Info,
+    data: AllNeededData): CsPrimaryConstructorBaseType = assert false
+method gen*(c: CsPrimaryConstructorBaseType): string = assert false
 
 # method add*(parent:var CsPropertyPatternClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsPropertyPatternClause; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsPropertyPatternClause], info:Info,data:AllNeededData):CsPropertyPatternClause = assert false
-method gen*(c: CsPropertyPatternClause):string = assert false
+proc extract*(t: typedesc[CsPropertyPatternClause], info: Info,
+    data: AllNeededData): CsPropertyPatternClause = assert false
+method gen*(c: CsPropertyPatternClause): string = assert false
 
 # method add*(parent:var CsRangeExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsRangeExpression; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsRangeExpression], info:Info,data:AllNeededData):CsRangeExpression = assert false
-method gen*(c: CsRangeExpression):string = assert false
+proc extract*(t: typedesc[CsRangeExpression], info: Info,
+    data: AllNeededData): CsRangeExpression = assert false
+method gen*(c: CsRangeExpression): string = assert false
 
 # method add*(parent:var CsRecord; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsRecord; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsRecord], info:Info,data:AllNeededData):CsRecord = assert false
-method gen*(c: CsRecord):string = assert false
+proc extract*(t: typedesc[CsRecord], info: Info,
+    data: AllNeededData): CsRecord = assert false
+method gen*(c: CsRecord): string = assert false
 
 # method add*(parent:var CsRecursivePattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsRecursivePattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsRecursivePattern], info:Info,data:AllNeededData):CsRecursivePattern = assert false
-method gen*(c: CsRecursivePattern):string = assert false
+proc extract*(t: typedesc[CsRecursivePattern], info: Info,
+    data: AllNeededData): CsRecursivePattern = assert false
+method gen*(c: CsRecursivePattern): string = assert false
 
 # method add*(parent:var CsRelationalPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsRelationalPattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsRelationalPattern], info:Info,data:AllNeededData):CsRelationalPattern = assert false
-method gen*(c: CsRelationalPattern):string = assert false
+proc extract*(t: typedesc[CsRelationalPattern], info: Info,
+    data: AllNeededData): CsRelationalPattern = assert false
+method gen*(c: CsRelationalPattern): string = assert false
 
 # method add*(parent:var CsSubpattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsSubpattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsSubpattern], info:Info,data:AllNeededData):CsSubpattern = assert false
-method gen*(c: CsSubpattern):string = assert false
+proc extract*(t: typedesc[CsSubpattern], info: Info,
+    data: AllNeededData): CsSubpattern = assert false
+method gen*(c: CsSubpattern): string = assert false
 
 # method add*(parent:var CsSwitchExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpression; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsSwitchExpression], info:Info,data:AllNeededData):CsSwitchExpression = assert false
-method gen*(c: CsSwitchExpression):string = assert false
+proc extract*(t: typedesc[CsSwitchExpression], info: Info,
+    data: AllNeededData): CsSwitchExpression = assert false
+method gen*(c: CsSwitchExpression): string = assert false
 
 # method add*(parent:var CsSwitchExpressionArm; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsSwitchExpressionArm; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsSwitchExpressionArm], info:Info,data:AllNeededData):CsSwitchExpressionArm = assert false
-method gen*(c: CsSwitchExpressionArm):string = assert false
+proc extract*(t: typedesc[CsSwitchExpressionArm], info: Info,
+    data: AllNeededData): CsSwitchExpressionArm = assert false
+method gen*(c: CsSwitchExpressionArm): string = assert false
 
 # method add*(parent:var CsTypePattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsTypePattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsTypePattern], info:Info,data:AllNeededData):CsTypePattern = assert false
-method gen*(c: CsTypePattern):string = assert false
+proc extract*(t: typedesc[CsTypePattern], info: Info,
+    data: AllNeededData): CsTypePattern = assert false
+method gen*(c: CsTypePattern): string = assert false
 
 # method add*(parent:var CsUnaryPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsUnaryPattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsUnaryPattern], info:Info,data:AllNeededData):CsUnaryPattern = assert false
-method gen*(c: CsUnaryPattern):string = assert false
+proc extract*(t: typedesc[CsUnaryPattern], info: Info,
+    data: AllNeededData): CsUnaryPattern = assert false
+method gen*(c: CsUnaryPattern): string = assert false
 
 # method add*(parent:var CsVarPattern; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsVarPattern; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsVarPattern], info:Info,data:AllNeededData):CsVarPattern = assert false
-method gen*(c: CsVarPattern):string = assert false
+proc extract*(t: typedesc[CsVarPattern], info: Info,
+    data: AllNeededData): CsVarPattern = assert false
+method gen*(c: CsVarPattern): string = assert false
 
 # method add*(parent:var CsWithExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsWithExpression; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsWithExpression], info:Info,data:AllNeededData):CsWithExpression = assert false
-method gen*(c: CsWithExpression):string = assert false
+proc extract*(t: typedesc[CsWithExpression], info: Info,
+    data: AllNeededData): CsWithExpression = assert false
+method gen*(c: CsWithExpression): string = assert false
 
 # method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent:var CsImplicitStackAllocArrayCreationExpression; item: Dummy) "
 #   #   assert false
-proc extract*(t:typedesc[CsImplicitStackAllocArrayCreationExpression], info:Info,data:AllNeededData):CsImplicitStackAllocArrayCreationExpression = assert false
-method gen*(c: CsImplicitStackAllocArrayCreationExpression):string = assert false
+proc extract*(t: typedesc[CsImplicitStackAllocArrayCreationExpression],
+    info: Info,
+    data: AllNeededData): CsImplicitStackAllocArrayCreationExpression = assert false
+method gen*(c: CsImplicitStackAllocArrayCreationExpression): string = assert false

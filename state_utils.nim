@@ -5,7 +5,7 @@ import constructs/justtypes
 
 import strutils, options
 import constructs/cs_root
-import tables,sets
+import tables, sets
 import construct
 
 proc nsPathNS*(r: var CsRoot): seq[CsNamespace] =
@@ -68,15 +68,15 @@ proc isVisitBlock*(info: Info): bool =
   result = info.extras.len > 0 and info.extras[0] == "VisitBlock"
 
 import construct, state
-proc previousConstructObj*(r:var CsRoot) : Option[  Construct ]=
-  let previd =previousConstruct().id
+proc previousConstructObj*(r: var CsRoot): Option[Construct] =
+  let previd = previousConstruct().id
   result = r.fetch(previd)
 
 proc getLastClass*(root: var CsRoot): Option[CsClass] =
   var ns = nsPathNS(root)
   if ns.len == 0: ns = @[root.global]
   result = ns.last.getLastClass()
-proc getCurrentNs*(root:var CsRoot): (string, CsNamespace) =
+proc getCurrentNs*(root: var CsRoot): (string, CsNamespace) =
   var p = nsPath(root)
   if p == "": p = "default"
   # echo p
@@ -105,12 +105,13 @@ proc getLastIndexer*(ns: CsNamespace): Option[CsIndexer] =
       result = none(CsIndexer)
     else:
       result = c.get.getIndexer()
-  of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums,NamespaceParts.Using]: discard
+  of [NamespaceParts.Interfaces, NamespaceParts.Unset, NamespaceParts.Enums,
+      NamespaceParts.Using]: discard
 
 proc getLastIndexer*(root: var CsRoot): Option[CsIndexer] =
   var (_, ns) = root.getCurrentNs
   result = ns.getLastIndexer()
-import options#, sequtils, strutils
+import options #, sequtils, strutils
 import common_utils
 import constructs/[justtypes] #,cs_root]
 proc getLastClass*(ns: CsNamespace): Option[CsClass] =

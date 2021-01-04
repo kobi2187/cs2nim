@@ -1,5 +1,6 @@
 import system, os
-import ../types, uuids, options, ../writer_utils, ../constructs/cs_all_constructs
+import ../types, uuids, options, ../writer_utils,
+    ../constructs/cs_all_constructs
 
 
 import sequtils

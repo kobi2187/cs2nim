@@ -1,11 +1,11 @@
-import constructs/[ cs_root, justtypes]
-import types, state#, construct
+import constructs/[cs_root, justtypes]
+import types, state #, construct
 import options
 import state_utils
 import uuids
 
-proc idLastClassPart*(data:AllNeededData):Option[UUID]=
-   case data.classLastAdded
+proc idLastClassPart*(data: AllNeededData): Option[UUID] =
+  case data.classLastAdded
     of Ctors:
       result = data.lastCtor.id
     of Properties:
@@ -15,7 +15,7 @@ proc idLastClassPart*(data:AllNeededData):Option[UUID]=
     of Indexer:
       result = data.lastClass.indexer.id
 
-proc idLastNsPart*(data:AllNeededData):Option[UUID]=
+proc idLastNsPart*(data: AllNeededData): Option[UUID] =
   case data.nsLastAdded
   of Interfaces:
     result = data.lastInterface.id
@@ -26,43 +26,43 @@ proc idLastNsPart*(data:AllNeededData):Option[UUID]=
   of Using: result = data.lastUsing.id
   else: return none(UUID)
 
-proc isNsEmpty*(data:AllNeededData) : bool=
+proc isNsEmpty*(data: AllNeededData): bool =
   result = not data.currentNamespace.lastAddedTo.isSome()
 
-proc getBody(c: CsProperty) : seq[BodyExpr]=
+proc getBody(c: CsProperty): seq[BodyExpr] =
   result = case c.lastAddedTo
   of Getter: c.bodyGet
   of Setter: c.bodySet
 
-proc getBody(c:CsMethod | CsConstructor):seq[BodyExpr]=
+proc getBody(c: CsMethod | CsConstructor): seq[BodyExpr] =
   result = c.body
 
-proc lastBodyExpr*(c:CsMethod | CsConstructor | CsProperty):Option[BodyExpr] =
+proc lastBodyExpr*(c: CsMethod | CsConstructor | CsProperty): Option[BodyExpr] =
   let b = c.getBody()
   if not b.isEmpty:
     result = some(b[^1])
-  else: result =none(BodyExpr)
+  else: result = none(BodyExpr)
 
-proc lastBodyExprId*(c:CsMethod | CsConstructor | CsProperty):Option[UUID] =
+proc lastBodyExprId*(c: CsMethod | CsConstructor | CsProperty): Option[UUID] =
   let x = c.lastBodyExpr
   if x.isNone: result = none(UUID)
   else: result = x.get.id
 
 import sequtils
-proc simplifiedConstructs() :seq[(string,UUID)]=
+proc simplifiedConstructs(): seq[(string, UUID)] =
   result = currentConstruct.mapIt((it.name, it.id))
 
-import strutils,algorithm
+import strutils, algorithm
 
-proc lastBlockType*(data: AllNeededData;typeStr:string):Option[UUID]=
-  for (name,id) in data.simplified.reversed:
+proc lastBlockType*(data: AllNeededData; typeStr: string): Option[UUID] =
+  for (name, id) in data.simplified.reversed:
     if name.toLowerAscii == typeStr.toLowerAscii:
       return some(id)
   return none(UUID)
 
-proc lastBlockType*(data: AllNeededData;typeStrs:seq[string]):Option[UUID]=
+proc lastBlockType*(data: AllNeededData; typeStrs: seq[string]): Option[UUID] =
   let lowerTypeStr = typeStrs.mapIt(it.toLowerAscii)
-  for (name,id) in data.simplified.reversed:
+  for (name, id) in data.simplified.reversed:
     if name.toLowerAscii in lowerTypeStr:
       return some(id)
   return none(UUID)
@@ -70,13 +70,15 @@ proc lastBlockType*(data: AllNeededData;typeStrs:seq[string]):Option[UUID]=
 import common_utils
 
 # import type_utils
-proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[string]): AllNeededData =
+proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[
+    string]): AllNeededData =
   # echo "in makeNeededData"
   result.sourceCode = src
   result.upcoming = upcoming
   echo "!! Source: ", src
   result.constructDeclName = info.declName
-  if not state.currentConstruct.isEmpty and not state.currentConstruct.last.info.isVisitBlock():
+  if not state.currentConstruct.isEmpty and
+      not state.currentConstruct.last.info.isVisitBlock():
     result.inBlock = state.currentConstruct.last
 
   result.currentConstruct =
@@ -126,12 +128,13 @@ proc makeNeededData*(root: var CsRoot; info: Info; src: string; upcoming: seq[st
             result.lastProp = result.lastClass.properties.last
           if not result.lastClass.ctors.isEmpty:
             result.lastCtor = result.lastClass.ctors.last
-          if result.classLastAdded in [ ClassParts.Methods, ClassParts.Properties, ClassParts.Ctors]:
+          if result.classLastAdded in [ClassParts.Methods,
+              ClassParts.Properties, ClassParts.Ctors]:
             case result.classLastAdded
-              of  ClassParts.Methods:
+              of ClassParts.Methods:
                 result.lastBodyExpr = lastBodyExpr(result.lastMethod)
                 result.lastBodyExprId = lastBodyExprId(result.lastMethod)
-              of  ClassParts.Ctors:
+              of ClassParts.Ctors:
                 result.lastBodyExpr = lastBodyExpr(result.lastCtor)
                 result.lastBodyExprId = lastBodyExprId(result.lastCtor)
               of ClassParts.Properties:
