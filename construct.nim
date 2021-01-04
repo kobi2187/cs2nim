@@ -398,7 +398,7 @@ type CNode {.acyclic.} = object
 type Construct* = ref CNode # all the types we support, wrapped in a variant.
 
 # with the help of regex:
-import types
+# import types
 template unwrap*[T](c:Construct) : T =
   case c.kind:
   # of ckRoot: c.root

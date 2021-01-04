@@ -1289,7 +1289,22 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
 
   # parts that should have no objects, but instead are part of fields or even unneeded.
   of ["QualifiedName"]: discard
-
+  of "DelegateDeclaration" :
+    var a = extract(CsDelegate, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckDelegate, delegate: a)
+  of "InterfaceDeclaration" :
+    var a = extract(CsInterface, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckInterface, cinterface: a)
+  of "StructDeclaration" :
+    var a = extract(CsStruct, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckStruct, struct: a)
+  of "TypeOfExpression" :
+    var a = extract(CsTypeOfExpression, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckTypeOfExpression, typeOfExpression: a)
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:
     result.id = some(id)

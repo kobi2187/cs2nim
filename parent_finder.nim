@@ -90,6 +90,39 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParameter, ckPredefinedType": true
   of "ckBracketedParameterList, ckParameter": true
   of "ckEqualsValueClause, ckMemberAccessExpression": true
+  of "ckEqualsValueClause, ckBinaryExpression": true
+  of "ckBaseList, ckSimpleBaseType": true
+
+  of "ckArgument, ckAssignmentExpression": true
+  of "ckArgument, ckBinaryExpression": true
+  of "ckArgument, ckInvocationExpression": true
+  of "ckArgument, ckMemberAccessExpression": true
+  of "ckArgument, ckObjectCreationExpression": true
+  of "ckArgument, ckPrefixUnaryExpression": true
+  of "ckClass, ckClass": true
+  of "ckClass, ckEnum": true
+  of "ckConstructor, ckLocalDeclarationStatement": true
+  of "ckConstructorInitializer, ckArgumentList": true
+  of "ckEqualsValueClause, ckInvocationExpression": true
+  of "ckExpressionStatement, ckAssignmentExpression": true
+  of "ckInitializerExpression, ckAssignmentExpression": true
+  of "ckInitializerExpression, ckInitializerExpression": true
+  of "ckInitializerExpression, ckMemberAccessExpression": true
+  of "ckInitializerExpression, ckObjectCreationExpression": true
+  of "ckMemberAccessExpression, ckGenericName": true
+  of "ckMemberAccessExpression, ckInvocationExpression": true
+  of "ckMemberAccessExpression, ckMemberAccessExpression": true
+  of "ckMemberAccessExpression, ckObjectCreationExpression": true
+  of "ckMethod, ckGenericName": true
+  of "ckObjectCreationExpression, ckPredefinedType": true
+  of "ckParameter, ckEqualsValueClause": true
+  of "ckReturnStatement, ckInvocationExpression": true
+  of "ckTypeArgumentList, ckGenericName": true
+  of "ckUsingDirective, ckGenericName": true
+  of "ckBinaryExpression, ckBinaryExpression": true
+  of "ckBinaryExpression, ckInvocationExpression": true
+  of "ckReturnStatement, ckBinaryExpression": true
+  of "ckSimpleBaseType, ckGenericName": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -444,12 +477,12 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckPrefixUnaryExpression: # hmm, not the previous but the next one. so just add it.
     let fitting = state.getLastBlock(c=>c.name in [
-        "InitializerExpression"]) # TODO: add others as needed.
+        "InitializerExpression", ]) # TODO: add others as needed.
     assert fitting.isSome, $data.simplified
     res = fitting.get.id.some
   of ckBinaryExpression:
     let b = state.getLastBlock(c=>c.name in [
-        "VariableDeclarator"]) # TODO: add others as needed.
+        "VariableDeclarator","LiteralExpression"]) # TODO: add others as needed.
     assert b.isSome, $data.simplified
     res = b.get.id.some
   of ckField: # classes, or interfaces

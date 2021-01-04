@@ -51,8 +51,12 @@ type CsAttribute* = ref object of CsObject #TODO(type:CsAttribute)
 type CsAttributeTargetSpecifier* = ref object of CsObject #TODO(type:CsAttributeTargetSpecifier)
 type CsAwaitExpression* = ref object of CsObject #TODO(type:CsAwaitExpression)
 type CsBaseExpression* = ref object of CsObject #TODO(type:CsBaseExpression)
+
+type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
+
 type CsBaseList* = ref object of CsObject
   baseList*: seq[string]
+  baseList2*: seq[CsSimpleBaseType]
 type CsBinaryExpression* = ref object of IAssignable
   left*: string
   op*: string
@@ -195,10 +199,9 @@ type CsPrefixUnaryExpression* = ref object of CsObject
   actingOn*: string
 type CsLiteralExpression* = ref object of IAssignable
   value*: string
-type CsInitializerExpression* = ref object of CsObject #TODO(type:CsInitializerExpression)
+type CsInitializerExpression* = ref object of BodyExpr #TODO(type:CsInitializerExpression)
   valueReceived*: string
   bexprs*: seq[BodyExpr]
-  somePrefixOp*: CsPrefixUnaryExpression
 type CsInterface* = ref object of CsObject #TODO(type:CsInterface)
 type CsInterpolatedStringExpression* = ref object of CsObject #TODO(type:CsInterpolatedStringExpression)
 type CsInterpolatedStringText* = ref object of CsObject #TODO(type:CsInterpolatedStringText)
@@ -295,7 +298,6 @@ type CsRefTypeExpression* = ref object of CsObject #TODO(type:CsRefTypeExpressio
 type CsRefType* = ref object of CsObject #TODO(type:CsRefType)
 type CsRefValueExpression* = ref object of CsObject #TODO(type:CsRefValueExpression)
 type CsSelectClause* = ref object of CsObject #TODO(type:CsSelectClause)
-type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
 type CsSimpleLambdaExpression* = ref object of CsObject #TODO(type:CsSimpleLambdaExpression)
 type CsSingleVariableDesignation* = ref object of CsObject #TODO(type:CsSingleVariableDesignation)
 type CsSizeOfExpression* = ref object of CsObject #TODO(type:CsSizeOfExpression)

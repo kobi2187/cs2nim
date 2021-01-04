@@ -119,8 +119,9 @@ proc extract*(t: typedesc[CsField]; info: Info): CsField =
 proc hackFindType(item: CsProperty): string =
   echo item.src
   let regex = nre.re(".*?(\\w+)\\s*" & item.name & ".*")
-  result = item.src.match(regex).get.captures[0]
-  assert not result.isEmptyOrWhitespace
+  let res = item.src.match(regex)
+  if res.isNone: return ""
+  else: return res.get.captures[0]
 
 proc gen*(f: CsField): string =
   echo "--> in  gen*(f: CsField)"
@@ -733,9 +734,19 @@ method add*(parent: var CsProperty, item: CsAccessorList) =
 method add*(parent: var CsMethod, item: CsAssignmentExpression) =
   parent.body.add item
 
+method add*(parent: var CsMethod, item: CsGenericName) =
+  assert false # TODO
+
+method add*(parent: var CsMethod, item: CsInvocationExpression) =
+  parent.body.add item
+
 method add*(parent: var CsMethod, item: CsVariableDeclarator) =
   parent.body.add item
 
+method add*(parent: var CsEqualsValueClause, item: CsBinaryExpression) =
+  echo "in method add*(parent: var CsEqualsValueClause, item: CsBinaryExpression)"
+  if parent.rhsValue.isNil:
+    parent.rhsValue = item
 method add*(parent: var CsEqualsValueClause, item: CsMemberAccessExpression) =
   echo "in ","method add*(parent: var CsEqualsValueClause, item: CsMemberAccessExpression)"
   if parent.rhsValue.isNil:
@@ -1019,6 +1030,12 @@ proc addFieldForProperty(parent: CsClass, item: CsProperty) =
   parent.addField(fieldName, fieldType)
 
 
+method add*(parent: var CsClass; item: CsEnum) =
+  assert false, " get the parent of class, i.e. namespace and add there." #TODO
+
+method add*(parent: var CsClass; item: CsClass) =
+  assert false, " get the parent of class, i.e. namespace and add there." #TODO
+
 method add*(parent: var CsClass; item: CsField) =
   parent.fields.add item
 method add*(parent: var CsClass; item: CsProperty) =
@@ -1178,6 +1195,9 @@ proc extract*(t: typedesc[CsConstructor]; info: Info): CsConstructor =
   let name = info.essentials[0]
   let m = newCs(CsConstructor, name)
   result = m
+
+method add*(parent: var CsConstructor; item: CsLocalDeclarationStatement) =
+  assert false # TODO
 
 method add*(parent: var CsConstructor; item: CsArgumentList) =
   assert (parent.initializer != nil)
@@ -1649,6 +1669,9 @@ method add*(parent: var CsArgument; item: CsLiteralExpression) =
 method add*(parent: var CsArgumentList; item: CsArgument) =
   parent.args.add item
 
+method add*(parent: var CsExpressionStatement; item: CsAssignmentExpression) =
+  assert false # TODO
+
 method add*(parent: var CsExpressionStatement; item: CsArgument) =
   parent.args.add item
 
@@ -2012,18 +2035,18 @@ method add*(parent: var CsIndexer; item: CsExplicitInterfaceSpecifier) =
 method add*(parent: CsLiteralExpression; item: CsPrefixUnaryExpression) =
   parent.value = item.prefix & parent.value
 
-proc addBExpr(p: CsInitializerExpression; b: BodyExpr) =
-  echo "in addBExpr: " & b.typ
-  if p.somePrefixOp.isNil:
-    p.bexprs.add b
-  else:
-    case b.typ
-    of "CsLiteralExpression":
-    # method add*(parent: var CsLiteralExpression; item: CsPrefixUnaryExpression) =
-      CsLiteralExpression(b).add(p.somePrefixOp) # first apply prefix to obj
-      p.bexprs.add b # and then add applied-obj to list.
-    else: assert false
-    p.somePrefixOp = nil # disable the op.
+# proc addBExpr(p: CsInitializerExpression; b: BodyExpr) =
+#   echo "in addBExpr: " & b.typ
+#   if p.somePrefixOp.isNil:
+#     p.bexprs.add b
+#   else:
+#     case b.typ
+#     of "CsLiteralExpression":
+#     # method add*(parent: var CsLiteralExpression; item: CsPrefixUnaryExpression) =
+#       CsLiteralExpression(b).add(p.somePrefixOp) # first apply prefix to obj
+#       p.bexprs.add b # and then add applied-obj to list.
+#     else: assert false
+#     p.somePrefixOp = nil # disable the op.
 
 proc newCs*(t: typedesc[CsInitializerExpression]): CsInitializerExpression =
   new result
@@ -2321,12 +2344,30 @@ proc gen*(c: var CsLetClause): string =
 
 # ============= CsLiteralExpression ========
 
-method add*(parent: var CsInitializerExpression;
-    item: CsPrefixUnaryExpression) =
-  parent.somePrefixOp = item
 
+method add*(parent: var CsInitializerExpression; item: CsMemberAccessExpression) =
+  parent.bexprs.add item
+  assert false # TODO
+method add*(parent: var CsInitializerExpression; item: CsInitializerExpression) =
+  parent.bexprs.add item
+  assert false # TODO
+method add*(parent: var CsInitializerExpression; item: CsAssignmentExpression) =
+  parent.bexprs.add item
+  assert false # TODO
+method add*(parent: var CsInitializerExpression; item: CsObjectCreationExpression) =
+  parent.bexprs.add item
+  assert false #TODO
+method add*(parent: var CsInitializerExpression; item: CsPrefixUnaryExpression) =
+  # sorry i dont get it. lookup some src to figure out.
+  assert false #TODO look up the source sample to understand better.
+  # maybe someth like item.op & parent.gen() and allow bexprs to hold string too ?
+  # or uncomment addBExpr to gain some mechanism if it's just a tree-node thing. why isn't it applied to the literal -- if it's indeed a literal?
 method add*(parent: var CsInitializerExpression; item: CsLiteralExpression) =
-  parent.addBExpr item
+  parent.bexprs.add item
+
+method add*(parent: var CsBaseList; item:CsSimpleBaseType) =
+  parent.baseList2.add item
+  parent.baseList.add item.name
 
 method add*(parent: var CsBracketedParameterList; item:CsParameter) =
   parent.plist.add item.gen()
@@ -2468,6 +2509,7 @@ method gen*(item: CsObjectCreationExpression): string =
 method add*(parent: var CsObjectCreationExpression; item: CsGenericName) =
   parent.genericName = item
 
+method add*(parent: var CsObjectCreationExpression; item: CsPredefinedType) = assert false #TODO
 method add*(parent: var CsObjectCreationExpression;
     item: CsInitializerExpression) =
   parent.initExpr = item
@@ -2707,6 +2749,8 @@ proc hash*(c: CsNamespace): Hash =
 
 
 
+method add*(parent: var CsUsingDirective; item: CsGenericName) =
+  assert false # TODO
 method add*(parent: var CsUsingDirective; item: CsNameEquals) =
   parent.shorthand = item
 
@@ -3034,7 +3078,8 @@ proc extract*(t: typedesc[CsProperty]; info: Info): CsProperty =
   ## NOTE: very strange, no type from CsDisplay.
   let name = info.essentials[0] #name
   result = newCs(CsProperty, name)
-  let cnt = info.essentials[1].parseInt # how many
+  let cnt = info.essentials[0].parseInt # how many
+  # let cnt = info.essentials[1].parseInt # how many
   if cnt > 0:
     let acc1 = info.extras[0] # get, or set, or both
     case acc1
@@ -3255,10 +3300,11 @@ proc gen*(c: var CsSelectClause): string =
 proc newCs*(t: typedesc[CsSimpleBaseType]): CsSimpleBaseType =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsSimpleBaseType)
 
 proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType =
-  result = newCs(t) # TODO
+  result = newCs(t)
+  let name = info.essentials[0]
+  result.name = name
 
 # method add*(parent: var CsSimpleBaseType; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSimpleBaseType; item: Dummy) "
