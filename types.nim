@@ -59,4 +59,13 @@ method gen*(e: BodyExpr): string {.base.} =
 #   # proc handle*(t: typedesc[T]; root: var CsRoot; info: Info)
 #   # will it create a circular dependency? maybe. try.
 
+template fail() =
+  assert false
 
+template todoimpl* =
+  const pos = instantiationInfo()
+  const line = $pos.filename & ":" & $pos.line
+  const warningMsg = "unimplemented: " & line
+  {.warning: warningMsg.}
+  when defined(debug):
+    fail
