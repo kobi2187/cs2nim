@@ -109,6 +109,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckIfStatement:
       var c = child.ifStatement
       c.parentId = m.id; m.add c
+    of ckArrowExpressionClause:
+      var c = child.arrowExpressionClause
+      c.parentId = m.id; m.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckEnum:
     var m = parent.cenum
@@ -477,7 +480,11 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckAssignmentExpression:
       var c = child.assignmentExpression
       c.parentId = p.id; p.add c
+    of ckSimpleLambdaExpression:
+      var c = child.simpleLambdaExpression
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
+
   of ckTypeArgumentList:
     var p = parent.typeArgumentList
     case child.kind
@@ -524,6 +531,12 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckMemberAccessExpression:
       var c = child.memberAccessExpression
       c.parentId = p.id; p.add c
+    of ckInvocationExpression:
+      var c = child.invocationExpression
+      c.parentId = p.id; p.add c
+    of ckGenericName:
+      var c = child.genericName
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckBinaryExpression:
     var p = parent.binaryExpression
@@ -568,6 +581,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckBinaryExpression:
       var c = child.binaryExpression
       c.parentId = p.id; p.add c
+    of ckInvocationExpression:
+      var c = child.invocationExpression
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckCastExpression:
     var p = parent.castExpression
@@ -584,6 +600,27 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckArrayRankSpecifier:
       var c = child.arrayRankSpecifier
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckArrayRankSpecifier:
+    var p = parent.arrayRankSpecifier
+    case child.kind
+    of ckOmittedArraySizeExpression:
+      var c = child.omittedArraySizeExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckArrowExpressionClause:
+    var p = parent.arrowExpressionClause
+    case child.kind
+    of ckInvocationExpression:
+      var c = child.invocationExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckSimpleLambdaExpression:
+    var p = parent.simpleLambdaExpression
+    case child.kind
+    of ckParameter:
+      var c = child.parameter
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind

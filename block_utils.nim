@@ -35,10 +35,11 @@ proc endBlock*(info: Info) =
     return
 
   echo "the finishing block should be: " & finishingBlock
+  # note: if endblock raises an assert, it means a previous construct was not recorded in blockTypesTxt.
   var last = blocks.pop # we do it twice now.
   let bs = blocks.pop
   assert bs.name == "BlockStarts"
-
+  assert last.name == finishingBlock, finishingBlock & " vs " & $last.name
   echo "block count, according to csast:" & $blockCount
   echo "block count, according to our count:" & $blocks.len & " / 2 = " & $(
       blocks.len / 2)

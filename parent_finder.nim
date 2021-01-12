@@ -139,6 +139,12 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParameter, ckArrayType": true
   of "ckArrayType, ckPredefinedType": true
   of "ckArrayType, ckArrayRankSpecifier": true
+  of "ckArrayRankSpecifier, ckOmittedArraySizeExpression": true
+  of "ckMethod, ckArrowExpressionClause": true
+  of "ckArrowExpressionClause, ckInvocationExpression": true
+  of "ckArgument, ckSimpleLambdaExpression": true
+  of "ckSimpleLambdaExpression, ckParameter": true
+  of "ckIfStatement, ckInvocationExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
