@@ -64,6 +64,12 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckClass:
       var c1 = child.class
       c1.parentId = c.id; c.add c1
+    of ckTypeParameterList:
+      var c1 = child.typeParameterList
+      c1.parentId = c.id; c.add c1
+    of ckTypeParameterConstraintClause:
+      var c1 = child.typeParameterConstraintClause
+      c1.parentId = c.id; c.add c1
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckMethod:
@@ -99,6 +105,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = m.id; m.add c
     of ckGenericName:
       var c = child.genericName
+      c.parentId = m.id; m.add c
+    of ckIfStatement:
+      var c = child.ifStatement
       c.parentId = m.id; m.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckEnum:
@@ -280,6 +289,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       var c = child.argumentList
       c.parentId = p.id; p.add c
 
+    of ckCastExpression:
+      var c = child.castExpression
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckObjectCreationExpression:
     var p = parent.objectCreationExpression
@@ -383,6 +395,10 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckEqualsValueClause:
       var c = child.equalsValueClause
       c.parentId = p.id; p.add c
+
+    of ckArrayType:
+      var c = child.arrayType
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckField:
     var p = parent.field
@@ -402,6 +418,11 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckArgumentList:
       var c = child.argumentList
+      c.parentId = p.id; p.add c
+
+
+    of ckGenericName:
+      var c = child.genericName
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   of ckEqualsValueClause:
@@ -495,6 +516,74 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckConstructorInitializer:
       var c = child.constructorInitializer
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckMemberAccessExpression:
+    var p = parent.memberAccessExpression
+    case child.kind
+    of ckMemberAccessExpression:
+      var c = child.memberAccessExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckBinaryExpression:
+    var p = parent.binaryExpression
+    case child.kind
+    of ckMemberAccessExpression:
+      var c = child.memberAccessExpression
+      c.parentId = p.id; p.add c
+    of ckLiteralExpression:
+      var c = child.literalExpression
+      c.parentId = p.id; p.add c
+    of ckBinaryExpression:
+      var c = child.binaryExpression
+      c.parentId = p.id; p.add c
+    of ckTypeOfExpression:
+      var c = child.typeOfExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckTypeParameterList:
+    var p = parent.typeParameterList
+    case child.kind
+    of ckTypeParameter:
+      var c = child.typeParameter
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckTypeParameterConstraintClause:
+    var p = parent.typeParameterConstraintClause
+    case child.kind
+    of ckTypeConstraint:
+      var c = child.typeConstraint
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckTypeConstraint:
+    var p = parent.typeConstraint
+    case child.kind
+    of ckGenericName:
+      var c = child.genericName
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckIfStatement:
+    var p = parent.ifStatement
+    case child.kind
+    of ckBinaryExpression:
+      var c = child.binaryExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckCastExpression:
+    var p = parent.castExpression
+    case child.kind
+    of ckThisExpression:
+      var c = child.thisExpression
+      c.parentId = p.id; p.add c
+    else: assert false, "plz impl for child: " & $child.kind
+  of ckArrayType:
+    var p = parent.arrayType
+    case child.kind
+    of ckPredefinedType:
+      var c = child.predefinedType
+      c.parentId = p.id; p.add c
+    of ckArrayRankSpecifier:
+      var c = child.arrayRankSpecifier
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind

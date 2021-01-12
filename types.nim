@@ -66,6 +66,11 @@ template todoimpl* =
   const pos = instantiationInfo()
   const line = $pos.filename & ":" & $pos.line
   const warningMsg = "unimplemented: " & line
-  {.warning: warningMsg.}
-  when defined(debug):
+  when defined(failFast):
+    {.error: warningMsg.}
+  elif defined(stopFast):
+    {.warning: warningMsg.}
     fail
+  else:
+    {.warning: warningMsg.}
+

@@ -16,8 +16,6 @@ type ConstructKind* = enum
       ckProperty, ckExplicitInterfaceSpecifier, ckExpressionStatement,
       ckInvocationExpression,
   ckLocalDeclarationStatement, ckVariableDeclarator
-
-# unsupported:
   ckBinaryExpression, ckAssignmentExpression, ckEqualsValueClause,
       ckIfStatement, ckThisExpression, ckTypeArgumentList, ckGenericName,
       ckAccessor, ckBracketedArgumentList, ckElementAccessExpression,

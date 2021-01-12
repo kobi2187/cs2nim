@@ -1,0 +1,429 @@
+{
+  "File": "../cs2nim/tests/samples/forStmt.cs",
+  "Lines": [
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "1"
+        ],
+        "Extras": [
+          "ClassDeclaration"
+        ]
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ClassDeclaration",
+      "Info": {
+        "Essentials": [
+          "A"
+        ],
+        "Extras": [
+          ""
+        ]
+      },
+      "ParentKind": 8840,
+      "RawKind": 8855,
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "2"
+        ],
+        "Extras": [
+          "MethodDeclaration"
+        ]
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "MethodDeclaration",
+      "Info": {
+        "Essentials": [
+          "B",
+          "void"
+        ],
+        "Extras": [
+          "public"
+        ]
+      },
+      "ParentKind": 8855,
+      "RawKind": 8875,
+      "Source": "  public void B() {\n   for (long i = 1; i < 1000000; ++i)\n            {\n                arrayList.Add(i);\n            }\n            }\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PredefinedType",
+      "Info": {
+        "Essentials": [
+          "void"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8875,
+      "RawKind": 8621,
+      "Source": "void "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ParameterList",
+      "Info": {
+        "Essentials": [
+          ""
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8875,
+      "RawKind": 8906,
+      "Source": "() "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ForStatement",
+      "Info": {
+        "Essentials": [
+          "condition:i < 1000000",
+          "declaration:long i = 1",
+          "statement:{\n                arrayList.Add(i);\n            }",
+          "incrementors:++i",
+          "initializers:"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8792,
+      "RawKind": 8811,
+      "Source": "   for (long i = 1; i < 1000000; ++i)\n            {\n                arrayList.Add(i);\n            }\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "VariableDeclaration",
+      "Info": {
+        "Essentials": [
+          "type:long",
+          "name:i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8811,
+      "RawKind": 8794,
+      "Source": "long i = 1"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PredefinedType",
+      "Info": {
+        "Essentials": [
+          "long"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8794,
+      "RawKind": 8621,
+      "Source": "long "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "VariableDeclarator",
+      "Info": {
+        "Essentials": [
+          "i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8794,
+      "RawKind": 8795,
+      "Source": "i = 1"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "EqualsValueClause",
+      "Info": {
+        "Essentials": [
+          "1"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8795,
+      "RawKind": 8796,
+      "Source": "= 1"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "LiteralExpression",
+      "Info": {
+        "Essentials": [
+          "1"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8796,
+      "RawKind": 8749,
+      "Source": "1"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BinaryExpression",
+      "Info": {
+        "Essentials": [
+          "i",
+          "<",
+          "1000000"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8811,
+      "RawKind": 8682,
+      "Source": "i < 1000000"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8682,
+      "RawKind": 8616,
+      "Source": "i "
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "LiteralExpression",
+      "Info": {
+        "Essentials": [
+          "1000000"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8682,
+      "RawKind": 8749,
+      "Source": "1000000"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "PrefixUnaryExpression",
+      "Info": {
+        "Essentials": [
+          "++",
+          "i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8811,
+      "RawKind": 8734,
+      "Source": "++i"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8734,
+      "RawKind": 8616,
+      "Source": "i"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "BlockStarts",
+      "Info": {
+        "Essentials": [
+          "3"
+        ],
+        "Extras": [
+          "ExpressionStatement"
+        ]
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ExpressionStatement",
+      "Info": null,
+      "ParentKind": 8792,
+      "RawKind": 8797,
+      "Source": "                arrayList.Add(i);\n"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "InvocationExpression",
+      "Info": {
+        "Essentials": [
+          "arrayList.Add"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8797,
+      "RawKind": 8634,
+      "Source": "                arrayList.Add(i)"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "MemberAccessExpression",
+      "Info": {
+        "Essentials": [
+          "Add",
+          "arrayList"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8634,
+      "RawKind": 8689,
+      "Source": "                arrayList.Add"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "arrayList"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8689,
+      "RawKind": 8616,
+      "Source": "                arrayList"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "Add"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8689,
+      "RawKind": 8616,
+      "Source": "Add"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "ArgumentList",
+      "Info": {
+        "Essentials": [
+          "i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8634,
+      "RawKind": 8636,
+      "Source": "(i)"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "Argument",
+      "Info": {
+        "Essentials": [
+          "i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8636,
+      "RawKind": 8638,
+      "Source": "i"
+    },
+    {
+      "Kind": 0,
+      "KindStr": "Decl",
+      "Declaration": "IdentifierName",
+      "Info": {
+        "Essentials": [
+          "i"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 8638,
+      "RawKind": 8616,
+      "Source": "i"
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "2",
+          "ExpressionStatement"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "1",
+          "ExpressionStatement"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    },
+    {
+      "Kind": 1,
+      "KindStr": "EndBlock",
+      "Declaration": "",
+      "Info": {
+        "Essentials": [
+          "0",
+          "ExpressionStatement"
+        ],
+        "Extras": []
+      },
+      "ParentKind": 0,
+      "RawKind": 0,
+      "Source": null
+    }
+  ]
+}

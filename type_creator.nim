@@ -7,6 +7,8 @@ import strutils
 # TODO: Learn why in Nim it doesn't work to simply pass a subtype.
 # proc setMoreForObject(a:var CsObject; id:UUID; data:AllNeededData; info:Info) =
 template setMoreForObject(a: var untyped; id:UUID; data:AllNeededData; info:Info) =
+  echo "setting fields for object " & info.declName
+  assert not a.isNil, "most likely `extract` is not implemented for: " & info.declName
   a.id = some(id)
   assert not a.typ.isEmptyOrWhitespace;
   a.src = data.sourceCode

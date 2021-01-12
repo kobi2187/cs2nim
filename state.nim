@@ -1,5 +1,5 @@
 # common.nim
-import stacks, sets, uuids
+import stacks, sets, uuids, sequtils
 # import json
 # import constructs/cs_root
 import types
@@ -28,6 +28,10 @@ import strutils
 proc getLastBlockType*(typeStr: string): Option[Block] =
   result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii ==
       typeStr.toLowerAscii)
+
+proc getLastBlockTypes*(typeStrs: openArray[string]): Option[Block] =
+  let loweredTypeStrs = typeStrs.mapIt(it.toLowerAscii)
+  result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii in loweredTypeStrs)
 
 
 proc prevprevConstruct*: Block =

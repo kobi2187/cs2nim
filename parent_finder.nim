@@ -72,7 +72,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckNameEquals, ckGenericName": true
   of "ckParameter, ckGenericName": true
   of "ckField, ckVariable": true
-  # of "ckVariable, ckVariableDeclarator": true
+  of "ckReturnStatement, ckMemberAccessExpression": true
   of "ckField, ckVariableDeclarator": true
   of "ckMethod, ckVariableDeclarator": true
   of "ckVariableDeclarator, ckMemberAccessExpression": true
@@ -92,7 +92,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckEqualsValueClause, ckMemberAccessExpression": true
   of "ckEqualsValueClause, ckBinaryExpression": true
   of "ckBaseList, ckSimpleBaseType": true
-
   of "ckArgument, ckAssignmentExpression": true
   of "ckArgument, ckBinaryExpression": true
   of "ckArgument, ckInvocationExpression": true
@@ -123,6 +122,23 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckBinaryExpression, ckInvocationExpression": true
   of "ckReturnStatement, ckBinaryExpression": true
   of "ckSimpleBaseType, ckGenericName": true
+  of "ckBinaryExpression, ckMemberAccessExpression": true
+  of "ckBinaryExpression, ckLiteralExpression": true
+  of "ckAssignmentExpression, ckMemberAccessExpression": true
+  of "ckClass, ckTypeParameterList": true
+  of "ckTypeParameterList, ckTypeParameter": true
+  of "ckClass, ckTypeParameterConstraintClause": true
+  of "ckTypeParameterConstraintClause, ckTypeConstraint": true
+  of "ckTypeConstraint, ckGenericName": true
+  of "ckInvocationExpression, ckGenericName": true
+  of "ckMethod, ckIfStatement": true
+  of "ckIfStatement, ckBinaryExpression": true
+  of "ckBinaryExpression, ckTypeOfExpression": true
+  of "ckAssignmentExpression, ckCastExpression": true
+  of "ckCastExpression, ckThisExpression": true
+  of "ckParameter, ckArrayType": true
+  of "ckArrayType, ckPredefinedType": true
+  of "ckArrayType, ckArrayRankSpecifier": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -491,7 +507,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
 
   of ckIfStatement:
-    assert false, $obj.kind & " is still unsupported"
+    let lastMatch = getLastBlockTypes(@[ "MethodDeclaration" ])
+    assert lastMatch.isSome
+    res = lastMatch.get.id.some
+
   of ckThisExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckBracketedArgumentList:

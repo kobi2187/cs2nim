@@ -188,7 +188,7 @@ type CsFromClause* = ref object of CsObject #TODO(type:CsFromClause)
 type CsGlobalStatement* = ref object of CsObject #TODO(type:CsGlobalStatement)
 type CsGotoStatement* = ref object of CsObject #TODO(type:CsGotoStatement)
 type CsGroupClause* = ref object of CsObject #TODO(type:CsGroupClause)
-type CsIfStatement* = ref object of CsObject #TODO(type:CsIfStatement)
+type CsIfStatement* = ref object of BodyExpr #TODO(type:CsIfStatement)
 type CsImplicitArrayCreationExpression *
   = ref object of CsObject #TODO(type:CsImplicitArrayCreationExpression)
 type CsImplicitElementAccess* = ref object of CsObject #TODO(type:CsImplicitElementAccess)
