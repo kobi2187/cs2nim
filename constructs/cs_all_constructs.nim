@@ -515,14 +515,15 @@ proc gen*(c: var CsBinaryExpression): string =
 
 # ============= CsBracketedArgumentList ========
 
-proc newCs*(t: typedesc[CsBracketedArgumentList];
-    name: string): CsBracketedArgumentList =
+proc newCs*(t: typedesc[CsBracketedArgumentList]): CsBracketedArgumentList =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsBracketedArgumentList)
 
-proc extract*(t: typedesc[CsBracketedArgumentList];
-    info: Info): CsBracketedArgumentList = todoimpl
+proc extract*(t: typedesc[CsBracketedArgumentList];info: Info): CsBracketedArgumentList =
+  echo info
+  result = newCs(CsBracketedArgumentList)
+  todoimpl
 
 # method add*(parent: var CsBracketedArgumentList; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsBracketedArgumentList; item: Dummy) "
@@ -558,13 +559,15 @@ proc gen*(c: var CsBracketedParameterList): string =
 
 # ============= CsBreakStatement ========
 
-proc newCs*(t: typedesc[CsBreakStatement]; name: string): CsBreakStatement =
+proc newCs*(t: typedesc[CsBreakStatement]): CsBreakStatement =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsBreakStatement)
 
-proc extract*(t: typedesc[CsBreakStatement];
-    info: Info): CsBreakStatement = todoimpl
+proc extract*(t: typedesc[CsBreakStatement];    info: Info): CsBreakStatement =
+  echo info
+  result = newCs(CsBreakStatement)
+  todoimpl
 
 # method add*(parent: var CsBreakStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsBreakStatement; item: Dummy) "
@@ -1417,13 +1420,15 @@ proc gen*(c: var CsDiscardDesignation): string =
 
 # ============= CsDoStatement ========
 
-proc newCs*(t: typedesc[CsDoStatement]; name: string): CsDoStatement =
+proc newCs*(t: typedesc[CsDoStatement]): CsDoStatement =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsDoStatement)
 
-proc extract*(t: typedesc[CsDoStatement];
-    info: Info): CsDoStatement = todoimpl
+proc extract*(t: typedesc[CsDoStatement];info: Info): CsDoStatement =
+  echo info
+  result = newCs(CsDoStatement)
+  todoimpl
 
 # method add*(parent: var CsDoStatement; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsDoStatement; item: Dummy) "
@@ -1437,14 +1442,15 @@ proc gen*(c: var CsDoStatement): string =
 
 # ============= CsElementAccessExpression ========
 
-proc newCs*(t: typedesc[CsElementAccessExpression];
-    name: string): CsElementAccessExpression =
+proc newCs*(t: typedesc[CsElementAccessExpression]): CsElementAccessExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsElementAccessExpression)
 
-proc extract*(t: typedesc[CsElementAccessExpression];
-    info: Info): CsElementAccessExpression = todoimpl
+proc extract*(t: typedesc[CsElementAccessExpression];    info: Info): CsElementAccessExpression =
+  echo info
+  result = newCs(CsElementAccessExpression)
+  todoimpl
 
 # method add*(parent: var CsElementAccessExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsElementAccessExpression; item: Dummy) "
@@ -3033,14 +3039,15 @@ proc gen*(c: var CsPointerType): string =
 
 # ============= CsPostfixUnaryExpression ========
 
-proc newCs*(t: typedesc[CsPostfixUnaryExpression];
-    name: string): CsPostfixUnaryExpression =
+proc newCs*(t: typedesc[CsPostfixUnaryExpression]): CsPostfixUnaryExpression =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsPostfixUnaryExpression)
 
-proc extract*(t: typedesc[CsPostfixUnaryExpression];
-    info: Info): CsPostfixUnaryExpression = todoimpl
+proc extract*(t: typedesc[CsPostfixUnaryExpression];info: Info): CsPostfixUnaryExpression =
+  echo info
+  result = newCs(CsPostfixUnaryExpression)
+  todoimpl
 
 # method add*(parent: var CsPostfixUnaryExpression; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsPostfixUnaryExpression; item: Dummy) "
@@ -4319,3 +4326,47 @@ method add*(parent: var CsMemberAccessExpression; item: CsGenericName) =
 method add*(parent: var CsIfStatement; item: CsInvocationExpression) =
   echo "in method add*(parent: var CsIfStatement; item: CsInvocationExpression)"
   todoimpl # TODO(add:CsIfStatement, CsInvocationExpression)
+
+method add*(parent: var CsMethod; item: CsForStatement) =
+  echo "in method add*(parent: var CsMethod; item: CsForStatement)"
+  todoimpl # TODO(add:CsMethod, CsForStatement)
+
+method add*(parent: var CsForStatement; item: CsVariable) =
+  echo "in method add*(parent: var CsForStatement; item: CsVariable)"
+  todoimpl # TODO(add:CsForStatement, CsVariable)
+
+method add*(parent: var CsVariable; item: CsArrayType) =
+  echo "in method add*(parent: var CsVariable; item: CsArrayType)"
+  todoimpl # TODO(add:CsVariable, CsArrayType)
+
+method add*(parent: var CsEqualsValueClause; item: CsInitializerExpression) =
+  echo "in method add*(parent: var CsEqualsValueClause; item: CsInitializerExpression)"
+  todoimpl # TODO(add:CsEqualsValueClause, CsInitializerExpression)
+
+method add*(parent: var CsMethod; item: CsDoStatement) =
+  echo "in method add*(parent: var CsMethod; item: CsDoStatement)"
+  todoimpl # TODO(add:CsMethod, CsDoStatement)
+
+method add*(parent: var CsForStatement; item: CsBinaryExpression) =
+  echo "in method add*(parent: var CsForStatement; item: CsBinaryExpression)"
+  todoimpl # TODO(add:CsForStatement, CsBinaryExpression)
+
+method add*(parent: var CsForStatement; item: CsPostfixUnaryExpression) =
+  echo "in method add*(parent: var CsForStatement; item: CsPostfixUnaryExpression)"
+  todoimpl # TODO(add:CsForStatement, CsPostfixUnaryExpression)
+
+method add*(parent: var CsMemberAccessExpression; item: CsElementAccessExpression) =
+  echo "in method add*(parent: var CsMemberAccessExpression; item: CsElementAccessExpression)"
+  todoimpl # TODO(add:CsMemberAccessExpression, CsElementAccessExpression)
+
+method add*(parent: var CsElementAccessExpression; item: CsBracketedArgumentList) =
+  echo "in method add*(parent: var CsElementAccessExpression; item: CsBracketedArgumentList)"
+  todoimpl # TODO(add:CsElementAccessExpression, CsBracketedArgumentList)
+
+method add*(parent: var CsBracketedArgumentList; item: CsArgument) =
+  echo "in method add*(parent: var CsBracketedArgumentList; item: CsArgument)"
+  todoimpl # TODO(add:CsBracketedArgumentList, CsArgument)
+
+method add*(parent: var CsBinaryExpression; item: CsInvocationExpression) =
+  echo "in method add*(parent: var CsBinaryExpression; item: CsInvocationExpression)"
+  todoimpl # TODO(add:CsBinaryExpression, CsInvocationExpression)

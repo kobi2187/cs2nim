@@ -145,6 +145,16 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckArgument, ckSimpleLambdaExpression": true
   of "ckSimpleLambdaExpression, ckParameter": true
   of "ckIfStatement, ckInvocationExpression": true
+  of "ckMethod, ckForStatement": true
+  of "ckForStatement, ckVariable": true
+  of "ckVariable, ckArrayType": true
+  of "ckEqualsValueClause, ckInitializerExpression": true
+  of "ckForStatement, ckBinaryExpression": true
+  of "ckMethod, ckDoStatement": true
+  of "ckForStatement, ckPostfixUnaryExpression": true
+  of "ckMemberAccessExpression, ckElementAccessExpression": true
+  of "ckElementAccessExpression, ckBracketedArgumentList": true
+  of "ckBracketedArgumentList, ckArgument": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -190,14 +200,14 @@ proc handleLiteralExpression(data: AllNeededData): Option[UUID] =
 
 import state_utils, state
 import tables
-proc parentHint(parentRawKind:int) : Option[string] =
+proc parentHint(parentRawKind: int): Option[string] =
   let key = parentRawKind
   if parentTable.hasKey(key):
     result = some(parentTable[key])
   else:
     result = none(string)
 
-proc parentHint(c: Construct) : Option[string] =
+proc parentHint(c: Construct): Option[string] =
   result = parentHint(c.parentRawKind)
 
 proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]) =
@@ -218,7 +228,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     let lastMatch = getLastBlockType(phint.get)
     if lastMatch.isSome:
       let id = lastMatch.get.id.some
-      return (false,id)
+      return (false, id)
 
   echo obj.kind
   case obj.kind
@@ -504,16 +514,31 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = fitting.get.id.some
   of ckBinaryExpression:
     let b = state.getLastBlock(c=>c.name in [
-        "VariableDeclarator","LiteralExpression"]) # TODO: add others as needed.
+        "VariableDeclarator", "LiteralExpression"]) # TODO: add others as needed.
     assert b.isSome, $data.simplified
     res = b.get.id.some
   of ckField: # classes, or interfaces
     assert data.nsLastAdded in [Classes, Interfaces] # more?
     res = data.idLastNsPart
 
+  of ckNameEquals:
+    res = data.lastUsing.id
 
-  of ckIfStatement:
-    let lastMatch = getLastBlockTypes(@[ "MethodDeclaration" ])
+  of ckExternAliasDirective:
+    # ignore, unsupported.
+    discarded = true
+    echo "got " & $ckExternAliasDirective & " which we don't support (doesn't make sense for nim modules)"
+
+  #things within method bodies or ctor bodies or getter/setter bodies:
+  # TODO: split these if I'm wrong.
+  of [ckIfStatement, ckElseClause, ckBreakStatement, ckCaseSwitchLabel, ckSwitchSection, ckForStatement, ckDoStatement, ckGotoStatement, ckCastExpression, ckThrowStatement,
+  ckPostfixUnaryExpression,ckForEachStatement,ckTryStatement,ckCatchClause,ckCatch,
+  ckUsingStatement,ckWhileStatement,ckSwitchStatement,ckContinueStatement,ckFinallyClause,ckDefaultSwitchLabel,ckYieldStatement,ckLockStatement,ckThrowExpression
+  ]:
+    echo "got " & $obj.kind
+    let parents = @["MethodDeclaration"] # add more here.
+    echo "and looking for its parent in:", parents
+    let lastMatch = getLastBlockTypes(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 
@@ -525,36 +550,20 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, $obj.kind & " is still unsupported"
   of ckParenthesizedExpression:
     assert false, $obj.kind & " is still unsupported"
-  of ckCastExpression:
-    assert false, $obj.kind & " is still unsupported"
   of ckArrayRankSpecifier:
     assert false, $obj.kind & " is still unsupported"
   of ckArrayType:
     assert false, $obj.kind & " is still unsupported"
   of ckOmittedArraySizeExpression:
     assert false, $obj.kind & " is still unsupported"
-  of ckNameEquals:
-    res = data.lastUsing.id
-    # assert false, $obj.kind & " is still unsupported"
-  of ckThrowStatement:
-    assert false, $obj.kind & " is still unsupported"
+
   of ckTypeOfExpression:
     assert false, $obj.kind & " is still unsupported"
-  of ckElseClause:
-    assert false, $obj.kind & " is still unsupported"
-  of ckCaseSwitchLabel:
-    assert false, $obj.kind & " is still unsupported"
-  of ckSwitchSection:
-    assert false, $obj.kind & " is still unsupported"
   of ckSimpleLambdaExpression:
-    assert false, $obj.kind & " is still unsupported"
-  of ckPostfixUnaryExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckArrayCreationExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckArrowExpressionClause:
-    assert false, $obj.kind & " is still unsupported"
-  of ckBreakStatement:
     assert false, $obj.kind & " is still unsupported"
   of ckAliasQualifiedName:
     assert false, $obj.kind & " is still unsupported"
@@ -566,29 +575,17 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, $obj.kind & " is still unsupported"
   of ckTypeParameterList:
     assert false, $obj.kind & " is still unsupported"
-  of ckForEachStatement:
-    assert false, $obj.kind & " is still unsupported"
-  of ckForStatement:
-    assert false, $obj.kind & " is still unsupported"
   of ckInterpolatedStringText:
     assert false, $obj.kind & " is still unsupported"
   of ckParenthesizedLambdaExpression:
-    assert false, $obj.kind & " is still unsupported"
-  of ckTryStatement:
     assert false, $obj.kind & " is still unsupported"
   of ckNullableType:
     assert false, $obj.kind & " is still unsupported"
   of ckBaseExpression:
     assert false, $obj.kind & " is still unsupported"
-  of ckCatchClause:
-    assert false, $obj.kind & " is still unsupported"
   of ckInterpolation:
     assert false, $obj.kind & " is still unsupported"
-  of ckCatch:
-    assert false, $obj.kind & " is still unsupported"
   of ckNameColon:
-    assert false, $obj.kind & " is still unsupported"
-  of ckUsingStatement:
     assert false, $obj.kind & " is still unsupported"
   of ckTypeParameterConstraintClause:
     assert false, $obj.kind & " is still unsupported"
@@ -600,13 +597,9 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, $obj.kind & " is still unsupported"
   of ckImplicitArrayCreationExpression:
     assert false, $obj.kind & " is still unsupported"
-  of ckWhileStatement:
-    assert false, $obj.kind & " is still unsupported"
   of ckDeclarationExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckConditionalAccessExpression:
-    assert false, $obj.kind & " is still unsupported"
-  of ckSwitchStatement:
     assert false, $obj.kind & " is still unsupported"
   of ckMemberBindingExpression:
     assert false, $obj.kind & " is still unsupported"
@@ -616,14 +609,6 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, $obj.kind & " is still unsupported"
   of ckInterface:
     assert false, $obj.kind & " is still unsupported"
-  of ckContinueStatement:
-    assert false, $obj.kind & " is still unsupported"
-  of ckFinallyClause:
-    assert false, $obj.kind & " is still unsupported"
-  of ckDefaultSwitchLabel:
-    assert false, $obj.kind & " is still unsupported"
-  of ckYieldStatement:
-    assert false, $obj.kind & " is still unsupported"
   of ckAnonymousObjectMemberDeclarator:
     assert false, $obj.kind & " is still unsupported"
   of ckCheckedExpression:
@@ -632,11 +617,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, $obj.kind & " is still unsupported"
   of ckIsPatternExpression:
     assert false, $obj.kind & " is still unsupported"
-  of ckLockStatement:
-    assert false, $obj.kind & " is still unsupported"
   of ckDeclarationPattern:
-    assert false, $obj.kind & " is still unsupported"
-  of ckThrowExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckConstantPattern:
     assert false, $obj.kind & " is still unsupported"
@@ -666,10 +647,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, $obj.kind & " is still unsupported"
   of ckEvent:
     assert false, $obj.kind & " is still unsupported"
-  of ckGotoStatement:
-    assert false, $obj.kind & " is still unsupported"
-  of ckDoStatement:
-    assert false, $obj.kind & " is still unsupported"
+
   of ckGlobalStatement:
     assert false, $obj.kind & " is still unsupported"
   of ckIncompleteMember:
@@ -726,10 +704,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, $obj.kind & " is still unsupported"
   of ckQueryContinuation:
     assert false, $obj.kind & " is still unsupported"
-  of ckExternAliasDirective:
-    # ignore, unsupported.
-    discarded = true
-    echo "got " & $obj.kind & " which we don't support (doesn't make sense for nim modules)"
+
   of ckMakeRefExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckRefValueExpression:
@@ -792,7 +767,7 @@ proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (
   let (dis, pid) = determineParentId(newobj, allData)
   if pid.isNone: assert dis == true
 
-  echo "discarded: ", dis,   " object kind: ", newobj.kind,  " parentID: ", pid
+  echo "discarded: ", dis, " object kind: ", newobj.kind, " parentID: ", pid
   if pid.isSome and not dis and newobj.kind !=
       ckNamespace: # because namespace has no parent. root is explicit.
     assert pid.isSome
