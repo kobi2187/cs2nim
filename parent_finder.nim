@@ -155,6 +155,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckMemberAccessExpression, ckElementAccessExpression": true
   of "ckElementAccessExpression, ckBracketedArgumentList": true
   of "ckBracketedArgumentList, ckArgument": true
+  of "ckIfStatement, ckBreakStatement": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -499,9 +500,6 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     else: assert false, data.previousPreviousConstruct.get.name & ", " &
         data.previousConstruct.get.name
 
-    # HAVE TO FIGURE THIS OUT, can i just put them all one after another in a body seq?
-  # of [ckInvocationExpression, ckAnonymousMethodExpression, ckAnonymousObjectCreationExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckAssignmentExpression, ckAwaitExpression, ckBaseExpression, ckBinaryExpression, ckBreakStatement, ckCastExpression, ckCheckedExpression, ckCheckedStatement, ckConditionalAccessExpression, ckConditionalExpression, ckContinueStatement, ckDeclarationExpression, ckDefaultExpression, ckDoStatement, ckElementAccessExpression, ckElementBindingExpression, ckEmptyStatement, ckExpressionStatement, ckFixedStatement, ckForEachStatement, ckForEachVariableStatement, ckForStatement, ckGlobalStatement, ckGotoStatement, ckIfStatement, ckImplicitArrayCreationExpression, ckImplicitObjectCreationExpression, ckImplicitStackAllocArrayCreationExpression, ckInitializerExpression, ckInterpolatedStringExpression, ckIsPatternExpression, ckLabeledStatement, ckLiteralExpression, ckLocalDeclarationStatement, ckLocalFunctionStatement, ckLockStatement, ckMakeRefExpression, ckMemberAccessExpression, ckMemberBindingExpression, ckObjectCreationExpression, ckOmittedArraySizeExpression, ckParenthesizedExpression, ckParenthesizedLambdaExpression, ckPostfixUnaryExpression, ckPrefixUnaryExpression, ckQueryExpression, ckRangeExpression, ckRefExpression, ckRefTypeExpression, ckRefValueExpression, ckReturnStatement, ckSimpleLambdaExpression, ckSizeOfExpression, ckStackAllocArrayCreationExpression, ckSwitchExpression, ckSwitchExpressionArm, ckSwitchStatement, ckThisExpression, ckThrowExpression, ckThrowStatement, ckTryStatement, ckTupleExpression, ckTypeOfExpression, ckUnsafeStatement, ckUsingStatement, ckWhileStatement, ckWithExpression, ckYieldStatement]:
-  #   res = data.idLastClassPart
   of ckInitializerExpression: # find your parent: the last object creation expression
     # let lastoce = state.getLastBlockType("ObjectCreationExpression")
     res = data.lastBlockType("ObjectCreationExpression")
@@ -531,7 +529,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   #things within method bodies or ctor bodies or getter/setter bodies:
   # TODO: split these if I'm wrong.
-  of [ckIfStatement, ckElseClause, ckBreakStatement, ckCaseSwitchLabel, ckSwitchSection, ckForStatement, ckDoStatement, ckGotoStatement, ckCastExpression, ckThrowStatement,
+  of [ckIfStatement, ckElseClause, ckCaseSwitchLabel, ckSwitchSection, ckForStatement, ckDoStatement, ckGotoStatement, ckCastExpression, ckThrowStatement,
   ckPostfixUnaryExpression,ckForEachStatement,ckTryStatement,ckCatchClause,ckCatch,
   ckUsingStatement,ckWhileStatement,ckSwitchStatement,ckContinueStatement,ckFinallyClause,ckDefaultSwitchLabel,ckYieldStatement,ckLockStatement,ckThrowExpression
   ]:
@@ -542,6 +540,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 
+  of ckBreakStatement: # if, case, else, while, do, ...others?
+    let lastMatch = getLastBlockTypes(@[ "IfStatement"]) #"MethodDeclaration"])
+    assert lastMatch.isSome
+    res = lastMatch.get.id.some
   of ckThisExpression:
     assert false, $obj.kind & " is still unsupported"
   of ckBracketedArgumentList:

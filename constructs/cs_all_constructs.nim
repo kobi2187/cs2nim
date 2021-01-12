@@ -43,12 +43,12 @@ method add*(parent: var CsAccessorList; item: CsAccessor) =
 
 # proc add*(parent: var CsAccessorList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: CsIfStatement): string =
+method gen*(c: CsIfStatement): string =
   echo "--> in  gen*(c: var CsIfStatement)"
   result = "NotYetImplemented"
   todoimpl
 
-proc gen*(c: var CsAccessorList): string =
+method gen*(c: var CsAccessorList): string =
   echo "--> in  gen*(c: var CsAccessorList)"
   todoimpl
 
@@ -76,7 +76,7 @@ proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor =
 
 # proc add*(parent: var CsAccessor; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAccessor): string =
+method gen*(c: var CsAccessor): string =
   todoimpl
   echo "--> in  gen*(c: var CsAccessor)"
 
@@ -97,7 +97,7 @@ proc extract*(t: typedesc[CsAliasQualifiedName];
 
 # proc add*(parent: var CsAliasQualifiedName; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAliasQualifiedName): string =
+method gen*(c: var CsAliasQualifiedName): string =
   todoimpl
   echo "--> in  gen*(c: var CsAliasQualifiedName)"
 
@@ -151,7 +151,7 @@ proc extract*(t: typedesc[CsAnonymousMethodExpression];
 
 # proc add*(parent: var CsAnonymousMethodExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAnonymousMethodExpression): string =
+method gen*(c: var CsAnonymousMethodExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsAnonymousMethodExpression)"
 
@@ -172,7 +172,7 @@ proc extract*(t: typedesc[CsAnonymousObjectCreationExpression];
 
 # proc add*(parent: var CsAnonymousObjectCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAnonymousObjectCreationExpression): string =
+method gen*(c: var CsAnonymousObjectCreationExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsAnonymousObjectCreationExpression)"
 
@@ -192,7 +192,7 @@ proc extract*(t: typedesc[CsAnonymousObjectMemberDeclarator];
 
 # proc add*(parent: var CsAnonymousObjectMemberDeclarator; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAnonymousObjectMemberDeclarator): string =
+method gen*(c: var CsAnonymousObjectMemberDeclarator): string =
   todoimpl
   echo "--> in  gen*(c: var CsAnonymousObjectMemberDeclarator)"
 
@@ -211,7 +211,7 @@ proc replacementGenericTypes (s: string): string =
     result = s.replace("<", "[").replace(">", "]")
   else: result = s
 
-proc gen*(c: var CsArgumentList): string =
+method gen*(c: var CsArgumentList): string =
 
   echo "--> in  gen*(c: var CsArgumentList)"
   if not c.isNil:
@@ -230,7 +230,7 @@ proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument =
 
 # proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArgument): string =
+method gen*(c: var CsArgument): string =
   todoimpl
   echo "--> in  gen*(c: var CsArgument)"
 
@@ -251,7 +251,7 @@ proc extract*(t: typedesc[CsArrayCreationExpression];
 
 # proc add*(parent: var CsArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrayCreationExpression): string =
+method gen*(c: var CsArrayCreationExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsArrayCreationExpression)"
 
@@ -273,7 +273,7 @@ proc extract*(t: typedesc[CsArrayRankSpecifier];    info: Info): CsArrayRankSpec
 
 # proc add*(parent: var CsArrayRankSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrayRankSpecifier): string =
+method gen*(c: var CsArrayRankSpecifier): string =
   todoimpl
   echo "--> in  gen*(c: var CsArrayRankSpecifier)"
 
@@ -295,7 +295,7 @@ proc extract*(t: typedesc[CsArrayType]; info: Info): CsArrayType =
 
 # proc add*(parent: var CsArrayType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrayType): string =
+method gen*(c: var CsArrayType): string =
   todoimpl
   echo "--> in  gen*(c: var CsArrayType)"
 
@@ -317,7 +317,7 @@ proc extract*(t: typedesc[CsArrowExpressionClause];    info: Info): CsArrowExpre
 
 # proc add*(parent: var CsArrowExpressionClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsArrowExpressionClause): string =
+method gen*(c: var CsArrowExpressionClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsArrowExpressionClause)"
 
@@ -345,7 +345,7 @@ proc extract*(t: typedesc[CsAttributeArgumentList];
 
 # proc add*(parent: var CsAttributeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttributeArgumentList): string =
+method gen*(c: var CsAttributeArgumentList): string =
   todoimpl
   echo "--> in  gen*(c: var CsAttributeArgumentList)"
 
@@ -366,7 +366,7 @@ proc extract*(t: typedesc[CsAttributeArgument];
 
 # proc add*(parent: var CsAttributeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttributeArgument): string =
+method gen*(c: var CsAttributeArgument): string =
   todoimpl
   echo "--> in  gen*(c: var CsAttributeArgument)"
 
@@ -383,7 +383,7 @@ proc extract*(t: typedesc[CsAttributeList];
 #   if stopEarly: assert false
 
 # proc add*(parent: var CsAttributeList; item: Dummy; data: AllNeededData) = parent.add(item)
-proc gen*(c: var CsAttributeList): string =
+method gen*(c: var CsAttributeList): string =
   todoimpl
   echo "--> in  gen*(c: var CsAttributeList)"
 
@@ -402,7 +402,7 @@ proc extract*(t: typedesc[CsAttribute]; info: Info): CsAttribute = todoimpl
 
 # proc add*(parent: var CsAttribute; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttribute): string =
+method gen*(c: var CsAttribute): string =
   todoimpl
   echo "--> in  gen*(c: var CsAttribute)"
 
@@ -423,7 +423,7 @@ proc extract*(t: typedesc[CsAttributeTargetSpecifier];
 
 # proc add*(parent: var CsAttributeTargetSpecifier; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAttributeTargetSpecifier): string =
+method gen*(c: var CsAttributeTargetSpecifier): string =
   todoimpl
   echo "--> in  gen*(c: var CsAttributeTargetSpecifier)"
 
@@ -443,7 +443,7 @@ proc extract*(t: typedesc[CsAwaitExpression];
 
 # proc add*(parent: var CsAwaitExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsAwaitExpression): string =
+method gen*(c: var CsAwaitExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsAwaitExpression)"
 
@@ -463,7 +463,7 @@ proc extract*(t: typedesc[CsBaseExpression];
 
 # proc add*(parent: var CsBaseExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBaseExpression): string =
+method gen*(c: var CsBaseExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsBaseExpression)"
 
@@ -484,7 +484,7 @@ proc extract*(t: typedesc[CsBaseList]; info: Info): CsBaseList =
 
 # proc add*(parent: var CsBaseList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBaseList): string =
+method gen*(c: var CsBaseList): string =
   todoimpl
   echo "--> in  gen*(c: var CsBaseList)"
 
@@ -509,7 +509,7 @@ proc extract*(t: typedesc[CsBinaryExpression]; info: Info): CsBinaryExpression =
 #   if stopEarly: assert false
 # # proc add*(parent: var CsBinaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBinaryExpression): string =
+method gen*(c: var CsBinaryExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsBinaryExpression)"
 
@@ -531,7 +531,7 @@ proc extract*(t: typedesc[CsBracketedArgumentList];info: Info): CsBracketedArgum
 
 # proc add*(parent: var CsBracketedArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBracketedArgumentList): string =
+method gen*(c: var CsBracketedArgumentList): string =
   todoimpl
   echo "--> in  gen*(c: var CsBracketedArgumentList)"
 
@@ -553,7 +553,7 @@ proc extract*(t: typedesc[CsBracketedParameterList];
 
 # proc add*(parent: var CsBracketedParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBracketedParameterList): string =
+method gen*(c: var CsBracketedParameterList): string =
   todoimpl
   echo "--> in  gen*(c: var CsBracketedParameterList)"
 
@@ -575,7 +575,7 @@ proc extract*(t: typedesc[CsBreakStatement];    info: Info): CsBreakStatement =
 
 # proc add*(parent: var CsBreakStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsBreakStatement): string =
+method gen*(c: var CsBreakStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsBreakStatement)"
 
@@ -596,7 +596,7 @@ proc extract*(t: typedesc[CsCasePatternSwitchLabel];
 
 # proc add*(parent: var CsCasePatternSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCasePatternSwitchLabel): string =
+method gen*(c: var CsCasePatternSwitchLabel): string =
   todoimpl
   echo "--> in  gen*(c: var CsCasePatternSwitchLabel)"
 
@@ -616,7 +616,7 @@ proc extract*(t: typedesc[CsCaseSwitchLabel];
 
 # proc add*(parent: var CsCaseSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCaseSwitchLabel): string =
+method gen*(c: var CsCaseSwitchLabel): string =
   todoimpl
   echo "--> in  gen*(c: var CsCaseSwitchLabel)"
 
@@ -638,7 +638,7 @@ proc extract*(t: typedesc[CsCastExpression];info: Info): CsCastExpression =
 
 # proc add*(parent: var CsCastExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCastExpression): string =
+method gen*(c: var CsCastExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsCastExpression)"
 
@@ -658,7 +658,7 @@ proc extract*(t: typedesc[CsCatchClause];
 
 # proc add*(parent: var CsCatchClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCatchClause): string =
+method gen*(c: var CsCatchClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsCatchClause)"
 
@@ -679,7 +679,7 @@ proc extract*(t: typedesc[CsCatchFilterClause];
 
 # proc add*(parent: var CsCatchFilterClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCatchFilterClause): string =
+method gen*(c: var CsCatchFilterClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsCatchFilterClause)"
 
@@ -698,7 +698,7 @@ proc extract*(t: typedesc[CsCatch]; info: Info): CsCatch = todoimpl
 
 # proc add*(parent: var CsCatch; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCatch): string =
+method gen*(c: var CsCatch): string =
   todoimpl
   echo "--> in  gen*(c: var CsCatch)"
 
@@ -719,7 +719,7 @@ proc extract*(t: typedesc[CsCheckedExpression];
 
 # proc add*(parent: var CsCheckedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCheckedExpression): string =
+method gen*(c: var CsCheckedExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsCheckedExpression)"
 
@@ -739,7 +739,7 @@ proc extract*(t: typedesc[CsCheckedStatement];
 
 # proc add*(parent: var CsCheckedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsCheckedStatement): string =
+method gen*(c: var CsCheckedStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsCheckedStatement)"
 
@@ -873,7 +873,7 @@ method gen*(c: var CsConstructor): string =
 
   result &= body
 
-proc gen*(c: var CsIndexer): string =
+method gen*(c: var CsIndexer): string =
 
   echo "--> in  gen*(c: var CsIndexer)"
   echo "generating indexer"
@@ -889,7 +889,7 @@ proc gen*(c: var CsIndexer): string =
 
   result &= getPart & "\n" & setPart
 
-proc gen*(c: CsProperty): string =
+method gen*(c: CsProperty): string =
   echo "--> in  gen*(c: CsProperty)"
   result = ""
   if c.hasGet:
@@ -989,7 +989,7 @@ proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
 
 # ===
 
-proc gen*(c: CsClass): string =
+method gen*(c: CsClass): string =
   echo "--> in  gen*(c: CsClass)"
   echo "generating class:" & c.name
   if c.isNil: result = "" else: result &= "type " & c.name & "* = ref object"
@@ -1101,7 +1101,7 @@ proc extract*(t: typedesc[CsClassOrStructConstraint];
 
 # proc add*(parent: var CsClassOrStructConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsClassOrStructConstraint): string =
+method gen*(c: var CsClassOrStructConstraint): string =
   todoimpl
   echo "--> in  gen*(c: var CsClassOrStructConstraint)"
 
@@ -1122,7 +1122,7 @@ proc extract*(t: typedesc[CsConditionalAccessExpression];
 
 # proc add*(parent: var CsConditionalAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConditionalAccessExpression): string =
+method gen*(c: var CsConditionalAccessExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsConditionalAccessExpression)"
 
@@ -1143,7 +1143,7 @@ proc extract*(t: typedesc[CsConditionalExpression];
 
 # proc add*(parent: var CsConditionalExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConditionalExpression): string =
+method gen*(c: var CsConditionalExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsConditionalExpression)"
 
@@ -1163,7 +1163,7 @@ proc extract*(t: typedesc[CsConstantPattern];
 
 # proc add*(parent: var CsConstantPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConstantPattern): string =
+method gen*(c: var CsConstantPattern): string =
   todoimpl
   echo "--> in  gen*(c: var CsConstantPattern)"
 
@@ -1184,7 +1184,7 @@ proc extract*(t: typedesc[CsConstructorConstraint];
 
 # proc add*(parent: var CsConstructorConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConstructorConstraint): string =
+method gen*(c: var CsConstructorConstraint): string =
   todoimpl
   echo "--> in  gen*(c: var CsConstructorConstraint)"
 
@@ -1202,7 +1202,7 @@ proc extract*(t: typedesc[CsConstructorInitializer];
 
 # proc add*(parent: var CsConstructorInitializer; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConstructorInitializer): string =
+method gen*(c: var CsConstructorInitializer): string =
   todoimpl
   echo "--> in  gen*(c: var CsConstructorInitializer)"
 
@@ -1249,7 +1249,7 @@ proc extract*(t: typedesc[CsContinueStatement];
 
 # proc add*(parent: var CsContinueStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsContinueStatement): string =
+method gen*(c: var CsContinueStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsContinueStatement)"
 
@@ -1270,7 +1270,7 @@ proc extract*(t: typedesc[CsConversionOperator];
 
 # proc add*(parent: var CsConversionOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsConversionOperator): string =
+method gen*(c: var CsConversionOperator): string =
   todoimpl
   echo "--> in  gen*(c: var CsConversionOperator)"
 
@@ -1291,7 +1291,7 @@ proc extract*(t: typedesc[CsDeclarationExpression];
 
 # proc add*(parent: var CsDeclarationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDeclarationExpression): string =
+method gen*(c: var CsDeclarationExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsDeclarationExpression)"
 
@@ -1312,7 +1312,7 @@ proc extract*(t: typedesc[CsDeclarationPattern];
 
 # proc add*(parent: var CsDeclarationPattern; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDeclarationPattern): string =
+method gen*(c: var CsDeclarationPattern): string =
   todoimpl
   echo "--> in  gen*(c: var CsDeclarationPattern)"
 
@@ -1333,7 +1333,7 @@ proc extract*(t: typedesc[CsDefaultExpression];
 
 # proc add*(parent: var CsDefaultExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDefaultExpression): string =
+method gen*(c: var CsDefaultExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsDefaultExpression)"
 
@@ -1354,7 +1354,7 @@ proc extract*(t: typedesc[CsDefaultSwitchLabel];
 
 # proc add*(parent: var CsDefaultSwitchLabel; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDefaultSwitchLabel): string =
+method gen*(c: var CsDefaultSwitchLabel): string =
   todoimpl
   echo "--> in  gen*(c: var CsDefaultSwitchLabel)"
 
@@ -1373,7 +1373,7 @@ proc extract*(t: typedesc[CsDelegate]; info: Info): CsDelegate = todoimpl
 
 # proc add*(parent: var CsDelegate; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDelegate): string =
+method gen*(c: var CsDelegate): string =
   todoimpl
   echo "--> in  gen*(c: var CsDelegate)"
 
@@ -1393,7 +1393,7 @@ proc extract*(t: typedesc[CsDestructor];
 
 # proc add*(parent: var CsDestructor; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDestructor): string =
+method gen*(c: var CsDestructor): string =
   todoimpl
   echo "--> in  gen*(c: var CsDestructor)"
 
@@ -1414,7 +1414,7 @@ proc extract*(t: typedesc[CsDiscardDesignation];
 
 # proc add*(parent: var CsDiscardDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDiscardDesignation): string =
+method gen*(c: var CsDiscardDesignation): string =
   todoimpl
   echo "--> in  gen*(c: var CsDiscardDesignation)"
 
@@ -1436,7 +1436,7 @@ proc extract*(t: typedesc[CsDoStatement];info: Info): CsDoStatement =
 
 # proc add*(parent: var CsDoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsDoStatement): string =
+method gen*(c: var CsDoStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsDoStatement)"
 
@@ -1458,7 +1458,7 @@ proc extract*(t: typedesc[CsElementAccessExpression];    info: Info): CsElementA
 
 # proc add*(parent: var CsElementAccessExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsElementAccessExpression): string =
+method gen*(c: var CsElementAccessExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsElementAccessExpression)"
 
@@ -1479,7 +1479,7 @@ proc extract*(t: typedesc[CsElementBindingExpression];
 
 # proc add*(parent: var CsElementBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsElementBindingExpression): string =
+method gen*(c: var CsElementBindingExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsElementBindingExpression)"
 
@@ -1499,7 +1499,7 @@ proc extract*(t: typedesc[CsElseClause];
 
 # proc add*(parent: var CsElseClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsElseClause): string =
+method gen*(c: var CsElseClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsElseClause)"
 
@@ -1519,7 +1519,7 @@ proc extract*(t: typedesc[CsEmptyStatement];
 
 # proc add*(parent: var CsEmptyStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEmptyStatement): string =
+method gen*(c: var CsEmptyStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsEmptyStatement)"
 
@@ -1601,7 +1601,7 @@ proc extract*(t: typedesc[CsEqualsValueClause];
 
 # proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEqualsValueClause): string =
+method gen*(c: var CsEqualsValueClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsEqualsValueClause)"
 
@@ -1621,7 +1621,7 @@ proc extract*(t: typedesc[CsEventField];
 
 # proc add*(parent: var CsEventField; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEventField): string =
+method gen*(c: var CsEventField): string =
   todoimpl
   echo "--> in  gen*(c: var CsEventField)"
 
@@ -1640,7 +1640,7 @@ proc extract*(t: typedesc[CsEvent]; info: Info): CsEvent = todoimpl
 
 # proc add*(parent: var CsEvent; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsEvent): string =
+method gen*(c: var CsEvent): string =
   todoimpl
   echo "--> in  gen*(c: var CsEvent)"
 
@@ -1663,7 +1663,7 @@ proc extract*(t: typedesc[CsExplicitInterfaceSpecifier];
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsExplicitInterfaceSpecifier; item: Dummy) "
 #   #   assert false # TODO(add:CsExplicitInterfaceSpecifier)
 
-# proc gen*(c: var CsExplicitInterfaceSpecifier): string = assert false #TODO(gen:CsExplicitInterfaceSpecifier)
+# method gen*(c: var CsExplicitInterfaceSpecifier): string = assert false #TODO(gen:CsExplicitInterfaceSpecifier)
 
 # A method body's line.
 
@@ -1741,7 +1741,7 @@ proc extract*(t: typedesc[CsExternAliasDirective];
 
 # proc add*(parent: var CsExternAliasDirective; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsExternAliasDirective): string =
+method gen*(c: var CsExternAliasDirective): string =
   todoimpl
   echo "--> in  gen*(c: var CsExternAliasDirective)"
 # hmm, it's actually called a property.
@@ -1762,7 +1762,7 @@ proc extract*(t: typedesc[CsFinallyClause];
 
 # proc add*(parent: var CsFinallyClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsFinallyClause): string =
+method gen*(c: var CsFinallyClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsFinallyClause)"
 
@@ -1782,7 +1782,7 @@ proc extract*(t: typedesc[CsFixedStatement];
 
 # proc add*(parent: var CsFixedStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsFixedStatement): string =
+method gen*(c: var CsFixedStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsFixedStatement)"
 
@@ -1802,7 +1802,7 @@ proc extract*(t: typedesc[CsForEachStatement];
 
 # proc add*(parent: var CsForEachStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsForEachStatement): string =
+method gen*(c: var CsForEachStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsForEachStatement)"
 
@@ -1823,7 +1823,7 @@ proc extract*(t: typedesc[CsForEachVariableStatement];
 
 # proc add*(parent: var CsForEachVariableStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsForEachVariableStatement): string =
+method gen*(c: var CsForEachVariableStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsForEachVariableStatement)"
 
@@ -1846,7 +1846,7 @@ proc extract*(t: typedesc[CsForStatement];    info: Info): CsForStatement =
 
 # proc add*(parent: var CsForStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsForStatement): string =
+method gen*(c: var CsForStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsForStatement)"
 
@@ -1866,7 +1866,7 @@ proc extract*(t: typedesc[CsFromClause];
 
 # proc add*(parent: var CsFromClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsFromClause): string =
+method gen*(c: var CsFromClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsFromClause)"
 
@@ -1885,7 +1885,7 @@ proc extract*(t: typedesc[CsGenericName]; info: Info): CsGenericName =
 
 # proc add*(parent: var CsGenericName; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGenericName): string =
+method gen*(c: var CsGenericName): string =
   todoimpl
   echo "--> in  gen*(c: var CsGenericName)"
 
@@ -1905,7 +1905,7 @@ proc extract*(t: typedesc[CsGlobalStatement];
 
 # proc add*(parent: var CsGlobalStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGlobalStatement): string =
+method gen*(c: var CsGlobalStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsGlobalStatement)"
 
@@ -1925,7 +1925,7 @@ proc extract*(t: typedesc[CsGotoStatement];
 
 # proc add*(parent: var CsGotoStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGotoStatement): string =
+method gen*(c: var CsGotoStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsGotoStatement)"
 
@@ -1945,7 +1945,7 @@ proc extract*(t: typedesc[CsGroupClause];
 
 # proc add*(parent: var CsGroupClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsGroupClause): string =
+method gen*(c: var CsGroupClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsGroupClause)"
 
@@ -1987,7 +1987,7 @@ proc extract*(t: typedesc[CsImplicitArrayCreationExpression];
 
 # proc add*(parent: var CsImplicitArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsImplicitArrayCreationExpression): string =
+method gen*(c: var CsImplicitArrayCreationExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsImplicitArrayCreationExpression)"
 
@@ -2008,7 +2008,7 @@ proc extract*(t: typedesc[CsImplicitElementAccess];
 
 # proc add*(parent: var CsImplicitElementAccess; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsImplicitElementAccess): string =
+method gen*(c: var CsImplicitElementAccess): string =
   todoimpl
   echo "--> in  gen*(c: var CsImplicitElementAccess)"
 
@@ -2028,7 +2028,7 @@ proc extract*(t: typedesc[CsIncompleteMember];
 
 # proc add*(parent: var CsIncompleteMember; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsIncompleteMember): string =
+method gen*(c: var CsIncompleteMember): string =
   todoimpl
   echo "--> in  gen*(c: var CsIncompleteMember)"
 
@@ -2100,7 +2100,7 @@ proc extract*(t: typedesc[CsInitializerExpression];
 
 # proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInitializerExpression): string =
+method gen*(c: var CsInitializerExpression): string =
 
   echo "--> in  gen*(c: var CsInitializerExpression)"
   echo "gen CsInitializerExpression, got values:", c.valueReceived
@@ -2128,7 +2128,7 @@ method add*(parent: var CsInterface; item: CsProperty) =
 
 # proc add*(parent: var CsInterface; item: CsProperty; data: AllNeededData) = parent.add(item) # TODO
 
-proc gen*(c: var CsInterface): string =
+method gen*(c: var CsInterface): string =
   todoimpl
   echo "--> in  gen*(c: var CsInterface)"
 
@@ -2149,7 +2149,7 @@ proc extract*(t: typedesc[CsInterpolatedStringExpression];
 
 # proc add*(parent: var CsInterpolatedStringExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolatedStringExpression): string =
+method gen*(c: var CsInterpolatedStringExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsInterpolatedStringExpression)"
 
@@ -2170,7 +2170,7 @@ proc extract*(t: typedesc[CsInterpolatedStringText];
 
 # proc add*(parent: var CsInterpolatedStringText; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolatedStringText): string =
+method gen*(c: var CsInterpolatedStringText): string =
   todoimpl
   echo "--> in  gen*(c: var CsInterpolatedStringText)"
 
@@ -2191,7 +2191,7 @@ proc extract*(t: typedesc[CsInterpolationAlignmentClause];
 
 # proc add*(parent: var CsInterpolationAlignmentClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolationAlignmentClause): string =
+method gen*(c: var CsInterpolationAlignmentClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsInterpolationAlignmentClause)"
 
@@ -2212,7 +2212,7 @@ proc extract*(t: typedesc[CsInterpolationFormatClause];
 
 # proc add*(parent: var CsInterpolationFormatClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolationFormatClause): string =
+method gen*(c: var CsInterpolationFormatClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsInterpolationFormatClause)"
 
@@ -2232,7 +2232,7 @@ proc extract*(t: typedesc[CsInterpolation];
 
 # proc add*(parent: var CsInterpolation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsInterpolation): string =
+method gen*(c: var CsInterpolation): string =
   todoimpl
   echo "--> in  gen*(c: var CsInterpolation)"
 
@@ -2289,7 +2289,7 @@ proc extract*(t: typedesc[CsIsPatternExpression];
 
 # proc add*(parent: var CsIsPatternExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsIsPatternExpression): string =
+method gen*(c: var CsIsPatternExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsIsPatternExpression)"
 
@@ -2309,7 +2309,7 @@ proc extract*(t: typedesc[CsJoinClause];
 
 # proc add*(parent: var CsJoinClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsJoinClause): string =
+method gen*(c: var CsJoinClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsJoinClause)"
 
@@ -2329,7 +2329,7 @@ proc extract*(t: typedesc[CsJoinIntoClause];
 
 # proc add*(parent: var CsJoinIntoClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsJoinIntoClause): string =
+method gen*(c: var CsJoinIntoClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsJoinIntoClause)"
 
@@ -2349,7 +2349,7 @@ proc extract*(t: typedesc[CsLabeledStatement];
 
 # proc add*(parent: var CsLabeledStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLabeledStatement): string =
+method gen*(c: var CsLabeledStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsLabeledStatement)"
 
@@ -2368,7 +2368,7 @@ proc extract*(t: typedesc[CsLetClause]; info: Info): CsLetClause = todoimpl
 
 # proc add*(parent: var CsLetClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLetClause): string =
+method gen*(c: var CsLetClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsLetClause)"
 
@@ -2443,7 +2443,7 @@ proc extract*(t: typedesc[CsLocalFunctionStatement];
 
 # proc add*(parent: var CsLocalFunctionStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLocalFunctionStatement): string =
+method gen*(c: var CsLocalFunctionStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsLocalFunctionStatement)"
 
@@ -2467,7 +2467,7 @@ proc extract*(t: typedesc[CsLockStatement];
 
 # proc add*(parent: var CsLockStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsLockStatement): string =
+method gen*(c: var CsLockStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsLockStatement)"
 
@@ -2488,7 +2488,7 @@ proc extract*(t: typedesc[CsMakeRefExpression];
 
 # proc add*(parent: var CsMakeRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsMakeRefExpression): string =
+method gen*(c: var CsMakeRefExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsMakeRefExpression)"
 
@@ -2509,7 +2509,7 @@ proc extract*(t: typedesc[CsMemberBindingExpression];
 
 # proc add*(parent: var CsMemberBindingExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsMemberBindingExpression): string =
+method gen*(c: var CsMemberBindingExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsMemberBindingExpression)"
 
@@ -2608,7 +2608,7 @@ proc extract*(t: typedesc[CsNameColon]; info: Info): CsNameColon = todoimpl
 
 # proc add*(parent: var CsNameColon; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsNameColon): string =
+method gen*(c: var CsNameColon): string =
   todoimpl
   echo "--> in  gen*(c: var CsNameColon)"
 
@@ -2646,7 +2646,7 @@ method add*(parent: var CsParameter; item: CsGenericName) =
 
 # proc add*(parent: var CsNameEquals; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsNameEquals): string =
+method gen*(c: var CsNameEquals): string =
   todoimpl
   echo "--> in  gen*(c: var CsNameEquals)"
 
@@ -2754,7 +2754,7 @@ method add*(ns: var CsNamespace; use: CsUsingDirective) =
   ns.imports.add use
   ns.lastAddedTo = some(NamespaceParts.Using)
 
-proc gen*(c: CsUsingDirective): string =
+method gen*(c: CsUsingDirective): string =
 
   echo "--> in  gen*(c: CsUsingDirective)"
   result = "import dotnet/" & c.name.toLowerAscii.replace(".", "/")
@@ -2801,7 +2801,7 @@ proc extract*(t: typedesc[CsNullableType];
 
 # proc add*(parent: var CsNullableType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsNullableType): string =
+method gen*(c: var CsNullableType): string =
   todoimpl
   echo "--> in  gen*(c: var CsNullableType)"
 
@@ -2846,7 +2846,7 @@ proc extract*(t: typedesc[CsOmittedArraySizeExpression];    info: Info): CsOmitt
 
 # proc add*(parent: var CsOmittedArraySizeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOmittedArraySizeExpression): string =
+method gen*(c: var CsOmittedArraySizeExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsOmittedArraySizeExpression)"
 
@@ -2867,7 +2867,7 @@ proc extract*(t: typedesc[CsOmittedTypeArgument];
 
 # proc add*(parent: var CsOmittedTypeArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOmittedTypeArgument): string =
+method gen*(c: var CsOmittedTypeArgument): string =
   todoimpl
   echo "--> in  gen*(c: var CsOmittedTypeArgument)"
 
@@ -2886,7 +2886,7 @@ proc extract*(t: typedesc[CsOperator]; info: Info): CsOperator = todoimpl
 
 # proc add*(parent: var CsOperator; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOperator): string =
+method gen*(c: var CsOperator): string =
   todoimpl
   echo "--> in  gen*(c: var CsOperator)"
 
@@ -2906,7 +2906,7 @@ proc extract*(t: typedesc[CsOrderByClause];
 
 # proc add*(parent: var CsOrderByClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOrderByClause): string =
+method gen*(c: var CsOrderByClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsOrderByClause)"
 
@@ -2925,7 +2925,7 @@ proc extract*(t: typedesc[CsOrdering]; info: Info): CsOrdering = todoimpl
 
 # proc add*(parent: var CsOrdering; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsOrdering): string =
+method gen*(c: var CsOrdering): string =
   todoimpl
   echo "--> in  gen*(c: var CsOrdering)"
 
@@ -2971,7 +2971,7 @@ proc extract*(t: typedesc[CsParenthesizedExpression];
 
 # proc add*(parent: var CsParenthesizedExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsParenthesizedExpression): string =
+method gen*(c: var CsParenthesizedExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsParenthesizedExpression)"
 
@@ -2992,7 +2992,7 @@ proc extract*(t: typedesc[CsParenthesizedLambdaExpression];
 
 # proc add*(parent: var CsParenthesizedLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsParenthesizedLambdaExpression): string =
+method gen*(c: var CsParenthesizedLambdaExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsParenthesizedLambdaExpression)"
 
@@ -3013,7 +3013,7 @@ proc extract*(t: typedesc[CsParenthesizedVariableDesignation];
 
 # proc add*(parent: var CsParenthesizedVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsParenthesizedVariableDesignation): string =
+method gen*(c: var CsParenthesizedVariableDesignation): string =
   todoimpl
   echo "--> in  gen*(c: var CsParenthesizedVariableDesignation)"
 
@@ -3033,7 +3033,7 @@ proc extract*(t: typedesc[CsPointerType];
 
 # proc add*(parent: var CsPointerType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsPointerType): string =
+method gen*(c: var CsPointerType): string =
   todoimpl
   echo "--> in  gen*(c: var CsPointerType)"
 
@@ -3055,7 +3055,7 @@ proc extract*(t: typedesc[CsPostfixUnaryExpression];info: Info): CsPostfixUnaryE
 
 # proc add*(parent: var CsPostfixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsPostfixUnaryExpression): string =
+method gen*(c: var CsPostfixUnaryExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsPostfixUnaryExpression)"
 
@@ -3074,7 +3074,7 @@ proc extract*(t: typedesc[CsPredefinedType]; info: Info;
   else: name = ""
   result = newCs(CsPredefinedType, name)
 
-proc gen*(c: var CsPredefinedType): string =
+method gen*(c: var CsPredefinedType): string =
   todoimpl
   echo "--> in  gen*(c: var CsPredefinedType)"
 
@@ -3097,7 +3097,7 @@ proc extract*(t: typedesc[CsPrefixUnaryExpression];
 
 # proc add*(parent: var CsPrefixUnaryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsPrefixUnaryExpression): string =
+method gen*(c: var CsPrefixUnaryExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsPrefixUnaryExpression)"
 
@@ -3142,7 +3142,7 @@ proc extract*(t: typedesc[CsQueryBody]; info: Info): CsQueryBody = todoimpl
 
 # proc add*(parent: var CsQueryBody; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsQueryBody): string =
+method gen*(c: var CsQueryBody): string =
   todoimpl
   echo "--> in  gen*(c: var CsQueryBody)"
 
@@ -3163,7 +3163,7 @@ proc extract*(t: typedesc[CsQueryContinuation];
 
 # proc add*(parent: var CsQueryContinuation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsQueryContinuation): string =
+method gen*(c: var CsQueryContinuation): string =
   todoimpl
   echo "--> in  gen*(c: var CsQueryContinuation)"
 
@@ -3183,7 +3183,7 @@ proc extract*(t: typedesc[CsQueryExpression];
 
 # proc add*(parent: var CsQueryExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsQueryExpression): string =
+method gen*(c: var CsQueryExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsQueryExpression)"
 
@@ -3203,7 +3203,7 @@ proc extract*(t: typedesc[CsRefExpression];
 
 # proc add*(parent: var CsRefExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefExpression): string =
+method gen*(c: var CsRefExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsRefExpression)"
 
@@ -3224,7 +3224,7 @@ proc extract*(t: typedesc[CsRefTypeExpression];
 
 # proc add*(parent: var CsRefTypeExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefTypeExpression): string =
+method gen*(c: var CsRefTypeExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsRefTypeExpression)"
 
@@ -3243,7 +3243,7 @@ proc extract*(t: typedesc[CsRefType]; info: Info): CsRefType = todoimpl
 
 # proc add*(parent: var CsRefType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefType): string =
+method gen*(c: var CsRefType): string =
   todoimpl
   echo "--> in  gen*(c: var CsRefType)"
 
@@ -3264,7 +3264,7 @@ proc extract*(t: typedesc[CsRefValueExpression];
 
 # proc add*(parent: var CsRefValueExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsRefValueExpression): string =
+method gen*(c: var CsRefValueExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsRefValueExpression)"
 
@@ -3326,7 +3326,7 @@ proc extract*(t: typedesc[CsSelectClause];
 
 # proc add*(parent: var CsSelectClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSelectClause): string =
+method gen*(c: var CsSelectClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsSelectClause)"
 
@@ -3345,7 +3345,7 @@ proc extract*(t: typedesc[CsSimpleBaseType]; info: Info): CsSimpleBaseType =
 
 # proc add*(parent: var CsSimpleBaseType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSimpleBaseType): string =
+method gen*(c: var CsSimpleBaseType): string =
   todoimpl
   echo "--> in  gen*(c: var CsSimpleBaseType)"
 
@@ -3367,7 +3367,7 @@ proc extract*(t: typedesc[CsSimpleLambdaExpression];info: Info): CsSimpleLambdaE
 
 # proc add*(parent: var CsSimpleLambdaExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSimpleLambdaExpression): string =
+method gen*(c: var CsSimpleLambdaExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsSimpleLambdaExpression)"
 
@@ -3388,7 +3388,7 @@ proc extract*(t: typedesc[CsSingleVariableDesignation];
 
 # proc add*(parent: var CsSingleVariableDesignation; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSingleVariableDesignation): string =
+method gen*(c: var CsSingleVariableDesignation): string =
   todoimpl
   echo "--> in  gen*(c: var CsSingleVariableDesignation)"
 
@@ -3408,7 +3408,7 @@ proc extract*(t: typedesc[CsSizeOfExpression];
 
 # proc add*(parent: var CsSizeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSizeOfExpression): string =
+method gen*(c: var CsSizeOfExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsSizeOfExpression)"
 
@@ -3429,7 +3429,7 @@ proc extract*(t: typedesc[CsStackAllocArrayCreationExpression];
 
 # proc add*(parent: var CsStackAllocArrayCreationExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsStackAllocArrayCreationExpression): string =
+method gen*(c: var CsStackAllocArrayCreationExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsStackAllocArrayCreationExpression)"
 
@@ -3448,7 +3448,7 @@ proc extract*(t: typedesc[CsStruct]; info: Info): CsStruct = todoimpl
 
 # proc add*(parent: var CsStruct; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsStruct): string =
+method gen*(c: var CsStruct): string =
   todoimpl
   echo "--> in  gen*(c: var CsStruct)"
 
@@ -3468,7 +3468,7 @@ proc extract*(t: typedesc[CsSwitchSection];
 
 # proc add*(parent: var CsSwitchSection; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSwitchSection): string =
+method gen*(c: var CsSwitchSection): string =
   todoimpl
   echo "--> in  gen*(c: var CsSwitchSection)"
 
@@ -3488,7 +3488,7 @@ proc extract*(t: typedesc[CsSwitchStatement];
 
 # proc add*(parent: var CsSwitchStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsSwitchStatement): string =
+method gen*(c: var CsSwitchStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsSwitchStatement)"
 
@@ -3509,7 +3509,7 @@ proc extract*(t: typedesc[CsThisExpression];
 
 # proc add*(parent: var CsThisExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsThisExpression): string =
+method gen*(c: var CsThisExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsThisExpression)"
 
@@ -3529,7 +3529,7 @@ proc extract*(t: typedesc[CsThrowExpression];
 
 # proc add*(parent: var CsThrowExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsThrowExpression): string =
+method gen*(c: var CsThrowExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsThrowExpression)"
 
@@ -3549,7 +3549,7 @@ proc extract*(t: typedesc[CsThrowStatement];
 
 # proc add*(parent: var CsThrowStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsThrowStatement): string =
+method gen*(c: var CsThrowStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsThrowStatement)"
 
@@ -3569,7 +3569,7 @@ proc extract*(t: typedesc[CsTryStatement];
 
 # proc add*(parent: var CsTryStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTryStatement): string =
+method gen*(c: var CsTryStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsTryStatement)"
 
@@ -3589,7 +3589,7 @@ proc extract*(t: typedesc[CsTupleElement];
 
 # proc add*(parent: var CsTupleElement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTupleElement): string =
+method gen*(c: var CsTupleElement): string =
   todoimpl
   echo "--> in  gen*(c: var CsTupleElement)"
 
@@ -3609,7 +3609,7 @@ proc extract*(t: typedesc[CsTupleExpression];
 
 # proc add*(parent: var CsTupleExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTupleExpression): string =
+method gen*(c: var CsTupleExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsTupleExpression)"
 
@@ -3628,7 +3628,7 @@ proc extract*(t: typedesc[CsTupleType]; info: Info): CsTupleType = todoimpl
 
 # proc add*(parent: var CsTupleType; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTupleType): string =
+method gen*(c: var CsTupleType): string =
   todoimpl
   echo "--> in  gen*(c: var CsTupleType)"
 
@@ -3648,7 +3648,7 @@ proc extract*(t: typedesc[CsTypeArgumentList]; info: Info): CsTypeArgumentList =
 
 # proc add*(parent: var CsTypeArgumentList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeArgumentList): string =
+method gen*(c: var CsTypeArgumentList): string =
   todoimpl
   echo "--> in  gen*(c: var CsTypeArgumentList)"
 
@@ -3670,7 +3670,7 @@ proc extract*(t: typedesc[CsTypeConstraint];info: Info): CsTypeConstraint =
 
 # proc add*(parent: var CsTypeConstraint; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeConstraint): string =
+method gen*(c: var CsTypeConstraint): string =
   todoimpl
   echo "--> in  gen*(c: var CsTypeConstraint)"
 
@@ -3690,7 +3690,7 @@ proc extract*(t: typedesc[CsTypeOfExpression]; info: Info): CsTypeOfExpression =
 
 # proc add*(parent: var CsTypeOfExpression; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeOfExpression): string =
+method gen*(c: var CsTypeOfExpression): string =
   todoimpl
   echo "--> in  gen*(c: var CsTypeOfExpression)"
 
@@ -3712,7 +3712,7 @@ proc extract*(t: typedesc[CsTypeParameterConstraintClause]; info: Info): CsTypeP
 
 # proc add*(parent: var CsTypeParameterConstraintClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeParameterConstraintClause): string =
+method gen*(c: var CsTypeParameterConstraintClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsTypeParameterConstraintClause)"
 
@@ -3734,7 +3734,7 @@ proc extract*(t: typedesc[CsTypeParameterList]; info: Info): CsTypeParameterList
 
 # proc add*(parent: var CsTypeParameterList; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeParameterList): string =
+method gen*(c: var CsTypeParameterList): string =
   todoimpl
   echo "--> in  gen*(c: var CsTypeParameterList)"
 
@@ -3756,7 +3756,7 @@ proc extract*(t: typedesc[CsTypeParameter]; info: Info): CsTypeParameter =
 
 # proc add*(parent: var CsTypeParameter; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsTypeParameter): string =
+method gen*(c: var CsTypeParameter): string =
   todoimpl
   echo "--> in  gen*(c: var CsTypeParameter)"
 
@@ -3776,7 +3776,7 @@ proc extract*(t: typedesc[CsUnsafeStatement];
 
 # proc add*(parent: var CsUnsafeStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsUnsafeStatement): string =
+method gen*(c: var CsUnsafeStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsUnsafeStatement)"
 
@@ -3813,7 +3813,7 @@ proc extract*(t: typedesc[CsUsingStatement];
 
 # proc add*(parent: var CsUsingStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsUsingStatement): string =
+method gen*(c: var CsUsingStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsUsingStatement)"
 
@@ -3833,7 +3833,7 @@ proc extract*(t: typedesc[CsWhenClause];
 
 # proc add*(parent: var CsWhenClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsWhenClause): string =
+method gen*(c: var CsWhenClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsWhenClause)"
 
@@ -3853,7 +3853,7 @@ proc extract*(t: typedesc[CsWhereClause];
 
 # proc add*(parent: var CsWhereClause; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsWhereClause): string =
+method gen*(c: var CsWhereClause): string =
   todoimpl
   echo "--> in  gen*(c: var CsWhereClause)"
 
@@ -3873,7 +3873,7 @@ proc extract*(t: typedesc[CsWhileStatement];
 
 # proc add*(parent: var CsWhileStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsWhileStatement): string =
+method gen*(c: var CsWhileStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsWhileStatement)"
 
@@ -3893,7 +3893,7 @@ proc extract*(t: typedesc[CsYieldStatement];
 
 # proc add*(parent: var CsYieldStatement; item: Dummy; data: AllNeededData) = parent.add(item)
 
-proc gen*(c: var CsYieldStatement): string =
+method gen*(c: var CsYieldStatement): string =
   todoimpl
   echo "--> in  gen*(c: var CsYieldStatement)"
 
