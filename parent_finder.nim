@@ -156,6 +156,17 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckElementAccessExpression, ckBracketedArgumentList": true
   of "ckBracketedArgumentList, ckArgument": true
   of "ckIfStatement, ckBreakStatement": true
+  of "ckNameEquals, ckPrefixUnaryExpression": true
+  of "ckMemberAccessExpression, ckThisExpression": true
+  of "ckAssignmentExpression, ckLiteralExpression": true
+  of "ckMethod, ckWhileStatement": true
+  of "ckWhileStatement, ckBinaryExpression": true
+  of "ckExpressionStatement, ckPostfixUnaryExpression": true
+  of "ckIfStatement, ckPrefixUnaryExpression": true
+  of "ckPrefixUnaryExpression, ckInvocationExpression": true
+  of "ckBinaryExpression, ckParenthesizedExpression": true
+  of "ckParenthesizedExpression, ckBinaryExpression": true
+  of "ckArgument, ckInterpolatedStringExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -229,9 +240,12 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     let lastMatch = getLastBlockType(phint.get)
     if lastMatch.isSome:
       let id = lastMatch.get.id.some
+      echo "found parent ID thru Roslyn's parent Kind."
       return (false, id)
 
   echo obj.kind
+  echo "trying to determine parent based on structure, and previous constructs"
+  echo data.sourceCode
   case obj.kind
   # of ckVariableDeclarator: # TODO
   #   echo "obj is a variable declarator"
@@ -507,7 +521,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckPrefixUnaryExpression: # hmm, not the previous but the next one. so just add it.
     let fitting = state.getLastBlock(c=>c.name in [
-        "InitializerExpression", ]) # TODO: add others as needed.
+        "InitializerExpression", "NameEquals" ]) # TODO: add others as needed.
     assert fitting.isSome, $data.simplified
     res = fitting.get.id.some
   of ckBinaryExpression:
