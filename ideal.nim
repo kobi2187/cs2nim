@@ -718,6 +718,10 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       var c = child.binaryExpression
       c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
+  of ckInterpolatedStringExpression:
+    var p = parent.interpolatedStringExpression
+    case child.kind
+    else: assert false, "plz impl for child: " & $child.kind
   else: assert false, "plz impl for parent: " & $parent.kind
 
 

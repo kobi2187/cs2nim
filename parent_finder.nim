@@ -167,6 +167,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckBinaryExpression, ckParenthesizedExpression": true
   of "ckParenthesizedExpression, ckBinaryExpression": true
   of "ckArgument, ckInterpolatedStringExpression": true
+  of "ckInterpolatedStringExpression, ckInterpolatedStringText": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
