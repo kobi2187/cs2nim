@@ -168,6 +168,135 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParenthesizedExpression, ckBinaryExpression": true
   of "ckArgument, ckInterpolatedStringExpression": true
   of "ckInterpolatedStringExpression, ckInterpolatedStringText": true
+  of "ckMethod, ckArrayType": true
+  of "ckIfStatement, ckThrowStatement": true
+  of "ckThrowStatement, ckObjectCreationExpression": true
+  of "ckArgument, ckConditionalExpression": true
+  of "ckConditionalExpression, ckParenthesizedExpression": true
+  of "ckConditionalExpression, ckLiteralExpression": true
+  of "ckConditionalExpression, ckMemberAccessExpression": true
+  of "ckMemberAccessExpression, ckPredefinedType": true
+  of "ckEqualsValueClause, ckArrayCreationExpression": true
+  of "ckArrayCreationExpression, ckArrayType": true
+  of "ckIfStatement, ckExpressionStatement": true
+  of "ckAssignmentExpression, ckArrayCreationExpression": true
+  of "ckArrayCreationExpression, ckInitializerExpression": true
+  of "ckInitializerExpression, ckArrayCreationExpression": true
+  of "ckMethod, ckUsingStatement": true
+  of "ckUsingStatement, ckVariable": true
+  of "ckUsingStatement, ckUsingStatement": true
+  of "ckUsingStatement, ckExpressionStatement": true
+  of "ckAssignmentExpression, ckInvocationExpression": true
+  of "ckElementAccessExpression, ckElementAccessExpression": true
+  of "ckArgument, ckParenthesizedLambdaExpression": true
+  of "ckParenthesizedLambdaExpression, ckParameterList": true
+  of "ckMethod, ckTryStatement": true
+  of "ckTryStatement, ckCatchClause": true
+  of "ckCatchClause, ckCatch": true
+  of "ckAssignmentExpression, ckAssignmentExpression": true
+  of "ckAccessor, ckReturnStatement": true
+  of "ckReturnStatement, ckElementAccessExpression": true
+  of "ckProperty, ckExplicitInterfaceSpecifier": true
+  of "ckArrowExpressionClause, ckBinaryExpression": true
+  of "ckPrefixUnaryExpression, ckObjectCreationExpression": true
+  of "ckMethod, ckThrowStatement": true
+  of "ckTypeArgumentList, ckArrayType": true
+  of "ckForStatement, ckPrefixUnaryExpression": true
+  of "ckParenthesizedLambdaExpression, ckMemberAccessExpression": true
+  of "ckSimpleLambdaExpression, ckBinaryExpression": true
+  of "ckProperty, ckGenericName": true
+  of "ckMemberAccessExpression, ckTypeOfExpression": true
+  of "ckSimpleLambdaExpression, ckInvocationExpression": true
+  of "ckAssignmentExpression, ckInitializerExpression": true
+  of "ckSimpleLambdaExpression, ckAssignmentExpression": true
+  of "ckArgument, ckTypeOfExpression": true
+  of "ckWhileStatement, ckExpressionStatement": true
+  of "ckAccessor, ckArrowExpressionClause": true
+  of "ckArgument, ckThisExpression": true
+  of "ckEqualsValueClause, ckConditionalExpression": true
+  of "ckMemberAccessExpression, ckParenthesizedExpression": true
+  of "ckIfStatement, ckMemberAccessExpression": true
+  of "ckProperty, ckEqualsValueClause": true
+  of "ckProperty, ckLocalDeclarationStatement": true
+  of "ckUsingStatement, ckMemberAccessExpression": true
+  of "ckInterpolatedStringExpression, ckInterpolation": true
+  of "ckInitializerExpression, ckParenthesizedLambdaExpression": true
+  of "ckParenthesizedLambdaExpression, ckAssignmentExpression": true
+  of "ckEqualsValueClause, ckParenthesizedLambdaExpression": true
+  of "ckArgument, ckCastExpression": true
+  of "ckArrayRankSpecifier, ckLiteralExpression": true
+  of "ckArrowExpressionClause, ckObjectCreationExpression": true
+  of "ckAssignmentExpression, ckThisExpression": true
+  of "ckBinaryExpression, ckElementAccessExpression": true
+  of "ckMethod, ckTypeParameterList": true
+  of "ckReturnStatement, ckCastExpression": true
+  of "ckAssignmentExpression, ckBinaryExpression": true
+  of "ckReturnStatement, ckConditionalExpression": true
+  of "ckReturnStatement, ckAssignmentExpression": true
+  of "ckParenthesizedLambdaExpression, ckPostfixUnaryExpression": true
+  of "ckEqualsValueClause, ckCastExpression": true
+  of "ckParenthesizedLambdaExpression, ckObjectCreationExpression": true
+  of "ckForStatement, ckForStatement": true
+  of "ckAssignmentExpression, ckSimpleLambdaExpression": true
+  of "ckBinaryExpression, ckPrefixUnaryExpression": true
+  of "ckIfStatement, ckReturnStatement": true
+  of "ckParenthesizedLambdaExpression, ckConditionalExpression": true
+  of "ckProperty, ckArrayType": true
+  of "ckAssignmentExpression, ckParenthesizedLambdaExpression": true
+  of "ckCastExpression, ckParenthesizedExpression": true
+  of "ckProperty, ckArrowExpressionClause": true
+  of "ckBinaryExpression, ckCastExpression": true
+  of "ckSimpleLambdaExpression, ckMemberAccessExpression": true
+  of "ckConditionalExpression, ckBinaryExpression": true
+  of "ckArrowExpressionClause, ckArrayCreationExpression": true
+  of "ckCastExpression, ckPredefinedType": true
+  of "ckMemberAccessExpression, ckLiteralExpression": true
+  of "ckUsingStatement, ckInvocationExpression": true
+  of "ckArrowExpressionClause, ckCastExpression": true
+  of "ckPrefixUnaryExpression, ckParenthesizedExpression": true
+  of "ckExpressionStatement, ckLiteralExpression": true
+  of "ckReturnStatement, ckInterpolatedStringExpression": true
+  of "ckEnum, ckBaseList": true
+  of "ckReturnStatement, ckArrayCreationExpression": true
+  of "ckCastExpression, ckInvocationExpression": true
+  of "ckMemberAccessExpression, ckInterpolatedStringExpression": true
+  of "ckParenthesizedLambdaExpression, ckInvocationExpression": true
+  of "ckPostfixUnaryExpression, ckMemberAccessExpression": true
+  of "ckMethod, ckExplicitInterfaceSpecifier": true
+  of "ckParenthesizedLambdaExpression, ckBinaryExpression": true
+  of "ckArgument, ckElementAccessExpression": true
+  of "ckArrayType, ckGenericName": true
+  of "ckEqualsValueClause, ckPrefixUnaryExpression": true
+  of "ckArrowExpressionClause, ckAssignmentExpression": true
+  of "ckPrefixUnaryExpression, ckMemberAccessExpression": true
+  of "ckArgument, ckArrayCreationExpression": true
+  of "ckAssignmentExpression, ckElementAccessExpression": true
+  of "ckForStatement, ckExpressionStatement": true
+  of "ckArrowExpressionClause, ckMemberAccessExpression": true
+  of "ckBinaryExpression, ckGenericName": true
+  of "ckWhileStatement, ckInvocationExpression": true
+  of "ckEqualsValueClause, ckElementAccessExpression": true
+  of "ckAssignmentExpression, ckInterpolatedStringExpression": true
+  of "ckParenthesizedExpression, ckPrefixUnaryExpression": true
+  of "ckArrowExpressionClause, ckLiteralExpression": true
+  of "ckCastExpression, ckMemberAccessExpression": true
+  of "ckReturnStatement, ckTypeOfExpression": true
+  of "ckInitializerExpression, ckInvocationExpression": true
+  of "ckArrowExpressionClause, ckConditionalExpression": true
+  of "ckNamespace, ckMethod": true
+  of "ckAssignmentExpression, ckConditionalExpression": true
+  of "ckEqualsValueClause, ckTypeOfExpression": true
+  of "ckForStatement, ckAssignmentExpression": true
+  of "ckArrayRankSpecifier, ckBinaryExpression": true
+  of "ckAssignmentExpression, ckPrefixUnaryExpression": true
+  of "ckSimpleLambdaExpression, ckObjectCreationExpression": true
+  of "ckLiteralExpression, ckBinaryExpression": true
+  of "ckReturnStatement, ckParenthesizedExpression": true
+  of "ckBinaryExpression, ckPredefinedType": true
+  of "ckExpressionStatement, ckObjectCreationExpression": true
+  of "ckParenthesizedExpression, ckConditionalExpression": true
+  of "ckArrowExpressionClause, ckInterpolatedStringExpression": true
+  of "ckParenthesizedLambdaExpression, ckPrefixUnaryExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -217,6 +346,7 @@ proc parentHint(parentRawKind: int): Option[string] =
   let key = parentRawKind
   if parentTable.hasKey(key):
     result = some(parentTable[key])
+    echo "found: " & result.get
   else:
     result = none(string)
 
@@ -238,11 +368,13 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   let phint = parentHint(obj)
   if phint.isSome():
-    let lastMatch = getLastBlockType(phint.get)
-    if lastMatch.isSome:
-      let id = lastMatch.get.id.some
-      echo "found parent ID thru Roslyn's parent Kind."
-      return (false, id)
+    if phint.get notin ["IdentifierName","QualifiedName","BlockStarts"]:
+      let lastMatch = getLastBlockType(phint.get)
+      if lastMatch.isSome:
+        let id = lastMatch.get.id.some
+        echo "found parent ID thru Roslyn's parent Kind."
+        return (false, id)
+      else: assert false, "couldn't find it (`" & phint.get & "`) in last blocks even though we should have"
 
   echo obj.kind
   echo "trying to determine parent based on structure, and previous constructs"
@@ -329,7 +461,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckReturnStatement:
     echo "obj is ReturnStatement"
     echo "we should be inside ctor, method, indexer, or property"
-    res = data.idLastClassPart()
+    # res = data.idLastClassPart()
+    let m = getLastBlockTypes(@["AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration","ConstructorDeclaration"])
+    assert m.isSome
+    res =m.get.id.some
 
   of ckArgumentList:
     echo "object is ArgumentList"
@@ -431,15 +566,18 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert data.classLastAdded in [ClassParts.Properties, ClassParts.Indexer]
     res = data.idLastClassPart
   of ckAccessor: # find its parent:AccessorList
-    assert data.classLastAdded in [ClassParts.Properties, ClassParts.Indexer]
-    case data.classLastAdded
-    of Properties:
-      res = data.lastProp.acclist.id
-    of Indexer:
-      assert data.lastClass.hasIndexer
-      assert data.lastClass.indexer.aclist != nil
-      res = data.lastClass.indexer.aclist.id
-    else: assert false, " where else? " & $data.classLastAdded
+    let lastMatch = getLastBlockType("AccessorList")
+    assert lastMatch.isSome
+    res = lastMatch.get.id.some
+    # assert data.classLastAdded in [ClassParts.Properties, ClassParts.Indexer]
+    # case data.classLastAdded
+    # of Properties:
+    #   res = data.lastProp.acclist.id
+    # of Indexer:
+    #   assert data.lastClass.hasIndexer
+    #   assert data.lastClass.indexer.aclist != nil
+    #   res = data.lastClass.indexer.aclist.id
+    # else: assert false, " where else? " & $data.classLastAdded
   of ckMemberAccessExpression:
     res = data.lastBlockType(@["VariableDeclarator", "InvocationExpression"])
     # if data.lastLine.isComplete: # variable declarator right hand side is fine,

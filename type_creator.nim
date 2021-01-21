@@ -1307,6 +1307,11 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     var a = extract(CsTypeOfExpression, info)
     setMoreForObject(a,id,data,info)
     result = Construct(kind: ckTypeOfExpression, typeOfExpression: a)
+  of "CatchDeclaration":
+    var a = extract(CsCatch, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckCatch, catch: a)
+
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:
     result.id = some(id)

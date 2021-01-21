@@ -1,7 +1,9 @@
+{.experimental: "codeReordering".}
 import ../types
 import ../state
 
 import uuids, options, sets, tables
+
 
 type ClassParts* {.pure.} = enum
   Methods, Ctors, Properties, Indexer
@@ -14,6 +16,7 @@ type NamespaceParts* {.pure.} = enum
 type IAssignable = ref object of BodyExpr
 type CsAccessor* = ref object of CsObject
   kind*: string # get or set
+  statements*: seq[BodyExpr]
   statementsTxt*: string
 type CsAccessorList* = ref object of CsObject
   hasDefaultGet*: bool
@@ -52,16 +55,17 @@ type CsAttributeTargetSpecifier* = ref object of CsObject #TODO(type:CsAttribute
 type CsAwaitExpression* = ref object of CsObject #TODO(type:CsAwaitExpression)
 type CsBaseExpression* = ref object of CsObject #TODO(type:CsBaseExpression)
 
-type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
-
 type CsBaseList* = ref object of CsObject
   baseList*: seq[string]
   baseList2*: seq[CsSimpleBaseType]
+
 type CsBinaryExpression* = ref object of IAssignable
   left*: string
   op*: string
   right*: string
 type CsBracketedArgumentList* = ref object of CsObject #TODO(type:CsBracketedArgumentList)
+  args*:seq[CsArgument]
+
 type CsBreakStatement* = ref object of CsObject #TODO(type:CsBreakStatement)
 type CsCasePatternSwitchLabel* = ref object of CsObject #TODO(type:CsCasePatternSwitchLabel)
 type CsCaseSwitchLabel* = ref object of CsObject #TODO(type:CsCaseSwitchLabel)
@@ -85,6 +89,9 @@ type CsTypeArgumentList* = ref object of CsObject #TODO(type:CsTypeArgumentList)
   types*: seq[string]
 type CsGenericName* = ref object of CsObject
   typearglist*: CsTypeArgumentList
+type CsSimpleBaseType* = ref object of CsObject #TODO(type:CsSimpleBaseType)
+  genericName* : CsGenericName
+
 
 type CsParameter* = ref object of CsObject
   ptype*: string
@@ -131,7 +138,10 @@ type CsIndexer* = ref object of CsObject
   hasDefaultSet*: bool
   hasBody*: bool
   # name*: string  # no, there is no name, but there is an AccessorList, or Accessor, that provide the function body.
+type CsTypeParameter* = ref object of CsObject
+  param*:string # in, out, ref ...
 type CsClass* = ref object of CsObject
+  genericTypeList*: seq[CsTypeParameter]
   nsParent*: string
   extends*: string
   implements*: seq[string]
@@ -159,7 +169,8 @@ type CsDelegate* = ref object of CsObject #TODO(type:CsDelegate)
 type CsDestructor* = ref object of CsObject #TODO(type:CsDestructor)
 type CsDiscardDesignation* = ref object of CsObject #TODO(type:CsDiscardDesignation)
 type CsDoStatement* = ref object of CsObject #TODO(type:CsDoStatement)
-type CsElementAccessExpression* = ref object of CsObject #TODO(type:CsElementAccessExpression)
+type CsElementAccessExpression* = ref object of BodyExpr #TODO(type:CsElementAccessExpression)
+  value*:CsBracketedArgumentList
 type CsElementBindingExpression* = ref object of CsObject #TODO(type:CsElementBindingExpression)
 type CsElseClause* = ref object of CsObject #TODO(type:CsElseClause)
 type CsEmptyStatement* = ref object of CsObject #TODO(type:CsEmptyStatement)
@@ -316,8 +327,9 @@ type CsTupleType* = ref object of CsObject #TODO(type:CsTupleType)
 type CsTypeConstraint* = ref object of CsObject #TODO(type:CsTypeConstraint)
 type CsTypeOfExpression* = ref object of CsObject #TODO(type:CsTypeOfExpression)
 type CsTypeParameterConstraintClause* = ref object of CsObject #TODO(type:CsTypeParameterConstraintClause)
-type CsTypeParameterList* = ref object of CsObject #TODO(type:CsTypeParameterList)
-type CsTypeParameter* = ref object of CsObject #TODO(type:CsTypeParameter)
+
+type CsTypeParameterList* = ref object of CsObject
+  theTypes*:seq[CsTypeParameter]
 type CsUnsafeStatement* = ref object of CsObject #TODO(type:CsUnsafeStatement)
 type CsUsingStatement* = ref object of CsObject #TODO(type:CsUsingStatement)
 type CsWhenClause* = ref object of CsObject #TODO(type:CsWhenClause)
@@ -362,3 +374,4 @@ type CsUnaryPattern* = ref object of CsObject
 type CsVarPattern* = ref object of CsObject
 type CsWithExpression* = ref object of CsObject
 type CsImplicitStackAllocArrayCreationExpression * = ref object of CsObject
+
