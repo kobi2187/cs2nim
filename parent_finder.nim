@@ -10,6 +10,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   result = case $parent.kind & ", " & $item.kind
   of "ckNamespace, ckClass": true
   of "ckClass, ckField": true
+  of "ckParenthesizedExpression, ckSimpleLambdaExpression": true
   of "ckNamespace, ckEnum": true
   of "ckEnum, ckEnumMember": true
   of "ckClass, ckMethod": true
@@ -81,7 +82,25 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckVariable, ckVariableDeclarator": true
   of "ckEqualsValueClause, ckLiteralExpression": true
   of "ckInvocationExpression, ckArgumentList": true
+  of "ckConditionalExpression, ckPrefixUnaryExpression": true
+  of "ckSimpleLambdaExpression, ckConditionalExpression": true
+  of "ckInitializerExpression, ckConditionalExpression": true
+  of "ckConditionalExpression, ckThisExpression": true
+  of "ckArrayRankSpecifier, ckMemberAccessExpression": true
+  of "ckInitializerExpression, ckTypeOfExpression": true
+  of "ckEqualsValueClause, ckParenthesizedExpression": true
+  of "ckCastExpression, ckElementAccessExpression": true
+  of "ckCastExpression, ckObjectCreationExpression": true
+  of "ckConstructor, ckReturnStatement": true
+  of "ckCastExpression, ckCastExpression": true
+  of "ckConditionalExpression, ckObjectCreationExpression": true
   of "ckArgumentList, ckArgument": true
+  of "ckPostfixUnaryExpression, ckElementAccessExpression": true
+  of "ckIfStatement, ckElementAccessExpression": true
+  of "ckElementAccessExpression, ckParenthesizedExpression": true
+  of "ckPostfixUnaryExpression, ckInvocationExpression": true
+  of "ckParenthesizedLambdaExpression, ckTypeOfExpression": true
+  of "ckInitializerExpression, ckSimpleLambdaExpression": true
   of "ckArgument, ckLiteralExpression": true
   of "ckTypeArgumentList, ckPredefinedType": true
   of "ckEqualsValueClause, ckObjectCreationExpression": true
@@ -212,6 +231,53 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckArgument, ckTypeOfExpression": true
   of "ckWhileStatement, ckExpressionStatement": true
   of "ckAccessor, ckArrowExpressionClause": true
+  of "ckParenthesizedLambdaExpression, ckCastExpression": true
+  of "ckExplicitInterfaceSpecifier, ckGenericName": true
+  of "ckReturnStatement, ckPostfixUnaryExpression": true
+  of "ckArgument, ckPostfixUnaryExpression": true
+  of "ckNamespace, ckExternAliasDirective": true
+  of "ckParenthesizedExpression, ckObjectCreationExpression": true
+  of "ckSimpleLambdaExpression, ckSimpleLambdaExpression": true
+  of "ckParenthesizedExpression, ckArrayCreationExpression": true
+  of "ckSimpleBaseType, ckPredefinedType": true
+  of "ckSimpleLambdaExpression, ckParenthesizedExpression": true
+  of "ckEqualsValueClause, ckAssignmentExpression": true
+  of "ckIfStatement, ckParenthesizedExpression": true
+  of "ckElementAccessExpression, ckObjectCreationExpression": true
+  of "ckInterpolation, ckPrefixUnaryExpression": true
+  of "ckBinaryExpression, ckThisExpression": true
+  of "ckInvocationExpression, ckLiteralExpression": true
+  of "ckSimpleLambdaExpression, ckLiteralExpression": true
+  of "ckForStatement, ckIfStatement": true
+  of "ckConditionalExpression, ckTypeOfExpression": true
+  of "ckAssignmentExpression, ckParenthesizedExpression": true
+  of "ckInterpolation, ckLiteralExpression": true
+  of "ckIfStatement, ckConditionalExpression": true
+  of "ckInterpolation, ckBinaryExpression": true
+  of "ckParenthesizedExpression, ckLiteralExpression": true
+  of "ckBinaryExpression, ckPostfixUnaryExpression": true
+  of "ckTypeOfExpression, ckArrayType": true
+  of "ckConditionalExpression, ckInterpolatedStringExpression": true
+  of "ckMethod, ckCastExpression": true
+  of "ckCastExpression, ckPrefixUnaryExpression": true
+  of "ckParenthesizedLambdaExpression, ckParenthesizedLambdaExpression": true
+  of "ckPredefinedType, ckGenericName": true
+  of "ckMemberAccessExpression, ckArrayCreationExpression": true
+  of "ckUsingStatement, ckIfStatement": true
+  of "ckElementAccessExpression, ckThisExpression": true
+  of "ckParenthesizedLambdaExpression, ckLiteralExpression": true
+  of "ckArrowExpressionClause, ckParenthesizedLambdaExpression": true
+  of "ckIfStatement, ckIfStatement": true
+  of "ckConstructor, ckArrowExpressionClause": true
+  of "ckInitializerExpression, ckBinaryExpression": true
+  of "ckBinaryExpression, ckArrayType": true
+  of "ckThrowStatement, ckLiteralExpression": true
+  of "ckUsingStatement, ckAssignmentExpression": true
+  of "ckUsingStatement, ckCastExpression": true
+  of "ckPrefixUnaryExpression, ckCastExpression": true
+  of "ckIfStatement, ckLiteralExpression": true
+  of "ckSimpleLambdaExpression, ckPrefixUnaryExpression": true
+  of "ckInvocationExpression, ckInvocationExpression": true
   of "ckArgument, ckThisExpression": true
   of "ckEqualsValueClause, ckConditionalExpression": true
   of "ckMemberAccessExpression, ckParenthesizedExpression": true
@@ -297,6 +363,38 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParenthesizedExpression, ckConditionalExpression": true
   of "ckArrowExpressionClause, ckInterpolatedStringExpression": true
   of "ckParenthesizedLambdaExpression, ckPrefixUnaryExpression": true
+  of "ckParenthesizedExpression, ckParenthesizedLambdaExpression": true
+  of "ckReturnStatement, ckSimpleLambdaExpression": true
+  of "ckWhileStatement, ckLiteralExpression": true
+  of "ckArrowExpressionClause, ckTypeOfExpression": true
+  of "ckReturnStatement, ckPrefixUnaryExpression": true
+  of "ckReturnStatement, ckThisExpression": true
+  of "ckParenthesizedExpression, ckInvocationExpression": true
+  of "ckReturnStatement, ckParenthesizedLambdaExpression": true
+  of "ckMethod, ckTypeParameterConstraintClause": true
+  of "ckInterpolation, ckMemberAccessExpression": true
+  of "ckTypeOfExpression, ckGenericName": true
+  of "ckElementAccessExpression, ckInvocationExpression": true
+  of "ckCastExpression, ckArrayType": true
+  of "ckCastExpression, ckGenericName": true
+  of "ckCastExpression, ckLiteralExpression": true
+  of "ckConditionalExpression, ckInvocationExpression": true
+  of "ckInterpolation, ckInvocationExpression": true
+  of "ckBinaryExpression, ckObjectCreationExpression": true
+  of "ckElementAccessExpression, ckMemberAccessExpression": true
+  of "ckWhileStatement, ckPrefixUnaryExpression": true
+  of "ckExpressionStatement, ckPrefixUnaryExpression": true
+  of "ckConditionalExpression, ckCastExpression": true
+  of "ckEqualsValueClause, ckInterpolatedStringExpression": true
+  of "ckParenthesizedExpression, ckAssignmentExpression": true
+  of "ckEqualsValueClause, ckSimpleLambdaExpression": true
+  of "ckArgument, ckParenthesizedExpression": true
+  of "ckParenthesizedExpression, ckMemberAccessExpression": true
+  of "ckInvocationExpression, ckElementAccessExpression": true
+  of "ckParenthesizedExpression, ckCastExpression": true
+  of "ckTypeOfExpression, ckPredefinedType": true
+  of "ckInitializerExpression, ckCastExpression": true
+  of "ckParenthesizedExpression, ckPostfixUnaryExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar
@@ -377,6 +475,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
       else: assert false, "couldn't find it (`" & phint.get & "`) in last blocks even though we should have"
 
   echo obj.kind
+  echo "No parent set from C# side"
   echo "trying to determine parent based on structure, and previous constructs"
   echo data.sourceCode
   case obj.kind
