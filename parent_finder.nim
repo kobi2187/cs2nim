@@ -9,6 +9,8 @@ import common_utils
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
   of "ckNamespace, ckClass": true
+  of "ckParenthesizedExpression, ckAwaitExpression": true
+  of "ckMemberAccessExpression, ckAliasQualifiedName": true
   of "ckClass, ckField": true
   of "ckNamespace, ckDelegate": true
   of "ckParenthesizedExpression, ckSimpleLambdaExpression": true
@@ -90,6 +92,32 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckArrayRankSpecifier, ckMemberAccessExpression": true
   of "ckInitializerExpression, ckTypeOfExpression": true
   of "ckEqualsValueClause, ckParenthesizedExpression": true
+  of "ckCastExpression, ckConditionalAccessExpression": true
+  of "ckNamespace, ckStruct": true
+  of "ckSimpleLambdaExpression, ckQueryExpression": true
+  of "ckArgument, ckDeclarationExpression": true
+  of "ckTypeArgumentList, ckTupleType": true
+  of "ckEqualsValueClause, ckAnonymousObjectCreationExpression": true
+  of "ckBinaryExpression, ckIsPatternExpression": true
+  of "ckArgument, ckAwaitExpression": true
+  of "ckIfStatement, ckIsPatternExpression": true
+  of "ckClass, ckStruct": true
+  of "ckMethod, ckLockStatement": true
+  of "ckAssignmentExpression, ckImplicitArrayCreationExpression": true
+  of "ckForStatement, ckEmptyStatement": true
+  of "ckAssignmentExpression, ckImplicitElementAccess": true
+  of "ckConditionalExpression, ckAwaitExpression": true
+  of "ckEqualsValueClause, ckQueryExpression": true
+  of "ckVariable, ckRefType": true
+  of "ckMethod, ckTupleType": true
+  of "ckVariable, ckPointerType": true
+  of "ckExpressionStatement, ckConditionalAccessExpression": true
+  of "ckIfStatement, ckYieldStatement": true
+  of "ckParenthesizedExpression, ckQueryExpression": true
+  of "ckIfStatement, ckContinueStatement": true
+  of "ckUsingDirective, ckAliasQualifiedName": true
+  of "ckAssignmentExpression, ckDeclarationExpression": true
+  of "ckBinaryExpression, ckThrowExpression": true
   of "ckCastExpression, ckElementAccessExpression": true
   of "ckCastExpression, ckObjectCreationExpression": true
   of "ckConstructor, ckReturnStatement": true
@@ -482,6 +510,45 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckInterpolation, ckCastExpression": true
   of "ckEqualsValueClause, ckThisExpression": true
   of "ckNamespace, ckField": true
+  of "ckReturnStatement, ckImplicitArrayCreationExpression": true
+  of "ckDelegate, ckParameterList": true
+  of "ckArgument, ckAnonymousMethodExpression": true
+  of "ckTypeArgumentList, ckNullableType": true
+  of "ckBinaryExpression, ckConditionalAccessExpression": true
+  of "ckArgument, ckNameColon": true
+  of "ckBinaryExpression, ckAwaitExpression": true
+  of "ckProperty, ckNullableType": true
+  of "ckMethod, ckForEachStatement": true
+  of "ckDelegate, ckGenericName": true
+  of "ckArgument, ckImplicitArrayCreationExpression": true
+  of "ckVariable, ckNullableType": true
+  of "ckEqualsValueClause, ckImplicitArrayCreationExpression": true
+  of "ckIfStatement, ckElseClause": true
+  of "ckClass, ckDelegate": true
+  of "ckAssignmentExpression, ckAwaitExpression": true
+  of "ckParenthesizedLambdaExpression, ckAwaitExpression": true
+  of "ckExpressionStatement, ckAwaitExpression": true
+  of "ckMemberAccessExpression, ckBaseExpression": true
+  of "ckEqualsValueClause, ckAnonymousMethodExpression": true
+  of "ckInvocationExpression, ckCheckedExpression": true
+  of "ckMethod, ckNullableType": true
+  of "ckEqualsValueClause, ckCheckedExpression": true
+  of "ckMethod, ckSwitchStatement": true
+  of "ckArgument, ckBaseExpression": true
+  of "ckArrowExpressionClause, ckConditionalAccessExpression": true
+  of "ckTryStatement, ckFinallyClause": true
+  of "ckAssignmentExpression, ckAnonymousMethodExpression": true
+  of "ckDelegate, ckPredefinedType": true
+  of "ckEqualsValueClause, ckConditionalAccessExpression": true
+  of "ckElementAccessExpression, ckBaseExpression": true
+  of "ckEqualsValueClause, ckAwaitExpression": true
+  of "ckBinaryExpression, ckCheckedExpression": true
+  of "ckParameter, ckNullableType": true
+  of "ckNamespace, ckInterface": true
+  of "ckClass, ckInterface": true
+  of "ckMethod, ckYieldStatement": true
+  of "ckArrowExpressionClause, ckImplicitArrayCreationExpression": true
+  of "ckCastExpression, ckNullableType": true
   of "ckElementAccessExpression, ckPredefinedType": true
   of "ckArrowExpressionClause, ckPostfixUnaryExpression": true
   of "ckIfStatement, ckUsingStatement": true
@@ -501,6 +568,47 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckExpressionStatement, ckBinaryExpression": true
   of "ckArrowExpressionClause, ckThisExpression": true
   of "ckSimpleBaseType, ckArrayType": true
+  of "ckArrowExpressionClause, ckThrowExpression": true
+  of "ckIfStatement, ckForEachStatement": true
+  of "ckEqualsValueClause, ckDefaultExpression": true
+  of "ckAssignmentExpression, ckDefaultExpression": true
+  of "ckParameter, ckPointerType": true
+  of "ckParenthesizedExpression, ckIsPatternExpression": true
+  of "ckClass, ckIncompleteMember": true
+  of "ckArgument, ckAnonymousObjectCreationExpression": true
+  of "ckMethod, ckPointerType": true
+  of "ckAssignmentExpression, ckConditionalAccessExpression": true
+  of "ckInterpolation, ckInterpolationFormatClause": true
+  of "ckReturnStatement, ckCheckedExpression": true
+  of "ckSimpleLambdaExpression, ckAnonymousObjectCreationExpression": true
+  of "ckSimpleBaseType, ckAliasQualifiedName": true
+  of "ckDelegate, ckTypeParameterList": true
+  of "ckArrayType, ckNullableType": true
+  of "ckCastExpression, ckPointerType": true
+  of "ckUsingStatement, ckEmptyStatement": true
+  of "ckNamespace, ckIncompleteMember": true
+  of "ckReturnStatement, ckConditionalAccessExpression": true
+  of "ckArgument, ckDefaultExpression": true
+  of "ckCastExpression, ckAwaitExpression": true
+  of "ckWhileStatement, ckEmptyStatement": true
+  of "ckIfStatement, ckEmptyStatement": true
+  of "ckTypeArgumentList, ckOmittedTypeArgument": true
+  of "ckArrayType, ckTupleType": true
+  of "ckUsingStatement, ckAwaitExpression": true
+  of "ckVariable, ckAliasQualifiedName": true
+  of "ckArgument, ckCheckedExpression": true
+  of "ckBinaryExpression, ckNullableType": true
+  of "ckReturnStatement, ckSwitchExpression": true
+  of "ckParenthesizedLambdaExpression, ckAnonymousObjectCreationExpression": true
+  of "ckArgument, ckIsPatternExpression": true
+  of "ckArrowExpressionClause, ckAwaitExpression": true
+  of "ckUsingStatement, ckConditionalAccessExpression": true
+  of "ckMethod, ckContinueStatement": true
+  of "ckTypeOfExpression, ckPointerType": true
+  of "ckAssignmentExpression, ckCheckedExpression": true
+  of "ckArgument, ckImplicitObjectCreationExpression": true
+  of "ckArgument, ckConditionalAccessExpression": true
+  of "ckAssignmentExpression, ckImplicitObjectCreationExpression": true
   else: raise newException(Exception, "cfits is missing:  of \"" &
       $parent.kind & ", " & $item.kind & "\": true")
 import state, sugar

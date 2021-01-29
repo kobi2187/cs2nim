@@ -1125,7 +1125,7 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
 
     result = Construct(kind: ckFunctionPointerType, functionPointerType: a)
   of "ImplicitObjectCreationExpression":
-    var a = extract(CsImplicitObjectCreationExpression, info, data);
+    var a = extract(CsImplicitObjectCreationExpression, info);
     # a.id = some(id); assert not a.typ.isEmptyOrWhitespace;
     # a.src = data.sourceCode
     setMoreForObject(a,id,data,info)
