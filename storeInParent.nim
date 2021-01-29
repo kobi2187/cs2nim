@@ -1221,9 +1221,6 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckSimpleLambdaExpression:
       var c = child.simpleLambdaExpression
       c.parentId = p.id; p.add c
-    of ckConditionalExpression:
-      var c = child.conditionalExpression
-      c.parentId = p.id; p.add c
     of ckElementAccessExpression:
       var c = child.elementAccessExpression
       c.parentId = p.id; p.add c

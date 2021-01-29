@@ -206,3 +206,39 @@ method add*(parent: var CsCastExpression; item: CsNullableType) =
   echo "in method add*(parent: var CsCastExpression; item: CsNullableType)"
   todoimpl # TODO(add: CsCastExpression, CsNullableType)
 
+method add*(parent: var CsArrowExpressionClause; item: CsElementAccessExpression) =
+  echo "in method add*(parent: var CsArrowExpressionClause; item: CsElementAccessExpression)"
+  todoimpl # TODO(add: CsArrowExpressionClause, CsElementAccessExpression)
+
+method add*(parent: var CsSimpleLambdaExpression; item: CsAnonymousObjectCreationExpression) =
+  echo "in method add*(parent: var CsSimpleLambdaExpression; item: CsAnonymousObjectCreationExpression)"
+  todoimpl # TODO(add: CsSimpleLambdaExpression, CsAnonymousObjectCreationExpression)
+
+method add*(parent: var CsSimpleLambdaExpression; item: CsQueryExpression) =
+  echo "in method add*(parent: var CsSimpleLambdaExpression; item: CsQueryExpression)"
+  todoimpl # TODO(add: CsSimpleLambdaExpression, CsQueryExpression)
+
+method add*(parent: var CsElementAccessExpression; item: CsBaseExpression) =
+  echo "in method add*(parent: var CsElementAccessExpression; item: CsBaseExpression)"
+  todoimpl # TODO(add: CsElementAccessExpression, CsBaseExpression)
+
+method add*(parent: var CsParenthesizedExpression; item: CsIsPatternExpression) =
+  echo "in method add*(parent: var CsParenthesizedExpression; item: CsIsPatternExpression)"
+  todoimpl # TODO(add: CsParenthesizedExpression, CsIsPatternExpression)
+
+method add*(parent: var CsParenthesizedExpression; item: CsQueryExpression) =
+  echo "in method add*(parent: var CsParenthesizedExpression; item: CsQueryExpression)"
+  todoimpl # TODO(add: CsParenthesizedExpression, CsQueryExpression)
+
+method add*(parent: var CsTryStatement; item: CsFinallyClause) =
+  echo "in method add*(parent: var CsTryStatement; item: CsFinallyClause)"
+  todoimpl # TODO(add: CsTryStatement, CsFinallyClause)
+
+method add*(parent: var CsInterpolation; item: CsCastExpression) =
+  echo "in method add*(parent: var CsInterpolation; item: CsCastExpression)"
+  todoimpl # TODO(add: CsInterpolation, CsCastExpression)
+
+method add*(parent: var CsDoStatement; item: CsBinaryExpression) =
+  echo "in method add*(parent: var CsDoStatement; item: CsBinaryExpression)"
+  todoimpl # TODO(add: CsDoStatement, CsBinaryExpression)
+
