@@ -73,11 +73,11 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       var c1 = child.typeParameterConstraintClause
       c1.parentId = c.id; c.add c1
     of ckInterface:
-      var c = child.cinterface
-      c.parentId = p.id; p.add c
+      var c1 = child.cinterface
+      c1.parentId = c.id; c.add c1
     of ckStruct:
-      var c = child.struct
-      c.parentId = p.id; p.add c
+      var c1 = child.struct
+      c1.parentId = c.id; c.add c1
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckMethod:
