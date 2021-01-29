@@ -89,7 +89,7 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID;
 
     echo root, "\n", " ==END== "
     echo "NOTE: if didn't add, go to ideal::add method."
-    echo "upcoming lines:", allData.upcoming
+    # echo "upcoming lines:", allData.upcoming
 
 
 ### the construct types will now have such api: extract, fits, add, gen. newCs also exists but we don't call it from outside, so doesn't matter.

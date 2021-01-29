@@ -73,12 +73,17 @@ proc updateState(root: var CsRoot; line: JsonNode; upcoming: seq[string]) =
 
     endBlock(info)
 
+proc reset*() =
+  state_utils.parentTable = initTable[int,string]()
+  block_utils.resetBlocks()
+  state.currentConstruct = newSeq[Block]()
+
 import system, os
 proc parseExecFile*(root: var CsRoot; file: JsonNode; upcoming: seq[string]) =
   let filename = file["File"].getStr
   # echo "working on file: " & filename
   echo "file: " & filename.extractFilename
-  resetBlocks(); state.currentConstruct = newSeq[Block]()
+  reset()
   let lines = file["Lines"]
   for line in lines:
     updateState(root, line, upcoming)
