@@ -23,6 +23,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckExternAliasDirective:
       var c = child.externAliasDirective
       c.parentId = p.id; p.add c
+    of ckDelegate:
+      var c = child.delegate
+      c.parentId = p.id; p.add c
     else: assert false, "plz impl for child: " & $child.kind
 
   of ckClass:

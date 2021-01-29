@@ -21,7 +21,7 @@ proc `$`*(info: Info): string =
   result = "Info: " & x.join(";; ")
 
 import uuids, options
-type CsObject* = object of RootRef
+type CsObject* = ref object of RootRef
   name*: string
   typ*: string
   id*: Option[UUID]

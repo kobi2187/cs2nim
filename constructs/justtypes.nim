@@ -205,9 +205,10 @@ type CsImplicitArrayCreationExpression *
 type CsImplicitElementAccess* = ref object of CsObject #TODO(type:CsImplicitElementAccess)
 type CsIncompleteMember* = ref object of CsObject #TODO(type:CsIncompleteMember)
 type CsPredefinedType* = ref object of CsObject
-type CsPrefixUnaryExpression* = ref object of CsObject
+type CsPrefixUnaryExpression* = ref object of BodyExpr
   prefix*: string # don't handle it in any special way, prepend it, without space if literal, and with - otherwise.
-  actingOn*: string
+  actingOn*: CsObject # actually: CsLiteral, invocationexpression, objectcreationexpr, memberaccessexpr, parenthesizedexpr, cscastexpr
+  expectedActingOn*:string
 type CsLiteralExpression* = ref object of IAssignable
   value*: string
 type CsInitializerExpression* = ref object of BodyExpr #TODO(type:CsInitializerExpression)

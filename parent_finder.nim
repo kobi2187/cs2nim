@@ -10,6 +10,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   result = case $parent.kind & ", " & $item.kind
   of "ckNamespace, ckClass": true
   of "ckClass, ckField": true
+  of "ckNamespace, ckDelegate": true
   of "ckParenthesizedExpression, ckSimpleLambdaExpression": true
   of "ckNamespace, ckEnum": true
   of "ckEnum, ckEnumMember": true
