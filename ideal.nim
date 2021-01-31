@@ -1,4 +1,4 @@
-import constructs/[cs_all_constructs, justtypes]
+import constructs/justtypes
 import types, constructs/cs_root, construct, parent_finder #, block_utils
 # , state,
 import uuids, options, sequtils
@@ -20,7 +20,7 @@ import uuids, options, sequtils
 # TODO: a sprawling giant. how to refactor? is it even possible to refactor this?
 
 
-import type_creator, parent_finder, storeInParent
+import type_creator, parent_finder, storeInParent, cfits
 import all_needed_data
 # state_utils, block_utils
 import sets #,tables
