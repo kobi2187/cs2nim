@@ -1,6 +1,7 @@
 git add nim.cfg
 git add *.nim
 git add constructs/*.nim
+git add nim_syntax_playground/*.nim
 git add tests/*.nim
 git add tests/**/*.nim
 git add tests/**/*.cs
