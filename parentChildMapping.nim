@@ -70,4 +70,4 @@ let parentKidMapping* =
   ckDelegate: @[],
   }.toTable()
 
-echo parentKidMapping
+# echo parentKidMapping

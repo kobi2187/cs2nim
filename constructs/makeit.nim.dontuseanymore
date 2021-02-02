@@ -1,0 +1,22 @@
+import system, os
+import strutils
+
+proc gen(c: string): string =
+  result &= "\n\nproc gen*(c: var " & c & "): string = discard #TODO(gen:" & c & ")"
+
+proc gen2(c: string): string =
+  result &= "type " & c & "* = ref object of CsObject #TODO(type:" & c & ")" # types
+  result &= "\n\nproc newCs*(t: typedesc[" & c & "]; name: string): " & c & " =" # create
+  result &= "\n  new result #TODO(create:" & c & ")"
+  result &= "\n\nproc extract*(t: typedesc[" & c & "]; info: Info): " & c & " = discard #TODO(extract:" & c & ")"
+  result &= "\n\nproc add*(parent: var Dummy; item: " & c & ") = discard # TODO(add:" & c & ")" # addinroot
+
+
+
+for l in "types.txt".lines:
+  let c = l.strip()
+  if c.len > 0:
+    let file = c.replace("Cs", "cs_").toLowerAscii & ".nim"
+    echo c & " : " & file
+    let handle = open(file, fmAppend)
+    write(handle, gen(c))

@@ -1,4 +1,3 @@
-
 CsAccessor
 CsAccessorList
 CsAliasQualifiedName

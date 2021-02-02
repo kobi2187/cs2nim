@@ -1,0 +1,14 @@
+log.txt
+
+when adding namespace to root, we need to handle nested, if we're in an open ns block.
+so the ns name, will be its global name.
+that is, parent ns's name, combined with `.` char.
+
+nsPath does that. (based on blocks)
+
+let prev = blocks.peek(-3) # -2*2+1
+    if prev.isSome and prev.get.name == "NamespaceDeclaration":
+      echo "PREV: " & $prev
+      let prevNsName = extract(CsNamespace, prev.get.info).name
+      if prevNsName != newns.name:
+        newns.name = prevNsName & "." & newns.name
