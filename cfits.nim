@@ -1,5 +1,14 @@
 
 
+
+
+
+
+
+
+
+
+
 import  construct, constructs/justtypes
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
@@ -937,4 +946,77 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckAwaitExpression, ckAwaitExpression": true
   of "ckDeclarationPattern, ckArrayType": true
   of "ckEqualsValueClause, ckRefValueExpression": true
+  of "ckGotoStatement, ckLiteralExpression": true
+  of "ckAnonymousObjectMemberDeclarator, ckNameEquals": true
+  of "ckArgument, ckOmittedArraySizeExpression": true
+  of "ckIncompleteMember, ckPredefinedType": true
+  of "ckPrefixUnaryExpression, ckThisExpression": true
+  of "ckIsPatternExpression, ckLiteralExpression": true
+  of "ckStackAllocArrayCreationExpression, ckArrayType": true
+  of "ckStackAllocArrayCreationExpression, ckPredefinedType": true
+  of "ckParenthesizedVariableDesignation, ckSingleVariableDesignation": true
+  of "ckAnonymousObjectMemberDeclarator, ckObjectCreationExpression": true
+  of "ckDelegate, ckTypeParameterConstraintClause": true
+  of "ckCatchFilterClause, ckLiteralExpression": true
+
+  of "ckCaseSwitchLabel, ckLiteralExpression": true
+  of "ckRefExpression, ckElementAccessExpression": true
+  of "ckRefExpression, ckConditionalExpression": true
+  of "ckInterpolationAlignmentClause, ckInvocationExpression": true
+  of "ckCatchFilterClause, ckAwaitExpression": true
+  of "ckCatchFilterClause, ckInvocationExpression": true
+  of "ckRefExpression, ckLiteralExpression": true
+  of "ckElementBindingExpression, ckBracketedArgumentList": true
+  of "ckAliasQualifiedName, ckGenericName": true
+  of "ckInterpolationAlignmentClause, ckMemberAccessExpression": true
+  of "ckCaseSwitchLabel, ckMemberAccessExpression": true
+  of "ckCheckedExpression, ckAnonymousMethodExpression": true
+  of "ckForEachStatement, ckNullableType": true
+  of "ckCatchFilterClause, ckBinaryExpression": true
+  of "ckConstantPattern, ckPrefixUnaryExpression": true
+  of "ckRefExpression, ckMemberAccessExpression": true
+  of "ckInterpolationAlignmentClause, ckLiteralExpression": true
+
+  of "ckSwitchSection, ckBreakStatement": true
+
+  of "ckAnonymousObjectMemberDeclarator, ckLiteralExpression": true
+
+  of "ckSwitchSection, ckGotoStatement": true
+  of "ckSwitchSection, ckExpressionStatement": true
+  of "ckSwitchSection, ckLabeledStatement": true
+  of "ckAnonymousObjectMemberDeclarator, ckAnonymousMethodExpression": true
+  of "ckSwitchSection, ckThrowStatement": true
+  of "ckConstantPattern, ckBinaryExpression": true
+  of "ckAnonymousObjectMemberDeclarator, ckSimpleLambdaExpression": true
+  of "ckSwitchSection, ckReturnStatement": true
+  of "ckAnonymousObjectMemberDeclarator, ckTupleExpression": true
+  of "ckAnonymousObjectMemberDeclarator, ckInvocationExpression": true
+
+  of "ckConditionalExpression, ckRefExpression": true
+  of "ckSwitchSection, ckLocalDeclarationStatement": true
+
+  of "ckLabeledStatement, ckBreakStatement": true
+
+  of "ckAnonymousObjectMemberDeclarator, ckBinaryExpression": true
+  of "ckUnaryPattern, ckConstantPattern": true
+  of "ckSwitchSection, ckIfStatement": true
+  of "ckInvocationExpression, ckBaseExpression": true
+  of "ckInitializerExpression, ckThrowExpression": true
+  of "ckRefExpression, ckInvocationExpression": true
+  of "ckCaseSwitchLabel, ckInvocationExpression": true
+  of "ckCasePatternSwitchLabel, ckDeclarationPattern": true
+  of "ckRangeExpression, ckElementAccessExpression": true
+  of "ckAnonymousObjectMemberDeclarator, ckMemberAccessExpression": true
+  of "ckSwitchSection, ckForEachStatement": true
+  of "ckSwitchSection, ckTryStatement": true
+
+  of "ckMemberBindingExpression, ckGenericName": true
+  of "ckSwitchExpression, ckSwitchExpressionArm": true
+  of "ckAnonymousObjectMemberDeclarator, ckImplicitArrayCreationExpression": true
+  of "ckImplicitObjectCreationExpression, ckArgumentList": true
+  of "ckAnonymousObjectMemberDeclarator, ckAnonymousObjectCreationExpression": true
+  of "ckYieldStatement, ckTupleExpression": true
+  of "ckSwitchSection, ckSwitchStatement": true
+  of "ckParenthesizedVariableDesignation, ckDiscardDesignation": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

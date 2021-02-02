@@ -46,7 +46,7 @@ proc  handleSpecial(p:string):string =
 proc caseGenerator(table:TableRef[string,seq[string]]):string =
   result = ""
   if table.len > 0:
-    result &= "  case parent.kind\n"
+    result &= "case parent.kind\n"
   for parent in table.keys:
     # let small = smallCk(parent)
     # echo small

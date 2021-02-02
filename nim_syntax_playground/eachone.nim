@@ -1,6 +1,8 @@
 import osproc, strutils, sets, hashes, nre, sequtils, math, algorithm, random, system, os
 import times
 import mapper
+import os
+
 type FileErr = object
   file*: string
   output*: string
@@ -70,8 +72,8 @@ proc writeToFileStoreParent() =
 
 proc runAddRunner() =
   echo "trying to run add runner!"
-  let cwd = "/home/kobi7/currentWork/cs2nim"
-  let res = execProcess("./addrunner.nim", cwd)
+  # let cwd = "/home/kobi7/currentWork/cs2nim"
+  let res = execCmd("/home/kobi7/currentWork/cs2nim/addrunner")
   echo res
 
 
@@ -112,15 +114,15 @@ proc main() =
   # start
 
   let cwd = "/home/kobi7/currentWork/cs2nim"
-
   var file = cwd / "nim_syntax_playground" / "sizes_2_smallfirst.txt"
+  var file2 = open(file.splitPath.head / "unfinished.txt", fmAppend)
   if os.commandLineParams().len > 0:
     file = os.commandLineParams()[0]
   let hasLimit = true
   let hasTimeLimit = false
-  let timeLimit = 20 # seconds
-  let limit = 50
-  # randomize()
+  let timeLimit : int = (1.5 * 60).int # seconds
+  let limit = 20
+  randomize()
   let startTime = times.now()
   # duh, impossible to detect: program exits, even the "host" program.
   # let oom = re(r"(.*)\nout of memory")
@@ -133,22 +135,22 @@ proc main() =
     let contents = fhandleRead.readAll
     let count = contents.countLines
     var lines = contents.splitLines()
-    # lines.shuffle
+    lines.shuffle
     for line in lines:
       # GC_fullCollect()
       let currentTime = times.now()
       let elapsed = currentTime - startTime
       echo "time elapsed: ", elapsed
-      if hasLimit and
-        (hasTimeLimit and elapsed.inSeconds > timeLimit) or (missingExtract.len >= limit or cfits.len >= limit or missingStore.len >= limit): # or nilDispatch.len > 10:
+      if hasLimit and ((hasTimeLimit and elapsed.inSeconds > timeLimit) or (missingExtract.len + cfits.len + missingStore.len >= limit)): # or nilDispatch.len > 10:
         # printEnding(cfits,missingStore,missingExtract,unsupp ,nilDispatch)
         break
-      echo line
+      echo line.split("/")[^1]
       if not fileExists(line): continue
       let res = execProcess("./writer " & line, cwd, options = {poStdErrToStdOut, poEvalCommand,poUsePath})
       # echo res
       if res.contains("Error:"):
         unfinished.add line
+        file2.writeLine(line)
         echo "had an error."
         if res.contains("=== REACHED GENERATE STAGE ==="):
           afterGen.inc
@@ -184,7 +186,7 @@ proc main() =
           discard #        echo res; assert false
       else:
         finished.add line
-      printStats(count, finished.len, unfinished.len, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter,  afterGen,  beforeGen)
+      printStats(count, finished.len, unfinished.len, cfits.len , missingStore.len , unsupp.len, missingExtract.len , nilDispatch.len,  afterGen,  beforeGen)
 
 
     echo "FINISHED!"
@@ -201,6 +203,7 @@ proc main() =
 
   finally:
     fhandleRead.close
+    file2.close
 
 when isMainModule:
   main()
