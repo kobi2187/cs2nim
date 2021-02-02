@@ -407,216 +407,216 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert lastMatch.isSome
     res = lastMatch.get.id.some
   of ckThisExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckBracketedArgumentList:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckElementAccessExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckParenthesizedExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckArrayRankSpecifier:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckArrayType:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckOmittedArraySizeExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
 
   of ckTypeOfExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckSimpleLambdaExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckArrowExpressionClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckAliasQualifiedName:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTypeParameter:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckAwaitExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckConditionalExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTypeParameterList:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckInterpolatedStringText:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckParenthesizedLambdaExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckNullableType:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckBaseExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckInterpolation:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckNameColon:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTypeParameterConstraintClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTypeConstraint:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckSingleVariableDesignation:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckInterpolatedStringExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckImplicitArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckDeclarationExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckConditionalAccessExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckMemberBindingExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckDefaultExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckPointerType:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckInterface:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckAnonymousObjectMemberDeclarator:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckCheckedExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckStruct:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckIsPatternExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckDeclarationPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckConstantPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRefType:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRefExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckClassOrStructConstraint:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckOmittedTypeArgument:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTupleElement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckOperator:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckEventField:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckDelegate:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckImplicitElementAccess:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckAnonymousMethodExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTupleExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckAnonymousObjectCreationExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckEvent:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
 
   of ckGlobalStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckIncompleteMember:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckLocalFunctionStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckConversionOperator:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTupleType:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckFixedStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckEmptyStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckSizeOfExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckQueryBody:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckCheckedStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckQueryExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckCasePatternSwitchLabel:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckLabeledStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckConstructorConstraint:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckUnsafeStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckParenthesizedVariableDesignation:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckInterpolationFormatClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckDestructor:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckDiscardDesignation:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckStackAllocArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckWhenClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckForEachVariableStatement:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckLetClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckElementBindingExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckCatchFilterClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckOrdering:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckInterpolationAlignmentClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckQueryContinuation:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
 
   of ckMakeRefExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRefValueExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRefTypeExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckBlock:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckBinaryPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckDiscardPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckFunctionPointerType:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckImplicitObjectCreationExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckParenthesizedPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckPositionalPatternClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckPrimaryConstructorBaseType:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckPropertyPatternClause:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRangeExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRecord:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRecursivePattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckRelationalPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckSubpattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckSwitchExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckSwitchExpressionArm:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckTypePattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckUnaryPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckVarPattern:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckWithExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
   of ckImplicitStackAllocArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported"
+    assert false, $obj.kind & " is still unsupported" & data.sourceCode
     # raise notimplementedException
   result = (discarded, res)
   if res.isNone: assert discarded == true

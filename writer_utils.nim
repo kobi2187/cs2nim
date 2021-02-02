@@ -85,6 +85,7 @@ proc getWriteAllData*(dir: string; root: CsRoot): seq[(string, string)] =
 
 proc writeAll*(dir: string; root: CsRoot) =
   when true:
+    echo "=== REACHED GENERATE STAGE ==="
     let list = root.gen()
     for module in list:
       echo module.name

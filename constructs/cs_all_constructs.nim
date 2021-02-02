@@ -3862,8 +3862,7 @@ proc newCs*(t: typedesc[CsTypeParameter]): CsTypeParameter =
 proc extract*(t: typedesc[CsTypeParameter]; info: Info): CsTypeParameter =
   echo info
   result = newCs(CsTypeParameter)
-
-  result.param = info.essentials[0]
+  # result.param = info.essentials[0]
 
 # method add*(parent: var CsTypeParameter; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsTypeParameter; item: Dummy) "
