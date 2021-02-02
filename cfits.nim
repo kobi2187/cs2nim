@@ -738,7 +738,8 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckInitializerExpression, ckCheckedExpression": true
   of "ckInterface, ckField": true
   of "ckReturnStatement, ckAnonymousObjectCreationExpression": true
-  of "ckArrowExpressionClause, ckIsPatternExpression": true  of "ckAssignmentExpression, ckSwitchExpression": true
+  of "ckArrowExpressionClause, ckIsPatternExpression": true
+  of "ckAssignmentExpression, ckSwitchExpression": true
   of "ckElementAccessExpression, ckDefaultExpression": true
   of "ckIncompleteMember, ckGenericName": true
   of "ckObjectCreationExpression, ckNullableType": true

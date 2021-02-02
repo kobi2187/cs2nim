@@ -6,7 +6,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
   echo "in add <Construct>"
   let couple : string = $parent.kind & " -> " & $child.kind
   echo couple
-    case parent.kind
+  case parent.kind
   of ckTypeParameterList:
     var p = parent.typeParameterList
     case child.kind

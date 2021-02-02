@@ -1,6 +1,6 @@
 nim_code/
 .vscode/
 *.todo
-nim_syntax_playground/
+# nim_syntax_playground/
 module_test/
 *.tar.*
