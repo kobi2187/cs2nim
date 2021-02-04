@@ -1186,4 +1186,35 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckElseClause, ckLockStatement": true
   of "ckPostfixUnaryExpression, ckTupleExpression": true
 
+  of "ckConstructor, ckIfStatement": true
+  of "ckInterface, ckEventField": true
+  of "ckMethod, ckLiteralExpression": true
+  of "ckConstructor, ckUsingStatement": true
+  of "ckAccessor, ckLockStatement": true
+  of "ckNameEquals, ckLiteralExpression": true
+  of "ckClass, ckEvent": true
+  of "ckConstructor, ckThrowStatement": true
+  of "ckClass, ckLiteralExpression": true
+  of "ckParameter, ckLiteralExpression": true
+  of "ckAccessor, ckIfStatement": true
+  of "ckAccessor, ckYieldStatement": true
+  of "ckConstructor, ckForEachStatement": true
+  of "ckExpressionStatement, ckExpressionStatement": true
+  of "ckInterface, ckLiteralExpression": true
+  of "ckUsingDirective, ckLiteralExpression": true
+  of "ckClass, ckEventField": true
+  of "ckConstructor, ckTryStatement": true
+  of "ckAccessor, ckThrowStatement": true
+
+  of "ckSubpattern, ckDiscardPattern": true
+
+  of "ckConstructor, ckForStatement": true
+  of "ckProperty, ckLiteralExpression": true
+  of "ckEvent, ckAccessorList": true
+  of "ckAccessor, ckWhileStatement": true
+  of "ckPredefinedType, ckLiteralExpression": true
+  of "ckEventField, ckVariable": true
+
+  of "ckConstructor, ckWhileStatement": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

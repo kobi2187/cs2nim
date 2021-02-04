@@ -13,6 +13,7 @@ proc handleLiteralExpression(data: AllNeededData): Option[UUID] =
   echo "obj is LiteralExpression"
   let last = state.getLastBlock((c) => c.name notin ["IdentifierName" , "PrefixUnaryExpression", "LiteralExpression"])
   result = last.get.id.some
+  # NOTE: make sure not inside annotation. we should remove those, as we don't support them at all!
 
   # let prevName = data.previousConstruct.get.name
   # case prevName
@@ -251,7 +252,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckLiteralExpression:
     res = handleLiteralExpression(data)
     if res.isNone: discarded = true
-
+    # NOTE: make sure not inside annotation. we should remove those, as we don't support them at all!
 
   of ckExplicitInterfaceSpecifier:
     echo "obj is ExplicitInterfaceSpecifier"
@@ -421,8 +422,11 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckBreakStatement: # if, case, else, while, do, ...others?
     let lastMatch = getLastBlockTypes(@["IfStatement"]) #"MethodDeclaration"])
+    assert false # plz add more cases above.
     assert lastMatch.isSome
     res = lastMatch.get.id.some
+
+
 
   of [ckThisExpression, ckBracketedArgumentList, ckElementAccessExpression, ckParenthesizedExpression, ckArrayRankSpecifier, ckArrayType, ckOmittedArraySizeExpression, ckTypeOfExpression,
       ckSimpleLambdaExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression, ckConditionalExpression, ckTypeParameterList,

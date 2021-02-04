@@ -99,6 +99,7 @@ proc main() =
     missingStore = initHashSet[string]()
     missingExtract = initHashSet[string]()
     unsupp = initHashSet[string]()
+    likelyAnnotation = initHashSet[string]()
     nilDispatch = newSeq[string]()
 
   let cfitsRe = re"cfits is missing:(\s+of .*?: true)" # \[Exception\]$"
@@ -106,6 +107,8 @@ proc main() =
   let extractRe = re"most likely `extract` is not implemented for: \w+"
   let dispatchNilRe = re"Error: unhandled exception: cannot dispatch; dispatcher is nil \[NilAccessDefect\]" # this is when generating or using runtime method that messes with BodyExpr for example.
   let unsupportedRe = re"(\w+) is still unsupported"
+
+  let likelyAnnotationProblemRe = re"Error: unhandled exception: parent_finder.nim(\d+, \d+) `discarded == true`  \[AssertionDefect\]"
 
   var finished: seq[string] = @[]
   var unfinished: seq[string] = @[]
@@ -191,10 +194,12 @@ proc main() =
           if matches.isSome:
             let c = matches.get.captures
             unsupp.incl c[0]
+        elif res.contains(likelyAnnotationProblemRe):
+          likelyAnnotation.incl line
         else:
           otherErrors.inc
-          echo res
-          assert false
+          # echo res
+          # assert false
       else:
         finished.add line
         finToAdd.writeLine(line)
@@ -213,6 +218,9 @@ proc main() =
       writeToFileStoreMapping(missingStore)
       writeToFileStoreParent()
       runAddRunner()
+    if likelyAnnotation.len > 0:
+      for ln in likelyAnnotation.toSeq:
+        discard execCmd("dotnet /home/kobi7/currentWork/CsDisplay/bin/Release/netcoreapp2.2/CsDisplay.dll " & ln)
 
 
   finally:
