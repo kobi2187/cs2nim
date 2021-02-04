@@ -11,36 +11,38 @@ import state, sugar
 
 proc handleLiteralExpression(data: AllNeededData): Option[UUID] =
   echo "obj is LiteralExpression"
-  let prevName = data.previousConstruct.get.name
-  case prevName
-  of "EqualsValueClause":
-    # we'll need to get prevprev construct and assign the value to it.
-    let prevprevName = data.previousPreviousConstruct.get.name
-    case prevprevName
-      of "EnumMemberDeclaration":
-        result = data.lastEnumMember.id
-      of "VariableDeclarator":
-        result = data.lastBodyExprId
-      else: assert false, prevprevName
+  let last = state.getLastBlock((c) => c.name notin ["IdentifierName" , "PrefixUnaryExpression", "LiteralExpression"])
+  result = last.get.id.some
 
-  of ["IdentifierName", "Argument"]: discard # TODO?
-  of "ReturnStatement":
-    assert data.classLastAdded in [ClassParts.Methods, ClassParts.Properties,
-        ClassParts.Ctors]
-    result = data.lastBodyExprId
-  of "InitializerExpression":
-    let ini = data.lastBlockType("InitializerExpression")
-    assert ini.isSome
-    result = ini
+  # let prevName = data.previousConstruct.get.name
+  # case prevName
+  # of "EqualsValueClause":
+  #   # we'll need to get prevprev construct and assign the value to it.
+  #   let prevprevName = data.previousPreviousConstruct.get.name
+  #   case prevprevName
+  #     of "EnumMemberDeclaration":
+  #       result = data.lastEnumMember.id
+  #     of "VariableDeclarator":
+  #       result = data.lastBodyExprId
+  #     else: assert false, prevprevName
 
-  of ["PrefixUnaryExpression", "LiteralExpression"]:
-    let last = state.getLastBlock((c) => c.name notin ["PrefixUnaryExpression",
-        "LiteralExpression"])
-    assert last.isSome
-    echo "LAST:", last
-    result = last.get.id.some
+  # of ["IdentifierName", "Argument"]: discard # TODO?
+  # of "ReturnStatement":
+  #   assert data.classLastAdded in [ClassParts.Methods, ClassParts.Properties,
+  #       ClassParts.Ctors]
+  #   result = data.lastBodyExprId
+  # of "InitializerExpression":
+  #   let ini = data.lastBlockType("InitializerExpression")
+  #   assert ini.isSome
+  #   result = ini
 
-  else: assert false, prevName
+  # of ["PrefixUnaryExpression", "LiteralExpression"]:
+  #   let last = state.getLastBlock((c) => c.name notin ["PrefixUnaryExpression",
+  #       "LiteralExpression"])
+  #   assert last.isSome
+  #   echo "LAST:", last
+
+  # else: assert false, prevName
 
 
 # get parent checks that the types fit each other, and decides whether parent is a block type or one of its last added items, that expects to store that object. if cannot decide, we'll need to add more information from the C# side.
@@ -76,7 +78,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   let phint = parentHint(obj)
   if phint.isSome():
-    if phint.get notin ["IdentifierName","QualifiedName","BlockStarts"]:
+    if phint.get notin ["IdentifierName", "QualifiedName", "BlockStarts"]:
       let lastMatch = getLastBlockType(phint.get)
       if lastMatch.isSome:
         let id = lastMatch.get.id.some
@@ -171,9 +173,9 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     echo "obj is ReturnStatement"
     echo "we should be inside ctor, method, indexer, or property"
     # res = data.idLastClassPart()
-    let m = getLastBlockTypes(@["AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration","ConstructorDeclaration"])
+    let m = getLastBlockTypes(@["AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration", "ConstructorDeclaration"])
     assert m.isSome
-    res =m.get.id.some
+    res = m.get.id.some
 
   of ckArgumentList:
     echo "object is ArgumentList"
@@ -196,9 +198,11 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckExpressionStatement:
     echo "obj is ExpressionStatement"
     # echo "we assume we're in method or ctor, but if there are more options change that."
-    assert data.classLastAdded in [ClassParts.Methods, ClassParts.Ctors],
-        $data.classLastAdded
-    res = data.idLastClassPart
+    let last = state.getLastBlock((c) => c.name notin ["IdentifierName" ]) # FIXME: add more according to cases.
+    res = last.get.id.some
+    # assert data.classLastAdded in [ClassParts.Methods, ClassParts.Ctors],
+    #     $data.classLastAdded
+    # res = data.idLastClassPart
 
   of ckAssignmentExpression:
     echo "obj is AssignmentExpression"
@@ -287,7 +291,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     #   assert data.lastClass.indexer.aclist != nil
     #   res = data.lastClass.indexer.aclist.id
     # else: assert false, " where else? " & $data.classLastAdded
-  of ckMemberAccessExpression:
+  of ckMemberAccessExpression: # NOTE!! make sure this isn't another annotation: check source code. if it is, run CsDisplay again to remove annotation.
     res = data.lastBlockType(@["VariableDeclarator", "InvocationExpression"])
     # if data.lastLine.isComplete: # variable declarator right hand side is fine,
   of ckConstructorInitializer:
@@ -369,7 +373,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckPrefixUnaryExpression: # hmm, not the previous but the next one. so just add it.
     let fitting = state.getLastBlock(c=>c.name in [
-        "InitializerExpression", "NameEquals" ]) # TODO: add others as needed.
+        "InitializerExpression", "NameEquals"]) # TODO: add others as needed.
     assert fitting.isSome, $data.simplified
     res = fitting.get.id.some
   of ckBinaryExpression:
@@ -389,235 +393,52 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     discarded = true
     echo "got " & $ckExternAliasDirective & " which we don't support (doesn't make sense for nim modules)"
 
+  of ckInterface:
+    res = data.currentNamespace.id
+  of ckDelegate:
+    res = data.currentNamespace.id
+  of ckStruct:
+    res = data.currentNamespace.id
+  of ckEvent:
+    res = data.currentNamespace.id
+  of ckSwitchStatement: # gleaned from cfits. can also check ebnf spec and c#7 book.
+    let m = getLastBlockTypes(@["MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause", "IfStatement", "SwitchSection"])
+    assert m.isSome
+    res = m.get.id.some
+
   #things within method bodies or ctor bodies or getter/setter bodies:
   # TODO: split these if I'm wrong.
   of [ckIfStatement, ckElseClause, ckCaseSwitchLabel, ckSwitchSection, ckForStatement, ckDoStatement, ckGotoStatement, ckCastExpression, ckThrowStatement,
-  ckPostfixUnaryExpression,ckForEachStatement,ckTryStatement,ckCatchClause,ckCatch,
-  ckUsingStatement,ckWhileStatement,ckSwitchStatement,ckContinueStatement,ckFinallyClause,ckDefaultSwitchLabel,ckYieldStatement,ckLockStatement,ckThrowExpression
+  ckPostfixUnaryExpression, ckForEachStatement, ckTryStatement, ckCatchClause, ckCatch,
+  ckUsingStatement, ckWhileStatement, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel, ckYieldStatement, ckLockStatement, ckThrowExpression
   ]:
     echo "got " & $obj.kind
-    let parents = @["MethodDeclaration"] # add more here.
+    let parents = @["MethodDeclaration","ConstructorDeclaration","AccessorDeclaration"] # add more here.
     echo "and looking for its parent in:", parents
     let lastMatch = getLastBlockTypes(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 
   of ckBreakStatement: # if, case, else, while, do, ...others?
-    let lastMatch = getLastBlockTypes(@[ "IfStatement"]) #"MethodDeclaration"])
+    let lastMatch = getLastBlockTypes(@["IfStatement"]) #"MethodDeclaration"])
     assert lastMatch.isSome
     res = lastMatch.get.id.some
-  of ckThisExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckBracketedArgumentList:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckElementAccessExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckParenthesizedExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckArrayRankSpecifier:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckArrayType:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckOmittedArraySizeExpression:
+
+  of [ckThisExpression, ckBracketedArgumentList, ckElementAccessExpression, ckParenthesizedExpression, ckArrayRankSpecifier, ckArrayType, ckOmittedArraySizeExpression, ckTypeOfExpression,
+      ckSimpleLambdaExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression, ckConditionalExpression, ckTypeParameterList,
+      ckInterpolatedStringText, ckParenthesizedLambdaExpression, ckNullableType, ckBaseExpression, ckInterpolation, ckNameColon, ckTypeParameterConstraintClause, ckTypeConstraint,
+      ckSingleVariableDesignation, ckInterpolatedStringExpression, ckImplicitArrayCreationExpression, ckDeclarationExpression, ckConditionalAccessExpression, ckMemberBindingExpression,
+      ckDefaultExpression, ckPointerType, ckAnonymousObjectMemberDeclarator, ckCheckedExpression, ckIsPatternExpression, ckDeclarationPattern, ckConstantPattern, ckRefType, ckRefExpression,
+      ckClassOrStructConstraint, ckOmittedTypeArgument, ckTupleElement, ckOperator, ckEventField, ckImplicitElementAccess, ckAnonymousMethodExpression, ckTupleExpression,
+      ckAnonymousObjectCreationExpression, ckGlobalStatement, ckIncompleteMember, ckLocalFunctionStatement, ckConversionOperator, ckTupleType, ckFixedStatement, ckEmptyStatement, ckSizeOfExpression,
+      ckQueryBody, ckCheckedStatement, ckQueryExpression, ckCasePatternSwitchLabel, ckLabeledStatement, ckConstructorConstraint, ckUnsafeStatement, ckParenthesizedVariableDesignation,
+      ckInterpolationFormatClause, ckDestructor, ckDiscardDesignation, ckStackAllocArrayCreationExpression, ckWhenClause, ckForEachVariableStatement, ckLetClause, ckElementBindingExpression,
+      ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause, ckQueryContinuation, ckMakeRefExpression, ckRefValueExpression, ckRefTypeExpression, ckBlock, ckBinaryPattern, ckDiscardPattern,
+      ckFunctionPointerType, ckImplicitObjectCreationExpression, ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord,
+      ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, ckVarPattern, ckWithExpression,
+      ckImplicitStackAllocArrayCreationExpression]:
     assert false, $obj.kind & " is still unsupported" & data.sourceCode
 
-  of ckTypeOfExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckSimpleLambdaExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckArrowExpressionClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckAliasQualifiedName:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTypeParameter:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckAwaitExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckConditionalExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTypeParameterList:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckInterpolatedStringText:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckParenthesizedLambdaExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckNullableType:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckBaseExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckInterpolation:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckNameColon:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTypeParameterConstraintClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTypeConstraint:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckSingleVariableDesignation:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckInterpolatedStringExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckImplicitArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckDeclarationExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckConditionalAccessExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckMemberBindingExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckDefaultExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckPointerType:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckInterface:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckAnonymousObjectMemberDeclarator:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckCheckedExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckStruct:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckIsPatternExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckDeclarationPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckConstantPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRefType:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRefExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckClassOrStructConstraint:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckOmittedTypeArgument:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTupleElement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckOperator:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckEventField:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckDelegate:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckImplicitElementAccess:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckAnonymousMethodExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTupleExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckAnonymousObjectCreationExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckEvent:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-
-  of ckGlobalStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckIncompleteMember:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckLocalFunctionStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckConversionOperator:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTupleType:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckFixedStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckEmptyStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckSizeOfExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckQueryBody:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckCheckedStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckQueryExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckCasePatternSwitchLabel:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckLabeledStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckConstructorConstraint:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckUnsafeStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckParenthesizedVariableDesignation:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckInterpolationFormatClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckDestructor:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckDiscardDesignation:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckStackAllocArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckWhenClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckForEachVariableStatement:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckLetClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckElementBindingExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckCatchFilterClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckOrdering:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckInterpolationAlignmentClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckQueryContinuation:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-
-  of ckMakeRefExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRefValueExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRefTypeExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckBlock:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckBinaryPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckDiscardPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckFunctionPointerType:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckImplicitObjectCreationExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckParenthesizedPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckPositionalPatternClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckPrimaryConstructorBaseType:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckPropertyPatternClause:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRangeExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRecord:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRecursivePattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckRelationalPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckSubpattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckSwitchExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckSwitchExpressionArm:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckTypePattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckUnaryPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckVarPattern:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckWithExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-  of ckImplicitStackAllocArrayCreationExpression:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
-    # raise notimplementedException
   result = (discarded, res)
   if res.isNone: assert discarded == true
   assert (not discarded and res.isSome) or (discarded and res.isNone), "dis: " &
@@ -639,7 +460,7 @@ proc getParent*(root: var CsRoot; newobj: Construct; allData: AllNeededData): (
     echo "parent id found: ", $pid
     res = root.infoCenter.fetch(pid.get)
     if res.isNone:
-      echo "couldn't find registered object for this id" ### NOTE: can happen for IdentifierName since we don't register it. it means the parent was wrongly identified as IdentifierName.
+      echo "--- couldn't find registered object for this id" ### NOTE: can happen for IdentifierName since we don't register it. it means the parent was wrongly identified as IdentifierName.
       # assert false
   result = (dis, res)
   assert (not dis and res.isSome) or (dis and res.isNone), "dis: " & $dis &

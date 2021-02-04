@@ -782,12 +782,10 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     setMoreForObject(a,id,data,info)
 
     result = Construct(kind: ckOperator, operator: a)
-  of "EventField":
-    var a = extract(CsEventField, info) #, data);
-    # a.id = some(id); assert not a.typ.isEmptyOrWhitespace;
-    # a.src = data.sourceCode
-    setMoreForObject(a,id,data,info)
 
+  of ["EventField","EventFieldDeclaration"]:
+    var a = extract(CsEventField, info)
+    setMoreForObject(a,id,data,info)
     result = Construct(kind: ckEventField, eventField: a)
   of "Delegate":
     var a = extract(CsDelegate, info) #, data);
@@ -1311,6 +1309,11 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     var a = extract(CsCatch, info)
     setMoreForObject(a,id,data,info)
     result = Construct(kind: ckCatch, catch: a)
+  of "EventDeclaration":
+    var a = extract(CsEvent, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckEvent, event: a)
+
 
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:

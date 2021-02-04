@@ -10,7 +10,7 @@ type FileErr = object
 func perc(part, sum:int) : string =
   $((100 * part / sum).round(2)) & "%"
 
-proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter,  afterGen,  beforeGen  : int) =
+proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter,  afterGen,  beforeGen, otherErrors  : int) =
   let both = finished + unfinished
   echo perc(finished, both) & " : " & perc(unfinished, both)
   echo "failed due to missing cfits ",perc(cfitsCounter,both), " (",cfitsCounter, ")"
@@ -18,10 +18,11 @@ proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsuppo
   echo "failed due to unknown parent, child construct not yet supported ",perc(unsupportedCounter,both), " (",unsupportedCounter, ")"
   echo "failed due to extract not impl ",perc(extractCounter,both), " (" , extractCounter , ")"
   echo "failed due to runtime null ",perc(nullMethodCounter,both), " (",nullMethodCounter, ")"
+  echo "Other errors: ", perc(otherErrors, both), " (",otherErrors, ")"
   echo "failed after gen ",perc(afterGen,both), " (",afterGen, ")"
   echo "failed before gen ",perc(beforeGen,both), " (",beforeGen,")"
   echo "no errors + passed storing stage ",perc(finished + afterGen, both)
-  echo both, "/", count
+  echo both, "/", count, " = " , perc(both,count)
 
 proc genFits(newFits:string, dryRun=true) : string =
   echo "in genFits"
@@ -31,7 +32,7 @@ proc genFits(newFits:string, dryRun=true) : string =
     fh = open(file)
     let lines = fh.readAll.splitLines
     let exceptLast = lines[0..^2]
-    let output = "\n" & exceptLast.join("\n")
+    let output = exceptLast.join("\n")
     let last = "\n" & r"""  else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")"""
     result &= output & "\n" & newfits & "\n" & last
   finally:  fh.close
@@ -109,35 +110,44 @@ proc main() =
   var finished: seq[string] = @[]
   var unfinished: seq[string] = @[]
   # counters:
-  var cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter,  afterGen,  beforeGen = 0
+  var otherErrors ,cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter,  afterGen,  beforeGen = 0
 
   # start
 
   let cwd = "/home/kobi7/currentWork/cs2nim"
   var file = cwd / "nim_syntax_playground" / "sizes_2_smallfirst.txt"
-  var file2 = open(file.splitPath.head / "unfinished.txt", fmAppend)
   if os.commandLineParams().len > 0:
     file = os.commandLineParams()[0]
+  let f = file.splitPath.head / "finished.txt"
+  var finToAdd = open(f, fmAppend)
+  let finToRead = open(f, fmRead)
+  let assumedFinish = finToRead.readAll.splitLines().toHashSet()
+  finToRead.close
+
+  # ============================== PARAMETERS:
+  let random = false
   let hasLimit = true
-  let hasTimeLimit = false
-  let timeLimit : int = (1.5 * 60).int # seconds
+  let hasTimeLimit = true
+  let timeLimit = 5 * 60 # seconds
   let limit = 20
-  randomize()
+  # ===========================
+  if random: randomize()
   let startTime = times.now()
-  # duh, impossible to detect: program exits, even the "host" program.
-  # let oom = re(r"(.*)\nout of memory")
-  # let oom2 = re(r"(?m)(/home/.*csast)(.*\n){0,20}Cannot allocate memory")
-
-
   var fhandleRead:File
   try:
     fhandleRead = open(file,fmRead)
     let contents = fhandleRead.readAll
     let count = contents.countLines
     var lines = contents.splitLines()
-    lines.shuffle
-    for line in lines:
+    var newlines = lines.toHashSet.difference(assumedFinish).toSeq
+    finished.add assumedFinish.toSeq
+    if random:
+      newlines.shuffle
+    for line in newlines:
       # GC_fullCollect()
+      # if line in assumedFinish:
+      #   finished.add line
+      #   continue
       let currentTime = times.now()
       let elapsed = currentTime - startTime
       echo "time elapsed: ", elapsed
@@ -150,7 +160,6 @@ proc main() =
       # echo res
       if res.contains("Error:"):
         unfinished.add line
-        file2.writeLine(line)
         echo "had an error."
         if res.contains("=== REACHED GENERATE STAGE ==="):
           afterGen.inc
@@ -183,10 +192,15 @@ proc main() =
             let c = matches.get.captures
             unsupp.incl c[0]
         else:
-          discard #        echo res; assert false
+          otherErrors.inc
+          echo res
+          assert false
       else:
         finished.add line
-      printStats(count, finished.len, unfinished.len, cfits.len , missingStore.len , unsupp.len, missingExtract.len , nilDispatch.len,  afterGen,  beforeGen)
+        finToAdd.writeLine(line)
+
+      # printStats(count, finished.len, unfinished.len, cfits.len , missingStore.len , unsupp.len, missingExtract.len , nilDispatch.len,  afterGen,  beforeGen, otherErrors)
+      printStats(count, finished.len, unfinished.len, cfitsCounter , storeCounter , unsupportedCounter, extractCounter , nullMethodCounter,  afterGen,  beforeGen, otherErrors)
 
 
     echo "FINISHED!"
@@ -203,7 +217,7 @@ proc main() =
 
   finally:
     fhandleRead.close
-    file2.close
+    finToAdd.close
 
 when isMainModule:
   main()
