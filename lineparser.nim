@@ -54,7 +54,9 @@ proc updateState(root: var CsRoot; line: JsonNode; upcoming: seq[string]) =
     let objkind = line["RawKind"].getInt
     let parentKind = line["ParentKind"].getInt
 
-    parentTable[objkind]=decl
+    # TODO assume the obj kind is unique. IS IT? XXX TEST HERE! or maybe the int is, but not the string.
+    # assert not parentTable.hasKey(objkind)
+    parentTable[objkind] = decl
 
 
     let info = Info(declName: decl, essentials: main, extras: extras, rawKind:objkind, parentRawKind:parentKind)

@@ -1217,4 +1217,83 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
 
   of "ckConstructor, ckWhileStatement": true
 
+  of "ckStruct, ckEventField": true
+  of "ckField, ckLiteralExpression": true
+  of "ckAccessor, ckUsingStatement": true
+  of "ckStruct, ckLiteralExpression": true
+  of "ckAccessor, ckTryStatement": true
+  of "ckConstructor, ckLiteralExpression": true
+  of "ckAccessor, ckForStatement": true
+  of "ckEnum, ckLiteralExpression": true
+  of "ckSwitchExpressionArm, ckBinaryExpression": true
+  of "ckDoStatement, ckExpressionStatement": true
+  of "ckEvent, ckGenericName": true
+  of "ckCheckedExpression, ckArrayCreationExpression": true
+  of "ckAccessor, ckCastExpression": true
+  of "ckAccessor, ckForEachStatement": true
+  of "ckEvent, ckNullableType": true
+  of "ckConstructor, ckLockStatement": true
+  of "ckThrowExpression, ckBinaryExpression": true
+
+  of "ckConstructor, ckContinueStatement": true
+
+  of "ckEvent, ckExplicitInterfaceSpecifier": true
+
+  of "ckClass, ckDestructor": true
+  of "ckClass, ckOperator": true
+  of "ckClass, ckConversionOperator": true
+  of "ckStruct, ckOperator": true
+
+  of "ckAwaitExpression, ckCastExpression": true
+  of "ckAccessor, ckDoStatement": true
+  of "ckThrowStatement, ckElementAccessExpression": true
+  of "ckConstructor, ckDoStatement": true
+  of "ckAssignmentExpression, ckRefExpression": true
+  of "ckConditionalAccessExpression, ckTypeOfExpression": true
+  of "ckConversionOperator, ckParameterList": true
+  of "ckDestructor, ckParameterList": true
+  of "ckConversionOperator, ckPredefinedType": true
+  of "ckOperator, ckParameterList": true
+  of "ckInvocationExpression, ckObjectCreationExpression": true
+  of "ckWhenClause, ckInvocationExpression": true
+  of "ckConversionOperator, ckPointerType": true
+  of "ckOperator, ckGenericName": true
+  of "ckConversionOperator, ckArrayType": true
+  of "ckStruct, ckConversionOperator": true
+  of "ckYieldStatement, ckParenthesizedLambdaExpression": true
+  of "ckSwitchSection, ckForEachVariableStatement": true
+  of "ckOperator, ckPredefinedType": true
+  of "ckDelegate, ckTupleType": true
+  of "ckAccessor, ckContinueStatement": true
+
+  of "ckPostfixUnaryExpression, ckPostfixUnaryExpression": true
+  of "ckIsPatternExpression, ckThisExpression": true
+  of "ckEventField, ckLiteralExpression": true
+
+  of "ckBinaryExpression, ckSizeOfExpression": true
+  of "ckEvent, ckLiteralExpression": true
+
+  of "ckConversionOperator, ckArrowExpressionClause": true
+  of "ckOperator, ckArrowExpressionClause": true
+
+  of "ckConversionOperator, ckGenericName": true
+
+  of "ckIfStatement, ckWhileStatement": true
+
+  of "ckSizeOfExpression, ckPredefinedType": true
+
+  of "ckIsPatternExpression, ckBinaryExpression": true
+
+  of "ckReturnStatement, ckSizeOfExpression": true
+  of "ckStruct, ckDestructor": true
+  of "ckInterface, ckEvent": true
+  of "ckAssignmentExpression, ckSizeOfExpression": true
+  of "ckDestructor, ckArrowExpressionClause": true
+  of "ckConstructor, ckYieldStatement": true
+  of "ckConversionOperator, ckNullableType": true
+  of "ckTypeParameter, ckLiteralExpression": true
+  of "ckInterface, ckOperator": true
+  of "ckArgument, ckSizeOfExpression": true
+  of "ckEqualsValueClause, ckSizeOfExpression": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

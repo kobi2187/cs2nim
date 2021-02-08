@@ -20,7 +20,7 @@ proc main() =
     elif fi.dirExists():
       # for file in walkFiles(joinPath(fi, "**/*.csast")):
       files = getCsastFiles(fi)
-    else: quit("could not find matching or existing file or directory")
+    else: quit("could not find matching or existing file or directory: " & fi)
 
     echo files.len
     let inputFolder = fi

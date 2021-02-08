@@ -63,7 +63,8 @@ let blockTypesTxt* = [ # everything in C# that has an opening { brace
   "PropertyDeclaration",
   "TryStatement",
   "FinallyClause",
-  "ForEachStatement"
+  "ForEachStatement",
+  "UsingStatement"
   # "ExpressionStatement", # nope
   # "ArrowExpressionClause"
   # "ReturnStatement", # nope

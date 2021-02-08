@@ -5,7 +5,7 @@ import types, construct, constructs/[cs_all_constructs, justtypes]
 import constructs/cs_root, uuids
 import common_utils
 
-import cfits
+# import cfits
 
 import state, sugar
 
@@ -61,8 +61,10 @@ proc parentHint(parentRawKind: int): Option[string] =
   else:
     result = none(string)
 
+
 proc parentHint(c: Construct): Option[string] =
   result = parentHint(c.parentRawKind)
+# inconsistent results, maybe overwritten in hashtable??
 
 proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]) =
   var discarded = false
@@ -75,15 +77,24 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   if obj.parentId.isSome:
     echo "obj already has parent id, returning that."
-    return (discarded, obj.parentId)
+    return (false, obj.parentId)
 
   let phint = parentHint(obj)
-  if phint.isSome():
+  # try numerical first.
+  let tryMatch = getLastBlock(b=>b.info.rawKind == obj.parentRawKind)
+  if tryMatch.isSome:
+    echo "found the parent in blocks via object's numeric rawkind"
+    let id = tryMatch.get.id.some
+    let kind = tryMatch.get.info.rawkind
+    if parentTable.hasKey(kind) and parentTable[kind] notin ["IdentifierName", "QualifiedName", "BlockStarts"]:
+      return (false, id)
+
+  elif phint.isSome():
     if phint.get notin ["IdentifierName", "QualifiedName", "BlockStarts"]:
       let lastMatch = getLastBlockType(phint.get)
       if lastMatch.isSome:
+        echo "found parent ID thru Roslyn's parent Kind (string type)."
         let id = lastMatch.get.id.some
-        echo "found parent ID thru Roslyn's parent Kind."
         return (false, id)
       else: assert false, "couldn't find it (`" & phint.get & "`) in last blocks even though we should have"
 
@@ -174,7 +185,11 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     echo "obj is ReturnStatement"
     echo "we should be inside ctor, method, indexer, or property"
     # res = data.idLastClassPart()
-    let m = getLastBlockTypes(@["AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration", "ConstructorDeclaration"])
+    let m = getLastBlockTypes(
+      @[
+      "AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration",
+      "ConstructorDeclaration", "OperatorDeclaration", "ConversionOperatorDeclaration",
+      ])
     assert m.isSome
     res = m.get.id.some
 
@@ -228,8 +243,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckProperty:
     echo "obj is property"
     # can be interfaces or classes
-    assert data.nsLastAdded in [NamespaceParts.Interfaces,
-        NamespaceParts.Classes]
+    assert data.nsLastAdded in [NamespaceParts.Interfaces, NamespaceParts.Classes]
     res = data.idLastNsPart()
 
   of ckInvocationExpression:

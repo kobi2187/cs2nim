@@ -1314,6 +1314,26 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     setMoreForObject(a,id,data,info)
     result = Construct(kind: ckEvent, event: a)
 
+  of "OperatorDeclaration" :
+    var a = extract(CsOperator, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckOperator, operator: a)
+
+  of "DestructorDeclaration" :
+    var a = extract(CsDestructor, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckDestructor, destructor: a)
+
+  of "ConversionOperatorDeclaration":
+    var a = extract(CsConversionOperator, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckConversionOperator, conversionOperator: a)
+
+  of "SizeOfExpression":
+    var a = extract(CsSizeOfExpression, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckSizeOfExpression, sizeOfExpression: a)
+
 
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:

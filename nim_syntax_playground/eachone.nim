@@ -10,14 +10,17 @@ type FileErr = object
 func perc(part, sum:int) : string =
   $((100 * part / sum).round(2)) & "%"
 
-proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter,  afterGen,  beforeGen, otherErrors  : int) =
+proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilctderef,  afterGen,  beforeGen, likely, tc, otherErrors  : int) =
   let both = finished + unfinished
   echo perc(finished, both) & " : " & perc(unfinished, both)
   echo "failed due to missing cfits ",perc(cfitsCounter,both), " (",cfitsCounter, ")"
   echo "failed due to parentStore missing switch case ",perc(storeCounter,both), " (",storeCounter, ")"
   echo "failed due to unknown parent, child construct not yet supported ",perc(unsupportedCounter,both), " (",unsupportedCounter, ")"
   echo "failed due to extract not impl ",perc(extractCounter,both), " (" , extractCounter , ")"
+  echo "failed due to compiletime null ",perc(nilctderef,both), " (",nilctderef, ")"
   echo "failed due to runtime null ",perc(nullMethodCounter,both), " (",nullMethodCounter, ")"
+  echo "failed due to likely missed removing annotation ",perc(likely,both), " (",likely, ")"
+  echo "failed due to typeCreator missing a switch ",perc(tc,both), " (",tc, ")"
   echo "Other errors: ", perc(otherErrors, both), " (",otherErrors, ")"
   echo "failed after gen ",perc(afterGen,both), " (",afterGen, ")"
   echo "failed before gen ",perc(beforeGen,both), " (",beforeGen,")"
@@ -79,16 +82,17 @@ proc runAddRunner() =
 
 
 
-proc printEnding(cfits,missingStore,missingExtract,unsupp : HashSet[string],nilDispatch: seq[string]) =
-  echo "====================="
+proc printEnding(cfits,missingStore,missingExtract,unsupp,tc : HashSet[string],nilDispatch: seq[string]) =
+  echo "===cfits=================="
   echo cfits.toSeq.join("\r\n")
-  echo "====================="
+  echo "=========parentstore============"
   echo missingStore.toSeq.sorted.reversed.join("\r\n")
-  echo "====================="
+  echo "======extract==============="
   echo missingExtract.toSeq.join("\r\n")
-  echo "====================="
+  echo "=========find parent for child: (not yet implemented)============"
   echo unsupp.toSeq.join("\r\n")
-
+  echo "=======type creator=============="
+  echo tc.toSeq.join("\r\n")
   # echo nilDispatch
 
 proc main() =
@@ -99,14 +103,18 @@ proc main() =
     missingStore = initHashSet[string]()
     missingExtract = initHashSet[string]()
     unsupp = initHashSet[string]()
+    tc = initHashSet[string]()
     likelyAnnotation = initHashSet[string]()
     nilDispatch = newSeq[string]()
+    nilCtDeref = newSeq[string]()
+
 
   let cfitsRe = re"cfits is missing:(\s+of .*?: true)" # \[Exception\]$"
-  let parentStoreRe = re"Error: unhandled exception: storeInParent.nim\(\d+, \d+\) `false` (\w+ -> \w+) plz impl for (parent|child): ck\w+ \[AssertionDefect\]"
+  let parentStoreRe = re"Error: unhandled exception: .*storeInParent\.nim\(\d+, \d+\) `false` (\w+ -> \w+) plz impl for (parent|child): ck\w+ \[AssertionDefect\]"
   let extractRe = re"most likely `extract` is not implemented for: \w+"
   let dispatchNilRe = re"Error: unhandled exception: cannot dispatch; dispatcher is nil \[NilAccessDefect\]" # this is when generating or using runtime method that messes with BodyExpr for example.
   let unsupportedRe = re"(\w+) is still unsupported"
+  let typeCreatorRe = re"Error: unhandled exception: type_creator\.nim(.*)" #(\d+, \d+) `false` still unsupported: of (.*?)\s+"
 
   let likelyAnnotationProblemRe = re"Error: unhandled exception: parent_finder.nim(\d+, \d+) `discarded == true`  \[AssertionDefect\]"
 
@@ -118,21 +126,26 @@ proc main() =
   # start
 
   let cwd = "/home/kobi7/currentWork/cs2nim"
-  var file = cwd / "nim_syntax_playground" / "sizes_2_smallfirst.txt"
+  # var file = cwd / "nim_syntax_playground" / "sizes_2_smallfirst.txt"
+  # var file = cwd / "nim_syntax_playground" / "updated_sizes_smallfirst.txt"
+  var file = ""#"/home/kobi7/More_CS_Libs_and_Apps" / "updated_sizes.txt"
+  var toolarge = open("/home/kobi7/More_CS_Libs_and_Apps/toobig.txt", fmRead).readAll.splitLines.toHashSet()
   if os.commandLineParams().len > 0:
     file = os.commandLineParams()[0]
-  let f = file.splitPath.head / "finished.txt"
-  var finToAdd = open(f, fmAppend)
-  let finToRead = open(f, fmRead)
-  let assumedFinish = finToRead.readAll.splitLines().toHashSet()
-  finToRead.close
+  # let f = file.splitPath.head / "finished.txt"
+  # var finToAdd = open(f, fmAppend)
+  # let finToRead = open(f, fmRead)
+  # let assumedFinish = finToRead.readAll.splitLines().toHashSet()
+  # finToRead.close
 
   # ============================== PARAMETERS:
-  let random = false
-  let hasLimit = true
-  let hasTimeLimit = true
-  let timeLimit = 5 * 60 # seconds
-  let limit = 20
+  const random = false
+  const reverse= false
+  const hasTimeLimit = false
+  const timeLimit = 0 + 1 * 60 + 0 * 60 * 60 # seconds
+  const hasCountLimit = false
+  const limit = 5
+  const earlyBreak = false
   # ===========================
   if random: randomize()
   let startTime = times.now()
@@ -140,31 +153,36 @@ proc main() =
   try:
     fhandleRead = open(file,fmRead)
     let contents = fhandleRead.readAll
-    let count = contents.countLines
+
     var lines = contents.splitLines()
-    var newlines = lines.toHashSet.difference(assumedFinish).toSeq
-    finished.add assumedFinish.toSeq
+    let count = contents.countLines
+
+
     if random:
-      newlines.shuffle
-    for line in newlines:
-      # GC_fullCollect()
-      # if line in assumedFinish:
-      #   finished.add line
-      #   continue
+      lines.shuffle
+    if reverse:
+      lines.reverse
+    for line in lines:
       let currentTime = times.now()
       let elapsed = currentTime - startTime
-      echo "time elapsed: ", elapsed
-      if hasLimit and ((hasTimeLimit and elapsed.inSeconds > timeLimit) or (missingExtract.len + cfits.len + missingStore.len >= limit)): # or nilDispatch.len > 10:
-        # printEnding(cfits,missingStore,missingExtract,unsupp ,nilDispatch)
+      let p = elapsed.toParts
+      echo "time elapsed: ", p[Hours] ,":", p[Minutes],":", p[Seconds],":", p[Milliseconds]
+      if (hasCountLimit and missingExtract.len + cfits.len + missingStore.len >= limit) or (hasTimeLimit and elapsed.inSeconds > timeLimit) : # or nilDispatch.len > 10:
         break
       echo line.split("/")[^1]
+      # sleep 1000
       if not fileExists(line): continue
-      let res = execProcess("./writer " & line, cwd, options = {poStdErrToStdOut, poEvalCommand,poUsePath})
+      if line in toolarge: echo "skipping, to avoid possible out of memory in big file."; continue
+
+      # echo "file size: " & $line.getFileSize()
+      let res = execProcess("./writer " & "\"" & line & "\"", cwd, options = {poStdErrToStdOut, poEvalCommand,poUsePath})
+      var after:bool
       # echo res
-      if res.contains("Error:"):
+      if res.contains("Error:") or res.contains("Segmentation fault") or res.contains("SIGSEGV: Illegal storage access"):
         unfinished.add line
         echo "had an error."
         if res.contains("=== REACHED GENERATE STAGE ==="):
+          after = true
           afterGen.inc
         else: beforeGen.inc
         if res.contains("cfits is missing:"):
@@ -189,6 +207,7 @@ proc main() =
           nullMethodCounter.inc
           nilDispatch.add line # add the file that failed.
         elif res.contains(unsupportedRe):
+          # assert false # to advance here, we need to know the error that we're seeing.
           unsupportedCounter.inc
           let matches = res.find(unsupportedRe)
           if matches.isSome:
@@ -196,20 +215,30 @@ proc main() =
             unsupp.incl c[0]
         elif res.contains(likelyAnnotationProblemRe):
           likelyAnnotation.incl line
+        elif res.contains(typeCreatorRe):
+          let matches = res.find(typeCreatorRe)
+          if matches.isSome:
+            let c = matches.get.captures
+            tc.incl c[0]
+        elif res.contains("SIGSEGV: Illegal storage access. (Attempt to read from nil?)"):
+          nilCtDeref.add line
         else:
           otherErrors.inc
-          # echo res
-          # assert false
+          if earlyBreak and not after:
+            echo res
+            assert false
       else:
-        finished.add line
-        finToAdd.writeLine(line)
+        if res.contains("finished:"):
+          finished.add line
+          echo "had finish text!"
+        else: echo res; quit 90
+        # finToAdd.writeLine(line)
 
-      # printStats(count, finished.len, unfinished.len, cfits.len , missingStore.len , unsupp.len, missingExtract.len , nilDispatch.len,  afterGen,  beforeGen, otherErrors)
-      printStats(count, finished.len, unfinished.len, cfitsCounter , storeCounter , unsupportedCounter, extractCounter , nullMethodCounter,  afterGen,  beforeGen, otherErrors)
+      printStats(lines.len, finished.len, unfinished.len, cfitsCounter , storeCounter , unsupportedCounter, extractCounter , nullMethodCounter, nilCtDeref.len,  afterGen,  beforeGen, likelyAnnotation.len, tc.len, otherErrors)
 
 
     echo "FINISHED!"
-    printEnding(cfits,missingStore,missingExtract,unsupp ,nilDispatch)
+    printEnding(cfits,missingStore,missingExtract,unsupp,tc ,nilDispatch)
     if cfits.len > 0:
       echo "cfits unique: " & $cfits.len
       writeToFileCfits(cfits)
@@ -225,7 +254,7 @@ proc main() =
 
   finally:
     fhandleRead.close
-    finToAdd.close
+    # finToAdd.close
 
 when isMainModule:
   main()

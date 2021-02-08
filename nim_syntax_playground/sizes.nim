@@ -1,7 +1,9 @@
-# let file = "/home/kobi7/More_CS_Libs_and_Apps/csast_files"
-let file = "/boot/efi/Downloads/CSharpSampleLibs/csast_files"
+import system, os
+# find /home/kobi7/More_CS_Libs_and_Apps/ -name *.csast -size -2M > sizes.txt
+
+let file = os.commandLineParams()[0]
 for f in file.lines:
-  let fh = open(f)
-  let s = fh.getFileSize
+  # let fh = open(f)
+  let s = f.getFileSize
   echo $s & "::" & f
-  close(fh)
+  # close(fh)
