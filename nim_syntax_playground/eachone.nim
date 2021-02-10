@@ -95,7 +95,7 @@ proc printEnding(cfits,missingStore,missingExtract,unsupp,tc : HashSet[string],n
   echo tc.toSeq.join("\r\n")
   # echo nilDispatch
 
-proc main() =
+proc main() : bool =
 
   # var file = "/home/kobi7/More_CS_Libs_and_Apps/csast_files"
   var
@@ -129,23 +129,41 @@ proc main() =
   # var file = cwd / "nim_syntax_playground" / "sizes_2_smallfirst.txt"
   # var file = cwd / "nim_syntax_playground" / "updated_sizes_smallfirst.txt"
   var file = ""#"/home/kobi7/More_CS_Libs_and_Apps" / "updated_sizes.txt"
-  var toolarge = open("/home/kobi7/More_CS_Libs_and_Apps/toobig.txt", fmRead).readAll.splitLines.toHashSet()
   if os.commandLineParams().len > 0:
     file = os.commandLineParams()[0]
-  # let f = file.splitPath.head / "finished.txt"
-  # var finToAdd = open(f, fmAppend)
-  # let finToRead = open(f, fmRead)
-  # let assumedFinish = finToRead.readAll.splitLines().toHashSet()
-  # finToRead.close
+  let toobigfile = "/home/kobi7/More_CS_Libs_and_Apps/toobig.txt"
+  let f = file.splitPath.head / "finished.txt"
+  let f2 = file.splitPath.head / "aftergen.txt"
+  if not fileExists(toobigfile) or not fileExists(f) or not fileExists(f2): quit("a file needed for operation does not exist!")
+
+  var toolarge = open(toobigfile, fmRead).readAll.splitLines.toHashSet()
+  let finToRead = open(f, fmRead)
+  var afterGenToRead = open(f2, fmRead)
+  var assumedFinish = initHashSet[string]()
+  var assumedAfter = initHashSet[string]()
+  if f.getFileSize > 0:
+    assumedFinish =  finToRead.readAll.splitLines().toHashSet()
+  if f2.getFileSize > 0:
+    let c = afterGenToRead.readAll
+    assumedAfter =  c.splitLines().toHashSet()
+
+  finToRead.close
+  afterGenToRead.close
+
+  var afterGenToAdd = open(f2, fmAppend)
+  var finToAdd = open(f, fmAppend)
+
 
   # ============================== PARAMETERS:
   const random = false
   const reverse= false
-  const hasTimeLimit = false
-  const timeLimit = 0 + 1 * 60 + 0 * 60 * 60 # seconds
-  const hasCountLimit = false
-  const limit = 5
-  const earlyBreak = false
+  const hasTimeLimit = true
+  const timeLimit = 10 + #sec
+    0 * 60 + #min
+    0 * 60 * 60 # hours
+  const hasCountLimit = true
+  const limit = 3
+  const earlyBreak = true
   # ===========================
   if random: randomize()
   let startTime = times.now()
@@ -162,17 +180,31 @@ proc main() =
       lines.shuffle
     if reverse:
       lines.reverse
-    for line in lines:
+
+    var metLimit:bool
+    for i, line in lines:
       let currentTime = times.now()
       let elapsed = currentTime - startTime
       let p = elapsed.toParts
+      if not fileExists(line):
+        continue
+      if line in toolarge:
+        # echo "skipping, to avoid possible out of memory in big file.";
+        continue
+      if line in assumedAfter:
+        afterGen.inc
+        continue # for now, only handle before gen stage (storing stage)
+      if line in assumedFinish:
+        finished.add line
+        continue
+
       echo "time elapsed: ", p[Hours] ,":", p[Minutes],":", p[Seconds],":", p[Milliseconds]
-      if (hasCountLimit and missingExtract.len + cfits.len + missingStore.len >= limit) or (hasTimeLimit and elapsed.inSeconds > timeLimit) : # or nilDispatch.len > 10:
-        break
+      if i > 0:
+        printStats(lines.len, finished.len, unfinished.len, cfitsCounter , storeCounter , unsupportedCounter, extractCounter , nullMethodCounter, nilCtDeref.len,  afterGen,  beforeGen, likelyAnnotation.len, tc.len, otherErrors)
+
       echo line.split("/")[^1]
-      # sleep 1000
-      if not fileExists(line): continue
-      if line in toolarge: echo "skipping, to avoid possible out of memory in big file."; continue
+      metLimit =  (hasCountLimit and missingExtract.len + cfits.len + missingStore.len >= limit) or (hasTimeLimit and elapsed.inSeconds > timeLimit) # or nilDispatch.len > 10:
+      if metLimit: break
 
       # echo "file size: " & $line.getFileSize()
       let res = execProcess("./writer " & "\"" & line & "\"", cwd, options = {poStdErrToStdOut, poEvalCommand,poUsePath})
@@ -180,10 +212,11 @@ proc main() =
       # echo res
       if res.contains("Error:") or res.contains("Segmentation fault") or res.contains("SIGSEGV: Illegal storage access"):
         unfinished.add line
-        echo "had an error."
+        # echo "had an error."
         if res.contains("=== REACHED GENERATE STAGE ==="):
           after = true
           afterGen.inc
+          afterGenToAdd.writeLine(line)
         else: beforeGen.inc
         if res.contains("cfits is missing:"):
           cfitsCounter.inc
@@ -201,7 +234,7 @@ proc main() =
           extractCounter.inc
           let matches = res.findAll(extractRe)
           for m in matches:
-            echo m
+            # echo m
             missingExtract.incl m
         elif res.contains(dispatchNilRe):
           nullMethodCounter.inc
@@ -222,6 +255,9 @@ proc main() =
             tc.incl c[0]
         elif res.contains("SIGSEGV: Illegal storage access. (Attempt to read from nil?)"):
           nilCtDeref.add line
+          if earlyBreak:
+            echo res
+            assert false
         else:
           otherErrors.inc
           if earlyBreak and not after:
@@ -230,11 +266,11 @@ proc main() =
       else:
         if res.contains("finished:"):
           finished.add line
-          echo "had finish text!"
+          finToAdd.writeLine(line)
+          # echo "had finish text!"
         else: echo res; quit 90
         # finToAdd.writeLine(line)
 
-      printStats(lines.len, finished.len, unfinished.len, cfitsCounter , storeCounter , unsupportedCounter, extractCounter , nullMethodCounter, nilCtDeref.len,  afterGen,  beforeGen, likelyAnnotation.len, tc.len, otherErrors)
 
 
     echo "FINISHED!"
@@ -251,10 +287,10 @@ proc main() =
       for ln in likelyAnnotation.toSeq:
         discard execCmd("dotnet /home/kobi7/currentWork/CsDisplay/bin/Release/netcoreapp2.2/CsDisplay.dll " & ln)
 
-
+    result = not metLimit # hmm wouldn't work, we need to recompile for fully automatic
   finally:
-    fhandleRead.close
-    # finToAdd.close
+    # fhandleRead.close
+    afterGenToAdd.close
+    finToAdd.close
 
-when isMainModule:
-  main()
+discard main()

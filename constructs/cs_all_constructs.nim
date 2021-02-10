@@ -4,7 +4,7 @@ import nre, sequtils, strutils, sets, re, uuids, options, tables, hashes
 import ../types
 import justtypes
 
-const stopEarly = false
+# const stopEarly = false
   # NOTE: for some reason I get the following warning:
   #   use {.base.} for base methods; baseless methods are deprecated [UseBase]
 # the other add methods don't recognize that this is their base method. (even though both parameters inherit correctly from CsObject.
