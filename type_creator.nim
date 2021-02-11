@@ -23,7 +23,6 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
   # not interested in supporting xml attributes comments etc.
   # not interested in supporting Trivia at the moment, some have nim equivalents though.
   # hmmm, what is Cref ?
-  # linq stuff, we should support it, but perhaps there are shortcuts. (program that replaces linq with normal c#) or we'll make equivalent nim procs to handle it.
   of ["AttributeTargetSpecifier", "Attribute", "AttributeList",
   "AttributeArgument", "AttributeArgumentList"
   , "XmlCDataSection", "XmlComment", "XmlCrefAttribute", "XmlElement",
@@ -39,9 +38,12 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
   "UndefDirectiveTrivia", "WarningDirectiveTrivia",
   "ConversionOperatorMemberCref", "CrefBracketedParameterList", "CrefParameter",
   "CrefParameterList", "IndexerMemberCref", "NameMemberCref",
-  "OperatorMemberCref", "QualifiedCref", "TypeCref", "OrderByClause",
-  "GroupClause", "JoinClause", "FromClause", "SelectClause",
-  "WhereClause", "JoinIntoClause"]:
+  "OperatorMemberCref", "QualifiedCref", "TypeCref",
+  # linq stuff, we should support it, but perhaps there are shortcuts. (program that replaces linq with normal c#) or we'll make equivalent nim procs to handle it.
+  # "OrderByClause",
+  # "GroupClause", "JoinClause", "FromClause", "SelectClause",
+  # "WhereClause", "JoinIntoClause"
+  ]:
     discard
 
   of "NamespaceDeclaration": # etc etc
@@ -1334,6 +1336,34 @@ proc createType*(info: Info; id: UUID; data: AllNeededData): Construct =
     setMoreForObject(a,id,data,info)
     result = Construct(kind: ckSizeOfExpression, sizeOfExpression: a)
 
+  of "OrderByClause":
+    var a = extract(CsOrderByClause, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckOrderByClause,orderByClause:a)
+  of "GroupClause":
+    var a = extract(CsGroupClause, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckGroupClause,groupClause:a)
+  of "JoinClause":
+    var a = extract(CsJoinClause, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckJoinClause,joinClause:a)
+  of "FromClause":
+    var a = extract(CsFromClause, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckFromClause,fromClause:a)
+  of "SelectClause":
+    var a = extract(CsSelectClause, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckSelectClause,selectClause:a)
+  of "WhereClause":
+    var a = extract(CsWhereClause, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckWhereClause,whereClause:a)
+  of "JoinIntoClause":
+    var a = extract(CsJoinIntoClause, info)
+    setMoreForObject(a,id,data,info)
+    result = Construct(kind: ckJoinIntoClause,joinIntoClause:a)
 
   else: assert false, "still unsupported: of \"" & info.declName & "\" : maybe in handle_construct.nim"
   if not result.isNil:

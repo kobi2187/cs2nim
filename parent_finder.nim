@@ -112,8 +112,13 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckLocalDeclarationStatement:
     echo "obj is a local declaration"
     # exists in methods, ctors, properties.
-    assert data.classLastAdded in [Methods, Properties, Ctors]
-    res = data.idLastClassPart
+    # assert data.classLastAdded in [Methods, Properties, Ctors]
+    # res = data.idLastClassPart
+    let m = getLastBlockTypes(@[
+      "MethodDeclaration", "PropertyDeclaration", "ConstructorDeclaration","ConversionOperatorDeclaration","AccessorDeclaration"
+      ])
+    assert m.isSome
+    res = m.get.id.some
   of ckClass:
     echo "obj is a class, returning the current namespace id"
     res = data.currentNamespace.id
@@ -308,7 +313,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     # else: assert false, " where else? " & $data.classLastAdded
   of ckMemberAccessExpression: # NOTE!! make sure this isn't another annotation: check source code. if it is, run CsDisplay again to remove annotation.
     res = data.lastBlockType(@["VariableDeclarator", "InvocationExpression"])
-    # if data.lastLine.isComplete: # variable declarator right hand side is fine,
+    if res.isNone: # add more? sometimes fails because of C# annotation meta data so ignore in such cases.
+      echo "ckMemberAccessExpression !! GOT NONE. Setting discarded to true, to ignore."
+      discarded = true
+
   of ckConstructorInitializer:
     # parent is ckConstructor.
     assert data.classLastAdded == ClassParts.Ctors
@@ -435,10 +443,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = lastMatch.get.id.some
 
   of ckBreakStatement: # if, case, else, while, do, ...others?
-    let lastMatch = getLastBlockTypes(@["IfStatement"]) #"MethodDeclaration"])
-    assert false # plz add more cases above.
+    let lastMatch = getLastBlockTypes(@["IfStatement", "TryStatement","ElseClause", "SwitchSection","LabeledStatement","WhileStatement", "MethodDeclaration"])
     assert lastMatch.isSome
     res = lastMatch.get.id.some
+    # assert false # plz add more cases above.
 
 
 
@@ -454,7 +462,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
       ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause, ckQueryContinuation, ckMakeRefExpression, ckRefValueExpression, ckRefTypeExpression, ckBlock, ckBinaryPattern, ckDiscardPattern,
       ckFunctionPointerType, ckImplicitObjectCreationExpression, ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord,
       ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, ckVarPattern, ckWithExpression,
-      ckImplicitStackAllocArrayCreationExpression]:
+      ckImplicitStackAllocArrayCreationExpression ,ckOrderByClause,ckGroupClause,ckJoinClause,ckFromClause,ckSelectClause,ckWhereClause,ckJoinIntoClause
+      ]:
     assert false, $obj.kind & " is still unsupported" & data.sourceCode
 
   result = (discarded, res)

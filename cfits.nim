@@ -1429,4 +1429,33 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
 
   of "ckRelationalPattern, ckLiteralExpression": true
 
+  of "ckInvocationExpression, ckSimpleLambdaExpression": true
+  of "ckArrayRankSpecifier, ckAssignmentExpression": true
+  of "ckForEachStatement, ckForStatement": true
+  of "ckCheckedExpression, ckImplicitArrayCreationExpression": true
+  of "ckIsPatternExpression, ckAwaitExpression": true
+  of "ckElseClause, ckUsingStatement": true
+  of "ckInitializerExpression, ckBaseExpression": true
+  of "ckThrowStatement, ckSwitchExpression": true
+  of "ckForEachStatement, ckThrowStatement": true
+  of "ckParenthesizedExpression, ckDefaultExpression": true
+  of "ckOperator, ckPointerType": true
+  of "ckExpressionStatement, ckConditionalExpression": true
+  of "ckElseClause, ckTryStatement": true
+  of "ckSwitchStatement, ckBaseExpression": true
+  of "ckWhileStatement, ckTryStatement": true
+  of "ckUsingStatement, ckThrowStatement": true
+  of "ckYieldStatement, ckSimpleLambdaExpression": true
+  of "ckSimpleLambdaExpression, ckCheckedExpression": true
+  of "ckDoStatement, ckAwaitExpression": true
+  of "ckAnonymousObjectMemberDeclarator, ckParenthesizedExpression": true
+  of "ckForEachVariableStatement, ckDeclarationExpression": true
+  of "ckWhileStatement, ckCheckedStatement": true
+  of "ckUsingStatement, ckLockStatement": true
+  of "ckAssignmentExpression, ckPredefinedType": true
+  of "ckArrayRankSpecifier, ckRangeExpression": true
+  of "ckLockStatement, ckForEachStatement": true
+  of "ckWhenClause, ckMemberAccessExpression": true
+  of "ckParenthesizedExpression, ckRangeExpression": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

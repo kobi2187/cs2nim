@@ -158,11 +158,11 @@ proc main() : bool =
   const random = false
   const reverse= false
   const hasTimeLimit = true
-  const timeLimit = 10 + #sec
-    0 * 60 + #min
+  const timeLimit = 0 + #sec
+    1 * 60 + #min
     0 * 60 * 60 # hours
   const hasCountLimit = true
-  const limit = 3
+  const limit = 10
   const earlyBreak = true
   # ===========================
   if random: randomize()

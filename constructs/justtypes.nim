@@ -19,12 +19,13 @@ type CsAccessor* = ref object of CsObject
   statements*: seq[BodyExpr]
   statementsTxt*: string
 type CsAccessorList* = ref object of CsObject
-  hasDefaultGet*: bool
-  hasGetBody*: bool
-  hasDefaultSet*: bool
-  hasSetBody*: bool
-  getPart*: CsAccessor
-  setPart*: CsAccessor
+  accessors*:seq[CsAccessor]
+  # hasDefaultGet*: bool
+  # hasGetBody*: bool
+  # hasDefaultSet*: bool
+  # hasSetBody*: bool
+  # getPart*: CsAccessor
+  # setPart*: CsAccessor
 type CsAliasQualifiedName* = ref object of CsObject #TODO(type:CsAliasQualifiedName)
 type CsField* = ref object of CsObject
   thetype*: string

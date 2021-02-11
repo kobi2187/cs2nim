@@ -63,7 +63,9 @@ type ConstructKind* = enum
       ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression,
       ckRecord, ckRecursivePattern, ckRelationalPattern, ckSubpattern,
       ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern,
-      ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression
+      ckVarPattern, ckWithExpression, ckImplicitStackAllocArrayCreationExpression,ckOrderByClause,
+      ckGroupClause,ckJoinClause,ckFromClause,ckSelectClause,ckWhereClause,ckJoinIntoClause
+
 import options
 type CNode {.acyclic.} = object
   id*: Option[UUID]
@@ -390,9 +392,22 @@ type CNode {.acyclic.} = object
   of ckWithExpression:
     withExpression*: CsWithExpression
   of ckImplicitStackAllocArrayCreationExpression:
-    implicitStackAllocArrayCreationExpression*
-        : CsImplicitStackAllocArrayCreationExpression
-    # ]#
+    implicitStackAllocArrayCreationExpression* : CsImplicitStackAllocArrayCreationExpression
+  of ckOrderByClause:
+    orderByClause*: CsOrderByClause
+  of ckGroupClause:
+    groupClause*: CsGroupClause
+  of ckJoinClause:
+    joinClause*: CsJoinClause
+  of ckFromClause:
+    fromClause*: CsFromClause
+  of ckSelectClause:
+    selectClause*: CsSelectClause
+  of ckWhereClause:
+    whereClause*: CsWhereClause
+  of ckJoinIntoClause:
+    joinIntoClause*: CsJoinIntoClause
+
 type Construct* = ref CNode # all the types we support, wrapped in a variant.
 
 # with the help of regex:
@@ -568,5 +583,10 @@ template unwrap*[T](c:Construct) : T =
   of ckVarPattern: c.varPattern
   of ckWithExpression: c.withExpression
   of ckImplicitStackAllocArrayCreationExpression: c.implicitStackAllocArrayCreationExpression
-
-
+  of ckOrderByClause: c.orderByClause
+  of ckGroupClause: c.groupClause
+  of ckJoinClause: c.joinClause
+  of ckFromClause: c.fromClause
+  of ckSelectClause: c.selectClause
+  of ckWhereClause: c.whereClause
+  of ckJoinIntoClause: c.joinIntoClause

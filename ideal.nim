@@ -17,8 +17,6 @@ import uuids, options, sequtils
 
 # proc pathOfBlocks(): seq[B] = discard # TODO
 
-# TODO: a sprawling giant. how to refactor? is it even possible to refactor this?
-
 
 import type_creator, parent_finder, storeInParent, cfits
 import all_needed_data
@@ -67,11 +65,10 @@ proc addToRoot2*(root: var CsRoot; src: string; info: Info; id: UUID;
     var obj: Construct = createType(info, id, allData)
     if obj.isNil: return
     obj.id = some(id)
-
+    root.register(id, obj)
 
     # allData.refresh(root,info,src)
     if obj.sameAsExisting(allData): return # for example, don't add a new namespace but fetch it based on name.
-    root.register(id, obj)
     # special handling for root & ns:
     if obj.kind == ckNamespace:
       root.add(obj.namespace)

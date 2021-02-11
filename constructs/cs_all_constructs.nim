@@ -22,24 +22,25 @@ proc newCs*(t: typedesc[CsAccessorList]): CsAccessorList =
 proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList =
   let val = info.essentials[0]
   result = newCs(CsAccessorList)
-  if val.contains("get;"):
-    result.hasDefaultGet = true
-    # result.hasGetBody = false
-  if val.contains("set;"):
-    result.hasDefaultSet = true
-    # result.hasSetBody = false
-  if val.contains(nre.re"get\s*{"):
-    echo val;
-    result.hasGetBody = true # TODO: check against real code.
-  if val.contains(nre.re"set\s*{"): echo val; result.hasSetBody = true
+  # if val.contains("get;"):
+  #   result.hasDefaultGet = true
+  #   # result.hasGetBody = false
+  # if val.contains("set;"):
+  #   result.hasDefaultSet = true
+  #   # result.hasSetBody = false
+  # if val.contains(nre.re"get\s*{"):
+  #   echo val;
+  #   result.hasGetBody = true # TODO: check against real code.
+  # if val.contains(nre.re"set\s*{"): echo val; result.hasSetBody = true
 
 method add*(parent: var CsAccessorList; item: CsAccessor) =
-  assert item.kind in ["get", "set"]
-  if item.kind == "get":
-    parent.getPart = item
-
-  else:
-    parent.setPart = item
+  parent.accessors.add item
+  # echo "csaccessor is " & $item.name & ":" & $item.kind
+  # assert item.kind in ["get", "set"#[ for normal properties ]#, "add","remove" #[ properties for events ]#]
+  # if item.kind == "get":
+  #   parent.getPart = item
+  # else:
+  #   parent.setPart = item
 
 # proc add*(parent: var CsAccessorList; item: Dummy; data: AllNeededData) = parent.add(item)
 
