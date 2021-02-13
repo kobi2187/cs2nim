@@ -20,7 +20,8 @@ proc newCs*(t: typedesc[CsAccessorList]): CsAccessorList =
   result.typ = $typeof(t)
 
 proc extract*(t: typedesc[CsAccessorList]; info: Info): CsAccessorList =
-  let val = info.essentials[0]
+  # let val = info.essentials[0]
+  echo info
   result = newCs(CsAccessorList)
   # if val.contains("get;"):
   #   result.hasDefaultGet = true

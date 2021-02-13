@@ -117,7 +117,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     let m = getLastBlockTypes(@[
       "MethodDeclaration", "PropertyDeclaration","DestructorDeclaration",
       "ConstructorDeclaration","ConversionOperatorDeclaration","AccessorDeclaration",
-      "AnonymousMethodExpression"
+      "AnonymousMethodExpression","ParenthesizedLambdaExpression",
 
       ])
     assert m.isSome
@@ -189,18 +189,20 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = data.lastEnum.id
     # data.currentNamespace
 
-  of ckReturnStatement:
-    echo "obj is ReturnStatement"
-    echo "we should be inside ctor, method, indexer, or property"
-    # res = data.idLastClassPart()
-    let m = getLastBlockTypes(
-      @[
-      "AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration",
-      "ConstructorDeclaration", "OperatorDeclaration", "ConversionOperatorDeclaration",
-      "AnonymousMethodExpression"
-      ])
-    assert m.isSome
-    res = m.get.id.some
+  # of ckReturnStatement:
+  #   echo "obj is ReturnStatement"
+  #   # echo "we should be inside ctor, method, indexer, or property"
+  #   # res = data.idLastClassPart()
+  #   let m = getLastBlockTypes(
+  #     @[
+  #     "AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration",
+  #     "ConstructorDeclaration", "OperatorDeclaration", "ConversionOperatorDeclaration",
+  #     "AnonymousMethodExpression","IfStatement", "TryStatement",
+  #     "ParenthesizedLambdaExpression",
+
+  #     ])
+  #   assert m.isSome
+  #   res = m.get.id.some
 
   of ckArgumentList:
     echo "object is ArgumentList"
@@ -428,21 +430,56 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = data.currentNamespace.id
   of ckEvent:
     res = data.currentNamespace.id
-  of ckSwitchStatement: # gleaned from cfits. can also check ebnf spec and c#7 book.
-    let m = getLastBlockTypes(@["MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause", "IfStatement", "SwitchSection"])
-    assert m.isSome
-    res = m.get.id.some
+  # of ckSwitchStatement: # gleaned from cfits. can also check ebnf spec and c#7 book.
+  #   let m = getLastBlockTypes(@[
+  #     "MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause", "IfStatement",
+  #     "AccessorDeclaration","ConstructorDeclaration",
+  #     "SwitchSection"
+  #     ])
+  #   assert m.isSome
+  #   res = m.get.id.some
 
-  #things within method bodies or ctor bodies or getter/setter bodies:
-  # TODO: split these if I'm wrong.
-  of [ckIfStatement, ckElseClause, ckCaseSwitchLabel, ckSwitchSection, ckForStatement, ckDoStatement, ckGotoStatement, ckCastExpression, ckThrowStatement,
-  ckPostfixUnaryExpression, ckForEachStatement, ckTryStatement, ckCatchClause, ckCatch,
-  ckUsingStatement, ckWhileStatement, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel, ckYieldStatement, ckLockStatement, ckThrowExpression
-  ]:
+  of ckCaseSwitchLabel:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckSwitchSection:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckGotoStatement:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckThrowStatement:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckPostfixUnaryExpression:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckTryStatement:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckCatchClause:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckCatch:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckContinueStatement:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckFinallyClause:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckDefaultSwitchLabel:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckYieldStatement:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of ckThrowExpression:
+    assert false, "got: " & $obj.kind & data.sourceCode
+  of [
+    ckSwitchStatement, ckReturnStatement, ckIfStatement, ckElseClause,
+    ckForStatement,ckDoStatement,ckCastExpression,ckWhileStatement,
+    ckForEachStatement,ckUsingStatement,ckLockStatement
+    ]:
     echo "got " & $obj.kind
     let parents = @[
-      "MethodDeclaration","ConstructorDeclaration","AccessorDeclaration",
-      "ConversionOperatorDeclaration"      # add more here.
+    "DestructorDeclaration",
+    "AccessorDeclaration",
+      "ConversionOperatorDeclaration", "ParenthesizedLambdaExpression",      # add more here.
+       "MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause",
+      "SwitchSection", "IndexerDeclaration",
+      "ConstructorDeclaration", "OperatorDeclaration",
+      "AnonymousMethodExpression","IfStatement", "TryStatement",
+
     ]
     echo "and looking for its parent in:", parents
     let lastMatch = getLastBlockTypes(parents)
@@ -455,23 +492,233 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = lastMatch.get.id.some
     # assert false # plz add more cases above.
 
+  of ckThisExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckBracketedArgumentList:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckElementAccessExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckParenthesizedExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckArrayRankSpecifier:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckArrayType:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckOmittedArraySizeExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTypeOfExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
 
+  of ckSimpleLambdaExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckArrayCreationExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckArrowExpressionClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckAliasQualifiedName:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTypeParameter:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckAwaitExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckConditionalExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTypeParameterList:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
 
-  of [ckThisExpression, ckBracketedArgumentList, ckElementAccessExpression, ckParenthesizedExpression, ckArrayRankSpecifier, ckArrayType, ckOmittedArraySizeExpression, ckTypeOfExpression,
-      ckSimpleLambdaExpression, ckArrayCreationExpression, ckArrowExpressionClause, ckAliasQualifiedName, ckTypeParameter, ckAwaitExpression, ckConditionalExpression, ckTypeParameterList,
-      ckInterpolatedStringText, ckParenthesizedLambdaExpression, ckNullableType, ckBaseExpression, ckInterpolation, ckNameColon, ckTypeParameterConstraintClause, ckTypeConstraint,
-      ckSingleVariableDesignation, ckInterpolatedStringExpression, ckImplicitArrayCreationExpression, ckDeclarationExpression, ckConditionalAccessExpression, ckMemberBindingExpression,
-      ckDefaultExpression, ckPointerType, ckAnonymousObjectMemberDeclarator, ckCheckedExpression, ckIsPatternExpression, ckDeclarationPattern, ckConstantPattern, ckRefType, ckRefExpression,
-      ckClassOrStructConstraint, ckOmittedTypeArgument, ckTupleElement, ckOperator, ckEventField, ckImplicitElementAccess, ckAnonymousMethodExpression, ckTupleExpression,
-      ckAnonymousObjectCreationExpression, ckGlobalStatement, ckIncompleteMember, ckLocalFunctionStatement, ckConversionOperator, ckTupleType, ckFixedStatement, ckEmptyStatement, ckSizeOfExpression,
-      ckQueryBody, ckCheckedStatement, ckQueryExpression, ckCasePatternSwitchLabel, ckLabeledStatement, ckConstructorConstraint, ckUnsafeStatement, ckParenthesizedVariableDesignation,
-      ckInterpolationFormatClause, ckDestructor, ckDiscardDesignation, ckStackAllocArrayCreationExpression, ckWhenClause, ckForEachVariableStatement, ckLetClause, ckElementBindingExpression,
-      ckCatchFilterClause, ckOrdering, ckInterpolationAlignmentClause, ckQueryContinuation, ckMakeRefExpression, ckRefValueExpression, ckRefTypeExpression, ckBlock, ckBinaryPattern, ckDiscardPattern,
-      ckFunctionPointerType, ckImplicitObjectCreationExpression, ckParenthesizedPattern, ckPositionalPatternClause, ckPrimaryConstructorBaseType, ckPropertyPatternClause, ckRangeExpression, ckRecord,
-      ckRecursivePattern, ckRelationalPattern, ckSubpattern, ckSwitchExpression, ckSwitchExpressionArm, ckTypePattern, ckUnaryPattern, ckVarPattern, ckWithExpression,
-      ckImplicitStackAllocArrayCreationExpression ,ckOrderByClause,ckGroupClause,ckJoinClause,ckFromClause,ckSelectClause,ckWhereClause,ckJoinIntoClause
-      ]:
-    assert false, $obj.kind & " is still unsupported" & data.sourceCode
+  of ckInterpolatedStringText:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckParenthesizedLambdaExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckNullableType:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckBaseExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckInterpolation:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckNameColon:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTypeParameterConstraintClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTypeConstraint:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckSingleVariableDesignation:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckInterpolatedStringExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckImplicitArrayCreationExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckDeclarationExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckConditionalAccessExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckMemberBindingExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckDefaultExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckPointerType:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckAnonymousObjectMemberDeclarator:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckCheckedExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckIsPatternExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckDeclarationPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckConstantPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckRefType:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckRefExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckClassOrStructConstraint:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckOmittedTypeArgument:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTupleElement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckOperator:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckEventField:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckImplicitElementAccess:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckAnonymousMethodExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTupleExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckAnonymousObjectCreationExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckGlobalStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckIncompleteMember:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckLocalFunctionStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckConversionOperator:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTupleType:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckFixedStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckEmptyStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckSizeOfExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckQueryBody:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckCheckedStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckQueryExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckCasePatternSwitchLabel:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckLabeledStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckConstructorConstraint:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckUnsafeStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckParenthesizedVariableDesignation:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckInterpolationFormatClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckDestructor:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckDiscardDesignation:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckStackAllocArrayCreationExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckWhenClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckForEachVariableStatement:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckLetClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckElementBindingExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckCatchFilterClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckOrdering:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckInterpolationAlignmentClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckQueryContinuation:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckMakeRefExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckRefValueExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckRefTypeExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckBlock:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckBinaryPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckDiscardPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckFunctionPointerType:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckImplicitObjectCreationExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckParenthesizedPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckPositionalPatternClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckPrimaryConstructorBaseType:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckPropertyPatternClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckRangeExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckRecord:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckRecursivePattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckRelationalPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckSubpattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckSwitchExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckSwitchExpressionArm:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckTypePattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckUnaryPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckVarPattern:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckWithExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
+  of ckImplicitStackAllocArrayCreationExpression:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckOrderByClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckGroupClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckJoinClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckFromClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckSelectClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckWhereClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+  of ckJoinIntoClause:
+    assert false, "got: " & $obj.kind & "\nsource: " & data.sourceCode
+
 
   result = (discarded, res)
   if res.isNone: assert discarded == true

@@ -4174,3 +4174,39 @@ method add*(parent: var CsConversionOperator; item: CsThrowStatement) =
   echo "in method add*(parent: var CsConversionOperator; item: CsThrowStatement)"
   todoimpl # TODO(add: CsConversionOperator, CsThrowStatement)
 
+method add*(parent: var CsAccessor; item: CsSwitchStatement) =
+  echo "in method add*(parent: var CsAccessor; item: CsSwitchStatement)"
+  todoimpl # TODO(add: CsAccessor, CsSwitchStatement)
+
+method add*(parent: var CsParenthesizedLambdaExpression; item: CsIfStatement) =
+  echo "in method add*(parent: var CsParenthesizedLambdaExpression; item: CsIfStatement)"
+  todoimpl # TODO(add: CsParenthesizedLambdaExpression, CsIfStatement)
+
+method add*(parent: var CsParenthesizedLambdaExpression; item: CsLocalDeclarationStatement) =
+  echo "in method add*(parent: var CsParenthesizedLambdaExpression; item: CsLocalDeclarationStatement)"
+  todoimpl # TODO(add: CsParenthesizedLambdaExpression, CsLocalDeclarationStatement)
+
+method add*(parent: var CsDestructor; item: CsThrowStatement) =
+  echo "in method add*(parent: var CsDestructor; item: CsThrowStatement)"
+  todoimpl # TODO(add: CsDestructor, CsThrowStatement)
+
+method add*(parent: var CsParenthesizedLambdaExpression; item: CsTryStatement) =
+  echo "in method add*(parent: var CsParenthesizedLambdaExpression; item: CsTryStatement)"
+  todoimpl # TODO(add: CsParenthesizedLambdaExpression, CsTryStatement)
+
+method add*(parent: var CsTryStatement; item: CsReturnStatement) =
+  echo "in method add*(parent: var CsTryStatement; item: CsReturnStatement)"
+  todoimpl # TODO(add: CsTryStatement, CsReturnStatement)
+
+method add*(parent: var CsConversionOperator; item: CsYieldStatement) =
+  echo "in method add*(parent: var CsConversionOperator; item: CsYieldStatement)"
+  todoimpl # TODO(add: CsConversionOperator, CsYieldStatement)
+
+method add*(parent: var CsConstructor; item: CsSwitchStatement) =
+  echo "in method add*(parent: var CsConstructor; item: CsSwitchStatement)"
+  todoimpl # TODO(add: CsConstructor, CsSwitchStatement)
+
+method add*(parent: var CsParenthesizedLambdaExpression; item: CsReturnStatement) =
+  echo "in method add*(parent: var CsParenthesizedLambdaExpression; item: CsReturnStatement)"
+  todoimpl # TODO(add: CsParenthesizedLambdaExpression, CsReturnStatement)
+

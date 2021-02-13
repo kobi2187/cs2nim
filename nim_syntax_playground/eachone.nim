@@ -27,9 +27,8 @@ proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsuppo
   echo "no errors + passed storing stage ",perc(finished + afterGen, both)
   echo both, "/", count, " = " , perc(both,count)
 
-proc genFits(newFits:string, dryRun=true) : string =
-  echo "in genFits"
-  let file = "/home/kobi7/currentWork/cs2nim/cfits.nim"
+
+proc fitsContent(file:string, newfits:string) : string =
   var fh:File
   try:
     fh = open(file)
@@ -37,21 +36,25 @@ proc genFits(newFits:string, dryRun=true) : string =
     let exceptLast = lines[0..^2]
     let output = exceptLast.join("\n")
     let last = "\n" & r"""  else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")"""
-    result &= output &  newfits & "\n" & last
+    result &= output & "\n" & newfits & "\n" & last
   finally:  fh.close
-  if not dryRun:
-    var fh2:File
-    try:
-      let fh2 = open(file, fmWrite)
-      fh2.write(result)
-    finally:
-      fh2.close
+
+proc genFits(newFits:string) =
+  echo "in genFits"
+  let file = "/home/kobi7/currentWork/cs2nim/cfits.nim"
+  let content = fitsContent(file,newFits)
+  var fh2:File
+  try:
+    let fh2 = open(file, fmWrite)
+    fh2.write(content)
+  finally:
+    fh2.close
 
 
 proc writeToFileCfits(cfits : HashSet[string]) =
   let newfits = cfits.toSeq.join("\r\n")
   echo "saving cfits.nim"
-  discard genFits(newfits, false)
+  genFits(newfits)
 
 proc writeToFileStoreMapping(missingStore : HashSet[string]) =
   let newstores = missingStore.toSeq.sorted.join("\r\n")
@@ -307,24 +310,27 @@ proc main() : bool =
     afterGenToAdd.close
     finToAdd.close
 
-var isFinishedSuccessfully :bool   = main()
-let cwd = "/home/kobi7/currentWork/cs2nim/"
-sleep 5000
-# echo "attempting to run AddRunner"
-# let res = execCmd("/home/kobi7/currentWork/cs2nim/addrunner")
-# sleep 5000
-#[
-while not isFinishedSuccessfully:
-  echo "iteration!"
-  echo "Attempting recompilation!"
-  let compileWriter = execProcess("nim c --gc:arc -d:danger /home/kobi7/currentWork/cs2nim/writer.nim", cwd)
-  echo compileWriter
+when isMainModule:
+  var isFinishedSuccessfully :bool   = main()
+  let cwd = "/home/kobi7/currentWork/cs2nim/"
   sleep 5000
-  isFinishedSuccessfully = main()
-  echo "Finished successfully? ", isFinishedSuccessfully
-  echo "attempting to run AddRunner"
-  let res = execCmd("/home/kobi7/currentWork/cs2nim/addrunner")
-  echo res
-  sleep 5000
+  # echo "attempting to run AddRunner"
+  # let res = execCmd("/home/kobi7/currentWork/cs2nim/addrunner")
+  # sleep 5000
+  when false:
+    while not isFinishedSuccessfully:
+      echo "iteration!"
+      echo "Attempting recompilation!"
+      echo "sleeping 5 seconds"
+      sleep 5000
+      let compileWriter = execProcess("nim c --gc:arc -d:danger /home/kobi7/currentWork/cs2nim/writer.nim", cwd)
+      echo compileWriter
+      echo "sleeping 5 seconds"
+      sleep 5000
+      isFinishedSuccessfully = main()
+      echo "Finished successfully? ", isFinishedSuccessfully
+      echo "attempting to run AddRunner"
+      let res = execCmd("/home/kobi7/currentWork/cs2nim/addrunner")
+      echo res
+      # sleep 5000
 
-]#

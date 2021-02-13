@@ -1544,7 +1544,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckElseClause, ckCheckedStatement": true
   of "ckVariable, ckFunctionPointerType": true
   of "ckSwitchExpressionArm, ckTupleExpression": true
-  of "ckLetClause, ckParenthesizedExpression": true
+
   of "ckLetClause, ckArrayCreationExpression": true
   of "ckFromClause, ckConditionalExpression": true
   of "ckFromClause, ckNullableType": true
@@ -1571,5 +1571,14 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
 
   of "ckAnonymousMethodExpression, ckReturnStatement": true
   of "ckConversionOperator, ckThrowStatement": true
+  of "ckAccessor, ckSwitchStatement": true
+  of "ckParenthesizedLambdaExpression, ckIfStatement": true
+  of "ckParenthesizedLambdaExpression, ckLocalDeclarationStatement": true
+  of "ckDestructor, ckThrowStatement": true
+  of "ckParenthesizedLambdaExpression, ckTryStatement": true
+  of "ckTryStatement, ckReturnStatement": true
+  of "ckConversionOperator, ckYieldStatement": true
+  of "ckConstructor, ckSwitchStatement": true
+  of "ckParenthesizedLambdaExpression, ckReturnStatement": true
 
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

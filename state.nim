@@ -64,11 +64,9 @@ let blockTypesTxt* = [ # everything in C# that has an opening { brace
   "TryStatement",
   "FinallyClause",
   "ForEachStatement",
-  "UsingStatement"
-  # "ExpressionStatement", # nope
-  # "ArrowExpressionClause"
-  # "ReturnStatement", # nope
-  # "LocalDeclarationStatement" # not sure why. # nope
+  "UsingStatement",
+  "ForStatement"
+
 ].toHashSet
 # note: if endblock raises an assert, it means a previous construct was not recorded here.
 
