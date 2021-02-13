@@ -37,7 +37,7 @@ proc genFits(newFits:string, dryRun=true) : string =
     let exceptLast = lines[0..^2]
     let output = exceptLast.join("\n")
     let last = "\n" & r"""  else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")"""
-    result &= output & "\n" & newfits & "\n" & last
+    result &= output &  newfits & "\n" & last
   finally:  fh.close
   if not dryRun:
     var fh2:File
@@ -128,7 +128,11 @@ proc main() : bool =
   let cwd = "/home/kobi7/currentWork/cs2nim"
   # var file = cwd / "nim_syntax_playground" / "sizes_2_smallfirst.txt"
   # var file = cwd / "nim_syntax_playground" / "updated_sizes_smallfirst.txt"
-  var file = ""#"/home/kobi7/More_CS_Libs_and_Apps" / "updated_sizes.txt"
+
+  # created with: find /home/kobi7/More_CS_Libs_and_Apps/ -name *.csast -size -2M
+  # then run thru sizes.nim, and sort natural in a text editor, and remove (search&replace) ^\d+
+  var file = "/home/kobi7/More_CS_Libs_and_Apps/more_updated_sorted.txt"
+
   if os.commandLineParams().len > 0:
     file = os.commandLineParams()[0]
   let toobigfile = "/home/kobi7/More_CS_Libs_and_Apps/toobig.txt"
@@ -156,13 +160,14 @@ proc main() : bool =
 
   # ============================== PARAMETERS:
   const random = false
-  const reverse= false
-  const hasTimeLimit = true
-  const timeLimit = 0 + #sec
-    1 * 60 + #min
+  const reverse = false
+  const hasTimeLimit = false
+  const timeLimit = 5 + #sec
+    0 * 60 + #min
     0 * 60 * 60 # hours
+  const iterLimit = 25 # in seconds
   const hasCountLimit = true
-  const limit = 10
+  const limit = 1
   const earlyBreak = true
   # ===========================
   if random: randomize()
@@ -183,8 +188,8 @@ proc main() : bool =
 
     var metLimit:bool
     for i, line in lines:
-      let currentTime = times.now()
-      let elapsed = currentTime - startTime
+      let iterBeginTime = times.now()
+      let elapsed = iterBeginTime - startTime
       let p = elapsed.toParts
       if not fileExists(line):
         continue
@@ -257,11 +262,17 @@ proc main() : bool =
           nilCtDeref.add line
           if earlyBreak:
             echo res
+            echo "regular (not runtime dispatch related) null dereference error"
+            echo line.changeFileExt(".cs")
+            echo "reached " & $(finished.len + unfinished.len) & " --  Percent:  " & perc(finished.len+unfinished.len,count)
             assert false
         else:
           otherErrors.inc
           if earlyBreak and not after:
             echo res
+            echo "Some other error occured!"
+            echo line.changeFileExt(".cs")
+            echo "reached " & $(finished.len + unfinished.len) & " --  Percent:  " & perc(finished.len+unfinished.len,count)
             assert false
       else:
         if res.contains("finished:"):
@@ -270,7 +281,10 @@ proc main() : bool =
           # echo "had finish text!"
         else: echo res; quit 90
         # finToAdd.writeLine(line)
-
+      # we run them sorted by size, so if the last one was too long, we break, assuming the next ones will be longer.
+      let iterEndTime = times.now()
+      if (iterEndTime - iterBeginTime).inSeconds > iterLimit and not random and not reverse:
+        break
 
 
     echo "FINISHED!"
@@ -287,10 +301,30 @@ proc main() : bool =
       for ln in likelyAnnotation.toSeq:
         discard execCmd("dotnet /home/kobi7/currentWork/CsDisplay/bin/Release/netcoreapp2.2/CsDisplay.dll " & ln)
 
-    result = not metLimit # hmm wouldn't work, we need to recompile for fully automatic
+    result = not metLimit
   finally:
     # fhandleRead.close
     afterGenToAdd.close
     finToAdd.close
 
-discard main()
+var isFinishedSuccessfully :bool   = main()
+let cwd = "/home/kobi7/currentWork/cs2nim/"
+sleep 5000
+# echo "attempting to run AddRunner"
+# let res = execCmd("/home/kobi7/currentWork/cs2nim/addrunner")
+# sleep 5000
+#[
+while not isFinishedSuccessfully:
+  echo "iteration!"
+  echo "Attempting recompilation!"
+  let compileWriter = execProcess("nim c --gc:arc -d:danger /home/kobi7/currentWork/cs2nim/writer.nim", cwd)
+  echo compileWriter
+  sleep 5000
+  isFinishedSuccessfully = main()
+  echo "Finished successfully? ", isFinishedSuccessfully
+  echo "attempting to run AddRunner"
+  let res = execCmd("/home/kobi7/currentWork/cs2nim/addrunner")
+  echo res
+  sleep 5000
+
+]#

@@ -1458,4 +1458,118 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckWhenClause, ckMemberAccessExpression": true
   of "ckParenthesizedExpression, ckRangeExpression": true
 
+  of "ckTryStatement, ckBreakStatement": true
+
+  of "ckConversionOperator, ckLocalDeclarationStatement": true
+
+  of "ckAccessor, ckLocalDeclarationStatement": true
+
+  of "ckSubpattern, ckBinaryPattern": true
+
+  of "ckMethod, ckBreakStatement": true
+
+  of "ckBinaryPattern, ckRecursivePattern": true
+  of "ckQueryExpression, ckFromClause": true
+
+  of "ckFromClause, ckMemberAccessExpression": true
+  of "ckFromClause, ckLiteralExpression": true
+  of "ckFromClause, ckInvocationExpression": true
+  of "ckQueryBody, ckSelectClause": true
+  of "ckFromClause, ckAwaitExpression": true
+
+  of "ckSelectClause, ckTupleExpression": true
+  of "ckSelectClause, ckArrayCreationExpression": true
+  of "ckSelectClause, ckConditionalExpression": true
+  of "ckQueryBody, ckJoinClause": true
+  of "ckSelectClause, ckAnonymousObjectCreationExpression": true
+
+  of "ckSelectClause, ckMemberAccessExpression": true
+  of "ckQueryBody, ckWhereClause": true
+  of "ckQueryBody, ckFromClause": true
+  of "ckQueryBody, ckOrderByClause": true
+  of "ckJoinClause, ckInvocationExpression": true
+
+  of "ckSelectClause, ckCastExpression": true
+  of "ckWhereClause, ckBinaryExpression": true
+  of "ckWhereClause, ckInvocationExpression": true
+  of "ckSelectClause, ckInvocationExpression": true
+  of "ckOrderByClause, ckOrdering": true
+
+  of "ckFromClause, ckArrayCreationExpression": true
+  of "ckSelectClause, ckBinaryExpression": true
+  of "ckQueryBody, ckGroupClause": true
+  of "ckFromClause, ckPredefinedType": true
+  of "ckSelectClause, ckInterpolatedStringExpression": true
+
+  of "ckFromClause, ckImplicitArrayCreationExpression": true
+  of "ckGroupClause, ckMemberAccessExpression": true
+  of "ckGroupClause, ckAnonymousObjectCreationExpression": true
+  of "ckSelectClause, ckObjectCreationExpression": true
+  of "ckQueryBody, ckQueryContinuation": true
+
+  of "ckQueryContinuation, ckQueryBody": true
+  of "ckWhereClause, ckPrefixUnaryExpression": true
+  of "ckGroupClause, ckLiteralExpression": true
+  of "ckOrdering, ckMemberAccessExpression": true
+  of "ckAnonymousObjectMemberDeclarator, ckQueryExpression": true
+  of "ckSelectClause, ckLiteralExpression": true
+
+  of "ckGroupClause, ckBinaryExpression": true
+  of "ckWhereClause, ckParenthesizedExpression": true
+  of "ckFromClause, ckThisExpression": true
+  of "ckOrdering, ckElementAccessExpression": true
+  of "ckWhereClause, ckMemberAccessExpression": true
+  of "ckSelectClause, ckQueryExpression": true
+
+  of "ckGroupClause, ckInvocationExpression": true
+
+  of "ckOrdering, ckBinaryExpression": true
+  of "ckJoinClause, ckMemberAccessExpression": true
+  of "ckLetClause, ckLiteralExpression": true
+
+  of "ckJoinClause, ckJoinIntoClause": true
+  of "ckTypePattern, ckPredefinedType": true
+
+  of "ckDoStatement, ckConditionalExpression": true
+
+  of "ckFromClause, ckElementAccessExpression": true
+  of "ckFromClause, ckQueryExpression": true
+  of "ckWhileStatement, ckContinueStatement": true
+  of "ckGotoStatement, ckCastExpression": true
+  of "ckJoinClause, ckArrayCreationExpression": true
+  of "ckSelectClause, ckElementAccessExpression": true
+  of "ckPointerType, ckTupleType": true
+  of "ckJoinClause, ckLiteralExpression": true
+  of "ckFromClause, ckParenthesizedExpression": true
+  of "ckElseClause, ckCheckedStatement": true
+  of "ckVariable, ckFunctionPointerType": true
+  of "ckSwitchExpressionArm, ckTupleExpression": true
+  of "ckLetClause, ckParenthesizedExpression": true
+  of "ckLetClause, ckArrayCreationExpression": true
+  of "ckFromClause, ckConditionalExpression": true
+  of "ckFromClause, ckNullableType": true
+  of "ckLetClause, ckObjectCreationExpression": true
+  of "ckOrdering, ckInvocationExpression": true
+  of "ckLetClause, ckElementAccessExpression": true
+  of "ckLetClause, ckAnonymousObjectCreationExpression": true
+  of "ckParenthesizedExpression, ckAnonymousObjectCreationExpression": true
+  of "ckExpressionStatement, ckBaseExpression": true
+  of "ckGroupClause, ckCastExpression": true
+  of "ckNamespace, ckEvent": true
+  of "ckNamespace, ckConversionOperator": true
+  of "ckWhereClause, ckIsPatternExpression": true
+  of "ckSelectClause, ckImplicitArrayCreationExpression": true
+  of "ckRefExpression, ckPostfixUnaryExpression": true
+  of "ckLetClause, ckTypeOfExpression": true
+  of "ckParenthesizedLambdaExpression, ckCheckedExpression": true
+  of "ckParenthesizedExpression, ckGenericName": true
+  of "ckOrdering, ckParenthesizedExpression": true
+
+  of "ckDestructor, ckLocalDeclarationStatement": true
+
+  of "ckAnonymousMethodExpression, ckLocalDeclarationStatement": true
+
+  of "ckAnonymousMethodExpression, ckReturnStatement": true
+  of "ckConversionOperator, ckThrowStatement": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

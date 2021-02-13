@@ -1891,13 +1891,15 @@ method gen*(c: var CsForStatement): string =
 
 # ============= CsFromClause ========
 
-proc newCs*(t: typedesc[CsFromClause]; name: string): CsFromClause =
+proc newCs*(t: typedesc[CsFromClause]): CsFromClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsFromClause)
 
-proc extract*(t: typedesc[CsFromClause];
-    info: Info): CsFromClause = todoimpl
+proc extract*(t: typedesc[CsFromClause]; info: Info): CsFromClause =
+  echo info
+  result = newCs(CsFromClause)
+  # todoimpl
 
 # method add*(parent: var CsFromClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsFromClause; item: Dummy) "
@@ -1974,13 +1976,15 @@ method gen*(c: var CsGotoStatement): string =
 
 # ============= CsGroupClause ========
 
-proc newCs*(t: typedesc[CsGroupClause]; name: string): CsGroupClause =
+proc newCs*(t: typedesc[CsGroupClause]): CsGroupClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsGroupClause)
 
-proc extract*(t: typedesc[CsGroupClause];
-    info: Info): CsGroupClause = todoimpl
+proc extract*(t: typedesc[CsGroupClause];    info: Info): CsGroupClause =
+  echo info
+  result = newCs(CsGroupClause)
+  # todoimpl
 
 # method add*(parent: var CsGroupClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsGroupClause; item: Dummy) "
@@ -2351,13 +2355,15 @@ method gen*(c: var CsIsPatternExpression): string =
 
 # ============= CsJoinClause ========
 
-proc newCs*(t: typedesc[CsJoinClause]; name: string): CsJoinClause =
+proc newCs*(t: typedesc[CsJoinClause]): CsJoinClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsJoinClause)
 
-proc extract*(t: typedesc[CsJoinClause];
-    info: Info): CsJoinClause = todoimpl
+proc extract*(t: typedesc[CsJoinClause]; info: Info): CsJoinClause =
+  echo info
+  result = newCs(CsJoinClause)
+  # todoimpl
 
 # method add*(parent: var CsJoinClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinClause; item: Dummy) "
@@ -2371,13 +2377,15 @@ method gen*(c: var CsJoinClause): string =
 
 # ============= CsJoinIntoClause ========
 
-proc newCs*(t: typedesc[CsJoinIntoClause]; name: string): CsJoinIntoClause =
+proc newCs*(t: typedesc[CsJoinIntoClause]): CsJoinIntoClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsJoinIntoClause)
 
-proc extract*(t: typedesc[CsJoinIntoClause];
-    info: Info): CsJoinIntoClause = todoimpl
+proc extract*(t: typedesc[CsJoinIntoClause];    info: Info): CsJoinIntoClause =
+  echo info
+  result = newCs(CsJoinIntoClause)
+  # todoimpl
 
 # method add*(parent: var CsJoinIntoClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsJoinIntoClause; item: Dummy) "
@@ -2965,13 +2973,15 @@ method gen*(c: var CsOperator): string =
 
 # ============= CsOrderByClause ========
 
-proc newCs*(t: typedesc[CsOrderByClause]; name: string): CsOrderByClause =
+proc newCs*(t: typedesc[CsOrderByClause]): CsOrderByClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsOrderByClause)
 
-proc extract*(t: typedesc[CsOrderByClause];
-    info: Info): CsOrderByClause = todoimpl
+proc extract*(t: typedesc[CsOrderByClause];    info: Info): CsOrderByClause =
+  echo info
+  result = newCs(CsOrderByClause)
+  # todoimpl
 
 # method add*(parent: var CsOrderByClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsOrderByClause; item: Dummy) "
@@ -3401,13 +3411,15 @@ method gen*(c: CsReturnStatement): string =
 
 # ============= CsSelectClause ========
 
-proc newCs*(t: typedesc[CsSelectClause]; name: string): CsSelectClause =
+proc newCs*(t: typedesc[CsSelectClause]): CsSelectClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsSelectClause)
 
-proc extract*(t: typedesc[CsSelectClause];
-    info: Info): CsSelectClause = todoimpl
+proc extract*(t: typedesc[CsSelectClause];    info: Info): CsSelectClause =
+  echo info
+  result = newCs(CsSelectClause)
+  # todoimpl
 
 # method add*(parent: var CsSelectClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsSelectClause; item: Dummy) "
@@ -3960,13 +3972,15 @@ method gen*(c: var CsWhenClause): string =
 
 # ============= CsWhereClause ========
 
-proc newCs*(t: typedesc[CsWhereClause]; name: string): CsWhereClause =
+proc newCs*(t: typedesc[CsWhereClause]): CsWhereClause =
   new result
   result.typ = $typeof(t)
 #TODO(create:CsWhereClause)
 
-proc extract*(t: typedesc[CsWhereClause];
-    info: Info): CsWhereClause = todoimpl
+proc extract*(t: typedesc[CsWhereClause];    info: Info): CsWhereClause =
+  echo info
+  result = newCs(CsWhereClause)
+  # todoimpl
 
 # method add*(parent: var CsWhereClause; item: Dummy)  =
 #   echo "!!! ---->> unimplemented:  method add*(parent: var CsWhereClause; item: Dummy) "

@@ -8,7 +8,8 @@ type Fly = ref object of RootRef
 proc name(f:Fly) :string= "Fly"
 type Bird = ref object of RootRef
 proc name(f:Bird) :string= "Bird"
-# flies = # : seq[ICanFly] = @[]
-var flies= @[ Fly(),Bird()]
+var flies : seq[ICanFly] = @[]
+flies.add Fly()
+flies.add Bird()
 for f in flies:
-  echo ICanFly(f).name()
+  echo f.name()

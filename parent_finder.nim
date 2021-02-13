@@ -115,7 +115,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     # assert data.classLastAdded in [Methods, Properties, Ctors]
     # res = data.idLastClassPart
     let m = getLastBlockTypes(@[
-      "MethodDeclaration", "PropertyDeclaration", "ConstructorDeclaration","ConversionOperatorDeclaration","AccessorDeclaration"
+      "MethodDeclaration", "PropertyDeclaration","DestructorDeclaration",
+      "ConstructorDeclaration","ConversionOperatorDeclaration","AccessorDeclaration",
+      "AnonymousMethodExpression"
+
       ])
     assert m.isSome
     res = m.get.id.some
@@ -194,6 +197,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
       @[
       "AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration",
       "ConstructorDeclaration", "OperatorDeclaration", "ConversionOperatorDeclaration",
+      "AnonymousMethodExpression"
       ])
     assert m.isSome
     res = m.get.id.some
@@ -409,7 +413,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = data.idLastNsPart
 
   of ckNameEquals:
-    res = data.lastUsing.id
+    res = data.lastUsing.id # could be related to inner annotation not being removed by CsDisplay, check cs source code first.
 
   of ckExternAliasDirective:
     # ignore, unsupported.
@@ -436,7 +440,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   ckUsingStatement, ckWhileStatement, ckContinueStatement, ckFinallyClause, ckDefaultSwitchLabel, ckYieldStatement, ckLockStatement, ckThrowExpression
   ]:
     echo "got " & $obj.kind
-    let parents = @["MethodDeclaration","ConstructorDeclaration","AccessorDeclaration"] # add more here.
+    let parents = @[
+      "MethodDeclaration","ConstructorDeclaration","AccessorDeclaration",
+      "ConversionOperatorDeclaration"      # add more here.
+    ]
     echo "and looking for its parent in:", parents
     let lastMatch = getLastBlockTypes(parents)
     assert lastMatch.isSome

@@ -3810,3 +3810,367 @@ method add*(parent: var CsRangeExpression; item: CsPrefixUnaryExpression) =
   echo "in method add*(parent: var CsRangeExpression; item: CsPrefixUnaryExpression)"
   todoimpl # TODO(add: CsRangeExpression, CsPrefixUnaryExpression)
 
+method add*(parent: var CsTryStatement; item: CsBreakStatement) =
+  echo "in method add*(parent: var CsTryStatement; item: CsBreakStatement)"
+  todoimpl # TODO(add: CsTryStatement, CsBreakStatement)
+
+method add*(parent: var CsConversionOperator; item: CsLocalDeclarationStatement) =
+  echo "in method add*(parent: var CsConversionOperator; item: CsLocalDeclarationStatement)"
+  todoimpl # TODO(add: CsConversionOperator, CsLocalDeclarationStatement)
+
+method add*(parent: var CsWhileStatement; item: CsBreakStatement) =
+  echo "in method add*(parent: var CsWhileStatement; item: CsBreakStatement)"
+  todoimpl # TODO(add: CsWhileStatement, CsBreakStatement)
+
+method add*(parent: var CsAccessor; item: CsLocalDeclarationStatement) =
+  echo "in method add*(parent: var CsAccessor; item: CsLocalDeclarationStatement)"
+  todoimpl # TODO(add: CsAccessor, CsLocalDeclarationStatement)
+
+method add*(parent: var CsSubpattern; item: CsBinaryPattern) =
+  echo "in method add*(parent: var CsSubpattern; item: CsBinaryPattern)"
+  todoimpl # TODO(add: CsSubpattern, CsBinaryPattern)
+
+method add*(parent: var CsMethod; item: CsBreakStatement) =
+  echo "in method add*(parent: var CsMethod; item: CsBreakStatement)"
+  todoimpl # TODO(add: CsMethod, CsBreakStatement)
+
+method add*(parent: var CsQueryExpression; item: CsFromClause) =
+  echo "in method add*(parent: var CsQueryExpression; item: CsFromClause)"
+  todoimpl # TODO(add: CsQueryExpression, CsFromClause)
+
+method add*(parent: var CsBinaryPattern; item: CsRecursivePattern) =
+  echo "in method add*(parent: var CsBinaryPattern; item: CsRecursivePattern)"
+  todoimpl # TODO(add: CsBinaryPattern, CsRecursivePattern)
+
+method add*(parent: var CsFromClause; item: CsAwaitExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsAwaitExpression)"
+  todoimpl # TODO(add: CsFromClause, CsAwaitExpression)
+
+method add*(parent: var CsFromClause; item: CsInvocationExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsInvocationExpression)"
+  todoimpl # TODO(add: CsFromClause, CsInvocationExpression)
+
+method add*(parent: var CsFromClause; item: CsLiteralExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsLiteralExpression)"
+  todoimpl # TODO(add: CsFromClause, CsLiteralExpression)
+
+method add*(parent: var CsFromClause; item: CsMemberAccessExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsMemberAccessExpression)"
+  todoimpl # TODO(add: CsFromClause, CsMemberAccessExpression)
+
+method add*(parent: var CsQueryBody; item: CsSelectClause) =
+  echo "in method add*(parent: var CsQueryBody; item: CsSelectClause)"
+  todoimpl # TODO(add: CsQueryBody, CsSelectClause)
+
+method add*(parent: var CsQueryBody; item: CsJoinClause) =
+  echo "in method add*(parent: var CsQueryBody; item: CsJoinClause)"
+  todoimpl # TODO(add: CsQueryBody, CsJoinClause)
+
+method add*(parent: var CsSelectClause; item: CsAnonymousObjectCreationExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsAnonymousObjectCreationExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsAnonymousObjectCreationExpression)
+
+method add*(parent: var CsSelectClause; item: CsArrayCreationExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsArrayCreationExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsArrayCreationExpression)
+
+method add*(parent: var CsSelectClause; item: CsConditionalExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsConditionalExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsConditionalExpression)
+
+method add*(parent: var CsSelectClause; item: CsTupleExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsTupleExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsTupleExpression)
+
+method add*(parent: var CsJoinClause; item: CsInvocationExpression) =
+  echo "in method add*(parent: var CsJoinClause; item: CsInvocationExpression)"
+  todoimpl # TODO(add: CsJoinClause, CsInvocationExpression)
+
+method add*(parent: var CsQueryBody; item: CsFromClause) =
+  echo "in method add*(parent: var CsQueryBody; item: CsFromClause)"
+  todoimpl # TODO(add: CsQueryBody, CsFromClause)
+
+method add*(parent: var CsQueryBody; item: CsOrderByClause) =
+  echo "in method add*(parent: var CsQueryBody; item: CsOrderByClause)"
+  todoimpl # TODO(add: CsQueryBody, CsOrderByClause)
+
+method add*(parent: var CsQueryBody; item: CsWhereClause) =
+  echo "in method add*(parent: var CsQueryBody; item: CsWhereClause)"
+  todoimpl # TODO(add: CsQueryBody, CsWhereClause)
+
+method add*(parent: var CsSelectClause; item: CsMemberAccessExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsMemberAccessExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsMemberAccessExpression)
+
+method add*(parent: var CsOrderByClause; item: CsOrdering) =
+  echo "in method add*(parent: var CsOrderByClause; item: CsOrdering)"
+  todoimpl # TODO(add: CsOrderByClause, CsOrdering)
+
+method add*(parent: var CsWhereClause; item: CsBinaryExpression) =
+  echo "in method add*(parent: var CsWhereClause; item: CsBinaryExpression)"
+  todoimpl # TODO(add: CsWhereClause, CsBinaryExpression)
+
+method add*(parent: var CsWhereClause; item: CsInvocationExpression) =
+  echo "in method add*(parent: var CsWhereClause; item: CsInvocationExpression)"
+  todoimpl # TODO(add: CsWhereClause, CsInvocationExpression)
+
+method add*(parent: var CsSelectClause; item: CsCastExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsCastExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsCastExpression)
+
+method add*(parent: var CsSelectClause; item: CsInvocationExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsInvocationExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsInvocationExpression)
+
+method add*(parent: var CsFromClause; item: CsArrayCreationExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsArrayCreationExpression)"
+  todoimpl # TODO(add: CsFromClause, CsArrayCreationExpression)
+
+method add*(parent: var CsFromClause; item: CsPredefinedType) =
+  echo "in method add*(parent: var CsFromClause; item: CsPredefinedType)"
+  todoimpl # TODO(add: CsFromClause, CsPredefinedType)
+
+method add*(parent: var CsQueryBody; item: CsGroupClause) =
+  echo "in method add*(parent: var CsQueryBody; item: CsGroupClause)"
+  todoimpl # TODO(add: CsQueryBody, CsGroupClause)
+
+method add*(parent: var CsSelectClause; item: CsBinaryExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsBinaryExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsBinaryExpression)
+
+method add*(parent: var CsSelectClause; item: CsInterpolatedStringExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsInterpolatedStringExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsInterpolatedStringExpression)
+
+method add*(parent: var CsGroupClause; item: CsAnonymousObjectCreationExpression) =
+  echo "in method add*(parent: var CsGroupClause; item: CsAnonymousObjectCreationExpression)"
+  todoimpl # TODO(add: CsGroupClause, CsAnonymousObjectCreationExpression)
+
+method add*(parent: var CsGroupClause; item: CsMemberAccessExpression) =
+  echo "in method add*(parent: var CsGroupClause; item: CsMemberAccessExpression)"
+  todoimpl # TODO(add: CsGroupClause, CsMemberAccessExpression)
+
+method add*(parent: var CsFromClause; item: CsImplicitArrayCreationExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsImplicitArrayCreationExpression)"
+  todoimpl # TODO(add: CsFromClause, CsImplicitArrayCreationExpression)
+
+method add*(parent: var CsQueryBody; item: CsQueryContinuation) =
+  echo "in method add*(parent: var CsQueryBody; item: CsQueryContinuation)"
+  todoimpl # TODO(add: CsQueryBody, CsQueryContinuation)
+
+method add*(parent: var CsSelectClause; item: CsObjectCreationExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsObjectCreationExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsObjectCreationExpression)
+
+method add*(parent: var CsQueryContinuation; item: CsQueryBody) =
+  echo "in method add*(parent: var CsQueryContinuation; item: CsQueryBody)"
+  todoimpl # TODO(add: CsQueryContinuation, CsQueryBody)
+
+method add*(parent: var CsGroupClause; item: CsLiteralExpression) =
+  echo "in method add*(parent: var CsGroupClause; item: CsLiteralExpression)"
+  todoimpl # TODO(add: CsGroupClause, CsLiteralExpression)
+
+method add*(parent: var CsAnonymousObjectMemberDeclarator; item: CsQueryExpression) =
+  echo "in method add*(parent: var CsAnonymousObjectMemberDeclarator; item: CsQueryExpression)"
+  todoimpl # TODO(add: CsAnonymousObjectMemberDeclarator, CsQueryExpression)
+
+method add*(parent: var CsWhereClause; item: CsPrefixUnaryExpression) =
+  echo "in method add*(parent: var CsWhereClause; item: CsPrefixUnaryExpression)"
+  todoimpl # TODO(add: CsWhereClause, CsPrefixUnaryExpression)
+
+method add*(parent: var CsSelectClause; item: CsLiteralExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsLiteralExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsLiteralExpression)
+
+method add*(parent: var CsOrdering; item: CsMemberAccessExpression) =
+  echo "in method add*(parent: var CsOrdering; item: CsMemberAccessExpression)"
+  todoimpl # TODO(add: CsOrdering, CsMemberAccessExpression)
+
+method add*(parent: var CsGroupClause; item: CsBinaryExpression) =
+  echo "in method add*(parent: var CsGroupClause; item: CsBinaryExpression)"
+  todoimpl # TODO(add: CsGroupClause, CsBinaryExpression)
+
+method add*(parent: var CsFromClause; item: CsThisExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsThisExpression)"
+  todoimpl # TODO(add: CsFromClause, CsThisExpression)
+
+method add*(parent: var CsWhereClause; item: CsMemberAccessExpression) =
+  echo "in method add*(parent: var CsWhereClause; item: CsMemberAccessExpression)"
+  todoimpl # TODO(add: CsWhereClause, CsMemberAccessExpression)
+
+method add*(parent: var CsWhereClause; item: CsParenthesizedExpression) =
+  echo "in method add*(parent: var CsWhereClause; item: CsParenthesizedExpression)"
+  todoimpl # TODO(add: CsWhereClause, CsParenthesizedExpression)
+
+method add*(parent: var CsSelectClause; item: CsQueryExpression) =
+  echo "in method add*(parent: var CsSelectClause; item: CsQueryExpression)"
+  todoimpl # TODO(add: CsSelectClause, CsQueryExpression)
+
+method add*(parent: var CsOrdering; item: CsElementAccessExpression) =
+  echo "in method add*(parent: var CsOrdering; item: CsElementAccessExpression)"
+  todoimpl # TODO(add: CsOrdering, CsElementAccessExpression)
+
+method add*(parent: var CsGroupClause; item: CsInvocationExpression) =
+  echo "in method add*(parent: var CsGroupClause; item: CsInvocationExpression)"
+  todoimpl # TODO(add: CsGroupClause, CsInvocationExpression)
+
+method add*(parent: var CsOperator; item: CsPointerType) =
+  echo "in method add*(parent: var CsOperator; item: CsPointerType)"
+  todoimpl # TODO(add: CsOperator, CsPointerType)
+
+method add*(parent: var CsJoinClause; item: CsMemberAccessExpression) =
+  echo "in method add*(parent: var CsJoinClause; item: CsMemberAccessExpression)"
+  todoimpl # TODO(add: CsJoinClause, CsMemberAccessExpression)
+
+method add*(parent: var CsLetClause; item: CsLiteralExpression) =
+  echo "in method add*(parent: var CsLetClause; item: CsLiteralExpression)"
+  todoimpl # TODO(add: CsLetClause, CsLiteralExpression)
+
+method add*(parent: var CsOrdering; item: CsBinaryExpression) =
+  echo "in method add*(parent: var CsOrdering; item: CsBinaryExpression)"
+  todoimpl # TODO(add: CsOrdering, CsBinaryExpression)
+
+method add*(parent: var CsJoinClause; item: CsJoinIntoClause) =
+  echo "in method add*(parent: var CsJoinClause; item: CsJoinIntoClause)"
+  todoimpl # TODO(add: CsJoinClause, CsJoinIntoClause)
+
+method add*(parent: var CsTypePattern; item: CsPredefinedType) =
+  echo "in method add*(parent: var CsTypePattern; item: CsPredefinedType)"
+  todoimpl # TODO(add: CsTypePattern, CsPredefinedType)
+
+method add*(parent: var CsArrayRankSpecifier; item: CsAssignmentExpression) =
+  echo "in method add*(parent: var CsArrayRankSpecifier; item: CsAssignmentExpression)"
+  todoimpl # TODO(add: CsArrayRankSpecifier, CsAssignmentExpression)
+
+method add*(parent: var CsArrayRankSpecifier; item: CsRangeExpression) =
+  echo "in method add*(parent: var CsArrayRankSpecifier; item: CsRangeExpression)"
+  todoimpl # TODO(add: CsArrayRankSpecifier, CsRangeExpression)
+
+method add*(parent: var CsIsPatternExpression; item: CsAwaitExpression) =
+  echo "in method add*(parent: var CsIsPatternExpression; item: CsAwaitExpression)"
+  todoimpl # TODO(add: CsIsPatternExpression, CsAwaitExpression)
+
+method add*(parent: var CsYieldStatement; item: CsSimpleLambdaExpression) =
+  echo "in method add*(parent: var CsYieldStatement; item: CsSimpleLambdaExpression)"
+  todoimpl # TODO(add: CsYieldStatement, CsSimpleLambdaExpression)
+
+method add*(parent: var CsDoStatement; item: CsAwaitExpression) =
+  echo "in method add*(parent: var CsDoStatement; item: CsAwaitExpression)"
+  todoimpl # TODO(add: CsDoStatement, CsAwaitExpression)
+
+method add*(parent: var CsInitializerExpression; item: CsBaseExpression) =
+  echo "in method add*(parent: var CsInitializerExpression; item: CsBaseExpression)"
+  todoimpl # TODO(add: CsInitializerExpression, CsBaseExpression)
+
+method add*(parent: var CsExpressionStatement; item: CsConditionalExpression) =
+  echo "in method add*(parent: var CsExpressionStatement; item: CsConditionalExpression)"
+  todoimpl # TODO(add: CsExpressionStatement, CsConditionalExpression)
+
+method add*(parent: var CsSwitchStatement; item: CsBaseExpression) =
+  echo "in method add*(parent: var CsSwitchStatement; item: CsBaseExpression)"
+  todoimpl # TODO(add: CsSwitchStatement, CsBaseExpression)
+
+method add*(parent: var CsParenthesizedExpression; item: CsDefaultExpression) =
+  echo "in method add*(parent: var CsParenthesizedExpression; item: CsDefaultExpression)"
+  todoimpl # TODO(add: CsParenthesizedExpression, CsDefaultExpression)
+
+method add*(parent: var CsParenthesizedExpression; item: CsRangeExpression) =
+  echo "in method add*(parent: var CsParenthesizedExpression; item: CsRangeExpression)"
+  todoimpl # TODO(add: CsParenthesizedExpression, CsRangeExpression)
+
+method add*(parent: var CsForEachVariableStatement; item: CsDeclarationExpression) =
+  echo "in method add*(parent: var CsForEachVariableStatement; item: CsDeclarationExpression)"
+  todoimpl # TODO(add: CsForEachVariableStatement, CsDeclarationExpression)
+
+method add*(parent: var CsAnonymousObjectMemberDeclarator; item: CsParenthesizedExpression) =
+  echo "in method add*(parent: var CsAnonymousObjectMemberDeclarator; item: CsParenthesizedExpression)"
+  todoimpl # TODO(add: CsAnonymousObjectMemberDeclarator, CsParenthesizedExpression)
+
+method add*(parent: var CsAssignmentExpression; item: CsPredefinedType) =
+  echo "in method add*(parent: var CsAssignmentExpression; item: CsPredefinedType)"
+  todoimpl # TODO(add: CsAssignmentExpression, CsPredefinedType)
+
+method add*(parent: var CsUsingStatement; item: CsLockStatement) =
+  echo "in method add*(parent: var CsUsingStatement; item: CsLockStatement)"
+  todoimpl # TODO(add: CsUsingStatement, CsLockStatement)
+
+method add*(parent: var CsUsingStatement; item: CsThrowStatement) =
+  echo "in method add*(parent: var CsUsingStatement; item: CsThrowStatement)"
+  todoimpl # TODO(add: CsUsingStatement, CsThrowStatement)
+
+method add*(parent: var CsElseClause; item: CsTryStatement) =
+  echo "in method add*(parent: var CsElseClause; item: CsTryStatement)"
+  todoimpl # TODO(add: CsElseClause, CsTryStatement)
+
+method add*(parent: var CsElseClause; item: CsUsingStatement) =
+  echo "in method add*(parent: var CsElseClause; item: CsUsingStatement)"
+  todoimpl # TODO(add: CsElseClause, CsUsingStatement)
+
+method add*(parent: var CsInvocationExpression; item: CsSimpleLambdaExpression) =
+  echo "in method add*(parent: var CsInvocationExpression; item: CsSimpleLambdaExpression)"
+  todoimpl # TODO(add: CsInvocationExpression, CsSimpleLambdaExpression)
+
+method add*(parent: var CsWhileStatement; item: CsCheckedStatement) =
+  echo "in method add*(parent: var CsWhileStatement; item: CsCheckedStatement)"
+  todoimpl # TODO(add: CsWhileStatement, CsCheckedStatement)
+
+method add*(parent: var CsWhileStatement; item: CsTryStatement) =
+  echo "in method add*(parent: var CsWhileStatement; item: CsTryStatement)"
+  todoimpl # TODO(add: CsWhileStatement, CsTryStatement)
+
+method add*(parent: var CsThrowStatement; item: CsSwitchExpression) =
+  echo "in method add*(parent: var CsThrowStatement; item: CsSwitchExpression)"
+  todoimpl # TODO(add: CsThrowStatement, CsSwitchExpression)
+
+method add*(parent: var CsSimpleLambdaExpression; item: CsCheckedExpression) =
+  echo "in method add*(parent: var CsSimpleLambdaExpression; item: CsCheckedExpression)"
+  todoimpl # TODO(add: CsSimpleLambdaExpression, CsCheckedExpression)
+
+method add*(parent: var CsCheckedExpression; item: CsImplicitArrayCreationExpression) =
+  echo "in method add*(parent: var CsCheckedExpression; item: CsImplicitArrayCreationExpression)"
+  todoimpl # TODO(add: CsCheckedExpression, CsImplicitArrayCreationExpression)
+
+method add*(parent: var CsForEachStatement; item: CsForStatement) =
+  echo "in method add*(parent: var CsForEachStatement; item: CsForStatement)"
+  todoimpl # TODO(add: CsForEachStatement, CsForStatement)
+
+method add*(parent: var CsForEachStatement; item: CsThrowStatement) =
+  echo "in method add*(parent: var CsForEachStatement; item: CsThrowStatement)"
+  todoimpl # TODO(add: CsForEachStatement, CsThrowStatement)
+
+method add*(parent: var CsWhenClause; item: CsMemberAccessExpression) =
+  echo "in method add*(parent: var CsWhenClause; item: CsMemberAccessExpression)"
+  todoimpl # TODO(add: CsWhenClause, CsMemberAccessExpression)
+
+method add*(parent: var CsWhenClause; item: CsParenthesizedExpression) =
+  echo "in method add*(parent: var CsWhenClause; item: CsParenthesizedExpression)"
+  todoimpl # TODO(add: CsWhenClause, CsParenthesizedExpression)
+
+method add*(parent: var CsFromClause; item: CsQueryExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsQueryExpression)"
+  todoimpl # TODO(add: CsFromClause, CsQueryExpression)
+
+method add*(parent: var CsLetClause; item: CsObjectCreationExpression) =
+  echo "in method add*(parent: var CsLetClause; item: CsObjectCreationExpression)"
+  todoimpl # TODO(add: CsLetClause, CsObjectCreationExpression)
+
+method add*(parent: var CsFromClause; item: CsParenthesizedExpression) =
+  echo "in method add*(parent: var CsFromClause; item: CsParenthesizedExpression)"
+  todoimpl # TODO(add: CsFromClause, CsParenthesizedExpression)
+
+method add*(parent: var CsDestructor; item: CsLocalDeclarationStatement) =
+  echo "in method add*(parent: var CsDestructor; item: CsLocalDeclarationStatement)"
+  todoimpl # TODO(add: CsDestructor, CsLocalDeclarationStatement)
+
+method add*(parent: var CsAnonymousMethodExpression; item: CsLocalDeclarationStatement) =
+  echo "in method add*(parent: var CsAnonymousMethodExpression; item: CsLocalDeclarationStatement)"
+  todoimpl # TODO(add: CsAnonymousMethodExpression, CsLocalDeclarationStatement)
+
+method add*(parent: var CsAnonymousMethodExpression; item: CsReturnStatement) =
+  echo "in method add*(parent: var CsAnonymousMethodExpression; item: CsReturnStatement)"
+  todoimpl # TODO(add: CsAnonymousMethodExpression, CsReturnStatement)
+
+method add*(parent: var CsConversionOperator; item: CsThrowStatement) =
+  echo "in method add*(parent: var CsConversionOperator; item: CsThrowStatement)"
+  todoimpl # TODO(add: CsConversionOperator, CsThrowStatement)
+
