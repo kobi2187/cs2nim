@@ -29,9 +29,20 @@ proc getLastBlockType*(typeStr: string): Option[Block] =
   result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii ==
       typeStr.toLowerAscii)
 
-proc getLastBlockTypes*(typeStrs: openArray[string]): Option[Block] =
+proc getLastBlockTypes_Orig*(typeStrs: openArray[string]): Option[Block] =
   let loweredTypeStrs = typeStrs.mapIt(it.toLowerAscii)
   result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii in loweredTypeStrs)
+
+proc getLastBlockTypes*(typeStrs: openArray[string]): Option[Block] =
+  let loweredTypeStrsSet = typeStrs.mapIt(it.toLowerAscii).toHashSet()
+  let constrSet = currentConstruct.mapIt(it.name.toLowerAscii).toHashSet()
+  # the order is important though
+  if (constrSet - loweredTypeStrsSet).len > 0:
+    for c in currentConstruct.reversed:
+      if c.name.toLowerAscii in loweredTypeStrsSet:
+        result = some(c)
+  else: result =none(Block)
+
 
 
 proc prevprevConstruct*: Block =
@@ -62,11 +73,13 @@ let blockTypesTxt* = [ # everything in C# that has an opening { brace
   "MethodDeclaration",
   "PropertyDeclaration",
   "TryStatement",
-  "FinallyClause",
   "ForEachStatement",
+  "FinallyClause",
+  "IfStatement", "ElseClause",
   "UsingStatement",
-  "ForStatement"
-
+  "ForStatement","LockStatement",
+  "SwitchStatement","UnsafeStatement",
+  "WhileStatement","CheckedStatement","DoStatement","FixedStatement"
 ].toHashSet
 # note: if endblock raises an assert, it means a previous construct was not recorded here.
 

@@ -169,15 +169,15 @@ proc main() : bool =
   const random = false
   const reverse = false
   const hasTimeLimit = false
-  var timeLimit = 0 + #sec
+  var timeLimit :int64 = 0.int64 + #sec
     1 * 60 + #min
     0 * 60 * 60 # hours
   const iterLimit = 25 # in seconds
   const hasCountLimit = false
-  const limit = 5
+  const limit = 10
   const earlyBreak = false # TODO: change to true and run with left_report, to quickly fix priority errors.
 
-  const addTime = false
+  const addTime = true
   const timeToAdd = 10 # seconds
   # ===========================
   if random: randomize()
@@ -198,6 +198,7 @@ proc main() : bool =
 
     var metLimit:bool
     for i, line in lines:
+      echo getOccupiedMem()
       let iterBeginTime = times.now()
       let elapsed = iterBeginTime - startTime
       let p = elapsed.toParts
@@ -222,7 +223,7 @@ proc main() : bool =
       let countReached =  missingExtract.len + cfits.len + missingStore.len
       let metCountLimit = hasCountLimit and countReached >= limit
       if metTimeLimit and (countReached == 0) and addTime:
-        timeLimit += timeToAdd
+        timeLimit = elapsed.inSeconds + timeToAdd.int64
       else:
         metLimit = metCountLimit or metTimeLimit
         if metLimit: break

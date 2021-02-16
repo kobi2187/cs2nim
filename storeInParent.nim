@@ -1139,6 +1139,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckAnonymousMethodExpression:
       var c = child.anonymousMethodExpression
       c.parentId = p.id; p.add c
+    of ckAnonymousObjectCreationExpression:
+      var c = child.anonymousObjectCreationExpression
+      c.parentId = p.id; p.add c
     of ckArrayCreationExpression:
       var c = child.arrayCreationExpression
       c.parentId = p.id; p.add c
@@ -1450,6 +1453,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckPostfixUnaryExpression:
       var c = child.postfixUnaryExpression
       c.parentId = p.id; p.add c
+    of ckPredefinedType:
+      var c = child.predefinedType
+      c.parentId = p.id; p.add c
     of ckPrefixUnaryExpression:
       var c = child.prefixUnaryExpression
       c.parentId = p.id; p.add c
@@ -1645,6 +1651,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckExpressionStatement:
       var c = child.expressionStatement
       c.parentId = p.id; p.add c
+    of ckForEachStatement:
+      var c = child.forEachStatement
+      c.parentId = p.id; p.add c
     of ckForEachVariableStatement:
       var c = child.forEachVariableStatement
       c.parentId = p.id; p.add c
@@ -1692,6 +1701,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckArrowExpressionClause:
       var c = child.arrowExpressionClause
       c.parentId = p.id; p.add c
+    of ckIfStatement:
+      var c = child.ifStatement
+      c.parentId = p.id; p.add c
     of ckLocalDeclarationStatement:
       var c = child.localDeclarationStatement
       c.parentId = p.id; p.add c
@@ -1703,6 +1715,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckThrowStatement:
       var c = child.throwStatement
+      c.parentId = p.id; p.add c
+    of ckTryStatement:
+      var c = child.tryStatement
       c.parentId = p.id; p.add c
     else: assert false, couple & " plz impl for child: " & $child.kind
   of ckExpressionStatement:
@@ -1900,6 +1915,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckGenericName:
       var c = child.genericName
+      c.parentId = p.id; p.add c
+    of ckIfStatement:
+      var c = child.ifStatement
       c.parentId = p.id; p.add c
     of ckLocalDeclarationStatement:
       var c = child.localDeclarationStatement
@@ -2296,8 +2314,17 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckExplicitInterfaceSpecifier:
       var c = child.explicitInterfaceSpecifier
       c.parentId = p.id; p.add c
+    of ckForEachStatement:
+      var c = child.forEachStatement
+      c.parentId = p.id; p.add c
+    of ckForStatement:
+      var c = child.forStatement
+      c.parentId = p.id; p.add c
     of ckGenericName:
       var c = child.genericName
+      c.parentId = p.id; p.add c
+    of ckIfStatement:
+      var c = child.ifStatement
       c.parentId = p.id; p.add c
     of ckInvocationExpression:
       var c = child.invocationExpression
@@ -2323,8 +2350,17 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckReturnStatement:
       var c = child.returnStatement
       c.parentId = p.id; p.add c
+    of ckThrowStatement:
+      var c = child.throwStatement
+      c.parentId = p.id; p.add c
+    of ckTryStatement:
+      var c = child.tryStatement
+      c.parentId = p.id; p.add c
     of ckTupleType:
       var c = child.tupleType
+      c.parentId = p.id; p.add c
+    of ckWhileStatement:
+      var c = child.whileStatement
       c.parentId = p.id; p.add c
     else: assert false, couple & " plz impl for child: " & $child.kind
   of ckCastExpression:
@@ -2359,6 +2395,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckElementAccessExpression:
       var c = child.elementAccessExpression
+      c.parentId = p.id; p.add c
+    of ckFunctionPointerType:
+      var c = child.functionPointerType
       c.parentId = p.id; p.add c
     of ckGenericName:
       var c = child.genericName
@@ -2969,6 +3008,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckReturnStatement:
       var c = child.returnStatement
       c.parentId = p.id; p.add c
+    of ckThrowStatement:
+      var c = child.throwStatement
+      c.parentId = p.id; p.add c
     else: assert false, couple & " plz impl for child: " & $child.kind
   of ckParameter:
     var p = parent.parameter
@@ -3341,6 +3383,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckSwitchStatement:
       var c = child.switchStatement
       c.parentId = p.id; p.add c
+    of ckThrowStatement:
+      var c = child.throwStatement
+      c.parentId = p.id; p.add c
     of ckTryStatement:
       var c = child.tryStatement
       c.parentId = p.id; p.add c
@@ -3417,6 +3462,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckArrayType:
       var c = child.arrayType
+      c.parentId = p.id; p.add c
+    of ckFunctionPointerType:
+      var c = child.functionPointerType
       c.parentId = p.id; p.add c
     of ckGenericName:
       var c = child.genericName
@@ -3941,6 +3989,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckIfStatement:
       var c = child.ifStatement
       c.parentId = p.id; p.add c
+    of ckImplicitArrayCreationExpression:
+      var c = child.implicitArrayCreationExpression
+      c.parentId = p.id; p.add c
     of ckInvocationExpression:
       var c = child.invocationExpression
       c.parentId = p.id; p.add c
@@ -3976,6 +4027,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckPrefixUnaryExpression:
       var c = child.prefixUnaryExpression
+      c.parentId = p.id; p.add c
+    of ckRangeExpression:
+      var c = child.rangeExpression
       c.parentId = p.id; p.add c
     of ckReturnStatement:
       var c = child.returnStatement
@@ -5212,6 +5266,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckConditionalExpression:
       var c = child.conditionalExpression
+      c.parentId = p.id; p.add c
+    of ckContinueStatement:
+      var c = child.continueStatement
       c.parentId = p.id; p.add c
     of ckDoStatement:
       var c = child.doStatement

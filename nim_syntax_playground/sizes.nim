@@ -3,7 +3,8 @@ import system, os
 
 let file = os.commandLineParams()[0]
 for f in file.lines:
-  # let fh = open(f)
-  let s = f.getFileSize
-  echo $s & "::" & f
-  # close(fh)
+  if f.fileExists:
+    # let fh = open(f)
+    let s = f.getFileSize
+    echo $s & "::" & f
+    # close(fh)

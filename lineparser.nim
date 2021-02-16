@@ -82,6 +82,7 @@ proc reset*() =
 
 import system, os
 proc parseExecFile*(root: var CsRoot; file: JsonNode; upcoming: seq[string]) =
+  echo getOccupiedMem()
   let filename = file["File"].getStr
   # echo "working on file: " & filename
   echo "file: " & filename.extractFilename

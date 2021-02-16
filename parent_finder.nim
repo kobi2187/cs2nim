@@ -442,7 +442,9 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckCatch:
     assert false, "got: " & $obj.kind & data.sourceCode
   of ckContinueStatement:
-    assert false, "got: " & $obj.kind & data.sourceCode
+    let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement", "IfStatement"])
+    assert lastMatch.isSome
+    res = lastMatch.get.id.some
   of ckFinallyClause:
     assert false, "got: " & $obj.kind & data.sourceCode
   of ckDefaultSwitchLabel:
