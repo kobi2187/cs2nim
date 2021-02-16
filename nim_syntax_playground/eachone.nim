@@ -8,7 +8,9 @@ type FileErr = object
   output*: string
 
 func perc(part, sum:int) : string =
-  $((100 * part / sum).round(2)) & "%"
+  if sum != 0:
+    $((100 * part / sum).round(2)) & "%"
+  else: "0"
 
 proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilctderef,  afterGen,  beforeGen, likely, tc, otherErrors  : int) =
   let both = finished + unfinished
@@ -138,7 +140,9 @@ proc main() : bool =
 
   if os.commandLineParams().len > 0:
     file = os.commandLineParams()[0]
-  let toobigfile = "/home/kobi7/More_CS_Libs_and_Apps/toobig.txt"
+  let parentFolder = "/home/kobi7/More_CS_Libs_and_Apps"
+  # let inhuge = parentFolder.contains(file)
+  let toobigfile = file.splitPath.head / "toobig.txt" # "/home/kobi7/More_CS_Libs_and_Apps/toobig.txt"
   let f = file.splitPath.head / "finished.txt"
   let f2 = file.splitPath.head / "aftergen.txt"
   if not fileExists(toobigfile) or not fileExists(f) or not fileExists(f2): quit("a file needed for operation does not exist!")
@@ -165,13 +169,16 @@ proc main() : bool =
   const random = false
   const reverse = false
   const hasTimeLimit = false
-  const timeLimit = 5 + #sec
-    0 * 60 + #min
+  var timeLimit = 0 + #sec
+    1 * 60 + #min
     0 * 60 * 60 # hours
   const iterLimit = 25 # in seconds
-  const hasCountLimit = true
-  const limit = 1
-  const earlyBreak = true
+  const hasCountLimit = false
+  const limit = 5
+  const earlyBreak = false # TODO: change to true and run with left_report, to quickly fix priority errors.
+
+  const addTime = false
+  const timeToAdd = 10 # seconds
   # ===========================
   if random: randomize()
   let startTime = times.now()
@@ -211,8 +218,14 @@ proc main() : bool =
         printStats(lines.len, finished.len, unfinished.len, cfitsCounter , storeCounter , unsupportedCounter, extractCounter , nullMethodCounter, nilCtDeref.len,  afterGen,  beforeGen, likelyAnnotation.len, tc.len, otherErrors)
 
       echo line.split("/")[^1]
-      metLimit =  (hasCountLimit and missingExtract.len + cfits.len + missingStore.len >= limit) or (hasTimeLimit and elapsed.inSeconds > timeLimit) # or nilDispatch.len > 10:
-      if metLimit: break
+      let metTimeLimit = hasTimeLimit and elapsed.inSeconds > timeLimit
+      let countReached =  missingExtract.len + cfits.len + missingStore.len
+      let metCountLimit = hasCountLimit and countReached >= limit
+      if metTimeLimit and (countReached == 0) and addTime:
+        timeLimit += timeToAdd
+      else:
+        metLimit = metCountLimit or metTimeLimit
+        if metLimit: break
 
       # echo "file size: " & $line.getFileSize()
       let res = execProcess("./writer " & "\"" & line & "\"", cwd, options = {poStdErrToStdOut, poEvalCommand,poUsePath})
@@ -286,7 +299,7 @@ proc main() : bool =
         # finToAdd.writeLine(line)
       # we run them sorted by size, so if the last one was too long, we break, assuming the next ones will be longer.
       let iterEndTime = times.now()
-      if (iterEndTime - iterBeginTime).inSeconds > iterLimit and not random and not reverse:
+      if hasTimeLimit and (iterEndTime - iterBeginTime).inSeconds > iterLimit and not random and not reverse:
         break
 
 

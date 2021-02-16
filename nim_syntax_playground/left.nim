@@ -1,7 +1,8 @@
 import tables, sets, os, system, strutils, sequtils, sugar,algorithm
-
+import options
 
 proc main() =
+  let limit = none(int)#some(50)
   var beforeDict = newTable[string,(int,seq[string])]()
   var unfinishedDict = newTable[string,(int,seq[string])]()
   var folderCountBefore = newTable[int,seq[string]]()
@@ -12,13 +13,13 @@ proc main() =
   let afterGenLines = (rootFolder / "aftergen.txt").open(fmRead).readAll.splitLines.toHashSet
   for k, folder in walkDir(rootFolder, checkDir = true):
     if folder.dirExists:
-      echo folder
+      # echo folder
       var csfiles : seq[string] = @[]
       for file in walkDirRec(folder):
         if file.fileExists and file.endsWith(".csast"):
           # echo file
           csfiles.add file
-      echo csfiles.len
+      # echo csfiles.len
       let csfhash = csfiles.toHashSet
       let leftBefore = (csfhash - finishedLines - afterGenLines).toSeq
       let leftUnfinished = (csfhash - finishedLines).toSeq
@@ -29,8 +30,10 @@ proc main() =
       folderCountBefore[leftBefore.len].add folder
       if not folderCountTotal.hasKey(leftUnfinished.len): folderCountTotal[leftUnfinished.len] = @[]
       folderCountTotal[leftUnfinished.len].add folder
-
+  var i = 0
   for k in folderCountBefore.keys.toseq.sorted:
+    if limit.isSome and i>= limit.get: break
+    i.inc
     echo "\n",k
     for dir in folderCountBefore[k]:
       let (count, files) = beforeDict[dir]
