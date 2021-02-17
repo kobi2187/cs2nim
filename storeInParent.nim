@@ -2308,6 +2308,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckArrowExpressionClause:
       var c = child.arrowExpressionClause
       c.parentId = p.id; p.add c
+    of ckDoStatement:
+      var c = child.doStatement
+      c.parentId = p.id; p.add c
     of ckEqualsValueClause:
       var c = child.equalsValueClause
       c.parentId = p.id; p.add c
@@ -2989,6 +2992,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckGenericName:
       var c = child.genericName
+      c.parentId = p.id; p.add c
+    of ckIfStatement:
+      var c = child.ifStatement
       c.parentId = p.id; p.add c
     of ckLocalDeclarationStatement:
       var c = child.localDeclarationStatement
@@ -4370,6 +4376,9 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckRefType:
       var c = child.refType
+      c.parentId = p.id; p.add c
+    of ckReturnStatement:
+      var c = child.returnStatement
       c.parentId = p.id; p.add c
     of ckTupleType:
       var c = child.tupleType

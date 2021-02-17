@@ -4886,3 +4886,15 @@ method add*(parent: var CsProperty; item: CsWhileStatement) =
   echo "in method add*(parent: var CsProperty; item: CsWhileStatement)"
   todoimpl # TODO(add: CsProperty, CsWhileStatement)
 
+method add*(parent: var CsProperty; item: CsDoStatement) =
+  echo "in method add*(parent: var CsProperty; item: CsDoStatement)"
+  todoimpl # TODO(add: CsProperty, CsDoStatement)
+
+method add*(parent: var CsOperator; item: CsIfStatement) =
+  echo "in method add*(parent: var CsOperator; item: CsIfStatement)"
+  todoimpl # TODO(add: CsOperator, CsIfStatement)
+
+method add*(parent: var CsIndexer; item: CsReturnStatement) =
+  echo "in method add*(parent: var CsIndexer; item: CsReturnStatement)"
+  todoimpl # TODO(add: CsIndexer, CsReturnStatement)
+

@@ -1761,4 +1761,16 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckOperator, ckIfStatement": true
   of "ckProperty, ckDoStatement": true
 
+  of "ckProperty, ckLockStatement": true
+  of "ckProperty, ckUsingStatement": true
+  of "ckAnonymousMethodExpression, ckIfStatement": true
+  of "ckLetClause, ckConditionalAccessExpression": true
+  of "ckParenthesizedLambdaExpression, ckForEachStatement": true
+  of "ckIndexer, ckSwitchStatement": true
+  of "ckIndexer, ckForEachStatement": true
+  of "ckProperty, ckSwitchStatement": true
+  of "ckProperty, ckCheckedStatement": true
+  of "ckIndexer, ckIfStatement": true
+  of "ckIndexer, ckLocalDeclarationStatement": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

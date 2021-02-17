@@ -166,15 +166,15 @@ proc main() : bool =
 
 
   # ============================== PARAMETERS:
-  const random = false
+  const random = false # true
   const reverse = false
-  const hasTimeLimit = false
+  const hasTimeLimit = true
   var timeLimit :int64 = 0.int64 + #sec
-    1 * 60 + #min
-    0 * 60 * 60 # hours
-  const iterLimit = 25 # in seconds
+    0 * 60 + #min
+    1 * 60 * 60 # hours
+  const iterLimit = none(int) #25 # in seconds
   const hasCountLimit = false
-  const limit = 10
+  const limit = 20
   const earlyBreak = false # TODO: change to true and run with left_report, to quickly fix priority errors.
 
   const addTime = true
@@ -198,7 +198,10 @@ proc main() : bool =
 
     var metLimit:bool
     for i, line in lines:
-      echo getOccupiedMem()
+      GC_fullCollect()
+      # echo getOccupiedMem()
+      # echo getFreeMem()
+      # echo getTotalMem()
       let iterBeginTime = times.now()
       let elapsed = iterBeginTime - startTime
       let p = elapsed.toParts
@@ -207,12 +210,12 @@ proc main() : bool =
       if line in toolarge:
         # echo "skipping, to avoid possible out of memory in big file.";
         continue
-      if line in assumedAfter:
-        afterGen.inc
-        continue # for now, only handle before gen stage (storing stage)
       if line in assumedFinish:
         finished.add line
         continue
+      if line in assumedAfter:
+        afterGen.inc
+        continue # for now, only handle before gen stage (storing stage)
 
       echo "time elapsed: ", p[Hours] ,":", p[Minutes],":", p[Seconds],":", p[Milliseconds]
       if i > 0:
@@ -229,7 +232,7 @@ proc main() : bool =
         if metLimit: break
 
       # echo "file size: " & $line.getFileSize()
-      let res = execProcess("./writer " & "\"" & line & "\"", cwd, options = {poStdErrToStdOut, poEvalCommand,poUsePath})
+      let res = execProcess("/home/kobi7/currentWork/cs2nim/writer", workingDir = cwd, args = [ line], options = {poStdErrToStdOut,poUsePath})
       var after:bool
       # echo res
       if res.contains("Error:") or res.contains("Segmentation fault") or res.contains("SIGSEGV: Illegal storage access"):
@@ -300,7 +303,7 @@ proc main() : bool =
         # finToAdd.writeLine(line)
       # we run them sorted by size, so if the last one was too long, we break, assuming the next ones will be longer.
       let iterEndTime = times.now()
-      if hasTimeLimit and (iterEndTime - iterBeginTime).inSeconds > iterLimit and not random and not reverse:
+      if hasTimeLimit and iterlimit.isSome and  (iterEndTime - iterBeginTime).inSeconds > iterLimit.get and not random and not reverse:
         break
 
 

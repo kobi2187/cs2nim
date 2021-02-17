@@ -82,11 +82,13 @@ proc reset*() =
 
 import system, os
 proc parseExecFile*(root: var CsRoot; file: JsonNode; upcoming: seq[string]) =
-  echo getOccupiedMem()
   let filename = file["File"].getStr
   # echo "working on file: " & filename
   echo "file: " & filename.extractFilename
+  echo getOccupiedMem()
   reset()
+  echo getOccupiedMem()
   let lines = file["Lines"]
+  echo "# of lines: " & $lines.len
   for line in lines:
     updateState(root, line, upcoming)
