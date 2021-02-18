@@ -1773,4 +1773,39 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckIndexer, ckIfStatement": true
   of "ckIndexer, ckLocalDeclarationStatement": true
 
+  of "ckDestructor, ckUsingStatement": true
+  of "ckProperty, ckGotoStatement": true
+  of "ckAnonymousMethodExpression, ckTryStatement": true
+  of "ckTryStatement, ckIfStatement": true
+  of "ckNamespace, ckOperator": true
+  of "ckYieldStatement, ckAnonymousObjectCreationExpression": true
+  of "ckGlobalStatement, ckSwitchStatement": true
+  of "ckIndexer, ckThrowStatement": true
+  of "ckDestructor, ckForStatement": true
+  of "ckConversionOperator, ckTryStatement": true
+  of "ckParenthesizedLambdaExpression, ckForStatement": true
+  of "ckProperty, ckLabeledStatement": true
+  of "ckIndexer, ckForStatement": true
+  of "ckConversionOperator, ckForEachStatement": true
+  of "ckInvocationExpression, ckThisExpression": true
+  of "ckDestructor, ckReturnStatement": true
+  of "ckAnonymousMethodExpression, ckForEachStatement": true
+
+  of "ckAnonymousMethodExpression, ckThrowStatement": true
+
+  of "ckDestructor, ckForEachStatement": true
+
+  of "ckConstructor, ckFixedStatement": true
+  of "ckMethod, ckFixedStatement": true
+  of "ckConversionOperator, ckUnsafeStatement": true
+  of "ckConstructor, ckUnsafeStatement": true
+  of "ckMethod, ckUnsafeStatement": true
+
+  of "ckProperty, ckYieldStatement": true
+  of "ckDefaultExpression, ckPointerType": true
+  of "ckLocalFunctionStatement, ckReturnStatement": true
+  of "ckFixedStatement, ckExpressionStatement": true
+
+  of "ckMethod, ckForEachVariableStatement": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

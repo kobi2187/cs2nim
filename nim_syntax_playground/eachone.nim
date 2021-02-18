@@ -99,7 +99,6 @@ proc printEnding(cfits,missingStore,missingExtract,unsupp,tc : HashSet[string],n
   echo "=======type creator=============="
   echo tc.toSeq.join("\r\n")
   # echo nilDispatch
-
 proc main() : bool =
 
   # var file = "/home/kobi7/More_CS_Libs_and_Apps/csast_files"
@@ -166,17 +165,19 @@ proc main() : bool =
 
 
   # ============================== PARAMETERS:
-  const random = false # true
+  const random = false
   const reverse = false
+  const startAfterNum : Option[int] = none(int)# some(123900) # int
+  const startAfterPercent : Option[float] = none(float)# some((20.0).float) # in percent
   const hasTimeLimit = true
   var timeLimit :int64 = 0.int64 + #sec
-    0 * 60 + #min
-    1 * 60 * 60 # hours
-  const iterLimit = none(int) #25 # in seconds
-  const hasCountLimit = false
-  const limit = 20
-  const earlyBreak = false # TODO: change to true and run with left_report, to quickly fix priority errors.
-
+    1 * 60 + #min
+    0 * 60 * 60 # hours
+  const iterLimit = none(int) #some(25) # in seconds
+  const hasCountLimit = true
+  const limit = 5
+  const earlyBreak =  true # TODO: change to true and run with left_report, to quickly fix priority errors.
+  # can also run with -d:flag
   const addTime = true
   const timeToAdd = 10 # seconds
   # ===========================
@@ -198,7 +199,12 @@ proc main() : bool =
 
     var metLimit:bool
     for i, line in lines:
-      GC_fullCollect()
+
+      echo "Handling file #" & $i
+      if not random and not reverse and startAfterNum.isSome and i < startAfterNum.get:
+        echo "skipping#"; continue
+      if not random and not reverse and startAfterPercent.isSome and (100*i)/count < startAfterPercent.get:
+        echo "skipping%"; continue
       # echo getOccupiedMem()
       # echo getFreeMem()
       # echo getTotalMem()
@@ -209,12 +215,15 @@ proc main() : bool =
         continue
       if line in toolarge:
         # echo "skipping, to avoid possible out of memory in big file.";
+        echo "skipping>";
         continue
       if line in assumedFinish:
         finished.add line
+        echo "skipping!done";
         continue
       if line in assumedAfter:
         afterGen.inc
+        echo "skipping+";
         continue # for now, only handle before gen stage (storing stage)
 
       echo "time elapsed: ", p[Hours] ,":", p[Minutes],":", p[Seconds],":", p[Milliseconds]
@@ -231,6 +240,7 @@ proc main() : bool =
         metLimit = metCountLimit or metTimeLimit
         if metLimit: break
 
+      GC_fullCollect()
       # echo "file size: " & $line.getFileSize()
       let res = execProcess("/home/kobi7/currentWork/cs2nim/writer", workingDir = cwd, args = [ line], options = {poStdErrToStdOut,poUsePath})
       var after:bool

@@ -65,12 +65,15 @@ proc parentHint(parentRawKind: int): Option[string] =
 proc parentHint(c: Construct): Option[string] =
   result = parentHint(c.parentRawKind)
 # inconsistent results, maybe overwritten in hashtable??
+import sets
 
 proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]) =
   var discarded = false
+  let irrelevant = ["PredefinedType", "IdentifierName", "QualifiedName", "GenericName"].toHashSet()
   var res: Option[UUID]
   echo "source code was: " & data.sourceCode
-  echo "all received constructs: ", currentConstruct
+  echo "all received constructs: ", currentConstruct.filterIt(it.name notin irrelevant).mapIt(it.name)
+  echo "blocks: " , blocks
   if data.lastMethod != nil:
     echo data.lastMethod.name
     echo data.lastMethod.body.mapIt(it.ttype)
@@ -412,9 +415,13 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert b.isSome, $data.simplified
     res = b.get.id.some
   of ckField: # classes, or interfaces
-    assert data.nsLastAdded in [Classes, Interfaces] # more?
-    res = data.idLastNsPart
+    # assert data.nsLastAdded in [Classes, Interfaces] # more?
+    # res = data.idLastNsPart
 
+    let parents = @["ClassDeclaration" , "StructDeclaration", "InterfaceDeclaration"]
+    let lastMatch = getLastBlockTypes(parents)
+    assert lastMatch.isSome
+    res = lastMatch.get.id.some
   of ckNameEquals:
     res = data.lastUsing.id # could be related to inner annotation not being removed by CsDisplay, check cs source code first.
 
@@ -449,30 +456,29 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false, "got: " & $obj.kind & data.sourceCode
   of ckDefaultSwitchLabel:
     assert false, "got: " & $obj.kind & data.sourceCode
-  of ckYieldStatement:
-    let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement"])
-    assert lastMatch.isSome
-    res = lastMatch.get.id.some
+  # of ckYieldStatement:
+  #   let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement","LockStatement","MethodDeclaration"])
+  #   assert lastMatch.isSome
+  #   res = lastMatch.get.id.some
 
   of ckThrowExpression:
     assert false, "got: " & $obj.kind & data.sourceCode
 
   # general body constructs
   of [
-    ckGotoStatement,ckLabeledStatement,
+    ckGotoStatement,ckLabeledStatement,ckUnsafeStatement,ckFixedStatement,
     ckSwitchStatement, ckReturnStatement, ckIfStatement, ckElseClause,
     ckForStatement,ckDoStatement,ckCastExpression,ckWhileStatement,
-    ckForEachStatement,ckUsingStatement,ckLockStatement, ckCheckedStatement,
-    ckLocalDeclarationStatement,   ckTryStatement, ckThrowStatement
+    ckForEachStatement, ckForEachVariableStatement,ckUsingStatement,ckLockStatement, ckCheckedStatement,
+    ckLocalDeclarationStatement,   ckTryStatement, ckThrowStatement, ckYieldStatement
     ]:
     echo "got " & $obj.kind
     let parents = @[
     "DestructorDeclaration",
-    "AccessorDeclaration",
-      "ConversionOperatorDeclaration", "ParenthesizedLambdaExpression",      # add more here.
+    "AccessorDeclaration", "ConversionOperatorDeclaration", "ParenthesizedLambdaExpression",      # add more here.
        "MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause",
       "SwitchSection", "IndexerDeclaration","PropertyDeclaration",
-      "ConstructorDeclaration", "OperatorDeclaration",
+      "ConstructorDeclaration", "OperatorDeclaration","LocalFunctionStatement",
       "AnonymousMethodExpression","IfStatement", "TryStatement"
     ]
     echo "and looking for its parent in:", parents
@@ -655,9 +661,11 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckTupleType:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
-  of ckFixedStatement:
-    echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
-    assert false
+  # of ckFixedStatement:
+  #   let parents = @["MethodDeclaration", "ConstructorDeclaration"]
+  #   let lastMatch = getLastBlockTypes(parents)
+  #   assert lastMatch.isSome
+  #   res = lastMatch.get.id.some
   of ckEmptyStatement: # ignore
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     discarded = true
@@ -679,9 +687,6 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckConstructorConstraint:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
-  of ckUnsafeStatement:
-    echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
-    assert false
   of ckParenthesizedVariableDesignation:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
@@ -699,9 +704,6 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
   of ckWhenClause:
-    echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
-    assert false
-  of ckForEachVariableStatement:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
   of ckLetClause:
