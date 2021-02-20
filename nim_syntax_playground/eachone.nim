@@ -176,7 +176,7 @@ proc main() : bool =
   const iterLimit = none(int) #some(25) # in seconds
   const hasCountLimit = true
   const limit = 5
-  const earlyBreak =  true # TODO: change to true and run with left_report, to quickly fix priority errors.
+  const earlyBreak = true # TODO: change to true and run with left_report, to quickly fix priority errors.
   # can also run with -d:flag
   const addTime = true
   const timeToAdd = 10 # seconds

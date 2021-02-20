@@ -36,8 +36,8 @@ proc endBlock*(info: Info) =
 
   echo "the finishing block should be: " & finishingBlock
   # note: if endblock raises an assert, it means a previous construct was not recorded in blockTypesTxt.
-  var last = blocks.pop # we do it twice now.
-  let bs = blocks.pop
+  let bs = blocks.pop # we do it twice now. (as of 20/02/2021 the first item is the construct, second is the block.)
+  let last = blocks.pop
   assert bs.name == "BlockStarts"
 
   echo "block count, according to csast:" & $blockCount
@@ -52,3 +52,7 @@ proc endBlock*(info: Info) =
 import stacks
 proc resetBlocks*() = blocks.clear()
 
+import construct, options,tables
+proc getLastBlockTypes*(types: openArray[ConstructKind]): Option[Block] =
+  let typestrs = types.mapIt(if ckToStr.hasKey(it): ckToStr[it] else: "unknown")
+  result = getLastBlockTypes(typestrs)

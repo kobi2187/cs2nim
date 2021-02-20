@@ -1,5 +1,7 @@
 # construct.nim
-import constructs/justtypes, uuids
+import constructs/justtypes, uuids, tables
+
+
 
 type ConstructKind* = enum
   # ckRoot # nah, too special.
@@ -590,3 +592,57 @@ template unwrap*[T](c:Construct) : T =
   of ckSelectClause: c.selectClause
   of ckWhereClause: c.whereClause
   of ckJoinIntoClause: c.joinIntoClause
+
+
+
+const ckToStr* = {
+  ckNamespace: "NamespaceDeclaration",   ckClass: "ClassDeclaration",   ckField: "FieldDeclaration",   ckMethod: "MethodDeclaration",   ckEnum: "EnumDeclaration",   ckPredefinedType: "PredefinedType",
+  ckArgumentList: "ArgumentList",  ckObjectCreationExpression: "ObjectCreationExpression",  ckUsingDirective: "UsingDirective",    ckEnumMember: "EnumMemberDeclaration",
+  ckIndexer: "IndexerDeclaration",  ckParameterList: "ParameterList",  ckParameter: "Parameter",  ckArgument: "Argument",  ckConstructor: "ConstructorDeclaration",
+  ckReturnStatement: "ReturnStatement",  ckLiteralExpression: "LiteralExpression",  ckSimpleBaseType: "SimpleBaseType",  ckBaseList: "BaseList",
+  ckProperty: "PropertyDeclaration",  ckExplicitInterfaceSpecifier: "ExplicitInterfaceSpecifier",  ckExpressionStatement: "ExpressionStatement",
+  ckInvocationExpression: "InvocationExpression",   ckLocalDeclarationStatement: "LocalDeclarationStatement",  ckVariableDeclarator:"_",
+  ckBinaryExpression: "BinaryExpression",  ckAssignmentExpression: "AssignmentExpression",  ckEqualsValueClause: "EqualsValueClause",       ckIfStatement: "IfStatement",
+  ckThisExpression: "ThisExpression",  ckTypeArgumentList: "TypeArgumentList",  ckGenericName: "GenericName",       ckAccessor: "AccessorDeclaration",
+  ckBracketedArgumentList: "BracketedArgumentList",  ckElementAccessExpression: "ElementAccessExpression",   ckAccessorList: "AccessorList",
+  ckParenthesizedExpression: "ParenthesizedExpression",  ckCastExpression: "CastExpression",       ckArrayRankSpecifier: "ArrayRankSpecifier",  ckArrayType: "ArrayType",
+  ckPrefixUnaryExpression: "PrefixUnaryExpression",           ckOmittedArraySizeExpression: "OmittedArraySizeExpression",   ckInitializerExpression: "InitializerExpression",
+  ckNameEquals: "NameEquals",  ckThrowStatement: "ThrowStatement",  ckTypeOfExpression: "TypeOfExpression",       ckElseClause: "ElseClause",
+  ckCaseSwitchLabel: "CaseSwitchLabel",  ckSwitchSection: "SwitchSection",       ckSimpleLambdaExpression: "SimpleLambdaExpression",  ckPostfixUnaryExpression: "PostfixUnaryExpression",
+  ckArrayCreationExpression: "ArrayCreationExpression",  ckArrowExpressionClause: "ArrowExpressionClause",  ckBreakStatement: "BreakStatement", ckAliasQualifiedName: "AliasQualifiedName",
+  ckTypeParameter: "TypeParameter",  ckAwaitExpression: "AwaitExpression",    ckConditionalExpression: "ConditionalExpression",  ckTypeParameterList: "TypeParameterList",
+  ckForEachStatement: "ForEachStatement",       ckForStatement: "ForStatement",   ckInterpolatedStringText: "InterpolatedStringText",
+  ckParenthesizedLambdaExpression: "ParenthesizedLambdaExpression",  ckTryStatement: "TryStatement",    ckNullableType: "NullableType",  ckBaseExpression: "BaseExpression",
+  ckCatchClause: "CatchClause",  ckConstructorInitializer: "ConstructorInitializer",       ckInterpolation: "Interpolation",  ckCatch: "Catch",  ckNameColon: "NameColon",
+  ckUsingStatement: "UsingStatement",       ckTypeParameterConstraintClause: "TypeParameterConstraintClause",  ckTypeConstraint: "TypeConstraint",
+  ckSingleVariableDesignation: "SingleVariableDesignation",  ckInterpolatedStringExpression: "InterpolatedStringExpression", ckImplicitArrayCreationExpression: "ImplicitArrayCreationExpression",
+  ckWhileStatement: "WhileStatement",   ckDeclarationExpression: "DeclarationExpression",  ckConditionalAccessExpression: "ConditionalAccessExpression",  ckSwitchStatement: "SwitchStatement",
+  ckMemberBindingExpression: "MemberBindingExpression",  ckDefaultExpression: "DefaultExpression",  ckPointerType: "PointerType",       ckInterface: "InterfaceDeclaration",
+  ckContinueStatement: "ContinueStatement",  ckFinallyClause: "FinallyClause",  ckDefaultSwitchLabel: "DefaultSwitchLabel",   ckYieldStatement: "YieldStatement",
+  ckAnonymousObjectMemberDeclarator: "AnonymousObjectMemberDeclarator",  ckCheckedExpression: "CheckedExpression",   ckStruct: "StructDeclaration",  ckIsPatternExpression: "IsPatternExpression",
+  ckLockStatement: "LockStatement",  ckDeclarationPattern: "DeclarationPattern",       ckThrowExpression: "ThrowExpression",  ckConstantPattern: "ConstantPattern",
+  ckRefType: "RefType",  ckRefExpression: "RefExpression",  ckClassOrStructConstraint: "ClassOrStructConstraint",  ckOmittedTypeArgument: "OmittedTypeArgument",
+  ckTupleElement: "TupleElement",  ckOperator: "OperatorDeclaration",  ckEventField: "EventField",  ckDelegate: "Delegate",
+  ckImplicitElementAccess: "ImplicitElementAccess",  ckAnonymousMethodExpression: "AnonymousMethodExpression",  ckTupleExpression: "TupleExpression",
+  ckAnonymousObjectCreationExpression: "AnonymousObjectCreationExpression",  ckBracketedParameterList: "BracketedParameterList",  ckEvent: "Event",
+  ckGotoStatement: "GotoStatement",  ckDoStatement: "DoStatement",  ckGlobalStatement: "GlobalStatement",  ckIncompleteMember: "IncompleteMember",
+  ckLocalFunctionStatement: "LocalFunctionStatement",  ckConversionOperator: "ConversionOperatorDeclaration",  ckTupleType: "TupleType",  ckFixedStatement: "FixedStatement",
+  ckEmptyStatement: "EmptyStatement",  ckSizeOfExpression: "SizeOfExpression",  ckQueryBody: "QueryBody",  ckCheckedStatement: "CheckedStatement",
+  ckQueryExpression: "QueryExpression", ckCasePatternSwitchLabel: "CasePatternSwitchLabel",  ckLabeledStatement: "LabeledStatement",  ckConstructorConstraint: "ConstructorConstraint",
+  ckUnsafeStatement: "UnsafeStatement",  ckParenthesizedVariableDesignation: "ParenthesizedVariableDesignation", ckInterpolationFormatClause: "InterpolationFormatClause",
+  ckDestructor: "DestructorDeclaration",  ckDiscardDesignation: "DiscardDesignation", ckStackAllocArrayCreationExpression: "StackAllocArrayCreationExpression",  ckWhenClause: "WhenClause",
+  ckForEachVariableStatement: "ForEachVariableStatement",  ckLetClause: "LetClause",  ckElementBindingExpression: "ElementBindingExpression",
+  ckCatchFilterClause: "CatchFilterClause",  ckOrdering: "Ordering",  ckInterpolationAlignmentClause: "InterpolationAlignmentClause",
+  ckQueryContinuation: "QueryContinuation",  ckExternAliasDirective: "ExternAliasDirective",  ckMakeRefExpression: "MakeRefExpression",
+  ckRefValueExpression: "RefValueExpression",  ckRefTypeExpression: "RefTypeExpression",  ckBlock: "Block",  ckVariable: "VariableDeclaration",
+  ckBinaryPattern: "BinaryPattern",  ckDiscardPattern: "DiscardPattern",  ckFunctionPointerType: "FunctionPointerType",
+  ckImplicitObjectCreationExpression: "ImplicitObjectCreationExpression",  ckMemberAccessExpression: "MemberAccessExpression",
+  ckParenthesizedPattern: "ParenthesizedPattern",  ckPositionalPatternClause: "PositionalPatternClause",
+  ckPrimaryConstructorBaseType: "PrimaryConstructorBaseType",  ckPropertyPatternClause: "PropertyPatternClause",  ckRangeExpression: "RangeExpression",
+  ckRecord: "Record",  ckRecursivePattern: "RecursivePattern",  ckRelationalPattern: "RelationalPattern",  ckSubpattern: "Subpattern",
+  ckSwitchExpression: "SwitchExpression",  ckSwitchExpressionArm: "SwitchExpressionArm",  ckTypePattern: "TypePattern",  ckUnaryPattern: "UnaryPattern",
+  ckVarPattern: "VarPattern",  ckWithExpression: "WithExpression",  ckImplicitStackAllocArrayCreationExpression: "ImplicitStackAllocArrayCreationExpression", ckOrderByClause: "OrderByClause",
+  ckGroupClause: "GroupClause", ckJoinClause: "JoinClause", ckFromClause: "FromClause", ckSelectClause: "SelectClause", ckWhereClause: "WhereClause", ckJoinIntoClause: "JoinIntoClause"
+
+
+  }.toTable()

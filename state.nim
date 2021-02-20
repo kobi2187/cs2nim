@@ -33,6 +33,7 @@ proc getLastBlockTypes_Orig*(typeStrs: openArray[string]): Option[Block] =
   let loweredTypeStrs = typeStrs.mapIt(it.toLowerAscii)
   result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii in loweredTypeStrs)
 
+
 proc getLastBlockTypes*(typeStrs: openArray[string]): Option[Block] =
   let loweredTypeStrsSet = typeStrs.mapIt(it.toLowerAscii).toHashSet()
   let constrSet = currentConstruct.mapIt(it.name.toLowerAscii).toHashSet()
@@ -42,6 +43,9 @@ proc getLastBlockTypes*(typeStrs: openArray[string]): Option[Block] =
       if c.name.toLowerAscii in loweredTypeStrsSet:
         result = some(c)
   else: result =none(Block)
+
+
+import construct, tables
 
 
 

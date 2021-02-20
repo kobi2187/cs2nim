@@ -470,7 +470,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     ckSwitchStatement, ckReturnStatement, ckIfStatement, ckElseClause,
     ckForStatement,ckDoStatement,ckCastExpression,ckWhileStatement,
     ckForEachStatement, ckForEachVariableStatement,ckUsingStatement,ckLockStatement, ckCheckedStatement,
-    ckLocalDeclarationStatement,   ckTryStatement, ckThrowStatement, ckYieldStatement
+    ckTryStatement, ckThrowStatement, ckYieldStatement
     ]:
     echo "got " & $obj.kind
     let parents = @[
@@ -486,6 +486,19 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 
+  of ckLocalDeclarationStatement:
+    let parents = @[ ckClass, ckMethod, ckConstructor, ckProperty, ckForStatement, ckIfStatement, ckSwitchSection, ckElseClause,
+    ckUsingStatement, ckConversionOperator, ckAccessor, ckDestructor, ckAnonymousMethodExpression, ckParenthesizedLambdaExpression,ckGlobalStatement,
+    ckForEachStatement, ckIndexer, ckTryStatement, ckOperator, ckLabeledStatement]
+    # let parents = @[ "ClassDeclaration","MethodDeclaration", "ConstructorDeclaration",
+    # "PropertyDeclaration", "ForStatement", "IfStatement","SwitchSection", "ElseClause",
+    # "UsingStatement",    "ConversionOperator",    "AccessorDeclaration",    "DestructorDeclaration",
+    # "AnonymousMethodExpression",    "ParenthesizedLambdaExpression",    "GlobalStatement",
+    # "ForEachStatement",    "TryStatement",    "OperatorDeclaration",    "LabeledStatement",
+    # "IndexerDeclaration" ]
+    let lastMatch = getLastBlockTypes(parents)
+    assert lastMatch.isSome
+    res = lastMatch.get.id.some
   of ckBreakStatement: # if, case, else, while, do, ...others?
     let lastMatch = getLastBlockTypes(@["IfStatement", "TryStatement","ElseClause", "SwitchSection","LabeledStatement","WhileStatement", "MethodDeclaration"])
     assert lastMatch.isSome
