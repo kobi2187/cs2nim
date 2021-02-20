@@ -1858,4 +1858,26 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParenthesizedLambdaExpression, ckCheckedStatement": true
   of "ckCatchClause, ckContinueStatement": true
 
+  of "ckLocalFunctionStatement, ckArrayType": true
+
+  of "ckReturnStatement, ckRefValueExpression": true
+  of "ckDoStatement, ckContinueStatement": true
+
+  of "ckLocalFunctionStatement, ckNullableType": true
+
+  of "ckLocalFunctionStatement, ckRefType": true
+  of "ckRelationalPattern, ckParenthesizedExpression": true
+  of "ckUnaryPattern, ckParenthesizedPattern": true
+  of "ckSelectClause, ckParenthesizedExpression": true
+
+  of "ckJoinClause, ckParenthesizedExpression": true
+  of "ckParenthesizedPattern, ckBinaryPattern": true
+  of "ckSimpleLambdaExpression, ckForStatement": true
+
+  of "ckArrayRankSpecifier, ckObjectCreationExpression": true
+
+  of "ckForEachVariableStatement, ckLiteralExpression": true
+
+  of "ckSwitchExpressionArm, ckConditionalAccessExpression": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

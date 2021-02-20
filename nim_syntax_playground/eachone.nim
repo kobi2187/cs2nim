@@ -165,7 +165,7 @@ proc main() : bool =
 
 
   # ============================== PARAMETERS:
-  const random = true
+  const random = false
   const reverse = false
   const startAfterNum : Option[int] = none(int)# some(123900) # int
   const startAfterPercent : Option[float] = none(float)# some((20.0).float) # in percent

@@ -136,7 +136,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = none(UUID) # namespaces don't have a parentID, since we have just one root.
   of ckMethod:
     echo "object is a method"
-    let m = getLastBlockType("ClassDeclaration")
+    let m = getLastBlockTypes(@[ckClass,ckStruct])
     assert m.isSome
     res = m.get.id.some
     # echo "last added in namespace: ", data.nsLastAdded
@@ -462,7 +462,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckCatch:
     assert false, "got: " & $obj.kind & data.sourceCode
   of ckContinueStatement:
-    let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement", "IfStatement","SwitchSection", "CatchClause"])
+    let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement", "WhileStatement", "IfStatement","SwitchSection", "CatchClause", "DoStatement"])
     assert lastMatch.isSome
     res = lastMatch.get.id.some
   of ckFinallyClause:
