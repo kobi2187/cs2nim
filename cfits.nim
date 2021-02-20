@@ -1808,4 +1808,54 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
 
   of "ckMethod, ckForEachVariableStatement": true
 
+  of "ckFixedStatement, ckFixedStatement": true
+  of "ckClass, ckLocalDeclarationStatement": true
+  of "ckOperator, ckUnsafeStatement": true
+  of "ckLabeledStatement, ckYieldStatement": true
+
+  of "ckForEachVariableStatement, ckTupleExpression": true
+  of "ckForEachVariableStatement, ckExpressionStatement": true
+
+  of "ckLocalDeclarationStatement, ckLocalFunctionStatement": true
+  of "ckMethod, ckLocalFunctionStatement": true
+
+  of "ckProperty, ckFixedStatement": true
+  of "ckFixedStatement, ckReturnStatement": true
+  of "ckIndexer, ckFixedStatement": true
+  of "ckForEachVariableStatement, ckObjectCreationExpression": true
+  of "ckProperty, ckUnsafeStatement": true
+  of "ckForEachVariableStatement, ckInvocationExpression": true
+
+  of "ckIfStatement, ckFixedStatement": true
+  of "ckSimpleLambdaExpression, ckReturnStatement": true
+  of "ckSimpleLambdaExpression, ckIfStatement": true
+  of "ckLocalFunctionStatement, ckIfStatement": true
+
+  of "ckConstructor, ckForEachVariableStatement": true
+  of "ckLocalFunctionStatement, ckTypeParameterList": true
+  of "ckLocalFunctionStatement, ckForStatement": true
+  of "ckSimpleLambdaExpression, ckForEachStatement": true
+  of "ckAccessor, ckLocalFunctionStatement": true
+  of "ckConstructor, ckLocalFunctionStatement": true
+
+  of "ckSimpleLambdaExpression, ckThrowStatement": true
+
+  of "ckLocalFunctionStatement, ckTypeParameterConstraintClause": true
+
+  of "ckProperty, ckForEachVariableStatement": true
+  of "ckSimpleLambdaExpression, ckUsingStatement": true
+
+  of "ckIndexer, ckWhileStatement": true
+  of "ckConversionOperator, ckForStatement": true
+
+  of "ckFixedStatement, ckForStatement": true
+  of "ckSimpleLambdaExpression, ckTryStatement": true
+
+  of "ckForEachVariableStatement, ckElementAccessExpression": true
+  of "ckReturnStatement, ckBaseExpression": true
+  of "ckFixedStatement, ckIfStatement": true
+
+  of "ckParenthesizedLambdaExpression, ckCheckedStatement": true
+  of "ckCatchClause, ckContinueStatement": true
+
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")

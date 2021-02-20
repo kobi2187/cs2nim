@@ -71,9 +71,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   var discarded = false
   let irrelevant = ["PredefinedType", "IdentifierName", "QualifiedName", "GenericName"].toHashSet()
   var res: Option[UUID]
-  echo "source code was: " & data.sourceCode
-  echo "all received constructs: ", currentConstruct.filterIt(it.name notin irrelevant).mapIt(it.name)
   echo "blocks: " , blocks
+  echo "all received constructs: ", currentConstruct
+  echo "all received constructs: ", currentConstruct.filterIt(it.name notin irrelevant).mapIt(it.name)
+  echo "source code was: " & data.sourceCode
   if data.lastMethod != nil:
     echo data.lastMethod.name
     echo data.lastMethod.body.mapIt(it.ttype)
@@ -135,12 +136,15 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = none(UUID) # namespaces don't have a parentID, since we have just one root.
   of ckMethod:
     echo "object is a method"
-    echo "last added in namespace: ", data.nsLastAdded
-    assert data.nsLastAdded != NamespaceParts.Unset
-    assert data.nsLastAdded == NamespaceParts.Classes # methods are in classes.
-    assert data.lastClass != nil
-    echo "last class has id:", data.lastClass.id
-    return (discarded, data.lastClass.id)
+    let m = getLastBlockType("ClassDeclaration")
+    assert m.isSome
+    res = m.get.id.some
+    # echo "last added in namespace: ", data.nsLastAdded
+    # assert data.nsLastAdded != NamespaceParts.Unset
+    # assert data.nsLastAdded == NamespaceParts.Classes # methods are in classes.
+    # assert data.lastClass != nil
+    # echo "last class has id:", data.lastClass.id
+    # return (discarded, data.lastClass.id)
 
   of ckPredefinedType:
     echo "object is a predefined type"
@@ -243,7 +247,10 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckIndexer:
     echo "obj is IndexerDeclaration"
-    res = data.lastClass.id
+    let p = @[ckClass,ckStruct]
+    let m = p.getLastBlockTypes
+    assert m.isSome
+    res = m.get.id.some
 
   of ckParameterList:
     echo "obj is ParameterList"
@@ -258,8 +265,13 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckProperty:
     echo "obj is property"
     # can be interfaces or classes
-    assert data.nsLastAdded in [NamespaceParts.Interfaces, NamespaceParts.Classes]
-    res = data.idLastNsPart()
+    let parents = @[ ckClass,ckInterface,ckStruct,ckNamespace]
+    let match = getLastBlockTypes(parents)
+    assert match.isSome
+    res = match.get.id.some
+
+    # assert data.nsLastAdded in [NamespaceParts.Interfaces, NamespaceParts.Classes]
+    # res = data.idLastNsPart()
 
   of ckInvocationExpression:
     echo "obj is InvocationExpression" #TODO: can also be in class as initializing instance var.
@@ -350,21 +362,22 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckGenericName: # NOTE:don't know how it should be structured. probably part of csvariable.
     # just return the last construct.
-    let b = state.getLastBlock((c) => c.name notin ["GenericName",
+    let b = state.getLastBlock((c) => c.name notin ["GenericName","BlockStarts",
         "IdentifierName", "QualifiedName"])
+    if b.isNone: discarded = true
     echo b.get.name
     res = b.get.id.some
-    when false: # previous impl. do we pass unit tests?
-      case data.previousConstruct.get.name
-      of ["IdentifierName"]: discarded = true
-      of ["VariableDeclaration", "ObjectCreationExpression",
-          "MethodDeclaration", "Parameter", "SimpleBaseType"]:
-        assert data.classLastAdded == Methods, $data.classLastAdded
-        res = data.lastBodyExprId
-        if res.get != data.previousConstruct.get.id:
-          let btype = if not data.lastBodyExpr.get.typ.isEmptyOrWhitespace: data.lastBodyExpr.get.typ else: data.lastBodyExpr.get.ttype
-          echo btype, " <=> ", data.previousConstruct.get.name
-      else: assert false, data.previousConstruct.get.name
+    # when false: # previous impl. do we pass unit tests?
+    #   case data.previousConstruct.get.name
+    #   of ["IdentifierName"]: discarded = true
+    #   of ["VariableDeclaration", "ObjectCreationExpression",
+    #       "MethodDeclaration", "Parameter", "SimpleBaseType"]:
+    #     assert data.classLastAdded == Methods, $data.classLastAdded
+    #     res = data.lastBodyExprId
+    #     if res.get != data.previousConstruct.get.id:
+    #       let btype = if not data.lastBodyExpr.get.typ.isEmptyOrWhitespace: data.lastBodyExpr.get.typ else: data.lastBodyExpr.get.ttype
+    #       echo btype, " <=> ", data.previousConstruct.get.name
+    #   else: assert false, data.previousConstruct.get.name
 
 
   of ckTypeArgumentList:
@@ -449,7 +462,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckCatch:
     assert false, "got: " & $obj.kind & data.sourceCode
   of ckContinueStatement:
-    let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement", "IfStatement"])
+    let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement", "IfStatement","SwitchSection", "CatchClause"])
     assert lastMatch.isSome
     res = lastMatch.get.id.some
   of ckFinallyClause:
@@ -479,7 +492,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
        "MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause",
       "SwitchSection", "IndexerDeclaration","PropertyDeclaration",
       "ConstructorDeclaration", "OperatorDeclaration","LocalFunctionStatement",
-      "AnonymousMethodExpression","IfStatement", "TryStatement"
+      "AnonymousMethodExpression","IfStatement", "TryStatement","SimpleLambdaExpression"
     ]
     echo "and looking for its parent in:", parents
     let lastMatch = getLastBlockTypes(parents)
@@ -642,7 +655,11 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert false
   of ckEventField:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
-    assert false
+    let p = @[ckClass, ckNamespace]
+    let m = p.getLastBlockTypes()
+    assert m.isSome
+    res = m.get.id.some
+
   of ckImplicitElementAccess:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
@@ -661,13 +678,18 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     # assert false
   of ckIncompleteMember: #ignore
+    # TODO: don't know what this means, for now, ignore it.
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     discarded = true
     # assert false
-    # TODO: don't know what this means, for now, ignore it.
-  of ckLocalFunctionStatement:
+
+  of ckLocalFunctionStatement: #
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
-    assert false
+    let parents = @[ckLocalDeclarationStatement,ckMethod, ckConstructor, ckDestructor, ckAccessor]
+    let lastMatch = getLastBlockTypes(parents)
+    assert lastMatch.isSome
+    res = lastMatch.get.id.some
+
   of ckConversionOperator:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false

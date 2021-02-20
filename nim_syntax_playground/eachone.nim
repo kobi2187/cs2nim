@@ -165,17 +165,17 @@ proc main() : bool =
 
 
   # ============================== PARAMETERS:
-  const random = false
+  const random = true
   const reverse = false
   const startAfterNum : Option[int] = none(int)# some(123900) # int
   const startAfterPercent : Option[float] = none(float)# some((20.0).float) # in percent
   const hasTimeLimit = true
   var timeLimit :int64 = 0.int64 + #sec
-    1 * 60 + #min
+    2 * 60 + #min
     0 * 60 * 60 # hours
   const iterLimit = none(int) #some(25) # in seconds
   const hasCountLimit = true
-  const limit = 5
+  const limit = 10
   const earlyBreak = true # TODO: change to true and run with left_report, to quickly fix priority errors.
   # can also run with -d:flag
   const addTime = true
