@@ -8,8 +8,7 @@ import constructs/cs_root
 import tables, sets
 import construct
 
-var parentTable* = initTable[int,string]()
-
+var parentTable* = initTable[int, string]()
 
 proc nsPathNS*(r: var CsRoot): seq[CsNamespace] =
   # echo "in nsPathNS ",  $blocks
@@ -87,9 +86,9 @@ proc getCurrentNs*(root: var CsRoot): (string, CsNamespace) =
   let ns = root.nsTables[p]
   result = (p, ns)
 
-proc getLastProperty*(root: var CsRoot): Option[CsProperty] =
-  var (_, ns) = root.getCurrentNs
-  result = ns.getLastProperty()
+# proc getLastProperty*(root: var CsRoot): Option[CsProperty] =
+#   var (_, ns) = root.getCurrentNs
+#   result = ns.getLastProperty()
 
 proc getIndexer(c: CsClass): Option[CsIndexer] =
   if not c.hasIndexer():
@@ -138,32 +137,32 @@ proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
 
 import options
 
-proc getLastProperty(c: CsClass): Option[CsProperty] =
-  assert c.lastAddedTo.isSome
-  case c.lastAddedTo.get
-  of ClassParts.Properties:
-    # echo "~~~" & c.properties.mapIt(it.name)
-    if c.properties.isEmpty:
-      result = none(CsProperty)
-    else:
-      assert c.properties.len > 0
-      var last = c.properties[^1]
-      result = some(last)
+# proc getLastProperty(c: CsClass): Option[CsProperty] =
+#   assert c.lastAddedTo.isSome
+#   case c.lastAddedTo.get
+#   of ClassParts.Properties:
+#     # echo "~~~" & c.properties.mapIt(it.name)
+#     if c.properties.isEmpty:
+#       result = none(CsProperty)
+#     else:
+#       assert c.properties.len > 0
+#       var last = c.properties[^1]
+#       result = some(last)
 
-  else: assert false, "Unsupported"
+#   else: assert false, "Unsupported"
 
 
 
-proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
-  assert ns.lastAddedTo.isSome
-  case ns.lastAddedTo.get
-  of NamespaceParts.Interfaces: discard # TODO
-  of NamespaceParts.Classes:
-    let c = ns.getLastClass()
-    if c.isNone: result = none(CsProperty)
-    else:
-      result = c.get.getLastProperty()
-  of [NamespaceParts.Enums, NamespaceParts.Unset, NamespaceParts.Using]: discard
+# proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
+#   assert ns.lastAddedTo.isSome
+#   case ns.lastAddedTo.get
+#   of NamespaceParts.Interfaces: discard # TODO
+#   of NamespaceParts.Classes:
+#     let c = ns.getLastClass()
+#     if c.isNone: result = none(CsProperty)
+#     else:
+#       result = c.get.getLastProperty()
+#   of [NamespaceParts.Enums, NamespaceParts.Unset, NamespaceParts.Using]: discard
 
 # ===
 

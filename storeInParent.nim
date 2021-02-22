@@ -1,10 +1,10 @@
 import constructs/[cs_all_constructs, justtypes]
 import types, construct
-import  options
+import options
 
 proc add*(parent, child: Construct; data: AllNeededData) =
   echo "in add <Construct>"
-  let couple : string = $parent.kind & " -> " & $child.kind
+  let couple: string = $parent.kind & " -> " & $child.kind
   echo couple
   case parent.kind
   of ckTypeParameterList:

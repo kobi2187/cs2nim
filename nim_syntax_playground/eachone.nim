@@ -7,31 +7,31 @@ type FileErr = object
   file*: string
   output*: string
 
-func perc(part, sum:int) : string =
+func perc(part, sum: int): string =
   if sum != 0:
     $((100 * part / sum).round(2)) & "%"
   else: "0"
 
-proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilctderef,  afterGen,  beforeGen, likely, tc, otherErrors  : int) =
+proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilctderef, afterGen, beforeGen, likely, tc, otherErrors: int) =
   let both = finished + unfinished
   echo perc(finished, both) & " : " & perc(unfinished, both)
-  echo "failed due to missing cfits ",perc(cfitsCounter,both), " (",cfitsCounter, ")"
-  echo "failed due to parentStore missing switch case ",perc(storeCounter,both), " (",storeCounter, ")"
-  echo "failed due to unknown parent, child construct not yet supported ",perc(unsupportedCounter,both), " (",unsupportedCounter, ")"
-  echo "failed due to extract not impl ",perc(extractCounter,both), " (" , extractCounter , ")"
-  echo "failed due to compiletime null ",perc(nilctderef,both), " (",nilctderef, ")"
-  echo "failed due to runtime null ",perc(nullMethodCounter,both), " (",nullMethodCounter, ")"
-  echo "failed due to likely missed removing annotation ",perc(likely,both), " (",likely, ")"
-  echo "failed due to typeCreator missing a switch ",perc(tc,both), " (",tc, ")"
-  echo "Other errors: ", perc(otherErrors, both), " (",otherErrors, ")"
-  echo "failed after gen ",perc(afterGen,both), " (",afterGen, ")"
-  echo "failed before gen ",perc(beforeGen,both), " (",beforeGen,")"
-  echo "no errors + passed storing stage ",perc(finished + afterGen, both)
-  echo both, "/", count, " = " , perc(both,count)
+  echo "failed due to missing cfits ", perc(cfitsCounter, both), " (", cfitsCounter, ")"
+  echo "failed due to parentStore missing switch case ", perc(storeCounter, both), " (", storeCounter, ")"
+  echo "failed due to unknown parent, child construct not yet supported ", perc(unsupportedCounter, both), " (", unsupportedCounter, ")"
+  echo "failed due to extract not impl ", perc(extractCounter, both), " (", extractCounter, ")"
+  echo "failed due to compiletime null ", perc(nilctderef, both), " (", nilctderef, ")"
+  echo "failed due to runtime null ", perc(nullMethodCounter, both), " (", nullMethodCounter, ")"
+  echo "failed due to likely missed removing annotation ", perc(likely, both), " (", likely, ")"
+  echo "failed due to typeCreator missing a switch ", perc(tc, both), " (", tc, ")"
+  echo "Other errors: ", perc(otherErrors, both), " (", otherErrors, ")"
+  echo "failed after gen ", perc(afterGen, both), " (", afterGen, ")"
+  echo "failed before gen ", perc(beforeGen, both), " (", beforeGen, ")"
+  echo "no errors + passed storing stage ", perc(finished + afterGen, both)
+  echo both, "/", count, " = ", perc(both, count)
 
 
-proc fitsContent(file:string, newfits:string) : string =
-  var fh:File
+proc fitsContent(file: string, newfits: string): string =
+  var fh: File
   try:
     fh = open(file)
     let lines = fh.readAll.splitLines
@@ -39,13 +39,13 @@ proc fitsContent(file:string, newfits:string) : string =
     let output = exceptLast.join("\n")
     let last = "\n" & r"""  else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")"""
     result &= output & "\n" & newfits & "\n" & last
-  finally:  fh.close
+  finally: fh.close
 
-proc genFits(newFits:string) =
+proc genFits(newFits: string) =
   echo "in genFits"
   let file = "/home/kobi7/currentWork/cs2nim/cfits.nim"
-  let content = fitsContent(file,newFits)
-  var fh2:File
+  let content = fitsContent(file, newFits)
+  var fh2: File
   try:
     let fh2 = open(file, fmWrite)
     fh2.write(content)
@@ -53,27 +53,27 @@ proc genFits(newFits:string) =
     fh2.close
 
 
-proc writeToFileCfits(cfits : HashSet[string]) =
+proc writeToFileCfits(cfits: HashSet[string]) =
   let newfits = cfits.toSeq.join("\r\n")
   echo "saving cfits.nim"
   genFits(newfits)
 
-proc writeToFileStoreMapping(missingStore : HashSet[string]) =
+proc writeToFileStoreMapping(missingStore: HashSet[string]) =
   let newstores = missingStore.toSeq.sorted.join("\r\n")
-  let file =  "/home/kobi7/currentWork/cs2nim" / "nim_syntax_playground" / "parentKidMapping.txt"
-  var fh:File
+  let file = "/home/kobi7/currentWork/cs2nim" / "nim_syntax_playground" / "parentKidMapping.txt"
+  var fh: File
   try:
-    fh = open(file,fmAppend)
+    fh = open(file, fmAppend)
     echo "saving parent to kid mapping"
     fh.write("\n" & newstores)
   finally:
     fh.close
 proc writeToFileStoreParent() =
   let gen = genStoreInParent()
-  let file =  "/home/kobi7/currentWork/cs2nim" / "storeInParent.nim"
-  var fh:File
+  let file = "/home/kobi7/currentWork/cs2nim" / "storeInParent.nim"
+  var fh: File
   try:
-    fh = open(file,fmWrite)
+    fh = open(file, fmWrite)
     echo "saving generated storeInParent.nim"
     fh.write(gen)
   finally:
@@ -87,7 +87,7 @@ proc runAddRunner() =
 
 
 
-proc printEnding(cfits,missingStore,missingExtract,unsupp,tc : HashSet[string],nilDispatch: seq[string]) =
+proc printEnding(cfits, missingStore, missingExtract, unsupp, tc: HashSet[string], nilDispatch: seq[string]) =
   echo "===cfits=================="
   echo cfits.toSeq.join("\r\n")
   echo "=========parentstore============"
@@ -99,7 +99,7 @@ proc printEnding(cfits,missingStore,missingExtract,unsupp,tc : HashSet[string],n
   echo "=======type creator=============="
   echo tc.toSeq.join("\r\n")
   # echo nilDispatch
-proc main() : bool =
+proc main(): bool =
 
   # var file = "/home/kobi7/More_CS_Libs_and_Apps/csast_files"
   var
@@ -125,7 +125,7 @@ proc main() : bool =
   var finished: seq[string] = @[]
   var unfinished: seq[string] = @[]
   # counters:
-  var otherErrors ,cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter,  afterGen,  beforeGen = 0
+  var otherErrors, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, afterGen, beforeGen = 0
 
   # start
 
@@ -152,10 +152,10 @@ proc main() : bool =
   var assumedFinish = initHashSet[string]()
   var assumedAfter = initHashSet[string]()
   if f.getFileSize > 0:
-    assumedFinish =  finToRead.readAll.splitLines().toHashSet()
+    assumedFinish = finToRead.readAll.splitLines().toHashSet()
   if f2.getFileSize > 0:
     let c = afterGenToRead.readAll
-    assumedAfter =  c.splitLines().toHashSet()
+    assumedAfter = c.splitLines().toHashSet()
 
   finToRead.close
   afterGenToRead.close
@@ -167,25 +167,27 @@ proc main() : bool =
   # ============================== PARAMETERS:
   const random = false
   const reverse = false
-  const startAfterNum : Option[int] = none(int)# some(123900) # int
-  const startAfterPercent : Option[float] = none(float)# some((20.0).float) # in percent
+  const startAfterNum: Option[int] = none(int) # some(123900) # int
+  const startAfterPercent: Option[float] = none(float) # some((20.0).float) # in percent
   const hasTimeLimit = true
-  var timeLimit :int64 = 0.int64 + #sec
-    2 * 60 + #min
-    0 * 60 * 60 # hours
+  var timeLimit: int64 = 0.int64 + #sec
+    2 * 60 +                       #min
+    0 * 60 * 60                    # hours
   const iterLimit = none(int) #some(25) # in seconds
   const hasCountLimit = true
   const limit = 10
-  const earlyBreak = true # TODO: change to true and run with left_report, to quickly fix priority errors.
-  # can also run with -d:flag
+  const earlyBreak = false # TODO: change to true and run with left_report, to quickly fix priority errors.
+                          # can also run with -d:flag
+  const breakAfter = false
+
   const addTime = true
   const timeToAdd = 10 # seconds
-  # ===========================
+                       # ===========================
   if random: randomize()
   let startTime = times.now()
-  var fhandleRead:File
+  var fhandleRead: File
   try:
-    fhandleRead = open(file,fmRead)
+    fhandleRead = open(file, fmRead)
     let contents = fhandleRead.readAll
 
     var lines = contents.splitLines()
@@ -197,7 +199,7 @@ proc main() : bool =
     if reverse:
       lines.reverse
 
-    var metLimit:bool
+    var metLimit: bool
     for i, line in lines:
 
       echo "Handling file #" & $i
@@ -221,18 +223,18 @@ proc main() : bool =
         finished.add line
         echo "skipping!done";
         continue
-      if line in assumedAfter:
+      if line in assumedAfter and not earlyBreak and not breakAfter:
         afterGen.inc
         echo "skipping+";
-        continue # for now, only handle before gen stage (storing stage)
+        continue
 
-      echo "time elapsed: ", p[Hours] ,":", p[Minutes],":", p[Seconds],":", p[Milliseconds]
+      echo "time elapsed: ", p[Hours], ":", p[Minutes], ":", p[Seconds], ":", p[Milliseconds]
       if i > 0:
-        printStats(lines.len, finished.len, unfinished.len, cfitsCounter , storeCounter , unsupportedCounter, extractCounter , nullMethodCounter, nilCtDeref.len,  afterGen,  beforeGen, likelyAnnotation.len, tc.len, otherErrors)
+        printStats(lines.len, finished.len, unfinished.len, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilCtDeref.len, afterGen, beforeGen, likelyAnnotation.len, tc.len, otherErrors)
 
       echo line.split("/")[^1]
       let metTimeLimit = hasTimeLimit and elapsed.inSeconds > timeLimit
-      let countReached =  missingExtract.len + cfits.len + missingStore.len
+      let countReached = missingExtract.len + cfits.len + missingStore.len
       let metCountLimit = hasCountLimit and countReached >= limit
       if metTimeLimit and (countReached == 0) and addTime:
         timeLimit = elapsed.inSeconds + timeToAdd.int64
@@ -242,8 +244,8 @@ proc main() : bool =
 
       GC_fullCollect()
       # echo "file size: " & $line.getFileSize()
-      let res = execProcess("/home/kobi7/currentWork/cs2nim/writer", workingDir = cwd, args = [ line], options = {poStdErrToStdOut,poUsePath})
-      var after:bool
+      let res = execProcess("/home/kobi7/currentWork/cs2nim/writer", workingDir = cwd, args = [line], options = {poStdErrToStdOut, poUsePath})
+      var after: bool
       # echo res
       if res.contains("Error:") or res.contains("Segmentation fault") or res.contains("SIGSEGV: Illegal storage access"):
         unfinished.add line
@@ -252,6 +254,12 @@ proc main() : bool =
           after = true
           afterGen.inc
           afterGenToAdd.writeLine(line)
+          if earlyBreak and breakAfter and not res.contains("finished:"):
+            echo res
+            echo "failure in gen stage"
+            echo line.changeFileExt(".cs")
+            echo "reached " & $(finished.len + unfinished.len) & " --  Percent:  " & perc(finished.len+unfinished.len, count)
+            assert false
         else: beforeGen.inc
         if res.contains("cfits is missing:"):
           cfitsCounter.inc
@@ -294,7 +302,7 @@ proc main() : bool =
             echo res
             echo "regular (not runtime dispatch related) null dereference error"
             echo line.changeFileExt(".cs")
-            echo "reached " & $(finished.len + unfinished.len) & " --  Percent:  " & perc(finished.len+unfinished.len,count)
+            echo "reached " & $(finished.len + unfinished.len) & " --  Percent:  " & perc(finished.len+unfinished.len, count)
             assert false
         else:
           otherErrors.inc
@@ -302,7 +310,7 @@ proc main() : bool =
             echo res
             echo "Some other error occured!"
             echo line.changeFileExt(".cs")
-            echo "reached " & $(finished.len + unfinished.len) & " --  Percent:  " & perc(finished.len+unfinished.len,count)
+            echo "reached " & $(finished.len + unfinished.len) & " --  Percent:  " & perc(finished.len+unfinished.len, count)
             assert false
       else:
         if res.contains("finished:"):
@@ -313,12 +321,12 @@ proc main() : bool =
         # finToAdd.writeLine(line)
       # we run them sorted by size, so if the last one was too long, we break, assuming the next ones will be longer.
       let iterEndTime = times.now()
-      if hasTimeLimit and iterlimit.isSome and  (iterEndTime - iterBeginTime).inSeconds > iterLimit.get and not random and not reverse:
+      if hasTimeLimit and iterlimit.isSome and (iterEndTime - iterBeginTime).inSeconds > iterLimit.get and not random and not reverse:
         break
 
 
     echo "FINISHED!"
-    printEnding(cfits,missingStore,missingExtract,unsupp,tc ,nilDispatch)
+    printEnding(cfits, missingStore, missingExtract, unsupp, tc, nilDispatch)
     if cfits.len > 0:
       echo "cfits unique: " & $cfits.len
       writeToFileCfits(cfits)
@@ -338,7 +346,7 @@ proc main() : bool =
     finToAdd.close
 
 when isMainModule:
-  var isFinishedSuccessfully :bool   = main()
+  var isFinishedSuccessfully: bool = main()
   let cwd = "/home/kobi7/currentWork/cs2nim/"
   sleep 5000
   # echo "attempting to run AddRunner"

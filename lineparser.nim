@@ -6,7 +6,7 @@ import constructs/cs_root
 type LineKind* = enum
   Decl, EndBlock
 
-import stacks, sets, json,tables
+import stacks, sets, json, tables
 import sequtils
 import json
 
@@ -59,7 +59,7 @@ proc updateState(root: var CsRoot; line: JsonNode; upcoming: seq[string]) =
     parentTable[objkind] = decl
 
 
-    let info = Info(declName: decl, essentials: main, extras: extras, rawKind:objkind, parentRawKind:parentKind)
+    let info = Info(declName: decl, essentials: main, extras: extras, rawKind: objkind, parentRawKind: parentKind)
 
     let id = genUUID()
 
@@ -76,7 +76,7 @@ proc updateState(root: var CsRoot; line: JsonNode; upcoming: seq[string]) =
     endBlock(info)
 
 proc reset*() =
-  state_utils.parentTable = initTable[int,string]()
+  state_utils.parentTable = initTable[int, string]()
   block_utils.resetBlocks()
   state.currentConstruct = newSeq[Block]()
 

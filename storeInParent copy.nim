@@ -1,10 +1,10 @@
 import constructs/[cs_all_constructs, justtypes]
 import types, construct
-import  options
+import options
 
 proc add*(parent, child: Construct; data: AllNeededData) =
   echo "in add <Construct>"
-  let couple : string = $parent.kind & " -> " & $child.kind
+  let couple: string = $parent.kind & " -> " & $child.kind
   echo couple
   case parent.kind
   of ckNamespace:
@@ -218,7 +218,7 @@ proc add*(parent, child: Construct; data: AllNeededData) =
     of ckInvocationExpression:
       var c = child.invocationExpression
       c.parentId = p.id; p.add c
-    of  ckElementAccessExpression:
+    of ckElementAccessExpression:
       var c = child.elementAccessExpression
       c.parentId = p.id; p.add c
     of ckAssignmentExpression:
@@ -610,10 +610,10 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       c.parentId = p.id; p.add c
     of ckPredefinedType:
       var c = child.predefinedType
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     of ckVariableDeclarator:
       var c = child.variableDeclarator
-      c.parentId = p.id;  p.add c
+      c.parentId = p.id; p.add c
     of ckArrayType:
       var c = child.arrayType
       c.parentId = p.id; p.add c
@@ -1642,11 +1642,11 @@ proc add*(parent, child: Construct; data: AllNeededData) =
       var c = child.predefinedType
       c.parentId = p.id; p.add c
 
-    of ckGenericName :
+    of ckGenericName:
       var c = child.genericName
       c.parentId = p.id; p.add c
 
-    of ckArrayType :
+    of ckArrayType:
       var c = child.arrayType
       c.parentId = p.id; p.add c
     else: assert false, couple & " plz impl for child: " & $child.kind

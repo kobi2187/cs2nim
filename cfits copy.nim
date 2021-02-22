@@ -1,4 +1,4 @@
-import  construct, constructs/justtypes
+import construct, constructs/justtypes
 proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inner types to implement fits for these type arguments.
   result = case $parent.kind & ", " & $item.kind
   of "ckNamespace, ckClass": true

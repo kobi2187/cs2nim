@@ -9,41 +9,51 @@ type Block* = object
   name*: string
   info*: Info
 
+type SearchOption* = enum
+  soBlocks, soAll
+
 var blocks* = newStack[Block]()
-
-
+proc currentPath*(): seq[Block] = blocks.toSeq()
+var currentConstruct* = newSeq[Block]()
 
 import algorithm, hashes
 import options
 
-var currentConstruct* = newSeq[Block]()
+import strutils
+
+# proc getLastBlockTypes_Orig*(typeStrs: openArray[string]): Option[Block] =
+#   let loweredTypeStrs = typeStrs.mapIt(it.toLowerAscii)
+#   result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii in loweredTypeStrs)
 
 
-proc getLastBlock*(cond: (proc(c: Block): bool)): Option[Block] =
-  for c in currentConstruct.reversed:
+proc getLastBlockTypes(typeStrs: openArray[string], so: SearchOption): Option[Block] =
+  var x = if so == soBlocks: currentPath() else: currentConstruct
+  let loweredTypeStrsSet = typeStrs.mapIt(it.toLowerAscii).toHashSet()
+  # let constrSet = currentConstruct.mapIt(it.name.toLowerAscii).toHashSet()
+  let constrSet = x.mapIt(it.name.toLowerAscii).toHashSet()
+  # the order is important though
+  if (constrSet - loweredTypeStrsSet).len > 0:
+    # for c in currentConstruct.reversed:
+    for c in x.reversed:
+      if c.name.toLowerAscii in loweredTypeStrsSet:
+        result = some(c)
+  else: result = none(Block)
+
+proc getLastTypes*(typeStrs: openArray[string]): Option[Block] =
+  result = getLastBlockTypes(typeStrs, soAll)
+proc getLastBlocks*(typeStrs: openArray[string]): Option[Block] =
+  result = getLastBlockTypes(typeStrs, soBlocks)
+proc getLastType*(typeStr: string): Option[Block] =
+  result = getLastTypes(@[typestr])
+
+proc getLastBlock*(cond: (proc(c: Block): bool), so = soBlocks): Option[Block] =
+  var x = if so == soBlocks: currentPath() else: currentConstruct
+  for c in x.reversed:
     if c.cond(): return c.some
   return none(Block)
 
-import strutils
-proc getLastBlockType*(typeStr: string): Option[Block] =
-  result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii ==
-      typeStr.toLowerAscii)
-
-proc getLastBlockTypes_Orig*(typeStrs: openArray[string]): Option[Block] =
-  let loweredTypeStrs = typeStrs.mapIt(it.toLowerAscii)
-  result = getLastBlock(proc(c: Block): bool = c.name.toLowerAscii in loweredTypeStrs)
-
-
-proc getLastBlockTypes*(typeStrs: openArray[string]): Option[Block] =
-  let loweredTypeStrsSet = typeStrs.mapIt(it.toLowerAscii).toHashSet()
-  let constrSet = currentConstruct.mapIt(it.name.toLowerAscii).toHashSet()
-  # the order is important though
-  if (constrSet - loweredTypeStrsSet).len > 0:
-    for c in currentConstruct.reversed:
-      if c.name.toLowerAscii in loweredTypeStrsSet:
-        result = some(c)
-  else: result =none(Block)
-
+proc getLastType*(cond: (proc(c: Block): bool)): Option[Block] =
+  result = getLastBlock(cond, soAll)
 
 import construct, tables
 
@@ -71,21 +81,35 @@ proc previousConstruct*: Block =
 # declaration string as received from cs side.
 let blockTypesTxt* = [ # everything in C# that has an opening { brace
   "BlockStarts",       # needed!!
-  "NamespaceDeclaration",
+  "CatchClause",
+  "CheckedStatement",
   "ClassDeclaration",
+  "AccessorDeclaration",
+  "ConstructorDeclaration",
+  "DestructorDeclaration",
+  "DoStatement",
+  "ElseClause",
   "EnumDeclaration",
-  "MethodDeclaration",
-  "PropertyDeclaration",
-  "TryStatement",
-  "ForEachStatement",
   "FinallyClause",
-  "IfStatement", "ElseClause",
+  "FixedStatement",
+  "ForEachStatement",
+  "ForStatement",
+  "IfStatement",
+  "LockStatement",
+  "MethodDeclaration",
+  "NamespaceDeclaration",
+  "PropertyDeclaration",
+  "StructDeclaration","IndexerDeclaration",
+  "SwitchSection","AnonymousMethodExpression",
+  "ConversionOperatorDeclaration","SimpleLambdaExpression",
+  "ParenthesizedLambdaExpression","OperatorDeclaration",
+  "SwitchStatement",
+  "TryStatement",
+  "UnsafeStatement",
   "UsingStatement",
-  "ForStatement","LockStatement",
-  "SwitchStatement","UnsafeStatement",
-  "WhileStatement","CheckedStatement","DoStatement","FixedStatement"
+  "WhileStatement",
+
 ].toHashSet
 # note: if endblock raises an assert, it means a previous construct was not recorded here.
 
-proc currentPath*(): seq[Block] = blocks.toSeq()
 

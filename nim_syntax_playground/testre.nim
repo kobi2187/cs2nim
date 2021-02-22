@@ -1,6 +1,6 @@
 import nre
 
-var res= """101/147489
+var res = """101/147489
 /home/kobi7/More_CS_Libs_and_Apps/cake-develop/src/Cake.Common/Tools/OctopusDeploy/OctopusPushSettings.csast
 eachone.nim(54)          eachone
 osproc.nim(507)          execProcess

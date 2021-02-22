@@ -1,58 +1,13 @@
-# parent_finder.nim
-import options, sequtils, all_needed_data, block_utils #, strutils
-import info_center, state_utils
+import options, sequtils, sets, uuids, sugar, tables
+import common_utils, state, all_needed_data, block_utils, info_center, state_utils
 import types, construct, constructs/[cs_all_constructs, justtypes]
-import constructs/cs_root, uuids
-import common_utils
-
-# import cfits
-
-import state, sugar
+import constructs/cs_root
 
 proc handleLiteralExpression(data: AllNeededData): Option[UUID] =
   echo "obj is LiteralExpression"
-  let last = state.getLastBlock((c) => c.name notin ["IdentifierName" , "PrefixUnaryExpression", "LiteralExpression"])
+  let last = state.getLastType((c) => c.name notin ["IdentifierName", "PrefixUnaryExpression", "LiteralExpression"])
   result = last.get.id.some
-  # NOTE: make sure not inside annotation. we should remove those, as we don't support them at all!
 
-  # let prevName = data.previousConstruct.get.name
-  # case prevName
-  # of "EqualsValueClause":
-  #   # we'll need to get prevprev construct and assign the value to it.
-  #   let prevprevName = data.previousPreviousConstruct.get.name
-  #   case prevprevName
-  #     of "EnumMemberDeclaration":
-  #       result = data.lastEnumMember.id
-  #     of "VariableDeclarator":
-  #       result = data.lastBodyExprId
-  #     else: assert false, prevprevName
-
-  # of ["IdentifierName", "Argument"]: discard # TODO?
-  # of "ReturnStatement":
-  #   assert data.classLastAdded in [ClassParts.Methods, ClassParts.Properties,
-  #       ClassParts.Ctors]
-  #   result = data.lastBodyExprId
-  # of "InitializerExpression":
-  #   let ini = data.lastBlockType("InitializerExpression")
-  #   assert ini.isSome
-  #   result = ini
-
-  # of ["PrefixUnaryExpression", "LiteralExpression"]:
-  #   let last = state.getLastBlock((c) => c.name notin ["PrefixUnaryExpression",
-  #       "LiteralExpression"])
-  #   assert last.isSome
-  #   echo "LAST:", last
-
-  # else: assert false, prevName
-
-
-# get parent checks that the types fit each other, and decides whether parent is a block type or one of its last added items, that expects to store that object. if cannot decide, we'll need to add more information from the C# side.
-# figures out path from blocks. blocks now contain id as well.
-# the bulk of the work shifts to here.
-# this happens before we add to the parent.
-
-import state_utils, state
-import tables
 proc parentHint(parentRawKind: int): Option[string] =
   let key = parentRawKind
   if parentTable.hasKey(key):
@@ -61,17 +16,15 @@ proc parentHint(parentRawKind: int): Option[string] =
   else:
     result = none(string)
 
-
 proc parentHint(c: Construct): Option[string] =
   result = parentHint(c.parentRawKind)
 # inconsistent results, maybe overwritten in hashtable??
-import sets
 
 proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]) =
   var discarded = false
   let irrelevant = ["PredefinedType", "IdentifierName", "QualifiedName", "GenericName"].toHashSet()
   var res: Option[UUID]
-  echo "blocks: " , blocks
+  echo "blocks: ", blocks
   echo "all received constructs: ", currentConstruct
   echo "all received constructs: ", currentConstruct.filterIt(it.name notin irrelevant).mapIt(it.name)
   echo "source code was: " & data.sourceCode
@@ -79,14 +32,14 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     echo data.lastMethod.name
     echo data.lastMethod.body.mapIt(it.ttype)
 
-  let ignoredConstructs = ["IdentifierName", "QualifiedName", "BlockStarts", "AliasQualifiedName" ]
+  let ignoredConstructs = ["IdentifierName", "QualifiedName", "BlockStarts", "AliasQualifiedName"]
   if obj.parentId.isSome:
     echo "obj already has parent id, returning that."
     return (false, obj.parentId)
 
   let phint = parentHint(obj)
   # try numerical first.
-  let tryMatch = getLastBlock(b=>b.info.rawKind == obj.parentRawKind)
+  let tryMatch = getLastType(b=>b.info.rawKind == obj.parentRawKind)
   if tryMatch.isSome:
     echo "found the parent in blocks via object's numeric rawkind"
     let id = tryMatch.get.id.some
@@ -96,7 +49,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   elif phint.isSome():
     if phint.get notin ignoredConstructs:
-      let lastMatch = getLastBlockType(phint.get)
+      let lastMatch = getLastType(phint.get)
       if lastMatch.isSome:
         echo "found parent ID thru Roslyn's parent Kind (string type)."
         let id = lastMatch.get.id.some
@@ -108,25 +61,6 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   echo "trying to determine parent based on structure, and previous constructs"
   echo data.sourceCode
   case obj.kind
-  # of ckVariableDeclarator: # TODO
-  #   echo "obj is a variable declarator"
-  #   # hmm, can be in multiple parts (instance var, or local var). we have to know the last added construct.
-    # I think the local declaration is a wrapper for this object.
-    # i think this object can also be wrapped in an instance var. don't know yet.
-  #   assert false
-  # of ckLocalDeclarationStatement:
-  #   echo "obj is a local declaration"
-  #   # exists in methods, ctors, properties.
-  #   # assert data.classLastAdded in [Methods, Properties, Ctors]
-  #   # res = data.idLastClassPart
-  #   let m = getLastBlockTypes(@[
-  #     "MethodDeclaration", "PropertyDeclaration","DestructorDeclaration",
-  #     "ConstructorDeclaration","ConversionOperatorDeclaration","AccessorDeclaration",
-  #     "AnonymousMethodExpression","ParenthesizedLambdaExpression",
-
-  #     ])
-  #   assert m.isSome
-  #   res = m.get.id.some
   of ckClass:
     echo "obj is a class, returning the current namespace id"
     res = data.currentNamespace.id
@@ -136,7 +70,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     res = none(UUID) # namespaces don't have a parentID, since we have just one root.
   of ckMethod:
     echo "object is a method"
-    let m = getLastBlockTypes(@[ckClass,ckStruct])
+    let m = getLastBlocks(@[ckClass, ckStruct])
     assert m.isSome
     res = m.get.id.some
     # echo "last added in namespace: ", data.nsLastAdded
@@ -195,33 +129,12 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckEnumMember:
     echo "object is EnumMemberDeclaration"
     res = data.lastEnum.id
-    # data.currentNamespace
-
-  # of ckReturnStatement:
-  #   echo "obj is ReturnStatement"
-  #   # echo "we should be inside ctor, method, indexer, or property"
-  #   # res = data.idLastClassPart()
-  #   let m = getLastBlockTypes(
-  #     @[
-  #     "AccessorDeclaration", "MethodDeclaration", "IndexerDeclaration",
-  #     "ConstructorDeclaration", "OperatorDeclaration", "ConversionOperatorDeclaration",
-  #     "AnonymousMethodExpression","IfStatement", "TryStatement",
-  #     "ParenthesizedLambdaExpression",
-
-  #     ])
-  #   assert m.isSome
-  #   res = m.get.id.some
 
   of ckArgumentList:
     echo "object is ArgumentList"
     echo "we assume we're in method or ctor, or property, but if there are more options change that."
     assert data.classLastAdded in [ClassParts.Methods, ClassParts.Properties,
         ClassParts.Ctors]
-    # assert data.lastMethod.body.len > 0
-    # res = lastBodyExprId(data.lastMethod)
-    # echo data.classLastAdded
-    # echo data.lastCtor.name
-    # echo data.lastCtor.body.mapIt(it.ttype)
     echo data.classLastAdded
     if data.classLastAdded == Ctors and data.lastCtor.body.isEmpty and
         data.lastCtor.initializer != nil:
@@ -233,11 +146,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckExpressionStatement:
     echo "obj is ExpressionStatement"
     # echo "we assume we're in method or ctor, but if there are more options change that."
-    let last = state.getLastBlock((c) => c.name notin ["IdentifierName" ]) # FIXME: add more according to cases.
+    let last = state.getLastType((c) => c.name notin ["IdentifierName"]) # FIXME: add more according to cases.
     res = last.get.id.some
-    # assert data.classLastAdded in [ClassParts.Methods, ClassParts.Ctors],
-    #     $data.classLastAdded
-    # res = data.idLastClassPart
 
   of ckAssignmentExpression:
     echo "obj is AssignmentExpression"
@@ -247,8 +157,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckIndexer:
     echo "obj is IndexerDeclaration"
-    let p = @[ckClass,ckStruct]
-    let m = p.getLastBlockTypes
+    let p = @[ckClass, ckStruct]
+    let m = getLastBlocks(p)
     assert m.isSome
     res = m.get.id.some
 
@@ -265,8 +175,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckProperty:
     echo "obj is property"
     # can be interfaces or classes
-    let parents = @[ ckClass,ckInterface,ckStruct,ckNamespace]
-    let match = getLastBlockTypes(parents)
+    let parents = @[ckClass, ckInterface, ckStruct, ckNamespace]
+    let match = getLastBlocks(parents)
     assert match.isSome
     res = match.get.id.some
 
@@ -321,7 +231,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     assert data.classLastAdded in [ClassParts.Properties, ClassParts.Indexer]
     res = data.idLastClassPart
   of ckAccessor: # find its parent:AccessorList
-    let lastMatch = getLastBlockType("AccessorList")
+    let lastMatch = getLastType("AccessorList")
     assert lastMatch.isSome
     res = lastMatch.get.id.some
     # assert data.classLastAdded in [ClassParts.Properties, ClassParts.Indexer]
@@ -362,7 +272,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckGenericName: # NOTE:don't know how it should be structured. probably part of csvariable.
     # just return the last construct.
-    let b = state.getLastBlock((c) => c.name notin ["GenericName","BlockStarts",
+    let b = getLastType((c) => c.name notin ["GenericName", "BlockStarts",
         "IdentifierName", "QualifiedName"])
     if b.isNone: discarded = true
     echo b.get.name
@@ -413,17 +323,17 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
         data.previousConstruct.get.name
 
   of ckInitializerExpression: # find your parent: the last object creation expression
-    # let lastoce = state.getLastBlockType("ObjectCreationExpression")
-    res = data.lastBlockType("ObjectCreationExpression")
-    assert res.isSome
+    let m = getLastTypes([ckObjectCreationExpression])
+    assert m.isSome
+    res = m.get.id.some
 
   of ckPrefixUnaryExpression: # hmm, not the previous but the next one. so just add it.
-    let fitting = state.getLastBlock(c=>c.name in [
+    let fitting = getLastType(c=>c.name in [
         "InitializerExpression", "NameEquals"]) # TODO: add others as needed.
     assert fitting.isSome, $data.simplified
     res = fitting.get.id.some
   of ckBinaryExpression:
-    let b = state.getLastBlock(c=>c.name in [
+    let b = state.getLastType(c=>c.name in [
         "VariableDeclarator", "LiteralExpression"]) # TODO: add others as needed.
     assert b.isSome, $data.simplified
     res = b.get.id.some
@@ -431,8 +341,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     # assert data.nsLastAdded in [Classes, Interfaces] # more?
     # res = data.idLastNsPart
 
-    let parents = @["ClassDeclaration" , "StructDeclaration", "InterfaceDeclaration"]
-    let lastMatch = getLastBlockTypes(parents)
+    let parents = @["ClassDeclaration", "StructDeclaration", "InterfaceDeclaration"]
+    let lastMatch = getLastBlocks(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
   of ckNameEquals:
@@ -443,7 +353,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     discarded = true
     echo "got " & $ckExternAliasDirective & " which we don't support (doesn't make sense for nim modules)"
 
-  of [ckInterface,ckDelegate,ckStruct,ckEvent]:
+  of [ckInterface, ckDelegate, ckStruct, ckEvent]:
     res = data.currentNamespace.id
 
   of ckCaseSwitchLabel:
@@ -451,7 +361,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckSwitchSection:
     let parents = @["SwitchStatement"]
-    let lastMatch = getLastBlockTypes(parents)
+    let lastMatch = getLastBlocks(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 
@@ -462,58 +372,48 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckCatch:
     assert false, "got: " & $obj.kind & data.sourceCode
   of ckContinueStatement:
-    let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement", "WhileStatement", "IfStatement","SwitchSection", "CatchClause", "DoStatement"])
+    let lastMatch = getLastBlocks(@["ForStatement", "ForEachStatement", "WhileStatement", "IfStatement", "SwitchSection", "CatchClause", "DoStatement"])
     assert lastMatch.isSome
     res = lastMatch.get.id.some
   of ckFinallyClause:
     assert false, "got: " & $obj.kind & data.sourceCode
   of ckDefaultSwitchLabel:
     assert false, "got: " & $obj.kind & data.sourceCode
-  # of ckYieldStatement:
-  #   let lastMatch = getLastBlockTypes(@["ForStatement","ForEachStatement","LockStatement","MethodDeclaration"])
-  #   assert lastMatch.isSome
-  #   res = lastMatch.get.id.some
 
   of ckThrowExpression:
     assert false, "got: " & $obj.kind & data.sourceCode
 
   # general body constructs
   of [
-    ckGotoStatement,ckLabeledStatement,ckUnsafeStatement,ckFixedStatement,
+    ckGotoStatement, ckLabeledStatement, ckUnsafeStatement, ckFixedStatement,
     ckSwitchStatement, ckReturnStatement, ckIfStatement, ckElseClause,
-    ckForStatement,ckDoStatement,ckCastExpression,ckWhileStatement,
-    ckForEachStatement, ckForEachVariableStatement,ckUsingStatement,ckLockStatement, ckCheckedStatement,
+    ckForStatement, ckDoStatement, ckCastExpression, ckWhileStatement,
+    ckForEachStatement, ckForEachVariableStatement, ckUsingStatement, ckLockStatement, ckCheckedStatement,
     ckTryStatement, ckThrowStatement, ckYieldStatement
     ]:
     echo "got " & $obj.kind
     let parents = @[
-    "DestructorDeclaration",
-    "AccessorDeclaration", "ConversionOperatorDeclaration", "ParenthesizedLambdaExpression",      # add more here.
-       "MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause",
-      "SwitchSection", "IndexerDeclaration","PropertyDeclaration",
-      "ConstructorDeclaration", "OperatorDeclaration","LocalFunctionStatement",
-      "AnonymousMethodExpression","IfStatement", "TryStatement","SimpleLambdaExpression"
+    "DestructorDeclaration", "AccessorDeclaration", "ConversionOperatorDeclaration", "ParenthesizedLambdaExpression",
+      "MethodDeclaration", "ForStatement", "ForEachStatement", "ElseClause",
+      "SwitchSection", "IndexerDeclaration",
+      "ConstructorDeclaration", "OperatorDeclaration", "LocalFunctionStatement",
+      "AnonymousMethodExpression", "IfStatement", "TryStatement", "SimpleLambdaExpression"
     ]
+      # "PropertyDeclaration",
     echo "and looking for its parent in:", parents
-    let lastMatch = getLastBlockTypes(parents)
+    let lastMatch = getLastBlocks(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 
   of ckLocalDeclarationStatement:
-    let parents = @[ ckClass, ckMethod, ckConstructor, ckProperty, ckForStatement, ckIfStatement, ckSwitchSection, ckElseClause,
-    ckUsingStatement, ckConversionOperator, ckAccessor, ckDestructor, ckAnonymousMethodExpression, ckParenthesizedLambdaExpression,ckGlobalStatement,
+    let parents = @[ckClass, ckMethod, ckConstructor, ckProperty, ckForStatement, ckIfStatement, ckSwitchSection, ckElseClause,
+    ckUsingStatement, ckConversionOperator, ckAccessor, ckDestructor, ckAnonymousMethodExpression, ckParenthesizedLambdaExpression, ckGlobalStatement,
     ckForEachStatement, ckIndexer, ckTryStatement, ckOperator, ckLabeledStatement]
-    # let parents = @[ "ClassDeclaration","MethodDeclaration", "ConstructorDeclaration",
-    # "PropertyDeclaration", "ForStatement", "IfStatement","SwitchSection", "ElseClause",
-    # "UsingStatement",    "ConversionOperator",    "AccessorDeclaration",    "DestructorDeclaration",
-    # "AnonymousMethodExpression",    "ParenthesizedLambdaExpression",    "GlobalStatement",
-    # "ForEachStatement",    "TryStatement",    "OperatorDeclaration",    "LabeledStatement",
-    # "IndexerDeclaration" ]
-    let lastMatch = getLastBlockTypes(parents)
+    let lastMatch = getLastBlocks(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
   of ckBreakStatement: # if, case, else, while, do, ...others?
-    let lastMatch = getLastBlockTypes(@["IfStatement", "TryStatement","ElseClause", "SwitchSection","LabeledStatement","WhileStatement", "MethodDeclaration"])
+    let lastMatch = getLastBlocks(@[ ckIfStatement, ckTryStatement, ckElseClause, ckSwitchSection, ckWhileStatement, ckMethod])
     assert lastMatch.isSome
     res = lastMatch.get.id.some
     # assert false # plz add more cases above.
@@ -656,7 +556,7 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckEventField:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     let p = @[ckClass, ckNamespace]
-    let m = p.getLastBlockTypes()
+    let m = getLastBlocks(p)
     assert m.isSome
     res = m.get.id.some
 
@@ -685,8 +585,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
 
   of ckLocalFunctionStatement: #
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
-    let parents = @[ckLocalDeclarationStatement,ckMethod, ckConstructor, ckDestructor, ckAccessor]
-    let lastMatch = getLastBlockTypes(parents)
+    let parents = @[ ckMethod, ckConstructor, ckDestructor, ckAccessor]
+    let lastMatch = getLastTypes(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 
@@ -696,11 +596,6 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
   of ckTupleType:
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
-  # of ckFixedStatement:
-  #   let parents = @["MethodDeclaration", "ConstructorDeclaration"]
-  #   let lastMatch = getLastBlockTypes(parents)
-  #   assert lastMatch.isSome
-  #   res = lastMatch.get.id.some
   of ckEmptyStatement: # ignore
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     discarded = true
@@ -814,8 +709,8 @@ proc determineParentId(obj: Construct; data: AllNeededData): (bool, Option[UUID]
     echo "got: " & $obj.kind & "\nsource: " & data.sourceCode
     assert false
   of ckSwitchExpression:
-    let parents = @["SwitchExpressionArm"]
-    let lastMatch = getLastBlockTypes(parents)
+    let parents = @[ckSwitchExpressionArm]
+    let lastMatch = getLastTypes(parents)
     assert lastMatch.isSome
     res = lastMatch.get.id.some
 

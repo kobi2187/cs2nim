@@ -1,6 +1,6 @@
 import system, os, strutils, options
 
-let lines =  open("/home/kobi7/currentWork/cs2nim/nim_syntax_playground/mytypes.txt").readAll.split("\n")
+let lines = open("/home/kobi7/currentWork/cs2nim/nim_syntax_playground/mytypes.txt").readAll.split("\n")
 let existing = open("/home/kobi7/currentWork/cs2nim/constructs/cs_all_constructs.nim").readAll
 
 import nre

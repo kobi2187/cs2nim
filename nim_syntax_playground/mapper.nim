@@ -3,14 +3,14 @@
 import ../construct
 import tables, sequtils, strutils
 
-proc srcToHash(contents:string) : TableRef[string,seq[string]] =
+proc srcToHash(contents: string): TableRef[string, seq[string]] =
   new result
   let lines = contents.splitLines
   for ln in lines:
     let parts = ln.split("->")
     if not ln.isEmptyOrWhitespace:
       assert parts.len == 2
-      let (a,b) = (parts[0].strip , parts[1].strip)
+      let (a, b) = (parts[0].strip, parts[1].strip)
       if not result.hasKey(a):
         result[a] = newSeq[string]()
 
@@ -18,32 +18,32 @@ proc srcToHash(contents:string) : TableRef[string,seq[string]] =
       if not val.contains b:
         result[a].add b
 
-proc srcToHash(file:File) : TableRef[string,seq[string]] =
+proc srcToHash(file: File): TableRef[string, seq[string]] =
   let str = file.readAll
   result = srcToHash(str)
 
 when false:
   proc hashToSrc() =
-    for k,v in parentKidMapping:
+    for k, v in parentKidMapping:
       for it in v:
         echo $k & " -> " & $it
 
-proc smallCk(parent:string):string=
-   parent[2].toLowerAscii & parent[3..^1]
+proc smallCk(parent: string): string =
+  parent[2].toLowerAscii & parent[3..^1]
 import algorithm
 let specialCases = {
   "interface": "cinterface",
   "enum": "cenum",
-  "method" : "cmethod",
-  "block":"cblock",
+  "method": "cmethod",
+  "block": "cblock",
   }.toTable()
 
-proc  handleSpecial(p:string):string =
+proc handleSpecial(p: string): string =
   if specialCases.hasKey(p):
     specialCases[p]
   else: p
 
-proc caseGenerator(table:TableRef[string,seq[string]]):string =
+proc caseGenerator(table: TableRef[string, seq[string]]): string =
   result = ""
   if table.len > 0:
     result &= "case parent.kind\n"
@@ -65,7 +65,7 @@ proc caseGenerator(table:TableRef[string,seq[string]]):string =
 
   result &= "  else: assert false, couple & \" plz impl for parent: \" & $parent.kind"
 
-proc genStoreInParent*() :string=
+proc genStoreInParent*(): string =
   result = """import constructs/[cs_all_constructs, justtypes]
 import types, construct
 import  options
