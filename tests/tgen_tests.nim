@@ -18,6 +18,7 @@ suite "code generation tests":
       check genTest("sample4")
     test "06. sample5":
       check genTest("sample5")
+  #[
     test "07. sample6":
       check genTest("sample6")
     test "08. sample8":
@@ -39,7 +40,6 @@ suite "code generation tests":
     test "16. field and assignment between variables":
       check genTest("sample13")
     # echo "OK total: 16"
-  #[
   ]#
   when true:
     discard

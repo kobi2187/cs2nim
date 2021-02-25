@@ -5286,3 +5286,7 @@ method add*(parent: var CsSwitchExpressionArm; item: CsConditionalAccessExpressi
   echo "in method add*(parent: var CsSwitchExpressionArm; item: CsConditionalAccessExpression)"
   todoimpl # TODO(add: CsSwitchExpressionArm, CsConditionalAccessExpression)
 
+method add*(parent: var CsForEachVariableStatement; item: CsLiteralExpression) =
+  echo "in method add*(parent: var CsForEachVariableStatement; item: CsLiteralExpression)"
+  todoimpl # TODO(add: CsForEachVariableStatement, CsLiteralExpression)
+

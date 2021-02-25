@@ -55,7 +55,7 @@ proc getLastBlock*(cond: (proc(c: Block): bool), so = soBlocks): Option[Block] =
 proc getLastType*(cond: (proc(c: Block): bool)): Option[Block] =
   result = getLastBlock(cond, soAll)
 
-import construct, tables
+# import construct, tables
 
 
 
@@ -81,11 +81,13 @@ proc previousConstruct*: Block =
 # declaration string as received from cs side.
 let blockTypesTxt* = [ # everything in C# that has an opening { brace
   "BlockStarts",       # needed!!
+  "AccessorDeclaration",
+  "AnonymousMethodExpression",
   "CatchClause",
   "CheckedStatement",
   "ClassDeclaration",
-  "AccessorDeclaration",
   "ConstructorDeclaration",
+  "ConversionOperatorDeclaration",
   "DestructorDeclaration",
   "DoStatement",
   "ElseClause",
@@ -95,14 +97,16 @@ let blockTypesTxt* = [ # everything in C# that has an opening { brace
   "ForEachStatement",
   "ForStatement",
   "IfStatement",
+  "IndexerDeclaration",
   "LockStatement",
   "MethodDeclaration",
   "NamespaceDeclaration",
+  "OperatorDeclaration",
+  "ParenthesizedLambdaExpression",
   "PropertyDeclaration",
-  "StructDeclaration","IndexerDeclaration",
-  "SwitchSection","AnonymousMethodExpression",
-  "ConversionOperatorDeclaration","SimpleLambdaExpression",
-  "ParenthesizedLambdaExpression","OperatorDeclaration",
+  "SimpleLambdaExpression",
+  "StructDeclaration",
+  "SwitchSection",
   "SwitchStatement",
   "TryStatement",
   "UnsafeStatement",

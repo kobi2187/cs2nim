@@ -45,9 +45,9 @@ type CsAnonymousObjectMemberDeclarator* = ref object of CsObject #TODO(type:CsAn
 type CsArgument* = ref object of CsObject
   value*: string
 type CsArgumentList* = ref object of CsObject
-  # args*: seq[string]
-  args*: seq[CsArgument] # TODO: probably needed, when arguments are more complex. need to see the flow.
-type CsArrayCreationExpression* = ref object of CsObject #TODO(type:CsArrayCreationExpression)
+  args*: seq[CsArgument]
+
+type CsArrayCreationExpression* = ref object of BodyExpr #TODO(type:CsArrayCreationExpression)
 type CsArrayRankSpecifier* = ref object of CsObject #TODO(type:CsArrayRankSpecifier)
 type CsArrayType* = ref object of CsObject #TODO(type:CsArrayType)
 type CsArrowExpressionClause* = ref object of CsObject #TODO(type:CsArrowExpressionClause)
@@ -84,7 +84,7 @@ type CsCasePatternSwitchLabel* = ref object of CsObject #TODO(type:CsCasePattern
 type CsCaseSwitchLabel* = ref object of CsObject #TODO(type:CsCaseSwitchLabel)
   body*: seq[GeneralBodyConstruct]
 
-type CsCastExpression* = ref object of CsObject #TODO(type:CsCastExpression)
+type CsCastExpression* = ref object of BodyExpr #TODO(type:CsCastExpression)
 
 type CsCatchClause* = ref object of CsObject #TODO(type:CsCatchClause)
 type CsCatchFilterClause* = ref object of CsObject #TODO(type:CsCatchFilterClause)
@@ -135,7 +135,7 @@ type CsMethod* = ref object of CsObject
   # TODO: method body can change to Construct, but limited only to the constructs applicable. (type constraints* with distinct or runtime asserts)
   # TODO: or we check with case ttype string, as before. runtime dispatch etc.
   body*: seq[BodyExpr] # use here inheritance and methods (runtime dispatch). # seq[Expr] expressions, and each should know how to generate their line. ref objects, and methods.
-  body2*: seq[GeneralBodyConstruct]
+  # body*: seq[GeneralBodyConstruct]
 
 type CsConstructorInitializer* = ref object of CsObject #TODO(type:CsConstructorInitializer)
 
@@ -156,11 +156,16 @@ type CsIndexer* = ref object of CsObject
   varName*: string
   varType*: string
   firstVarType*: string
+  paramlist* :CsParameterList
   aclist*: CsAccessorList
+
+  pmlist*:string
+  acclist*:string
+  mods*:string
   hasDefaultGet*: bool
   hasDefaultSet*: bool
   hasBody*: bool
-  # name*: string  # no, there is no name, but there is an AccessorList, or Accessor, that provide the function body.
+
 type CsTypeParameter* = ref object of CsObject
   param*: string # in, out, ref ...
 type CsClass* = ref object of CsObject
@@ -179,7 +184,7 @@ type CsClass* = ref object of CsObject
 
 type CsClassOrStructConstraint* = ref object of CsObject #TODO(type:CsClassOrStructConstraint)
 type CsConditionalAccessExpression* = ref object of CsObject #TODO(type:CsConditionalAccessExpression)
-type CsConditionalExpression* = ref object of CsObject #TODO(type:CsConditionalExpression)
+type CsConditionalExpression* = ref object of BodyExpr #TODO(type:CsConditionalExpression)
   body*: seq[GeneralBodyConstruct]
 
 type CsConstantPattern* = ref object of CsObject #TODO(type:CsConstantPattern)
@@ -208,7 +213,7 @@ type CsElseClause* = ref object of CsObject #TODO(type:CsElseClause)
 type CsEmptyStatement* = ref object of CsObject #TODO(type:CsEmptyStatement)
 type CsEqualsValueClause* = ref object of CsObject
   value*: string
-  rhsValue*: BodyExpr
+  rhsValue*: BodyExpr #GeneralBodyConstruct
 type CsEventField* = ref object of CsObject #TODO(type:CsEventField)
 type CsEvent* = ref object of CsObject #TODO(type:CsEvent)
 type CsExplicitInterfaceSpecifier* = ref object of CsObject #TODO(type:CsExplicitInterfaceSpecifier)
@@ -260,7 +265,7 @@ type CsInitializerExpression* = ref object of BodyExpr #TODO(type:CsInitializerE
   body*: seq[GeneralBodyConstruct]
 
 type CsInterface* = ref object of CsObject #TODO(type:CsInterface)
-type CsInterpolatedStringExpression* = ref object of CsObject #TODO(type:CsInterpolatedStringExpression)
+type CsInterpolatedStringExpression* = ref object of BodyExpr #TODO(type:CsInterpolatedStringExpression)
 type CsInterpolatedStringText* = ref object of CsObject #TODO(type:CsInterpolatedStringText)
 type CsInterpolationAlignmentClause* = ref object of CsObject #TODO(type:CsInterpolationAlignmentClause)
 type CsInterpolationFormatClause* = ref object of CsObject #TODO(type:CsInterpolationFormatClause)
@@ -350,10 +355,10 @@ type CsOperator* = ref object of CsObject #TODO(type:CsOperator)
 
 type CsOrderByClause* = ref object of CsObject #TODO(type:CsOrderByClause)
 type CsOrdering* = ref object of CsObject #TODO(type:CsOrdering)
-type CsParenthesizedExpression* = ref object of CsObject #TODO(type:CsParenthesizedExpression)
+type CsParenthesizedExpression* = ref object of BodyExpr #TODO(type:CsParenthesizedExpression)
   body*: seq[GeneralBodyConstruct]
 
-type CsParenthesizedLambdaExpression* = ref object of CsObject #TODO(type:CsParenthesizedLambdaExpression)
+type CsParenthesizedLambdaExpression* = ref object of BodyExpr #TODO(type:CsParenthesizedLambdaExpression)
   body*: seq[GeneralBodyConstruct]
 
 type CsParenthesizedVariableDesignation*
@@ -370,8 +375,8 @@ type CsRefValueExpression* = ref object of CsObject #TODO(type:CsRefValueExpress
 type CsSelectClause* = ref object of CsObject #TODO(type:CsSelectClause)
                                               # body*:seq[GeneralBodyConstruct]
 
-type CsSimpleLambdaExpression* = ref object of CsObject #TODO(type:CsSimpleLambdaExpression)
-  body*: seq[GeneralBodyConstruct]
+type CsSimpleLambdaExpression* = ref object of BodyExpr #TODO(type:CsSimpleLambdaExpression)
+  body*: seq[BodyExpr]
 
 type CsSingleVariableDesignation* = ref object of CsObject #TODO(type:CsSingleVariableDesignation)
 type CsSizeOfExpression* = ref object of CsObject #TODO(type:CsSizeOfExpression)
@@ -397,7 +402,7 @@ type CsTupleElement* = ref object of CsObject #TODO(type:CsTupleElement)
 type CsTupleExpression* = ref object of CsObject #TODO(type:CsTupleExpression)
 type CsTupleType* = ref object of CsObject #TODO(type:CsTupleType)
 type CsTypeConstraint* = ref object of CsObject #TODO(type:CsTypeConstraint)
-type CsTypeOfExpression* = ref object of CsObject #TODO(type:CsTypeOfExpression)
+type CsTypeOfExpression* = ref object of BodyExpr #TODO(type:CsTypeOfExpression)
 type CsTypeParameterConstraintClause* = ref object of CsObject #TODO(type:CsTypeParameterConstraintClause)
 
 type CsTypeParameterList* = ref object of CsObject
@@ -458,4 +463,4 @@ type CsVarPattern* = ref object of CsObject
 type CsWithExpression* = ref object of CsObject
 type CsImplicitStackAllocArrayCreationExpression* = ref object of CsObject
 
-proc matchesGeneralBodyConstruct(this: CsGotoStatement|CsLabeledStatement|CsSwitchStatement|CsReturnStatement|CsIfStatement|CsElseClause|CsForStatement|CsDoStatement|CsCastExpression|CsWhileStatement|CsForEachStatement|CsUsingStatement|CsLockStatement|CsCheckedStatement|CsLocalDeclarationStatement|CsTryStatement): bool = true
+proc matchesGeneralBodyConstruct(this: CsBinaryExpression|CsArrayCreationExpression|CsGotoStatement|CsLabeledStatement|CsSwitchStatement|CsReturnStatement|CsIfStatement|CsElseClause|CsForStatement|CsDoStatement|CsCastExpression|CsWhileStatement|CsAssignmentExpression|CsForEachStatement|CsUsingStatement|CsLockStatement|CsCheckedStatement|CsAssignmentExpression|CsLocalDeclarationStatement|CsTryStatement): bool = true

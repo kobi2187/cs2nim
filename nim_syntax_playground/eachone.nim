@@ -135,7 +135,8 @@ proc main(): bool =
 
   # created with: find /home/kobi7/More_CS_Libs_and_Apps/ -name *.csast -size -2M
   # then run thru sizes.nim, and sort natural in a text editor, and remove (search&replace) ^\d+
-  var file = "/home/kobi7/More_CS_Libs_and_Apps/more_updated_sorted.txt"
+  # var file = "/home/kobi7/More_CS_Libs_and_Apps/more_updated_sorted.txt"
+  var file = "/home/kobi7/More_CS_Libs_and_Apps/more_updated2.txt" # _sorted.txt"
 
   if os.commandLineParams().len > 0:
     file = os.commandLineParams()[0]
@@ -169,12 +170,12 @@ proc main(): bool =
   const reverse = false
   const startAfterNum: Option[int] = none(int) # some(123900) # int
   const startAfterPercent: Option[float] = none(float) # some((20.0).float) # in percent
-  const hasTimeLimit = true
+  const hasTimeLimit = false
   var timeLimit: int64 = 0.int64 + #sec
     2 * 60 +                       #min
     0 * 60 * 60                    # hours
   const iterLimit = none(int) #some(25) # in seconds
-  const hasCountLimit = true
+  const hasCountLimit = false
   const limit = 10
   const earlyBreak = false # TODO: change to true and run with left_report, to quickly fix priority errors.
                           # can also run with -d:flag
@@ -201,12 +202,13 @@ proc main(): bool =
 
     var metLimit: bool
     for i, line in lines:
-
-      echo "Handling file #" & $i
+      # echo "Handling file #" & $i
       if not random and not reverse and startAfterNum.isSome and i < startAfterNum.get:
-        echo "skipping#"; continue
+        # echo "skipping#"
+        continue
       if not random and not reverse and startAfterPercent.isSome and (100*i)/count < startAfterPercent.get:
-        echo "skipping%"; continue
+        # echo "skipping%"
+        continue
       # echo getOccupiedMem()
       # echo getFreeMem()
       # echo getTotalMem()
@@ -217,15 +219,15 @@ proc main(): bool =
         continue
       if line in toolarge:
         # echo "skipping, to avoid possible out of memory in big file.";
-        echo "skipping>";
+        # echo "skipping>";
         continue
       if line in assumedFinish:
         finished.add line
-        echo "skipping!done";
+        # echo "skipping!done";
         continue
       if line in assumedAfter and not earlyBreak and not breakAfter:
         afterGen.inc
-        echo "skipping+";
+        # echo "skipping+";
         continue
 
       echo "time elapsed: ", p[Hours], ":", p[Minutes], ":", p[Seconds], ":", p[Milliseconds]
@@ -291,6 +293,8 @@ proc main(): bool =
             unsupp.incl c[0]
         elif res.contains(likelyAnnotationProblemRe):
           likelyAnnotation.incl line
+        elif res.contains("`blocks.len == blockCount * 2`") or res.contains("`bs.name == \"BlockStarts\"`"):
+          discard execCmd("dotnet /home/kobi7/currentWork/CsDisplay/bin/Release/netcoreapp2.2/CsDisplay.dll " & line)
         elif res.contains(typeCreatorRe):
           let matches = res.find(typeCreatorRe)
           if matches.isSome:

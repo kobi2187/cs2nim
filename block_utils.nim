@@ -54,7 +54,7 @@ proc resetBlocks*() = blocks.clear()
 
 import construct, options, tables
 proc getLastBlocks*(types: openArray[ConstructKind]): Option[Block] =
-  let typestrs :seq[string] = types.mapIt(if ckToStr.hasKey(it): ckToStr[it] else: "unknown")
+  let typestrs :seq[string] = types.mapIt(ckToStr[it])
   result = getLastBlocks(typestrs)
 
 proc getLastTypes*(types: openArray[ConstructKind]): Option[Block] =

@@ -1,6 +1,6 @@
 # import ../state_utils
 import nre, sequtils, strutils, sets, re, uuids, options, tables, hashes
-# {.experimental: "codeReordering".}
+{.experimental: "codeReordering".}
 import ../types
 import justtypes
 
@@ -74,6 +74,8 @@ proc newCs*(t: typedesc[CsAccessor]): CsAccessor =
 
 proc extract*(t: typedesc[CsAccessor]; info: Info): CsAccessor =
   echo info
+  let tbl = colonsToTable(info.essentials)
+  # todoimpl
   result = newCs(CsAccessor)
   # can have kind (get or set) in [0]
   if info.essentials.len > 0:
@@ -153,6 +155,7 @@ proc newCs*(t: typedesc[CsAnonymousMethodExpression]): CsAnonymousMethodExpressi
 proc extract*(t: typedesc[CsAnonymousMethodExpression]; info: Info): CsAnonymousMethodExpression =
   echo info
   result = newCs(CsAnonymousMethodExpression)
+
   # todoimpl
 
 # method add*(parent: var CsAnonymousMethodExpression; item: Dummy)  =
@@ -210,13 +213,12 @@ method gen*(c: var CsAnonymousObjectMemberDeclarator): string =
 
 # ============= CsArgumentList ========
 
-proc newCs*(t: typedesc[CsArgumentList]; args: seq[string]): CsArgumentList =
+proc newCs*(t: typedesc[CsArgumentList]): CsArgumentList =
   new result
   result.typ = $typeof(t)
-  # result.args = args.mapIt(it.strip) # now handled from CsArgument
 
 proc extract*(t: typedesc[CsArgumentList]; info: Info): CsArgumentList =
-  result = newCs(CsArgumentList, info.essentials[0].split(","))
+  result = newCs(CsArgumentList)#, info.essentials[0].split(","))
 
 proc replacementGenericTypes (s: string): string =
   if s.contains("<") and s.contains(">"):
@@ -224,10 +226,9 @@ proc replacementGenericTypes (s: string): string =
   else: result = s
 
 method gen*(c: var CsArgumentList): string =
-
   echo "--> in  gen*(c: var CsArgumentList)"
   if not c.isNil:
-    result = c.args.mapIt(it.value).join(", ").replacementGenericTypes()
+    result = c.args.mapIt(it.gen()).join(", ")
 
 # ============= CsArgument ========
 
@@ -238,13 +239,17 @@ proc newCs*(t: typedesc[CsArgument]): CsArgument =
 
 proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument =
   result = newCs(CsArgument)
-  result.value = info.essentials[0]
+  let tbl = colonsToTable(info.essentials)
+  echo info; assert false
+  result.name = tbl["name"]
+  result.value = tbl["type"]
+
 
 # proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item)
 
-method gen*(c: var CsArgument): string =
-  todoimpl
+method gen*(c: CsArgument): string =
   echo "--> in  gen*(c: var CsArgument)"
+  result = c.name & ": " & c.value
 
 # ============= CsArrayCreationExpression ========
 
@@ -772,6 +777,7 @@ method add*(parent: var CsMethod, item: CsAssignmentExpression) =
 
 method add*(parent: var CsMethod, item: CsIfStatement) =
   parent.body.add item
+
 method add*(parent: var CsMethod, item: CsGenericName) =
   todoimpl # TODO
 
@@ -783,20 +789,23 @@ method add*(parent: var CsMethod, item: CsVariableDeclarator) =
 
 method add*(parent: var CsEqualsValueClause, item: CsBinaryExpression) =
   echo "in method add*(parent: var CsEqualsValueClause, item: CsBinaryExpression)"
-  if parent.rhsValue.isNil:
-    parent.rhsValue = item
+  parent.rhsValue = item
+
 method add*(parent: var CsEqualsValueClause, item: CsMemberAccessExpression) =
   echo "in ", "method add*(parent: var CsEqualsValueClause, item: CsMemberAccessExpression)"
-  if parent.rhsValue.isNil:
-    parent.rhsValue = item
+  parent.rhsValue = item
+  # if parent.rhsValue.isNil:
+  #   parent.rhsValue = item
 method add*(parent: var CsEqualsValueClause, item: CsObjectCreationExpression) =
   echo "in ", "method add*(parent: var CsEqualsValueClause, item: CsObjectCreationExpression)="
-  if parent.rhsValue.isNil:
-    parent.rhsValue = item
+  parent.rhsValue = item
+  # if parent.rhsValue.isNil:
+  #   parent.rhsValue = item
 method add*(parent: var CsEqualsValueClause, item: CsLiteralExpression) =
   echo "in ", "method add*(parent: var CsEqualsValueClause, item: CsLiteralExpression)"
-  if parent.rhsValue.isNil:
-    parent.rhsValue = item
+  parent.rhsValue = item
+  # if parent.rhsValue.isNil:
+  #   parent.rhsValue = item
 
 method add*(parent: var CsInvocationExpression, item: CsArgumentList) =
   parent.args = item
@@ -834,7 +843,6 @@ method addSelfParam(m: var CsMethod) =
   m.parameterList.parameters.insert(@[p], 0)
 
 proc gen*(p: CsParameter): string =
-
   echo "--> in  gen*(p: CsParameter)"
   result = p.name & ": "
   if p.isRef:
@@ -894,8 +902,9 @@ method gen*(c: var CsConstructor): string =
 
   result &= body
 
-method gen*(c: var CsIndexer): string =
+type AccessorType = enum atIndexer, atMethod
 
+method gen*(c: var CsIndexer): string =
   echo "--> in  gen*(c: var CsIndexer)"
   echo "generating indexer"
   let x = c.firstVarType.rsplit(".", 1)[^1]
@@ -1236,16 +1245,16 @@ method gen*(c: var CsConstructorInitializer): string =
 
 # ============= CsConstructor ========
 
-proc newCs*(t: typedesc[CsConstructor]; name: string): CsConstructor =
+proc newCs*(t: typedesc[CsConstructor]): CsConstructor =
   new result
   result.typ = $typeof(t)
 
-  result.name = name
 
 proc extract*(t: typedesc[CsConstructor]; info: Info): CsConstructor =
-  let name = info.essentials[0]
-  let m = newCs(CsConstructor, name)
-  result = m
+  let tbl = colonsToTable(info.essentials)
+  let name = tbl["name"]
+  result = newCs(CsConstructor)
+  result.name = name
 
 method add*(parent: var CsConstructor; item: CsLocalDeclarationStatement) =
   todoimpl # TODO
@@ -1574,23 +1583,24 @@ proc newCs*(t: typedesc[CsEnumMember]; name, value: auto): CsEnumMember =
   result.name = name
   result.value = value
 
+import tables,sequtils
 proc extract*(t: typedesc[CsEnumMember]; info: Info): CsEnumMember =
-  let name = info.essentials[0]
-  let value =
-    if info.essentials.len < 2: ""
-    else:
-      info.essentials[1]
-
+  echo info
+  let tbl = colonsToTable(info.essentials)
+  let name = tbl.getOrDefault("name")
+  let value = tbl.getOrDefault("value")
   result = newCs(CsEnumMember, name, value)
 
 method add*(em: CsEnumMember; val: string) =
+  echo "val:",val
   if em.value.isEmptyOrWhitespace:
     em.value = val.strip
   else: echo "value is already set:`", em.value, "`. got `", val, "`;"
+  assert false # stop here
 
 proc gen*(e: CsEnumMember): string =
-
   echo "--> in  gen*(e: CsEnumMember)"
+  echo e.name, e.value
   result = e.name
   if e.value != "": result &= " = " & $e.value
 
@@ -1602,7 +1612,8 @@ proc newCs*(t: typedesc[CsEnum]; name: string): CsEnum =
 
 proc extract*(t: typedesc[CsEnum]; info: Info): CsEnum =
   assert info.essentials.len > 0
-  let name = info.essentials[0]
+  let tbl = colonsToTable(info.essentials)
+  let name = tbl.getOrDefault("name")
   result = newCs(CsEnum, name)
 
 method add*(parent: var CsEnum; item: CsEnumMember) =
@@ -1625,29 +1636,21 @@ proc gen*(e: CsEnum): string =
 # ============= CsEqualsValueClause ========
 
 method add*(em: var CsEnumMember; item: CsEqualsValueClause) =
-  em.add(item.value)
+  em.value = item.value
 
-proc newCs*(t: typedesc[CsEqualsValueClause];
-    name: string): CsEqualsValueClause =
+proc newCs*(t: typedesc[CsEqualsValueClause]): CsEqualsValueClause =
   new result
   result.typ = $typeof(t)
-#TODO(create:CsEqualsValueClause)
 
-proc extract*(t: typedesc[CsEqualsValueClause];
-    info: Info): CsEqualsValueClause =
-  echo info
-  let val = info.essentials[0]
-  result = newCs(CsEqualsValueClause, val)
+proc extract*(t: typedesc[CsEqualsValueClause]; info: Info): CsEqualsValueClause =
+  let tbl = info.essentials.colonsToTable()
+  let val = tbl["value"]
+  result = newCs(CsEqualsValueClause)
+  result.value = val
 
-# method add*(parent: var CsEqualsValueClause; item: Dummy)  =
-#   echo "!!! ---->> unimplemented:  method add*(parent: var CsEqualsValueClause; item: Dummy) "
-#   if stopEarly: assert false
-
-# proc add*(parent: var CsEqualsValueClause; item: Dummy; data: AllNeededData) = parent.add(item)
-
-method gen*(c: var CsEqualsValueClause): string =
-  todoimpl
+method gen*(c: CsEqualsValueClause): string =
   echo "--> in  gen*(c: var CsEqualsValueClause)"
+  result = c.value
 
 # ============= CsEventField ========
 
@@ -1741,7 +1744,7 @@ method add*(parent: var CsTypeArgumentList; item: CsPredefinedType) =
 method add*(parent: var CsArgument; item: CsLiteralExpression) =
   parent.value = item.gen() # todo:shortcut
 
-method add*(parent: var CsArgumentList; item: CsArgument) =
+method add*(parent: CsArgumentList; item: CsArgument) =
   parent.args.add item
 
 method add*(parent: var CsExpressionStatement; item: CsAssignmentExpression) =
@@ -2110,7 +2113,11 @@ proc newCs*(t: typedesc[CsIndexer]): CsIndexer =
 
 proc extract*(t: typedesc[CsIndexer]; info: Info): CsIndexer =
   echo "extract info:", info
+  let tbl = colonsToTable(info.essentials)
   result = newCs(CsIndexer)
+  result.pmlist = tbl["parameterList"]
+  result.acclist = tbl["accessorList"]
+  result.mods = tbl["modifiers"]
 
 method add*(parent: var CsIndexer; item: CsParameter) =
   parent.varName = item.name
@@ -2494,9 +2501,9 @@ proc newCs(t: typedesc[CsLiteralExpression]; val: string): CsLiteralExpression =
   result.ttype = "CsLiteralExpression"
   result.value = val
 
-proc extract*(_: typedesc[CsLiteralExpression];
-    info: Info): CsLiteralExpression =
-  let strVal = info.essentials[0]
+proc extract*(_: typedesc[CsLiteralExpression]; info: Info): CsLiteralExpression =
+  let tbl = colonsToTable(info.essentials)
+  let strVal = tbl["token"]
   result = newCs(CsLiteralExpression, strVal)
 
 method gen*(lit: CsLiteralExpression): string =
@@ -2788,9 +2795,9 @@ proc newCs*(t: typedesc[CsNamespace]; name: string): CsNamespace =
   result.interfaces = @[]
   result.interfaceTable = newTable[string, CsInterface]()
 
-proc extract*(t: typedesc[CsMethod]; info: Info;
-    data: AllNeededData): CsMethod =
-  let name = info.essentials[0]
+proc extract*(t: typedesc[CsMethod]; info: Info; data: AllNeededData): CsMethod =
+  let tbl = colonsToTable(info.essentials)
+  let name = tbl["name"]
   let m = newCs(CsMethod, name)
   result = m
   if info.extras.len > 0:
@@ -2805,7 +2812,8 @@ proc extract*(t: typedesc[CsMethod]; info: Info;
 
 proc extract*(t: typedesc[CsClass]; info: Info; data: AllNeededData): CsClass =
   # new result
-  let name = info.essentials[0]
+  let tbl = colonsToTable(info.essentials)
+  let name = tbl["name"]
   if info.essentials.len > 1:
     let baseTypes = info.essentials[1].split(", ")
     # echo "BASETYPES: " & $baseTypes
@@ -3038,8 +3046,7 @@ proc newCs*(t: typedesc[CsParameterList]): CsParameterList =
   new result # start empty.
   result.typ = $typeof(t)
 
-proc extract*(t: typedesc[CsParameterList]; info: Info;
-    data: AllNeededData): CsParameterList =
+proc extract*(t: typedesc[CsParameterList]; info: Info; data: AllNeededData): CsParameterList =
   result = newCs(CsParameterList)
 
 method add*(parent: var CsParameterList; item: CsParameter) =
@@ -3050,8 +3057,11 @@ method add*(parent: var CsParameterList; item: CsParameter) =
 
 proc extract*(t: typedesc[CsParameter]; info: Info): CsParameter =
   assert info.essentials.len >= 2
-  let name = info.essentials[0].strip()
-  let ty = info.essentials[1].strip()
+  let tbl = colonsToTable(info.essentials)
+  echo info
+  # assert false
+  let name = tbl["name"]
+  let ty = tbl["type"]
   result = newCs(CsParameter, name, ty)
   if info.extras.len > 0:
     let e = info.extras[0]
@@ -3174,12 +3184,9 @@ proc newCs*(t: typedesc[CsPredefinedType]; name: string): CsPredefinedType =
   result.typ = $typeof(t)
   result.name = name
 
-proc extract*(t: typedesc[CsPredefinedType]; info: Info;
-    data: AllNeededData): CsPredefinedType =
-  var name: string
-  if info.essentials.len > 0:
-    name = info.essentials[0]
-  else: name = ""
+proc extract*(t: typedesc[CsPredefinedType]; info: Info; data: AllNeededData): CsPredefinedType =
+  let tbl = colonsToTable(info.essentials)
+  let name = tbl["keyword"]
   result = newCs(CsPredefinedType, name)
 
 method gen*(c: var CsPredefinedType): string =
@@ -4415,7 +4422,7 @@ method add*(parent: var CsParameter; item: CsEqualsValueClause) =
 
 method add*(parent: var CsEqualsValueClause; item: CsInvocationExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsInvocationExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause)
+  parent.rhsValue = item
 method add*(parent: var CsArgument; item: CsPrefixUnaryExpression) =
   echo "in method add*(parent: var CsArgument; item: CsPrefixUnaryExpression)"
   todoimpl # TODO(add:CsArgument)
@@ -4558,7 +4565,7 @@ method add*(parent: var CsVariable; item: CsArrayType) =
 
 method add*(parent: var CsEqualsValueClause; item: CsInitializerExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsInitializerExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsInitializerExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsInitializerExpression)
 
 method add*(parent: var CsMethod; item: CsDoStatement) =
   echo "in method add*(parent: var CsMethod; item: CsDoStatement)"
@@ -4676,8 +4683,7 @@ method add*(parent: var CsMemberAccessExpression; item: CsPredefinedType) =
 
 method add*(parent: var CsEqualsValueClause; item: CsArrayCreationExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsArrayCreationExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsArrayCreationExpression)
-
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsArrayCreationExpression)
 
 method add*(parent: var CsArrayCreationExpression; item: CsArrayType) =
   echo "in method add*(parent: var CsArrayCreationExpression; item: CsArrayType)"
@@ -4817,7 +4823,7 @@ method add*(parent: var CsInitializerExpression; item: CsParenthesizedLambdaExpr
   todoimpl # TODO(add:CsInitializerExpression, CsParenthesizedLambdaExpression)
 method add*(parent: var CsEqualsValueClause; item: CsParenthesizedLambdaExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsParenthesizedLambdaExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsParenthesizedLambdaExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsParenthesizedLambdaExpression)
 
 method add*(parent: var CsArgument; item: CsCastExpression) =
   echo "in method add*(parent: var CsArgument; item: CsCastExpression)"
@@ -4953,7 +4959,7 @@ method add*(parent: var CsInvocationExpression; item: CsElementAccessExpression)
 
 method add*(parent: var CsEqualsValueClause; item: CsConditionalExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsConditionalExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsConditionalExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsConditionalExpression)
 
 method add*(parent: var CsArgument; item: CsElementAccessExpression) =
   echo "in method add*(parent: var CsArgument; item: CsElementAccessExpression)"
@@ -5011,11 +5017,11 @@ method add*(parent: var CsConstructorInitializer; item: CsArgumentList) =
   todoimpl # TODO(add:CsConstructorInitializer, CsArgumentList)
 method add*(parent: var CsEqualsValueClause; item: CsPrefixUnaryExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsPrefixUnaryExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsPrefixUnaryExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsPrefixUnaryExpression)
 
 method add*(parent: var CsEqualsValueClause; item: CsCastExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsCastExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsCastExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsCastExpression)
 
 method add*(parent: var CsPrefixUnaryExpression; item: CsMemberAccessExpression) =
   echo "in method add*(parent: var CsPrefixUnaryExpression; item: CsMemberAccessExpression)"
@@ -5105,19 +5111,19 @@ method add*(parent: var CsInitializerExpression; item: CsCastExpression) =
 
 method add*(parent: var CsEqualsValueClause; item: CsElementAccessExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsElementAccessExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsElementAccessExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsElementAccessExpression)
 
 method add*(parent: var CsEqualsValueClause; item: CsTypeOfExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsTypeOfExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsTypeOfExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsTypeOfExpression)
 
 method add*(parent: var CsEqualsValueClause; item: CsInterpolatedStringExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsInterpolatedStringExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsInterpolatedStringExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsInterpolatedStringExpression)
 
 method add*(parent: var CsEqualsValueClause; item: CsSimpleLambdaExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsSimpleLambdaExpression)"
-  todoimpl # TODO(add:CsEqualsValueClause, CsSimpleLambdaExpression)
+  parent.rhsValue = item # TODO(add:CsEqualsValueClause, CsSimpleLambdaExpression)
 
 method add*(parent: var CsArgument; item: CsParenthesizedExpression) =
   echo "in method add*(parent: var CsArgument; item: CsParenthesizedExpression)"
@@ -5237,7 +5243,7 @@ method add*(parent: var CsLiteralExpression; item: CsBinaryExpression) =
 
 method add*(parent: var CsEqualsValueClause; item: CsParenthesizedExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsParenthesizedExpression)"
-  todoimpl # TODO(add: CsEqualsValueClause, CsParenthesizedExpression)
+  parent.rhsValue = item # TODO(add: CsEqualsValueClause, CsParenthesizedExpression)
 
 method add*(parent: var CsMemberAccessExpression; item: CsLiteralExpression) =
   echo "in method add*(parent: var CsMemberAccessExpression; item: CsLiteralExpression)"
@@ -5313,7 +5319,7 @@ method add*(parent: var CsInvocationExpression; item: CsLiteralExpression) =
 
 method add*(parent: var CsEqualsValueClause; item: CsAssignmentExpression) =
   echo "in method add*(parent: var CsEqualsValueClause; item: CsAssignmentExpression)"
-  todoimpl # TODO(add: CsEqualsValueClause, CsAssignmentExpression)
+  parent.rhsValue = item # TODO(add: CsEqualsValueClause, CsAssignmentExpression)
 
 method add*(parent: var CsArgument; item: CsPostfixUnaryExpression) =
   echo "in method add*(parent: var CsArgument; item: CsPostfixUnaryExpression)"

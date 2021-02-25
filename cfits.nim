@@ -947,7 +947,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckAnonymousObjectMemberDeclarator, ckObjectCreationExpression": true
   of "ckDelegate, ckTypeParameterConstraintClause": true
   of "ckCatchFilterClause, ckLiteralExpression": true
-
   of "ckCaseSwitchLabel, ckLiteralExpression": true
   of "ckRefExpression, ckElementAccessExpression": true
   of "ckRefExpression, ckConditionalExpression": true
@@ -965,11 +964,8 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckConstantPattern, ckPrefixUnaryExpression": true
   of "ckRefExpression, ckMemberAccessExpression": true
   of "ckInterpolationAlignmentClause, ckLiteralExpression": true
-
   of "ckSwitchSection, ckBreakStatement": true
-
   of "ckAnonymousObjectMemberDeclarator, ckLiteralExpression": true
-
   of "ckSwitchSection, ckGotoStatement": true
   of "ckSwitchSection, ckExpressionStatement": true
   of "ckSwitchSection, ckLabeledStatement": true
@@ -980,12 +976,9 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckSwitchSection, ckReturnStatement": true
   of "ckAnonymousObjectMemberDeclarator, ckTupleExpression": true
   of "ckAnonymousObjectMemberDeclarator, ckInvocationExpression": true
-
   of "ckConditionalExpression, ckRefExpression": true
   of "ckSwitchSection, ckLocalDeclarationStatement": true
-
   of "ckLabeledStatement, ckBreakStatement": true
-
   of "ckAnonymousObjectMemberDeclarator, ckBinaryExpression": true
   of "ckUnaryPattern, ckConstantPattern": true
   of "ckSwitchSection, ckIfStatement": true
@@ -998,7 +991,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckAnonymousObjectMemberDeclarator, ckMemberAccessExpression": true
   of "ckSwitchSection, ckForEachStatement": true
   of "ckSwitchSection, ckTryStatement": true
-
   of "ckMemberBindingExpression, ckGenericName": true
   of "ckSwitchExpression, ckSwitchExpressionArm": true
   of "ckAnonymousObjectMemberDeclarator, ckImplicitArrayCreationExpression": true
@@ -1007,13 +999,11 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckYieldStatement, ckTupleExpression": true
   of "ckSwitchSection, ckSwitchStatement": true
   of "ckParenthesizedVariableDesignation, ckDiscardDesignation": true
-
   of "ckCaseSwitchLabel, ckCheckedExpression": true
   of "ckDeclarationPattern, ckDiscardDesignation": true
   of "ckIncompleteMember, ckArrayType": true
   of "ckCaseSwitchLabel, ckCastExpression": true
   of "ckSwitchSection, ckForStatement": true
-
   of "ckSwitchExpressionArm, ckDeclarationPattern": true
   of "ckLetClause, ckInvocationExpression": true
   of "ckInterface, ckInterface": true
@@ -1024,12 +1014,10 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckRangeExpression, ckLiteralExpression": true
   of "ckCatchFilterClause, ckPrefixUnaryExpression": true
   of "ckSwitchExpressionArm, ckConstantPattern": true
-
   of "ckSwitchExpressionArm, ckBinaryPattern": true
   of "ckSwitchSection, ckContinueStatement": true
   of "ckSwitchExpression, ckMemberAccessExpression": true
   of "ckArrowExpressionClause, ckTupleExpression": true
-
   of "ckLetClause, ckQueryExpression": true
   of "ckCasePatternSwitchLabel, ckConstantPattern": true
   of "ckUnaryPattern, ckDeclarationPattern": true
@@ -1039,7 +1027,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckYieldStatement, ckPostfixUnaryExpression": true
   of "ckAnonymousObjectMemberDeclarator, ckDefaultExpression": true
   of "ckForStatement, ckContinueStatement": true
-
   of "ckInvocationExpression, ckPostfixUnaryExpression": true
   of "ckIsPatternExpression, ckParenthesizedExpression": true
   of "ckElementAccessExpression, ckArrayCreationExpression": true
@@ -1047,12 +1034,10 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckStackAllocArrayCreationExpression, ckInitializerExpression": true
   of "ckDeclarationExpression, ckPointerType": true
   of "ckCheckedExpression, ckPrefixUnaryExpression": true
-
   of "ckRefExpression, ckBinaryExpression": true
   of "ckRangeExpression, ckParenthesizedExpression": true
   of "ckMemberAccessExpression, ckRefValueExpression": true
   of "ckLabeledStatement, ckGotoStatement": true
-
   of "ckRefExpression, ckThisExpression": true
   of "ckInterface, ckDelegate": true
   of "ckInterface, ckEnum": true
@@ -1062,13 +1047,10 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckCastExpression, ckDefaultExpression": true
   of "ckSimpleBaseType, ckNullableType": true
   of "ckInterface, ckConstructor": true
-
   of "ckSwitchSection, ckYieldStatement": true
   of "ckAnonymousObjectMemberDeclarator, ckCastExpression": true
   of "ckParameter, ckAliasQualifiedName": true
-
   of "ckIndexer, ckArrayType": true
-
   of "ckNamespace, ckIndexer": true
   of "ckIfStatement, ckCheckedExpression": true
   of "ckLockStatement, ckIfStatement": true
@@ -1109,7 +1091,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckSwitchExpressionArm, ckLiteralExpression": true
   of "ckGotoStatement, ckMemberAccessExpression": true
   of "ckEqualsValueClause, ckGenericName": true
-
   of "ckWhileStatement, ckAssignmentExpression": true
   of "ckSwitchExpressionArm, ckInterpolatedStringExpression": true
   of "ckCheckedExpression, ckConditionalExpression": true
@@ -1120,13 +1101,11 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParenthesizedLambdaExpression, ckImplicitArrayCreationExpression": true
   of "ckForStatement, ckThrowStatement": true
   of "ckInterpolationAlignmentClause, ckPrefixUnaryExpression": true
-
   of "ckRefValueExpression, ckPredefinedType": true
   of "ckRecursivePattern, ckPositionalPatternClause": true
   of "ckSwitchExpressionArm, ckCastExpression": true
   of "ckRefValueExpression, ckInvocationExpression": true
   of "ckSwitchExpressionArm, ckDiscardPattern": true
-
   of "ckThrowExpression, ckParenthesizedExpression": true
   of "ckElementAccessExpression, ckPostfixUnaryExpression": true
   of "ckUsingStatement, ckLocalDeclarationStatement": true
@@ -1140,12 +1119,10 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckWhenClause, ckBinaryExpression": true
   of "ckSwitchExpression, ckElementAccessExpression": true
   of "ckSwitchExpression, ckParenthesizedExpression": true
-
   of "ckFixedStatement, ckVariable": true
   of "ckWithExpression, ckMemberAccessExpression": true
   of "ckSwitchExpressionArm, ckRecursivePattern": true
   of "ckTypeOfExpression, ckAliasQualifiedName": true
-
   of "ckSwitchExpressionArm, ckParenthesizedExpression": true
   of "ckAssignmentExpression, ckRefValueExpression": true
   of "ckSwitchExpressionArm, ckConditionalExpression": true
@@ -1155,7 +1132,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckPositionalPatternClause, ckSubpattern": true
   of "ckWhenClause, ckIsPatternExpression": true
   of "ckBinaryPattern, ckBinaryPattern": true
-
   of "ckBinaryExpression, ckRefTypeExpression": true
   of "ckWhileStatement, ckBreakStatement": true
   of "ckWhileStatement, ckCastExpression": true
@@ -1173,19 +1149,16 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckElementAccessExpression, ckRefValueExpression": true
   of "ckArgument, ckMakeRefExpression": true
   of "ckForStatement, ckObjectCreationExpression": true
-
   of "ckAnonymousObjectMemberDeclarator, ckInterpolatedStringExpression": true
   of "ckRangeExpression, ckMemberAccessExpression": true
   of "ckAssignmentExpression, ckIsPatternExpression": true
   of "ckAnonymousObjectMemberDeclarator, ckElementAccessExpression": true
   of "ckDoStatement, ckIsPatternExpression": true
   of "ckAnonymousObjectMemberDeclarator, ckConditionalExpression": true
-
   of "ckSubpattern, ckConstantPattern": true
   of "ckConstantPattern, ckInvocationExpression": true
   of "ckElseClause, ckLockStatement": true
   of "ckPostfixUnaryExpression, ckTupleExpression": true
-
   of "ckConstructor, ckIfStatement": true
   of "ckInterface, ckEventField": true
   of "ckMethod, ckLiteralExpression": true
@@ -1205,18 +1178,14 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckClass, ckEventField": true
   of "ckConstructor, ckTryStatement": true
   of "ckAccessor, ckThrowStatement": true
-
   of "ckSubpattern, ckDiscardPattern": true
-
   of "ckConstructor, ckForStatement": true
   of "ckProperty, ckLiteralExpression": true
   of "ckEvent, ckAccessorList": true
   of "ckAccessor, ckWhileStatement": true
   of "ckPredefinedType, ckLiteralExpression": true
   of "ckEventField, ckVariable": true
-
   of "ckConstructor, ckWhileStatement": true
-
   of "ckStruct, ckEventField": true
   of "ckField, ckLiteralExpression": true
   of "ckAccessor, ckUsingStatement": true
@@ -1234,16 +1203,12 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckEvent, ckNullableType": true
   of "ckConstructor, ckLockStatement": true
   of "ckThrowExpression, ckBinaryExpression": true
-
   of "ckConstructor, ckContinueStatement": true
-
   of "ckEvent, ckExplicitInterfaceSpecifier": true
-
   of "ckClass, ckDestructor": true
   of "ckClass, ckOperator": true
   of "ckClass, ckConversionOperator": true
   of "ckStruct, ckOperator": true
-
   of "ckAwaitExpression, ckCastExpression": true
   of "ckAccessor, ckDoStatement": true
   of "ckThrowStatement, ckElementAccessExpression": true
@@ -1265,25 +1230,17 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckOperator, ckPredefinedType": true
   of "ckDelegate, ckTupleType": true
   of "ckAccessor, ckContinueStatement": true
-
   of "ckPostfixUnaryExpression, ckPostfixUnaryExpression": true
   of "ckIsPatternExpression, ckThisExpression": true
   of "ckEventField, ckLiteralExpression": true
-
   of "ckBinaryExpression, ckSizeOfExpression": true
   of "ckEvent, ckLiteralExpression": true
-
   of "ckConversionOperator, ckArrowExpressionClause": true
   of "ckOperator, ckArrowExpressionClause": true
-
   of "ckConversionOperator, ckGenericName": true
-
   of "ckIfStatement, ckWhileStatement": true
-
   of "ckSizeOfExpression, ckPredefinedType": true
-
   of "ckIsPatternExpression, ckBinaryExpression": true
-
   of "ckReturnStatement, ckSizeOfExpression": true
   of "ckStruct, ckDestructor": true
   of "ckInterface, ckEvent": true
@@ -1295,44 +1252,30 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckInterface, ckOperator": true
   of "ckArgument, ckSizeOfExpression": true
   of "ckEqualsValueClause, ckSizeOfExpression": true
-
   of "ckOperator, ckReturnStatement": true
-
   of "ckConversionOperator, ckReturnStatement": true
-
   of "ckIfStatement, ckObjectCreationExpression": true
-
   of "ckSwitchStatement, ckObjectCreationExpression": true
   of "ckCastExpression, ckSizeOfExpression": true
-
   of "ckPostfixUnaryExpression, ckThisExpression": true
-
   of "ckSwitchExpressionArm, ckArrayCreationExpression": true
   of "ckOperator, ckNullableType": true
   of "ckPrefixUnaryExpression, ckCheckedExpression": true
-
   of "ckTypeOfExpression, ckTupleType": true
   of "ckSubpattern, ckNameColon": true
   of "ckSizeOfExpression, ckPointerType": true
-
   of "ckArrowExpressionClause, ckSizeOfExpression": true
   of "ckArrayRankSpecifier, ckSizeOfExpression": true
-
   of "ckForStatement, ckAwaitExpression": true
   of "ckIncompleteMember, ckNullableType": true
-
   of "ckDelegate, ckLiteralExpression": true
   of "ckArrowExpressionClause, ckAnonymousObjectCreationExpression": true
   of "ckConditionalExpression, ckGenericName": true
   of "ckInterpolation, ckSizeOfExpression": true
-
   of "ckSubpattern, ckDeclarationPattern": true
-
   of "ckBinaryExpression, ckSwitchExpression": true
-
   of "ckWhenClause, ckPrefixUnaryExpression": true
   of "ckSubpattern, ckUnaryPattern": true
-
   of "ckAnonymousObjectMemberDeclarator, ckPrefixUnaryExpression": true
   of "ckSwitchExpressionArm, ckVarPattern": true
   of "ckForEachStatement, ckTryStatement": true
@@ -1422,13 +1365,9 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParenthesizedVariableDesignation, ckParenthesizedVariableDesignation": true
   of "ckConditionalExpression, ckSizeOfExpression": true
   of "ckStruct, ckEvent": true
-
   of "ckVarPattern, ckSingleVariableDesignation": true
-
   of "ckSubpattern, ckRelationalPattern": true
-
   of "ckRelationalPattern, ckLiteralExpression": true
-
   of "ckInvocationExpression, ckSimpleLambdaExpression": true
   of "ckArrayRankSpecifier, ckAssignmentExpression": true
   of "ckForEachStatement, ckForStatement": true
@@ -1457,81 +1396,62 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckLockStatement, ckForEachStatement": true
   of "ckWhenClause, ckMemberAccessExpression": true
   of "ckParenthesizedExpression, ckRangeExpression": true
-
   of "ckTryStatement, ckBreakStatement": true
-
   of "ckConversionOperator, ckLocalDeclarationStatement": true
-
   of "ckAccessor, ckLocalDeclarationStatement": true
-
   of "ckSubpattern, ckBinaryPattern": true
-
   of "ckMethod, ckBreakStatement": true
-
   of "ckBinaryPattern, ckRecursivePattern": true
   of "ckQueryExpression, ckFromClause": true
-
   of "ckFromClause, ckMemberAccessExpression": true
   of "ckFromClause, ckLiteralExpression": true
   of "ckFromClause, ckInvocationExpression": true
   of "ckQueryBody, ckSelectClause": true
   of "ckFromClause, ckAwaitExpression": true
-
   of "ckSelectClause, ckTupleExpression": true
   of "ckSelectClause, ckArrayCreationExpression": true
   of "ckSelectClause, ckConditionalExpression": true
   of "ckQueryBody, ckJoinClause": true
   of "ckSelectClause, ckAnonymousObjectCreationExpression": true
-
   of "ckSelectClause, ckMemberAccessExpression": true
   of "ckQueryBody, ckWhereClause": true
   of "ckQueryBody, ckFromClause": true
   of "ckQueryBody, ckOrderByClause": true
   of "ckJoinClause, ckInvocationExpression": true
-
   of "ckSelectClause, ckCastExpression": true
   of "ckWhereClause, ckBinaryExpression": true
   of "ckWhereClause, ckInvocationExpression": true
   of "ckSelectClause, ckInvocationExpression": true
   of "ckOrderByClause, ckOrdering": true
-
   of "ckFromClause, ckArrayCreationExpression": true
   of "ckSelectClause, ckBinaryExpression": true
   of "ckQueryBody, ckGroupClause": true
   of "ckFromClause, ckPredefinedType": true
   of "ckSelectClause, ckInterpolatedStringExpression": true
-
   of "ckFromClause, ckImplicitArrayCreationExpression": true
   of "ckGroupClause, ckMemberAccessExpression": true
   of "ckGroupClause, ckAnonymousObjectCreationExpression": true
   of "ckSelectClause, ckObjectCreationExpression": true
   of "ckQueryBody, ckQueryContinuation": true
-
   of "ckQueryContinuation, ckQueryBody": true
   of "ckWhereClause, ckPrefixUnaryExpression": true
   of "ckGroupClause, ckLiteralExpression": true
   of "ckOrdering, ckMemberAccessExpression": true
   of "ckAnonymousObjectMemberDeclarator, ckQueryExpression": true
   of "ckSelectClause, ckLiteralExpression": true
-
   of "ckGroupClause, ckBinaryExpression": true
   of "ckWhereClause, ckParenthesizedExpression": true
   of "ckFromClause, ckThisExpression": true
   of "ckOrdering, ckElementAccessExpression": true
   of "ckWhereClause, ckMemberAccessExpression": true
   of "ckSelectClause, ckQueryExpression": true
-
   of "ckGroupClause, ckInvocationExpression": true
-
   of "ckOrdering, ckBinaryExpression": true
   of "ckJoinClause, ckMemberAccessExpression": true
   of "ckLetClause, ckLiteralExpression": true
-
   of "ckJoinClause, ckJoinIntoClause": true
   of "ckTypePattern, ckPredefinedType": true
-
   of "ckDoStatement, ckConditionalExpression": true
-
   of "ckFromClause, ckElementAccessExpression": true
   of "ckFromClause, ckQueryExpression": true
   of "ckWhileStatement, ckContinueStatement": true
@@ -1544,7 +1464,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckElseClause, ckCheckedStatement": true
   of "ckVariable, ckFunctionPointerType": true
   of "ckSwitchExpressionArm, ckTupleExpression": true
-
   of "ckLetClause, ckArrayCreationExpression": true
   of "ckFromClause, ckConditionalExpression": true
   of "ckFromClause, ckNullableType": true
@@ -1564,11 +1483,8 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckParenthesizedLambdaExpression, ckCheckedExpression": true
   of "ckParenthesizedExpression, ckGenericName": true
   of "ckOrdering, ckParenthesizedExpression": true
-
   of "ckDestructor, ckLocalDeclarationStatement": true
-
   of "ckAnonymousMethodExpression, ckLocalDeclarationStatement": true
-
   of "ckAnonymousMethodExpression, ckReturnStatement": true
   of "ckConversionOperator, ckThrowStatement": true
   of "ckAccessor, ckSwitchStatement": true
@@ -1580,17 +1496,11 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckConversionOperator, ckYieldStatement": true
   of "ckConstructor, ckSwitchStatement": true
   of "ckParenthesizedLambdaExpression, ckReturnStatement": true
-
   of "ckGlobalStatement, ckLocalDeclarationStatement": true
-
   of "ckMethod, ckCheckedStatement": true
-
   of "ckMethod, ckLabeledStatement": true
-
   of "ckGlobalStatement, ckExpressionStatement": true
-
   of "ckLabeledStatement, ckReturnStatement": true
-
   of "ckForEachStatement, ckCheckedStatement": true
   of "ckParenthesizedLambdaExpression, ckLabeledStatement": true
   of "ckIfStatement, ckDoStatement": true
@@ -1610,9 +1520,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckTryStatement, ckTryStatement": true
   of "ckExpressionStatement, ckArrayCreationExpression": true
   of "ckLabeledStatement, ckIfStatement": true
-
   of "ckGlobalStatement, ckReturnStatement": true
-
   of "ckLocalFunctionStatement, ckParameterList": true
   of "ckConstructor, ckCheckedStatement": true
   of "ckAnonymousMethodExpression, ckSwitchStatement": true
@@ -1632,9 +1540,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckLabeledStatement, ckLocalDeclarationStatement": true
   of "ckGlobalStatement, ckIfStatement": true
   of "ckTryStatement, ckCheckedStatement": true
-
   of "ckParenthesizedLambdaExpression, ckWhileStatement": true
-
   of "ckTryStatement, ckWhileStatement": true
   of "ckLocalFunctionStatement, ckGenericName": true
   of "ckLabeledStatement, ckWhileStatement": true
@@ -1651,7 +1557,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckLabeledStatement, ckForEachVariableStatement": true
   of "ckConversionOperator, ckSwitchStatement": true
   of "ckForEachVariableStatement, ckMemberAccessExpression": true
-
   of "ckCastExpression, ckInterpolatedStringExpression": true
   of "ckJoinClause, ckPredefinedType": true
   of "ckParenthesizedLambdaExpression, ckLockStatement": true
@@ -1664,27 +1569,19 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckLabeledStatement, ckForStatement": true
   of "ckProperty, ckAliasQualifiedName": true
   of "ckGlobalStatement, ckBreakStatement": true
-
   of "ckExpressionStatement, ckRangeExpression": true
   of "ckAnonymousObjectMemberDeclarator, ckCheckedExpression": true
   of "ckGlobalStatement, ckForEachVariableStatement": true
-
   of "ckParenthesizedLambdaExpression, ckDoStatement": true
   of "ckArrayType, ckAliasQualifiedName": true
   of "ckConstructor, ckLabeledStatement": true
   of "ckForEachStatement, ckLockStatement": true
   of "ckTryStatement, ckDoStatement": true
-
   of "ckInitializerExpression, ckPredefinedType": true
-
   of "ckJoinClause, ckAnonymousObjectCreationExpression": true
-
   of "ckGlobalStatement, ckForStatement": true
-
   of "ckExpressionStatement, ckAnonymousMethodExpression": true
-
   of "ckAnonymousMethodExpression, ckWhileStatement": true
-
   of "ckRefValueExpression, ckMakeRefExpression": true
   of "ckWhileStatement, ckThrowStatement": true
   of "ckFunctionPointerType, ckParameter": true
@@ -1692,9 +1589,7 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckExpressionStatement, ckImplicitArrayCreationExpression": true
   of "ckMakeRefExpression, ckElementAccessExpression": true
   of "ckAssignmentExpression, ckMakeRefExpression": true
-
   of "ckAnonymousMethodExpression, ckUsingStatement": true
-
   of "ckBinaryExpression, ckRefValueExpression": true
   of "ckUsingStatement, ckForEachStatement": true
   of "ckRefValueExpression, ckArrayType": true
@@ -1704,7 +1599,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckDoStatement, ckParenthesizedExpression": true
   of "ckDoStatement, ckCheckedExpression": true
   of "ckMakeRefExpression, ckMemberAccessExpression": true
-
   of "ckFromClause, ckConditionalAccessExpression": true
   of "ckSwitchExpressionArm, ckSimpleLambdaExpression": true
   of "ckConditionalExpression, ckRefValueExpression": true
@@ -1713,7 +1607,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckThrowExpression, ckPostfixUnaryExpression": true
   of "ckCaseSwitchLabel, ckDefaultExpression": true
   of "ckSwitchStatement, ckTupleExpression": true
-
   of "ckBinaryPattern, ckUnaryPattern": true
   of "ckSwitchExpressionArm, ckSwitchExpression": true
   of "ckProperty, ckReturnStatement": true
@@ -1721,34 +1614,23 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckSwitchExpressionArm, ckCheckedExpression": true
   of "ckBinaryPattern, ckRelationalPattern": true
   of "ckGroupClause, ckParenthesizedExpression": true
-
   of "ckIndexer, ckReturnStatement": true
   of "ckLockStatement, ckPostfixUnaryExpression": true
   of "ckFromClause, ckArrayType": true
   of "ckSwitchSection, ckLocalFunctionStatement": true
   of "ckSwitchExpression, ckCheckedExpression": true
-
   of "ckIndexer, ckLockStatement": true
-
   of "ckParenthesizedLambdaExpression, ckThrowStatement": true
   of "ckTryStatement, ckThrowStatement": true
   of "ckOperator, ckThrowStatement": true
-
   of "ckGlobalStatement, ckThrowStatement": true
-
   of "ckVarPattern, ckDiscardDesignation": true
   of "ckCastExpression, ckFunctionPointerType": true
-
   of "ckForEachStatement, ckContinueStatement": true
-
   of "ckLabeledStatement, ckForEachStatement": true
-
   of "ckForStatement, ckRangeExpression": true
-
   of "ckForStatement, ckImplicitArrayCreationExpression": true
-
   of "ckProperty, ckForStatement": true
-
   of "ckProperty, ckWhileStatement": true
   of "ckDestructor, ckIfStatement": true
   of "ckProperty, ckTryStatement": true
@@ -1757,10 +1639,8 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckProperty, ckIfStatement": true
   of "ckConversionOperator, ckIfStatement": true
   of "ckProperty, ckForEachStatement": true
-
   of "ckOperator, ckIfStatement": true
   of "ckProperty, ckDoStatement": true
-
   of "ckProperty, ckLockStatement": true
   of "ckProperty, ckUsingStatement": true
   of "ckAnonymousMethodExpression, ckIfStatement": true
@@ -1772,7 +1652,6 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckProperty, ckCheckedStatement": true
   of "ckIndexer, ckIfStatement": true
   of "ckIndexer, ckLocalDeclarationStatement": true
-
   of "ckDestructor, ckUsingStatement": true
   of "ckProperty, ckGotoStatement": true
   of "ckAnonymousMethodExpression, ckTryStatement": true
@@ -1790,94 +1669,68 @@ proc cfits*(parent, item: Construct; data: AllNeededData): bool = # asks the inn
   of "ckInvocationExpression, ckThisExpression": true
   of "ckDestructor, ckReturnStatement": true
   of "ckAnonymousMethodExpression, ckForEachStatement": true
-
   of "ckAnonymousMethodExpression, ckThrowStatement": true
-
   of "ckDestructor, ckForEachStatement": true
-
   of "ckConstructor, ckFixedStatement": true
   of "ckMethod, ckFixedStatement": true
   of "ckConversionOperator, ckUnsafeStatement": true
   of "ckConstructor, ckUnsafeStatement": true
   of "ckMethod, ckUnsafeStatement": true
-
   of "ckProperty, ckYieldStatement": true
   of "ckDefaultExpression, ckPointerType": true
   of "ckLocalFunctionStatement, ckReturnStatement": true
   of "ckFixedStatement, ckExpressionStatement": true
-
   of "ckMethod, ckForEachVariableStatement": true
-
   of "ckFixedStatement, ckFixedStatement": true
   of "ckClass, ckLocalDeclarationStatement": true
   of "ckOperator, ckUnsafeStatement": true
   of "ckLabeledStatement, ckYieldStatement": true
-
   of "ckForEachVariableStatement, ckTupleExpression": true
   of "ckForEachVariableStatement, ckExpressionStatement": true
-
   of "ckLocalDeclarationStatement, ckLocalFunctionStatement": true
   of "ckMethod, ckLocalFunctionStatement": true
-
   of "ckProperty, ckFixedStatement": true
   of "ckFixedStatement, ckReturnStatement": true
   of "ckIndexer, ckFixedStatement": true
   of "ckForEachVariableStatement, ckObjectCreationExpression": true
   of "ckProperty, ckUnsafeStatement": true
   of "ckForEachVariableStatement, ckInvocationExpression": true
-
   of "ckIfStatement, ckFixedStatement": true
   of "ckSimpleLambdaExpression, ckReturnStatement": true
   of "ckSimpleLambdaExpression, ckIfStatement": true
   of "ckLocalFunctionStatement, ckIfStatement": true
-
   of "ckConstructor, ckForEachVariableStatement": true
   of "ckLocalFunctionStatement, ckTypeParameterList": true
   of "ckLocalFunctionStatement, ckForStatement": true
   of "ckSimpleLambdaExpression, ckForEachStatement": true
   of "ckAccessor, ckLocalFunctionStatement": true
   of "ckConstructor, ckLocalFunctionStatement": true
-
   of "ckSimpleLambdaExpression, ckThrowStatement": true
-
   of "ckLocalFunctionStatement, ckTypeParameterConstraintClause": true
-
   of "ckProperty, ckForEachVariableStatement": true
   of "ckSimpleLambdaExpression, ckUsingStatement": true
-
   of "ckIndexer, ckWhileStatement": true
   of "ckConversionOperator, ckForStatement": true
-
   of "ckFixedStatement, ckForStatement": true
   of "ckSimpleLambdaExpression, ckTryStatement": true
-
   of "ckForEachVariableStatement, ckElementAccessExpression": true
   of "ckReturnStatement, ckBaseExpression": true
   of "ckFixedStatement, ckIfStatement": true
-
   of "ckParenthesizedLambdaExpression, ckCheckedStatement": true
   of "ckCatchClause, ckContinueStatement": true
-
   of "ckLocalFunctionStatement, ckArrayType": true
-
   of "ckReturnStatement, ckRefValueExpression": true
   of "ckDoStatement, ckContinueStatement": true
-
   of "ckLocalFunctionStatement, ckNullableType": true
-
   of "ckLocalFunctionStatement, ckRefType": true
   of "ckRelationalPattern, ckParenthesizedExpression": true
   of "ckUnaryPattern, ckParenthesizedPattern": true
   of "ckSelectClause, ckParenthesizedExpression": true
-
   of "ckJoinClause, ckParenthesizedExpression": true
   of "ckParenthesizedPattern, ckBinaryPattern": true
   of "ckSimpleLambdaExpression, ckForStatement": true
-
   of "ckArrayRankSpecifier, ckObjectCreationExpression": true
-
   of "ckForEachVariableStatement, ckLiteralExpression": true
-
   of "ckSwitchExpressionArm, ckConditionalAccessExpression": true
-
+  of "ckSimpleLambdaExpression, ckLockStatement": true
   else: raise newException(Exception, "cfits is missing:  of \"" & $parent.kind & ", " & $item.kind & "\": true")
