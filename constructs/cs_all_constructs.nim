@@ -240,9 +240,9 @@ proc newCs*(t: typedesc[CsArgument]): CsArgument =
 proc extract*(t: typedesc[CsArgument]; info: Info): CsArgument =
   result = newCs(CsArgument)
   let tbl = colonsToTable(info.essentials)
-  echo info; assert false
-  result.name = tbl["name"]
-  result.value = tbl["type"]
+  echo info;
+  # result.name = tbl["value"]
+  result.value = tbl["value"]
 
 
 # proc add*(parent: var CsArgument; item: Dummy; data: AllNeededData) = parent.add(item)
@@ -904,19 +904,19 @@ method gen*(c: var CsConstructor): string =
 
 type AccessorType = enum atIndexer, atMethod
 
-method gen*(c: var CsIndexer): string =
+method gen*(c: var CsIndexer): string = #TODO: handle when indexer has some body, less strings, more objects stored. (lookup in csdisplay to see fields)
   echo "--> in  gen*(c: var CsIndexer)"
   echo "generating indexer"
   let x = c.firstVarType.rsplit(".", 1)[^1]
   var setPart, getPart: string
-  # let sig =
-  if c.hasDefaultGet:
-    getPart = "proc `[]`*(this: var " & x & "; " & c.varName & ": " &
-        c.varType & "): " & c.retType & " = discard"
-  if c.hasDefaultSet:
-    setPart = "proc `[]=`*(this: var " & x & "; " & c.varName & ": " &
-        c.varType & "; value: " & c.retType & ") = discard"
 
+  let sq= c.pmlist[1..^2].split(" ")
+  echo "pmlist:" & sq[1] & sq[0]
+  let part = "(this: var " & x & "; " & sq[1] & ": " & sq[0]
+  if c.hasDefaultGet:
+    getPart = "proc `[]`*" & part & "): " & c.retType & " = discard"
+  if c.hasDefaultSet:
+    setPart = "proc `[]=`*" & part & "; value: object" & ") = discard"
   result &= getPart & "\n" & setPart
 
 method gen*(c: CsProperty): string =
@@ -957,67 +957,8 @@ proc getLastCtor*(cls: CsClass): Option[CsConstructor] =
   else:
     return some(cls.ctors.last)
 
-import tables
+import tables, options
 
-import options
-#[ proc lastAddedInfo(root: var CsRoot): string =
-  var (p, ns) = state_utils.getCurrentNs(root)
-  result = "current ns: " & p
-  result &= " namespace added something: " & $ns.lastAddedTo.isSome
-  if ns.lastAddedTo.isSome:
-    result &= "last added in ns: " & $ns.lastAddedTo
-    case ns.lastAddedTo.get
-    of Unset: discard
-    of NamespaceParts.Classes:
-      let c = ns.getLastClass.get
-      result &= "class is: " & c.name
-      if c.lastAddedTo.isSome:
-        result &= "class added something:" & $c.lastAddedTo.isSome
-        result &= "it was: " & $c.lastAddedTo.get & "  "
-        case c.lastAddedTo.get
-        of ClassParts.Properties: result &= c.properties.last.name
-        of ClassParts.Ctors: result &= c.ctors.last.name
-        of ClassParts.Indexer: result &= c.indexer.varName
-        of ClassParts.Methods: result &= c.methods.last.name
-        # of ClassParts.Enums: result &= c.enums.last.name
-        # of ClassParts.Fields: result &= c.fields.last.name
-      of NamespaceParts.Interfaces:
-        result &= ns.interfaces.last.name
-      of NamespaceParts.Enums:
-        let e = ns.enums.last
-        result &= "enum is " & e.name
-      ]#
-
-
-    # proc getLastProperty(c: CsClass): Option[CsProperty] =
-    #   assert c.lastAddedTo.isSome
-    #   case c.lastAddedTo.get
-    #   of ClassParts.Properties:
-    #     # echo "~~~" & c.properties.mapIt(it.name)
-    #     if c.properties.isEmpty:
-    #       result = none(CsProperty)
-    #     else:
-    #       assert c.properties.len > 0
-    #       var last = c.properties[^1]
-    #       result = some(last)
-
-    #   else: assert false, "Unsupported"
-
-
-
-    # proc getLastProperty*(ns: CsNamespace): Option[CsProperty] =
-    #   assert ns.lastAddedTo.isSome
-    #   case ns.lastAddedTo.get
-    #   of NamespaceParts.Interfaces: discard # TODO
-    #   of NamespaceParts.Classes:
-    #     let c = ns.getLastClass()
-    #     if c.isNone: result = none(CsProperty)
-    #     else:
-    #       result = c.get.getLastProperty()
-    #   of [NamespaceParts.Enums, NamespaceParts.Unset, NamespaceParts.Using]: discard
-
-
-    # ===
 
 method gen*(c: CsClass): string =
   echo "--> in  gen*(c: CsClass)"
@@ -1232,8 +1173,7 @@ proc newCs*(t: typedesc[CsConstructorInitializer]): CsConstructorInitializer =
   result.typ = $typeof(t)
 
 
-proc extract*(t: typedesc[CsConstructorInitializer];
-    info: Info): CsConstructorInitializer =
+proc extract*(t: typedesc[CsConstructorInitializer];    info: Info): CsConstructorInitializer =
   echo info
   result = newCs(CsConstructorInitializer)
 
@@ -2124,7 +2064,7 @@ method add*(parent: var CsIndexer; item: CsParameter) =
   parent.varType = item.ptype
 
 method add*(parent: var CsIndexer; item: CsBracketedParameterList) =
-  discard # add (csindexer, csparameter) already does what we need. because indexer has just one parameter.
+  todoimpl # add (csindexer, csparameter) already does what we need. because indexer has just one parameter.
 
 method add*(parent: var CsIndexer; item: CsPredefinedType) =
 
@@ -2158,21 +2098,12 @@ proc newCs*(t: typedesc[CsInitializerExpression]): CsInitializerExpression =
 
 #TODO(create:CsInitializerExpression)
 
-proc extract*(t: typedesc[CsInitializerExpression];
-    info: Info): CsInitializerExpression =
+proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression =
   result = newCs(t)
+  echo info
   if info.essentials.len > 1:
-    result.valueReceived = info.essentials[1]
-  echo "haven't really implemented: proc extract*(t: typedesc[CsInitializerExpression]; info: Info): CsInitializerExpression "
-  echo info # Info: InitializerExpression;; @["3", "15, 25, 5"];; @[]
-  # 3 is arity. now it's possible they won't be simple literals. the following objects should provide more info.
-  # for now we can store them as they are, or just make room, expect 3 more "expressions" or whatever.
-
-# method add*(parent: var CsInitializerExpression; item: Dummy)  =
-#   echo "!!! ---->> unimplemented:  method add*(parent: var CsInitializerExpression; item: Dummy) "
-#   if stopEarly: assert false
-
-# proc add*(parent: var CsInitializerExpression; item: Dummy; data: AllNeededData) = parent.add(item)
+    let tbl = colonsToTable(info.essentials)
+    result.valueReceived = tbl["expressions"]
 
 method gen*(c: var CsInitializerExpression): string =
   echo "--> in  gen*(c: var CsInitializerExpression)"
@@ -2181,7 +2112,9 @@ method gen*(c: var CsInitializerExpression): string =
   result = ".initWith(@["
   var ls: seq[string] = @[]
   for b in c.bexprs:
-    ls.add b.gen()
+    let generated = b.gen()
+    echo b.typ," generated: ", generated
+    ls.add generated
   result &= ls.join(", ")
   # result &= ")"
   result &= "])"
@@ -2650,15 +2583,16 @@ proc extract*(t: typedesc[CsAssignmentExpression]; info: Info): CsAssignmentExpr
 
 method add*(parent: CsAssignmentExpression; item: CsTypeArgumentList) =
   echo "havent implemented method add*(parent:CsAssignmentExpression; item: CsTypeArgumentList) "
-  discard # TODO?
+  todoimpl
+
 
 method add*(parent: CsAssignmentExpression; item: CsGenericName) =
   echo "havent implemented method add*(parent:CsAssignmentExpression; item: CsGenericName) "
-  discard # TODO?
+  todoimpl
 
 method add*(parent: CsAssignmentExpression; item: CsArgumentList) =
   echo "havent implemented method add*(parent:CsAssignmentExpression; item: CsArgumentList) "
-  discard # TODO?
+  todoimpl
 
 method add*(parent: CsAssignmentExpression; item: CsObjectCreationExpression) =
   parent.right = item
@@ -2829,9 +2763,9 @@ proc extract*(t: typedesc[CsClass]; info: Info; data: AllNeededData): CsClass =
 
 proc extract*(t: typedesc[CsNamespace]; info: Info; ): CsNamespace =
   echo "extract CsNamespace"
-  echo info
-  echo info.essentials[0]
-  result = newCs(t, info.essentials[0])
+  let table = colonsToTable(info.essentials)
+  let name =  table["name"]
+  result = newCs(t, name)
 
 proc extract*(t: typedesc[CsNamespace]; info: Info;
     data: AllNeededData): CsNamespace =
@@ -3218,18 +3152,21 @@ proc newCs*(t: typedesc[CsProperty]; name: string): CsProperty =
 
 proc extract*(t: typedesc[CsProperty]; info: Info): CsProperty =
   echo info
+  let tbl2 = colonsToTable(info.extras)
+  let tbl1 = colonsToTable(info.essentials)
   ## NOTE: very strange, no type from CsDisplay.
-  let name = info.essentials[0] #name
+  let name = tbl1["name"]
   result = newCs(CsProperty, name)
+  # assert false
   let cnt = info.extras.len # how many
                             # let cnt = info.essentials[1].parseInt # how many
   if cnt > 0:
-    let acc1 = info.extras[0] # get, or set, or both
+    let acc1 = tbl2["accessor1"]
     case acc1
     of "get": result.hasGet = true
     of "set": result.hasSet = true
     if cnt > 1:
-      let acc2 = info.extras[1]
+      let acc2 = tbl2["accessor2"]
       case acc2
       of "get": result.hasGet = true
       of "set": result.hasSet = true

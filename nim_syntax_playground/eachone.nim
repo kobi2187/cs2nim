@@ -12,8 +12,8 @@ func perc(part, sum: int): string =
     $((100 * part / sum).round(2)) & "%"
   else: "0"
 
-proc printStats(count, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilctderef, afterGen, beforeGen, likely, tc, otherErrors: int) =
-  let both = finished + unfinished
+proc printStats(count, i, finished, unfinished, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilctderef, afterGen, beforeGen, likely, tc, otherErrors: int) =
+  let both = i #finished + unfinished
   echo perc(finished, both) & " : " & perc(unfinished, both)
   echo "failed due to missing cfits ", perc(cfitsCounter, both), " (", cfitsCounter, ")"
   echo "failed due to parentStore missing switch case ", perc(storeCounter, both), " (", storeCounter, ")"
@@ -202,12 +202,12 @@ proc main(): bool =
 
     var metLimit: bool
     for i, line in lines:
-      # echo "Handling file #" & $i
+      echo "Handling file #" & $i
       if not random and not reverse and startAfterNum.isSome and i < startAfterNum.get:
-        # echo "skipping#"
+        echo "skipping#"
         continue
       if not random and not reverse and startAfterPercent.isSome and (100*i)/count < startAfterPercent.get:
-        # echo "skipping%"
+        echo "skipping%"
         continue
       # echo getOccupiedMem()
       # echo getFreeMem()
@@ -219,22 +219,23 @@ proc main(): bool =
         continue
       if line in toolarge:
         # echo "skipping, to avoid possible out of memory in big file.";
-        # echo "skipping>";
+        echo "skipping>";
         continue
       if line in assumedFinish:
         finished.add line
-        # echo "skipping!done";
+        echo "skipping!done";
         continue
       if line in assumedAfter and not earlyBreak and not breakAfter:
         afterGen.inc
-        # echo "skipping+";
+        echo "skipping+";
         continue
 
       echo "time elapsed: ", p[Hours], ":", p[Minutes], ":", p[Seconds], ":", p[Milliseconds]
       if i > 0:
-        printStats(lines.len, finished.len, unfinished.len, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilCtDeref.len, afterGen, beforeGen, likelyAnnotation.len, tc.len, otherErrors)
+        printStats(lines.len, i, finished.len, unfinished.len, cfitsCounter, storeCounter, unsupportedCounter, extractCounter, nullMethodCounter, nilCtDeref.len, afterGen, beforeGen, likelyAnnotation.len, tc.len, otherErrors)
 
-      echo line.split("/")[^1]
+      # echo line.split("/")[^1]
+      echo line
       let metTimeLimit = hasTimeLimit and elapsed.inSeconds > timeLimit
       let countReached = missingExtract.len + cfits.len + missingStore.len
       let metCountLimit = hasCountLimit and countReached >= limit

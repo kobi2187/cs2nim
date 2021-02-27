@@ -1,4 +1,4 @@
-import system, os
+import system, os, osproc
 import ../types, uuids, options, ../writer_utils,
     ../constructs/cs_all_constructs
 
@@ -18,10 +18,21 @@ proc handleFiles(files: seq[string]): string =
 import strutils
 # for tests, we assume we will only use one file as output. that is, a correct nim generated file.
 # i/o tests have the namespace to files test.
-proc genTest*(filename: string): bool =
-  let
-    pwd = getCurrentDir()
+proc genTest*(file: string, hasDir=false): bool =
+  var
+    filename = ""
+    dir = ""
+    outp = ""
+    src = ""
+  if hasDir:
+    dir = file.parentDir()
+    filename = file.changeFileExt("")
+    src = filename & ".csast"
+    outp = filename & ".nim"
+  else:
+    let pwd = getCurrentDir()
     dir = pwd / "tests/samples"
+    filename = file
     src = dir / filename & ".csast"
     outp = dir / filename & ".nim"
 
@@ -34,6 +45,7 @@ proc genTest*(filename: string): bool =
     return false
   if not fileExists(outp):
     echo "file `" & outp & "` does not exist"
+    discard execCmd("touch " & outp)
     return false
 # lkj
   let contents = readFile(outp).strip
